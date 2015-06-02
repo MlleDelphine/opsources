@@ -1,0 +1,28 @@
+default:
+    autoload:
+        '': %paths.base%/features
+    suites:
+        default:
+            path: %paths.base%/src/*/features
+            contexts: 
+                - Context\FeatureContext:
+                    container:   '@service_container'                    
+                - Behat\MinkExtension\Context\MinkContext
+    extensions:
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension\ServiceContainer\MinkExtension:
+            base_url:    'http://preprod.resapro.njord.fr/app_dev.php/'
+            goutte:      ~
+            selenium2:   ~
+            sessions:
+                default:
+                    symfony2: ~
+            #default_session: goutte
+            #javascript_session: selenium2
+            #show_auto: true
+            #show_cmd: chrome %s
+jenkins:
+    formatters:
+        pretty: 
+        junit: [{out: %paths.base%/build/logs/behat.log}]
+        progress: [%paths.base%/build/logs/progress.log]

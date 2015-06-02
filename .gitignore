@@ -1,0 +1,42 @@
+### Symfony2
+# Cache and logs
+/app/cache/*
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+
+#Fichiers temporaires et de conception
+
+# Paramètres
+app/config/parameters.yml
+app/config/parameters.ini
+
+# Initier par Composer
+/app/bootstrap.php.cache
+/bin/
+/vendor/
+
+# Assets et media utilisateurs
+/web/bundles/
+/web/uploads/
+/web/vendor/
+/web/optimized/
+!/web/optimized/placeholder
+/web/js/translations/*
+/web/js/fos_js_routes.js
+
+# Thème original
+
+# PHPUnit
+/app/phpunit.xml
+
+# Composer PHAR
+/composer.phar
+
+# VM
+puphpet/files/dot/ssh
+.vagrant
+
+# IDE
+.idea
+/nbproject
