@@ -1,0 +1,7 @@
+services:
+    app.customfields_parser:
+        class:        AppBundle\Service\CustomFieldsParser
+        arguments: ['@kernel']
+    app.prepopulate_entity:
+        class:        AppBundle\Service\PrePopulateEntity
+        arguments: ['@form.factory', '@router', '@doctrine.orm.default_entity_manager'] #['@service_container', '@form.factory', '@router']
