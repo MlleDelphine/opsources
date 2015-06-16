@@ -36,6 +36,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    paths:
+        "%kernel.root_dir%/../app/Resources/FOSUserBundle/views": custom_fos
 
 #Bootstrap Configuration
 #bc_bootstrap:
@@ -117,6 +119,8 @@ doctrine:
             default:
                 mappings:
                     AppBundle: ~
+                    UserBundle: ~
+                    FOSUserBundle: ~
 #                    translatable:
 #                        type: annotation
 #                        alias: Gedmo
@@ -134,6 +138,10 @@ doctrine:
 #                        prefix: Gedmo\Tree\Entity
 #                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
 
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: UserBundle\Entity\User
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"

@@ -178,27 +178,4 @@ class ValuationMeet
         return $this->attributes;
     }
 
-
-    /**
-     * Set status
-     *
-     * @param \AppBundle\Entity\Status $status
-     * @return ValuationMeet
-     */
-    public function setStatus(\AppBundle\Entity\Status $status = null)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return \AppBundle\Entity\Status 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
 }

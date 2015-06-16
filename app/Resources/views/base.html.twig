@@ -2,14 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}ArianEspace  - Opus{% endblock %}</title>
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
-{% block mainmenu %} {% endblock %}
+{% block mainmenu %} {{ knp_menu_render('AppBundle:Builder:mainMenu') }} {% endblock %}
 {% block body %}{% endblock %}
 {% block javascripts %}
     <script src="http://code.jquery.com/jquery-latest.js"></script>

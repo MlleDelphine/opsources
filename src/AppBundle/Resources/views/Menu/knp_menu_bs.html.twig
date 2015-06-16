@@ -1,0 +1,16 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand">Opus </a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar">
+            {{ knp_menu_render('main', {'template': 'AppBundle:Menu:knp_menu.html.twig'}) }} {#AppBundle:Builder:mainMenu#}
+        </div>
+    </div>
+</nav>
