@@ -2,7 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: '@AppBundle/Resources/config/services.yml' }
+    - { resource: '@FormGeneratorBundle/Resources/config/services.yml' }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -48,7 +48,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        [UserBundle, FOSUserBundle, FormGeneratorBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -118,7 +118,7 @@ doctrine:
         entity_managers:
             default:
                 mappings:
-                    AppBundle: ~
+                    FormGeneratorBundle: ~
                     UserBundle: ~
                     FOSUserBundle: ~
 #                    translatable:
@@ -150,41 +150,61 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-services:
-    gedmo.listener.tree:
-        class: Gedmo\Tree\TreeListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ @annotation_reader ] ]
+genemu_form:
+    tinymce:
+        enabled: true
+        theme: modern
+        configs:
+            entity_encoding: raw
+            plugins : 'advlist autolink link image lists charmap print preview'
 
-    gedmo.listener.translatable:
-        class: Gedmo\Translatable\TranslatableListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ @annotation_reader ] ]
-            - [ setDefaultLocale, [ %locale% ] ]
-            - [ setTranslationFallback, [ false ] ]
+    date: ~
+    image: ~
+    select2: ~
+    autocomplete: ~
+    date: ~
+#        enabled: true
+#        configs:
+#            placeholder: Sélectionner
+#            width: off
+#            allowClear: false
+#            minimumInputLength: 0
 
-    gedmo.listener.timestampable:
-        class: Gedmo\Timestampable\TimestampableListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ @annotation_reader ] ]
-
-    gedmo.listener.sluggable:
-        class: Gedmo\Sluggable\SluggableListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ @annotation_reader ] ]
-
-    gedmo.listener.sortable:
-        class: Gedmo\Sortable\SortableListener
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ @annotation_reader ] ]
+#services:
+#    gedmo.listener.tree:
+#        class: Gedmo\Tree\TreeListener
+#        tags:
+#            - { name: doctrine.event_subscriber, connection: default }
+#        calls:
+#            - [ setAnnotationReader, [ @annotation_reader ] ]
+#
+#    gedmo.listener.translatable:
+#        class: Gedmo\Translatable\TranslatableListener
+#        tags:
+#            - { name: doctrine.event_subscriber, connection: default }
+#        calls:
+#            - [ setAnnotationReader, [ @annotation_reader ] ]
+#            - [ setDefaultLocale, [ %locale% ] ]
+#            - [ setTranslationFallback, [ false ] ]
+#
+#    gedmo.listener.timestampable:
+#        class: Gedmo\Timestampable\TimestampableListener
+#        tags:
+#            - { name: doctrine.event_subscriber, connection: default }
+#        calls:
+#            - [ setAnnotationReader, [ @annotation_reader ] ]
+#
+#    gedmo.listener.sluggable:
+#        class: Gedmo\Sluggable\SluggableListener
+#        tags:
+#            - { name: doctrine.event_subscriber, connection: default }
+#        calls:
+#            - [ setAnnotationReader, [ @annotation_reader ] ]
+#
+#    gedmo.listener.sortable:
+#        class: Gedmo\Sortable\SortableListener
+#        tags:
+#            - { name: doctrine.event_subscriber, connection: default }
+#        calls:
+#            - [ setAnnotationReader, [ @annotation_reader ] ]
 

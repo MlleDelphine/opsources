@@ -8,6 +8,11 @@ fields:
           conf:
               label: "L’année a-t-elle été marquée par un événement significatif (mutation, évolution importante des responsabilités, absence de longue durée, Etc) ?"
               required: false
+        - id: "evolution_text"
+          type: 'genemu_tinymce'
+          conf:
+              label: "Si oui, préciser l’événement et le contexte : "
+              required: false
         - id: "evolution_date"
           type: "date"
           conf:
@@ -18,6 +23,8 @@ fields:
           conf:
               label: "Saisissez une date et une heure"
               required: false
+              attr:
+                  class: 'custom-time'
         - id: "evolution_choice"
           type: "choice"
           conf:
@@ -26,22 +33,24 @@ fields:
               choices: { m: "Masculin", f: "Féminin" }
               expanded: true
               multiple: false
-#        - id: "evolution_city"
-#          type: "entity"
-#          conf:
-#              label: "Sélectionnez une ville :"
-#              required: false
-#              class: "AppBundle:City"
-#              data_class: "AppBundle\Entity\City"
-#              property: "name"
-#              expanded: true
-#              multiple: false
+        - id: "evolution_city"
+          type: "entity"
+          conf:
+              label: "Sélectionnez une ville :"
+              required: true
+              class: "FormGeneratorBundle:City"
+              data_class: "FormGeneratorBundle\Entity\City"
+              property: "name"
+              expanded: true
+              multiple: false
+              attr:
+                  class: 'select-select2'
         - id: "evolution_cities"
           type: "entity"
           conf:
               label: "Sélectionnez une/plusieurs ville :"
               required: false
-              class: "AppBundle:City"
+              class: "FormGeneratorBundle:City"
               data_class: null
               choice_label: "name"
               expanded: true
@@ -71,8 +80,8 @@ fields:
                 conf:
                     label: "Sélectionnez une ville :"
                     required: false
-                    class: "AppBundle:City"
-                    data_class: "AppBundle\Entity\City"
+                    class: "FormGeneratorBundle:City"
+                    data_class: "FormGeneratorBundle\Entity\City"
                     choice_label: "name"
                     expanded: true
                     multiple: false
@@ -99,11 +108,7 @@ fields:
                     required: false
           number: 2
 
-        - id: "evolution_text"
-          type: "textarea"
-          conf:
-              label: "Si oui, préciser l’événement et le contexte : "
-              required: false
+
 
 
 

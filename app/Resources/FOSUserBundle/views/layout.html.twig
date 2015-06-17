@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/user_bundle/css/login.css') }}">
+        {#<link rel="stylesheet" href="{{ asset('bundles/user_bundle/css/login.less') }}">#}
+        {% stylesheets filter='less'
+        '@UserBundle/Resources/public/css/login.less' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
     {% endblock %}
 </head>
 <body class="login">
