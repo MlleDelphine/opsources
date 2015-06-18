@@ -1,0 +1,115 @@
+#Préfixer de options tout paramètre contenant un array() pour valeur
+name: "Entretien d'appréciation"
+id: "valuation_meet"
+fields:
+    attr:
+        - id: "evolution_bool"
+          type: "checkbox"
+          conf:
+              label: "L’année a-t-elle été marquée par un événement significatif (mutation, évolution importante des responsabilités, absence de longue durée, Etc) ?"
+              required: false
+        - id: "evolution_text"
+          type: 'genemu_tinymce'
+          conf:
+              label: "Si oui, préciser l’événement et le contexte : "
+              required: false
+        - id: "evolution_date"
+          type: "date"
+          conf:
+              label: "Saisissez une date :"
+              required: false
+        - id: "evolution_datetime"
+          type: "datetime"
+          conf:
+              label: "Saisissez une date et une heure"
+              required: false
+              attr:
+                  class: 'custom-time'
+        - id: "evolution_choice"
+          type: "choice"
+          conf:
+              label: "Genre"
+              required: true
+              choices: { m: "Masculin", f: "Féminin" }
+              expanded: true
+              multiple: false
+        - id: "evolution_city"
+          type: "entity"
+          conf:
+              label: "Sélectionnez une ville :"
+              required: true
+              class: "FormGeneratorBundle:City"
+              data_class: "FormGeneratorBundle\Entity\City"
+              property: "name"
+              expanded: true
+              multiple: false
+              attr:
+                  class: 'select-select2'
+        - id: "evolution_cities"
+          type: "entity"
+          conf:
+              label: "Sélectionnez une/plusieurs ville :"
+              required: false
+              class: "FormGeneratorBundle:City"
+              data_class: null
+              choice_label: "name"
+              expanded: true
+              multiple: true
+        - id: "evolution_goals"
+          type: collection
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Saisissez des objectifs ci-dessous :"
+          child:
+              - id: "review_text"
+                type: "text"
+                conf:
+                    label: "Rappel des objectifs"
+                    required: false
+              - id: "metric_int"
+                type: "number"
+                conf:
+                    label: "Indicateur de mesure"
+                    required: false
+              - id: "evolution_city2"
+                type: "entity"
+                conf:
+                    label: "Sélectionnez une ville :"
+                    required: false
+                    class: "FormGeneratorBundle:City"
+                    data_class: "FormGeneratorBundle\Entity\City"
+                    choice_label: "name"
+                    expanded: true
+                    multiple: false
+          number: 1
+        - id: "evolution_skill"
+          type: collection
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Entrez vos compétences :"
+          child:
+              - id: "review_text"
+                type: "text"
+                conf:
+                    label: "Compétence :"
+                    required: false
+              - id: "metric_int"
+                type: "number"
+                conf:
+                    label: "Niveau"
+                    required: false
+          number: 2
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+        {#<link rel="stylesheet" href="{{ asset('bundles/user_bundle/css/login.less') }}">#}
+        {% stylesheets filter='less'
+        '@UserBundle/Resources/public/css/login.less' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<body class="login">
+<div class="logo">
+    <a href="#">
+        <img alt="" src="{{ asset('bundles/user_bundle/img/logo.png') }}">
+    </a>
+</div>
+<div>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+        <a href="{{ path('fos_user_security_logout') }}">
+            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+        </a>
+    {% else %}
+        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+    {% endif %}
+</div>
+
+{% for type, messages in app.session.flashBag.all %}
+    {% for message in messages %}
+        <div class="{{ type }}">
+            {{ message|trans({}, 'FOSUserBundle') }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<div>
+    <div class="content">
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+</div>
+{% block javascripts %}
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+{% endblock %}
+</body>
+</html>
