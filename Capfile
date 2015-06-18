@@ -4,6 +4,12 @@ require 'capistrano/setup'
 # Include default deployment tasks
 require 'capistrano/deploy'
 
+require 'capistrano-copy-files'
+require 'capistrano/composer'
+require 'capistrano/bower'
+require 'capistrano/symfony'
+require 'capistrano/console'
+
 # Include tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
