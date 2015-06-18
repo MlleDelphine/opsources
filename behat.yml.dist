@@ -11,7 +11,7 @@ default:
     extensions:
         Behat\Symfony2Extension: ~
         Behat\MinkExtension\ServiceContainer\MinkExtension:
-            base_url:    'http://preprod.resapro.njord.fr/app_dev.php/'
+            base_url:    'http://preprod.opus.ariane.njord.fr/'
             goutte:      ~
             selenium2:   ~
             sessions:
