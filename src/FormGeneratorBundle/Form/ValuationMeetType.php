@@ -7,6 +7,7 @@
  */
 namespace FormGeneratorBundle\Form;
 
+use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -38,7 +39,7 @@ class ValuationMeetType extends AbstractType{
                 //Nouveau formulaire
                 if (!$event || null === $meet->getId()) {
                     $form->add(
-                        'attributes', 'collection', array(
+                        'attributes', new CustomCollectionAttributeType(), array(
                         'type' => new ValuationAttributeNewType($this->attributes['attr']),
                         'allow_add' => true,
                         'allow_delete' => true,
@@ -49,7 +50,7 @@ class ValuationMeetType extends AbstractType{
                 //Edition d'un formulaire existant
                 else{
                     $form->add(
-                        'attributes', 'collection', array(
+                        'attributes',  new CustomCollectionAttributeType(), array(
                             'type' => new ValuationAttributeEditType($this->attributes['attr'], $this->em),
                             'allow_add' => true,
                             'allow_delete' => false,

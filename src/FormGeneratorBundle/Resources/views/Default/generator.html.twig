@@ -14,7 +14,13 @@
 
     {% block body %}
 
-        {{ form(form) }} {% endblock %}
+        {{ form(form) }}
+        {#{% for child in form.children %}#}
+            {#&#123;&#35;{{ form_label(child) }}&#35;&#125;#}
+            {#{{ form_widget(child) }}#}
+        {#{% endfor %}#}
+
+    {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}

@@ -1,0 +1,68 @@
+{# Affichage de la collection d'attributs SECONDAIRE. But : ne pas afficher les labels + afficher un tableau#}
+{% block customCollection_widget %}
+    {% if numberFields is null %}
+        {%  set col = 'col-md-12' %}
+    {% else %}
+        {% set col = 'col-md-'~12/numberFields %}
+    {% endif %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            {{ block('collection_rows') }}
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% block collection_rows %}
+    {% spaceless %}
+        {{ form_errors(form) }}
+        <table class="table table-condensed col-md-12">
+            <thead>
+            <tr>
+                {% for key, child in form %}
+                    {%  for k, c in child %}
+                        {%  if  c.vars.label is not null %}
+                            <th data-field="id" class="{{ col }}">{{ c.vars.label }}</th>
+                        {%  endif %}
+                    {%  endfor %}
+                {% endfor %}
+            </tr>
+            </thead>
+            {{ block('only_fields') }}
+        </table>
+    {% endspaceless %}
+{% endblock collection_rows %}
+
+{% block only_fields %}
+    <tr>
+        {% for key, child in form %}
+            <td>
+                {%  for c in child %}
+                    {{ form_widget(c, {'attr':{'class':'collection-item'}}) }}
+                {%  endfor %}
+            </td>
+        {% endfor %}
+    </tr>
+{% endblock %}
+
+
+{# Affichage de la  collection d'attributs PRINCIPALE. But : ne pas afficher les labels#}
+{% block customCollectionAttribute_widget %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }}>
+            {{ block('collection_rows_attr') }}
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{%  endblock %}
+
+{% block collection_rows_attr %}
+    {% spaceless %}
+        {{ form_errors(form) }}
+        {% for child in form %}
+            {#{%  for c in child %}#}
+            {{ form_widget(child) }}
+            {#{%  endfor %}#}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock collection_rows_attr %}
