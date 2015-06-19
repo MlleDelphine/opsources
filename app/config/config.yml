@@ -38,6 +38,9 @@ twig:
     strict_variables: "%kernel.debug%"
     paths:
         "%kernel.root_dir%/../app/Resources/FOSUserBundle/views": custom_fos
+    form:
+        resources:
+            - "FormGeneratorBundle:Form:form_fields.html.twig"
 
 #Bootstrap Configuration
 #bc_bootstrap:

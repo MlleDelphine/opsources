@@ -8,6 +8,7 @@
 
 namespace FormGeneratorBundle\Form;
 
+use FormGeneratorBundle\Form\Type\CustomCollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
@@ -97,7 +98,7 @@ class ValuationAttributeEditType  extends AbstractType {
                                     $confChild = $allConf['child'];
                                     $label = $allConf['conf']['label'];
                                     $form->add(
-                                        'collectionAttributes', 'collection', array(
+                                        'collectionAttributes', new CustomCollectionType(), array(
                                         'type' => new ValuationCollectionAttributeEditType($confChild, $this->em),
                                         'allow_add' => true,
                                         'allow_delete' => true,

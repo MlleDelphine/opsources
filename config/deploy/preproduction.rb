@@ -8,3 +8,5 @@ server 'preprod.opus.ariane.njord.fr', user: 'deploy', roles: [:app], port: 1764
 
 set :branch, 'dev-delphine'
 set :deploy_to, '/var/www/preprod'
+
+set :bundle_flags, "--no-deployment"

@@ -7,10 +7,12 @@
  */
 namespace FormGeneratorBundle\Form;
 
+use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
 use Symfony\Component\Form\FormEvents;
+use FormGeneratorBundle\Form\Type\CustomCollectionType;
 
 class ValuationAttributeNewType extends AbstractType{
 
@@ -60,8 +62,9 @@ class ValuationAttributeNewType extends AbstractType{
                                         $options
                                     );
                                 }else{
+
                                     $form->add(
-                                        'collectionAttributes', 'collection', array(
+                                        'collectionAttributes',  new CustomCollectionType(count($confChild)), array(
                                         'type' => new ValuationCollectionAttributeNewType($confChild),
                                         'allow_add' => true,
                                         'allow_delete' => true,
@@ -69,7 +72,6 @@ class ValuationAttributeNewType extends AbstractType{
                                         'required' => false,
                                         'label' => $label));
                                 }
-
                             }
                         }
                         $form->add('name', 'hidden');
