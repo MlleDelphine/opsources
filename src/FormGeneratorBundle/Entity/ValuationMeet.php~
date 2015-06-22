@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace FormGeneratorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * ValuationMeet
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ValuationMeetRepository")
+ * @ORM\Entity(repositoryClass="FormGeneratorBundle\Entity\Repository\ValuationMeetRepository")
  */
 class ValuationMeet
 {
@@ -30,10 +30,20 @@ class ValuationMeet
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Status", inversedBy="valuationMeet", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="valuationMeet", cascade={"persist"})
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="assessorValuationMeets", cascade={"persist"})
+     */
+    private $assessor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="assessedValuationMeets", cascade={"persist"})
+     */
+    private $assessed;
 
     /**
      * @var \DateTime
@@ -51,7 +61,7 @@ class ValuationMeet
     private $updated;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ValuationAttribute", mappedBy="valuationMeet", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationAttribute", mappedBy="valuationMeet", cascade={"remove", "persist"})
      */
     private $attributes;
 
@@ -147,10 +157,10 @@ class ValuationMeet
     /**
      * Add attributes
      *
-     * @param \AppBundle\Entity\ValuationAttribute $attributes
+     * @param \FormGeneratorBundle\Entity\ValuationAttribute $attributes
      * @return ValuationMeet
      */
-    public function addAttribute(\AppBundle\Entity\ValuationAttribute $attributes)
+    public function addAttribute(\FormGeneratorBundle\Entity\ValuationAttribute $attributes)
     {
         $attributes->setValuationMeet($this);
         $this->attributes[] = $attributes;
@@ -161,9 +171,9 @@ class ValuationMeet
     /**
      * Remove attributes
      *
-     * @param \AppBundle\Entity\ValuationAttribute $attributes
+     * @param \FormGeneratorBundle\Entity\ValuationAttribute $attributes
      */
-    public function removeAttribute(\AppBundle\Entity\ValuationAttribute $attributes)
+    public function removeAttribute(\FormGeneratorBundle\Entity\ValuationAttribute $attributes)
     {
         $this->attributes->removeElement($attributes);
     }
@@ -178,4 +188,27 @@ class ValuationMeet
         return $this->attributes;
     }
 
+
+    /**
+     * Set status
+     *
+     * @param \FormGeneratorBundle\Entity\Status $status
+     * @return ValuationMeet
+     */
+    public function setStatus(\FormGeneratorBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \FormGeneratorBundle\Entity\Status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 }

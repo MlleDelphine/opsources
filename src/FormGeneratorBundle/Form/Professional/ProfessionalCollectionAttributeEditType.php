@@ -2,20 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: Delphine
- * Date: 10/06/2015
- * Time: 14:40
+ * Date: 11/06/2015
+ * Time: 16:30
  */
 
-namespace FormGeneratorBundle\Form;
+namespace FormGeneratorBundle\Form\Professional;
 
-use FormGeneratorBundle\Form\Type\CustomCollectionType;
 use Symfony\Component\Form\AbstractType;
+use FormGeneratorBundle\Form\Type\CustomRadioType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
 use Symfony\Component\Form\FormEvents;
 
 
-class ValuationAttributeEditType  extends AbstractType {
+class ProfessionalCollectionAttributeEditType extends AbstractType {
 
     protected $attributes;
     protected $em;
@@ -41,14 +41,13 @@ class ValuationAttributeEditType  extends AbstractType {
                     $form = $event->getForm();
                     $data = $event->getData();
                     $options = array();
-                    $attributes = $this->attributes;
-                    foreach ($attributes as $k => $allConf) {
+
+                    foreach ($this->attributes as $allConf) {
                         if ($allConf['id'] == $data->getName()) {
                             foreach ($allConf['conf'] as $name => $value) {
                                 $options[$name] = $value;
                             }
                             switch ($allConf['type']):
-                                case 'genemu_jqueryselect2_entity':
                                 case 'entity':
                                     if($data->getValue() == null){
                                         $options['data'] = null;
@@ -71,41 +70,13 @@ class ValuationAttributeEditType  extends AbstractType {
                                         );
                                     }
                                     break;
-                                case 'entity':
-                                    if($data->getValue() == null){
-                                        $options['data'] = null;
-                                    }
-                                    elseif(is_array($data->getValue())){
-                                        $class = $allConf['conf']['class'];
-                                        $options['data'] = $this->em->getRepository($class)->findById($data->getValue());
-                                        $form->add(
-                                            'value',
-                                            $allConf['type'],
-                                            $options
-                                        );
-                                    }else{
-                                        $class = $allConf['conf']['class'];
-                                        $options['data'] = $this->em->getRepository($class)->find($data->getValue());
-                                        $form->add(
-                                            'value',
-                                            $allConf['type'],
-                                            $options
-                                        );
-                                    }
-                                    break;
-                                case 'collection':
-                                    //do some stuff
-                                    $confChild = $allConf['child'];
-                                    $label = $allConf['conf']['label'];
+                                case 'choice':
+                                    $allConf['type'] = new CustomRadioType();
                                     $form->add(
-                                        'collectionAttributes', new CustomCollectionType(), array(
-                                        'type' => new ValuationCollectionAttributeEditType($confChild, $this->em),
-                                        'allow_add' => true,
-                                        'allow_delete' => true,
-                                        'by_reference' => false,
-                                        'required' => false,
-                                        'label' => $label));
-                                    break;
+                                        'value',
+                                        $allConf['type'],
+                                        $options
+                                    );
                                 default:
                                     $form->add(
                                         'value',
@@ -113,8 +84,8 @@ class ValuationAttributeEditType  extends AbstractType {
                                         $options
                                     );
                             endswitch;
-                        }
 
+                        }
                     }
                     $form->add('name', 'hidden');
                     $form->add('fieldType', 'hidden');
@@ -128,7 +99,7 @@ class ValuationAttributeEditType  extends AbstractType {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FormGeneratorBundle\Entity\ValuationAttribute'
+            'data_class' => 'FormGeneratorBundle\Entity\ProfessionalCollectionAttribute'
         ));
     }
 
@@ -137,6 +108,6 @@ class ValuationAttributeEditType  extends AbstractType {
      */
     public function getName()
     {
-        return 'formgenerator_valuation_attribute';
+        return 'formgenerator_professional_collectionattribute';
     }
 }

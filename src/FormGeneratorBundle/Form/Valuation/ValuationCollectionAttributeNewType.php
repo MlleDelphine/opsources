@@ -6,12 +6,14 @@
  * Time: 17:19
  */
 
-namespace FormGeneratorBundle\Form;
+namespace FormGeneratorBundle\Form\Valuation;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
 use Symfony\Component\Form\FormEvents;
+
+use FormGeneratorBundle\Form\Type\CustomRadioType;
 
 
 class ValuationCollectionAttributeNewType extends AbstractType{
@@ -39,6 +41,9 @@ class ValuationCollectionAttributeNewType extends AbstractType{
                     $data = $event->getData();
                     $options = array();
                     foreach ($this->attributes as $allConf) {
+                        if($allConf['type'] == 'choice'){
+                            $allConf['type'] = new CustomRadioType();
+                        }
                         if ($allConf['id'] == $data->getName()) {
                             foreach ($allConf['conf'] as $name => $value) {
                                 $options[$name] = $value;

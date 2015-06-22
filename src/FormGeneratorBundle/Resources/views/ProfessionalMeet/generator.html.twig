@@ -3,8 +3,9 @@
     {{ parent() }}
     {% if form is defined %}
         <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
-        {#<link rel="stylesheet" href="{{ asset('bundles/adminbundle/css/forms.css') }}">#}
+        <link rel="stylesheet" href="{{ asset('vendor/icheck/skins/all.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/datetimepicker/jquery.datetimepicker.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/formgenerator/css/custom-form.css') }}">
         {{ form_stylesheet(form) }}
     {% endif %}
 {% endblock %}
@@ -13,13 +14,7 @@
 {% endblock %}
 
     {% block body %}
-
         {{ form(form) }}
-        {#{% for child in form.children %}#}
-            {#&#123;&#35;{{ form_label(child) }}&#35;&#125;#}
-            {#{{ form_widget(child) }}#}
-        {#{% endfor %}#}
-
     {% endblock %}
 
 {% block javascripts %}
@@ -29,8 +24,16 @@
         <script src="{{ asset('vendor/jqueryui/jquery-ui.min.js') }}"></script>
         <script src="{{ asset('vendor/datetimepicker/jquery.datetimepicker.js') }}"></script>
         <script src="{{ asset('vendor/bower-tinymce-amd/tinymce/tinymce.js') }}"></script>
+        <script src="{{ asset('vendor/icheck/icheck.min.js') }}"></script>
         <script>
-
+            $( document ).ready(function() {
+                //iCheck pour boutons radio
+                $(document).find('.icheck-radio').each(function(i, obj) {
+                    $(this).iCheck({
+                        radioClass: $(this).data('radio')
+                    })
+                });
+            });
         </script>
         {{ form_javascript(form) }}
     {% endif %}

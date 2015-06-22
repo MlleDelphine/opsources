@@ -9,22 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use FormGeneratorBundle\Service;
 
 /**
- * Class DefaultController
+ * Class ValuationController
  * @package FormGeneratorBundle\Controller
  * @Route("/valuation")
  */
 
 class ValuationController extends Controller
 {
-    /**
-     * @Route("/example", name="homepage")
-     */
-    public function indexAction()
-    {
-        return $this->render('default/index.html.twig');
-    }
-
-
     /**
      * @Route("/new", name="new_valuationmeet")
      */
@@ -35,7 +26,7 @@ class ValuationController extends Controller
 
         $form = $this->get('app.prepopulate_entity')->populateValuationMeet($meet, $attributes);
 
-        return $this->render('FormGeneratorBundle:Default:generator.html.twig', array(
+        return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
             'form'   => $form->createView(),
         ));
@@ -60,7 +51,7 @@ class ValuationController extends Controller
                 $em->flush();
             }
         }
-        return $this->render('FormGeneratorBundle:Default:generator.html.twig', array(
+        return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
             'form'   => $form->createView(),
         ));
@@ -68,7 +59,7 @@ class ValuationController extends Controller
 
 
     /**
-     * Displays a form to edit an existing Formation ValuationMeet.
+     * Displays a form to edit an existing ValuationMeet.
      *
      * @Route("/edit/{id}", requirements={"id" = "\d+"}, name="edit_valuationmeet")
      *
@@ -87,7 +78,7 @@ class ValuationController extends Controller
 
         $form = $this->get('app.prepopulate_entity')->populateValuationMeetForEdit($entity, $attributes);
 
-        return $this->render('FormGeneratorBundle:Default:generator.html.twig', array(
+        return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'form'   => $form->createView(),
         ));
     }
@@ -116,7 +107,7 @@ class ValuationController extends Controller
         }
 
 
-        return $this->render('FormGeneratorBundle:Default:generator.html.twig', array(
+        return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
             'form'   => $form->createView(),
         ));

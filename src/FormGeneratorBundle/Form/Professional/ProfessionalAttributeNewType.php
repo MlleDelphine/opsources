@@ -5,16 +5,17 @@
  * Date: 03/06/2015
  * Time: 12:08
  */
-namespace FormGeneratorBundle\Form;
+namespace FormGeneratorBundle\Form\Professional;
 
 use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
+use FormGeneratorBundle\Form\Type\CustomRadioType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
 use Symfony\Component\Form\FormEvents;
 use FormGeneratorBundle\Form\Type\CustomCollectionType;
 
-class ValuationAttributeNewType extends AbstractType{
+class ProfessionalAttributeNewType extends AbstractType{
 
     protected $attributes;
 
@@ -44,12 +45,16 @@ class ValuationAttributeNewType extends AbstractType{
                         $confChild = false;
                         foreach ($this->attributes as $allConf) {
                             if ($allConf['id'] == $data->getName()) {
+                                if($allConf['type'] == 'choice'){
+                                    $allConf['type'] = new CustomRadioType();
+                                }
                                 foreach ($allConf['conf'] as $name => $value) {
                                     //Donc champ collection, spécifique, à créer en dehors
                                     if($name == 'type'){
                                         $confChild = $allConf['child'];
                                         $label = $allConf['conf']['label'];
                                     }
+
                                     else{
                                         $options[$name] = $value;
                                         $fieldName = 'value';
@@ -62,10 +67,9 @@ class ValuationAttributeNewType extends AbstractType{
                                         $options
                                     );
                                 }else{
-
                                     $form->add(
                                         'collectionAttributes',  new CustomCollectionType(count($confChild)), array(
-                                        'type' => new ValuationCollectionAttributeNewType($confChild),
+                                        'type' => new ProfessionalCollectionAttributeNewType($confChild),
                                         'allow_add' => true,
                                         'allow_delete' => true,
                                         'by_reference' => false,
@@ -87,7 +91,7 @@ class ValuationAttributeNewType extends AbstractType{
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FormGeneratorBundle\Entity\ValuationAttribute'
+            'data_class' => 'FormGeneratorBundle\Entity\ProfessionalAttribute'
         ));
     }
 
@@ -96,6 +100,6 @@ class ValuationAttributeNewType extends AbstractType{
      */
     public function getName()
     {
-        return 'formgenerator_valuation_attribute';
+        return 'formgenerator_professional_attribute';
     }
 }

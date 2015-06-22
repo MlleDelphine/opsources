@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Delphine
- * Date: 19/06/2015
- * Time: 16:44
+ * Date: 22/06/2015
+ * Time: 11:31
  */
 
 namespace FormGeneratorBundle\Form\Type;
@@ -12,19 +12,8 @@ use Symfony\Component\Form\AbstractType;use Symfony\Component\Form\FormInterface
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomCollectionAttributeType extends AbstractType{
 
-    private $numberFields;
-
-    public function __construct($numberFields = null){
-
-        $this->numberFields = $numberFields;
-    }
-
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        $view->vars['numberFields'] = $this->numberFields;
-    }
+class CustomRadioType extends AbstractType {
 
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -34,12 +23,12 @@ class CustomCollectionAttributeType extends AbstractType{
 
     public function getParent()
     {
-        return 'collection';
+        return 'choice';
     }
 
     public function getName()
     {
-        return 'customCollectionAttribute';
+        return 'customRadio';
     }
 
 }
