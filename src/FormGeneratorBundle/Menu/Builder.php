@@ -20,28 +20,16 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('mainMenu');
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
 
-//        $menu->addChild('Accueil', array('route' => 'homepage'));
-//
-//        // access services from the container!
-//        $em = $this->container->get('doctrine')->getManager();
-//        // findMostRecent and Blog are just imaginary examples
-//        $blog = $em->getRepository('FormGeneratorBundle:Blog')->findMostRecent();
-//
-//        $menu->addChild('Latest Blog Post', array(
-//            'route' => 'blog_show',
-//            'routeParameters' => array('id' => $blog->getId())
-//        ));
-//
-//        // create another menu item
-//        $menu->addChild('About Me', array('route' => 'about'));
-//        // you can also add sub level's to your menu's as follows
-//        $menu['About Me']->addChild('Edit profile', array('route' => 'edit_profile'));
-        $menu->addChild('Test', array('route' => 'homepage' ))
+        $menu->addChild('Tableau de bord', array('route' => 'new_valuationmeet'))
               ->setAttribute('icon', 'glyphicon glyphicon-home');
 
-        $menu->addChild('Entretiens d\'appréciation', array('route' => 'homepage'))
+        $menu->addChild('Entretiens d\'appréciation', array('route' => 'new_valuationmeet'))
               ->setAttribute('dropdown', true);
-        $menu['Entretiens d\'appréciation']->addChild('Créer une évaluation', array('route' => 'new_valuationmeet'));
+        $menu['Entretiens d\'appréciation']->addChild('Créer', array('route' => 'new_valuationmeet'));
+
+        $menu->addChild('Entretiens professionnels', array('route' => 'new_professionalmeet'))
+            ->setAttribute('dropdown', true);
+        $menu['Entretiens professionnels']->addChild('Créer', array('route' => 'new_professionalmeet'));
 
 
         // ... add more children

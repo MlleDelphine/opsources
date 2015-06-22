@@ -43,7 +43,7 @@
     {% endif %}
     <td>
         {%  for c in child %}
-            {{ form_widget(c, {'attr':{'class':'collection-item'}}) }}
+            {{ form_widget(c) }}
         {%  endfor %}
     </td>
     {% if loop.last %}
@@ -75,3 +75,15 @@
             {% endfor %}
         {% endspaceless %}
     {% endblock collection_rows_attr %}
+
+    {% block customRadio_widget %}
+        <div class="input-group">
+            <div class="icheck-inline">
+                {% for child in form.children %}
+                    <label class="radio-inline">{{ child.vars.label }}
+                    {{ form_widget(child, {'attr':{ 'class': 'icheck icheck-radio', 'data-radio': 'iradio_square-blue' }}) }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}

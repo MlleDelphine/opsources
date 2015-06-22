@@ -36,8 +36,18 @@ class ValuationMeet
     private $status;
 
     /**
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="assessorValuationMeets", cascade={"persist"})
+     */
+    private $assessor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="assessedValuationMeets", cascade={"persist"})
+     */
+    private $assessed;
+
+    /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
@@ -140,7 +150,7 @@ class ValuationMeet
     public function __construct()
     {
         $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->created = new \Datetime();
+       // $this->created = new \Datetime();
 
     }
 
@@ -200,5 +210,51 @@ class ValuationMeet
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set assessor
+     *
+     * @param \UserBundle\Entity\User $assessor
+     * @return ValuationMeet
+     */
+    public function setAssessor(\UserBundle\Entity\User $assessor = null)
+    {
+        $this->assessor = $assessor;
+
+        return $this;
+    }
+
+    /**
+     * Get assessor
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getAssessor()
+    {
+        return $this->assessor;
+    }
+
+    /**
+     * Set assessed
+     *
+     * @param \UserBundle\Entity\User $assessed
+     * @return ValuationMeet
+     */
+    public function setAssessed(\UserBundle\Entity\User $assessed = null)
+    {
+        $this->assessed = $assessed;
+
+        return $this;
+    }
+
+    /**
+     * Get assessed
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getAssessed()
+    {
+        return $this->assessed;
     }
 }

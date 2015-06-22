@@ -7,7 +7,6 @@
  */
 namespace FormGeneratorBundle\Service;
 
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;

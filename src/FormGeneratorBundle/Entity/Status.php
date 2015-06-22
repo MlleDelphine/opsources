@@ -33,6 +33,11 @@ class Status
      */
     private $valuationMeets;
 
+    /**
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ProfessionalMeet", mappedBy="status", cascade={"persist"})
+     */
+    private $professionalMeets;
+
 
     /**
      * Get id
@@ -105,5 +110,38 @@ class Status
     public function getValuationMeets()
     {
         return $this->valuationMeets;
+    }
+
+    /**
+     * Add professionalMeets
+     *
+     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $professionalMeets
+     * @return Status
+     */
+    public function addProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $professionalMeets)
+    {
+        $this->professionalMeets[] = $professionalMeets;
+
+        return $this;
+    }
+
+    /**
+     * Remove professionalMeets
+     *
+     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $professionalMeets
+     */
+    public function removeProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $professionalMeets)
+    {
+        $this->professionalMeets->removeElement($professionalMeets);
+    }
+
+    /**
+     * Get professionalMeets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProfessionalMeets()
+    {
+        return $this->professionalMeets;
     }
 }

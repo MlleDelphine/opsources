@@ -5,7 +5,7 @@
  * Date: 03/06/2015
  * Time: 12:08
  */
-namespace FormGeneratorBundle\Form;
+namespace FormGeneratorBundle\Form\Valuation;
 
 use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use Symfony\Component\Form\AbstractType;
@@ -66,6 +66,21 @@ class ValuationMeetType extends AbstractType{
 
         $builder
             ->add('name', 'text', array('label' => 'Nom :'))
+            ->add('assessor', 'genemu_jqueryselect2_entity', array(
+                'class' => 'UserBundle:User',
+                'label' => 'Evaluateur',
+                'multiple' => false,
+                'placeholder' => 'Sélectionner',
+                'required' => false
+            ))
+            ->add('assessed', 'genemu_jqueryselect2_entity', array(
+                'class' => 'UserBundle:User',
+                //'property' => 'name',
+                'label' => 'Evalué',
+                'multiple' => false,
+                'placeholder' => 'Sélectionner',
+                'required' => false
+            ))
 
         ;
 
