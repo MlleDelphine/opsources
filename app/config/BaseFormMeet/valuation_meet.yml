@@ -85,6 +85,31 @@ fields:
                     choice_label: "name"
                     expanded: true
                     multiple: false
+              - id: "review_text2"
+                type: "text"
+                conf:
+                    label: "Label 4"
+                    required: false
+              - id: "metric_int2"
+                type: "number"
+                conf:
+                    label: "Label 5"
+                    required: false
+              - id: "evolution_city22"
+                type: "entity"
+                conf:
+                    label: "Label 6 :"
+                    required: false
+                    class: "FormGeneratorBundle:City"
+                    data_class: "FormGeneratorBundle\Entity\City"
+                    choice_label: "name"
+                    expanded: true
+                    multiple: false
+              - id: "metric_int3"
+                type: "number"
+                conf:
+                    label: "Label 7"
+                    required: false
           number: 2
         - id: "evolution_skill"
           type: collection
