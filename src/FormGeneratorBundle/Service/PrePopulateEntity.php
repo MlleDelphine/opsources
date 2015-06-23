@@ -14,6 +14,7 @@ use FormGeneratorBundle\Entity\ProfessionalCollectionAttribute;
 use FormGeneratorBundle\Form\Professional\ProfessionalMeetType;
 
 use FormGeneratorBundle\Entity\ValuationMeet;
+use FormGeneratorBundle\Entity\Skill;
 use FormGeneratorBundle\Entity\ValuationAttribute;
 use FormGeneratorBundle\Entity\ValuationCollectionAttribute;
 use FormGeneratorBundle\Form\Valuation\ValuationMeetType;
@@ -70,6 +71,14 @@ class PrePopulateEntity{
 
             }
         }
+
+        $capacities = $this->em->getRepository('FormGeneratorBundle:Capacity')->findAll();
+        foreach ($capacities as $capacity) {
+            $skill = new Skill();
+            $skill->setName($capacity->getName());
+            $entity->addSkill($skill);
+        }
+
 
         return $this->createValuationMeetCreateForm($entity, $attributes);
 

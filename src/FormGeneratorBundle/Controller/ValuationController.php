@@ -22,12 +22,14 @@ class ValuationController extends Controller
     public function newAction()
     {
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
+        $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $meet = new ValuationMeet();
 
         $form = $this->get('app.prepopulate_entity')->populateValuationMeet($meet, $attributes);
 
         return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
+            'name' => $name,
             'form'   => $form->createView(),
         ));
     }
@@ -39,6 +41,7 @@ class ValuationController extends Controller
     public function addAction(Request $request)
     {
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
+        $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $meet = new ValuationMeet();
 
         $form = $this->get('app.prepopulate_entity')->populateValuationMeet($meet, $attributes);
@@ -53,6 +56,7 @@ class ValuationController extends Controller
         }
         return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
+            'name' => $name,
             'form'   => $form->createView(),
         ));
     }
@@ -68,6 +72,7 @@ class ValuationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
+        $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
 
         $entity = $em->getRepository('FormGeneratorBundle:ValuationMeet')->find($id);
 
@@ -80,6 +85,7 @@ class ValuationController extends Controller
 
         return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'form'   => $form->createView(),
+            'name' => $name,
         ));
     }
 
@@ -91,6 +97,7 @@ class ValuationController extends Controller
     public function updateAction(Request $request, $id){
 
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
+        $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $em = $this->getDoctrine()->getManager();
 
         $meet = $em->getRepository('FormGeneratorBundle:ValuationMeet')->find($id);
@@ -109,6 +116,7 @@ class ValuationController extends Controller
 
         return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
+            'name' => $name,
             'form'   => $form->createView(),
         ));
 

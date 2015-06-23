@@ -8,6 +8,8 @@
 namespace FormGeneratorBundle\Form\Valuation;
 
 use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
+use FormGeneratorBundle\Form\Type\CustomCollectionType;
+use FormGeneratorBundle\Form\Type\CustomCollectionFieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -81,6 +83,23 @@ class ValuationMeetType extends AbstractType{
                 'placeholder' => 'Sélectionner',
                 'required' => false
             ))
+            ->add('assessed', 'genemu_jqueryselect2_entity', array(
+                'class' => 'UserBundle:User',
+                //'property' => 'name',
+                'label' => 'Evalué',
+                'multiple' => false,
+                'placeholder' => 'Sélectionner',
+                'required' => false
+            ))
+            ->add('skills', new CustomCollectionFieldType(3), array(
+                'type' => new SkillType(),
+                'allow_add' => true,
+                'allow_delete' => false,
+                'by_reference' => false,
+                'required' => false,
+                'label' => false
+            ))
+
 
         ;
 
