@@ -61,9 +61,14 @@ class ValuationMeet
     private $updated;
 
     /**
-     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationAttribute", mappedBy="valuationMeet", cascade={"remove", "persist"})
-     */
+ * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationAttribute", mappedBy="valuationMeet", cascade={"remove", "persist"})
+ */
     private $attributes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\Skill", mappedBy="valuationMeet", cascade={"remove", "persist"})
+     */
+    private $skills;
 
 
     /**
@@ -256,5 +261,39 @@ class ValuationMeet
     public function getAssessed()
     {
         return $this->assessed;
+    }
+
+    /**
+     * Add skills
+     *
+     * @param \FormGeneratorBundle\Entity\Skill $skills
+     * @return ValuationMeet
+     */
+    public function addSkill(\FormGeneratorBundle\Entity\Skill $skills)
+    {
+        $skills->setValuationMeet($this);
+        $this->skills[] = $skills;
+
+        return $this;
+    }
+
+    /**
+     * Remove skills
+     *
+     * @param \FormGeneratorBundle\Entity\Skill $skills
+     */
+    public function removeSkill(\FormGeneratorBundle\Entity\Skill $skills)
+    {
+        $this->skills->removeElement($skills);
+    }
+
+    /**
+     * Get skills
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSkills()
+    {
+        return $this->skills;
     }
 }

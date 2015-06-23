@@ -16,3 +16,10 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: main } # L'alias est très important, c'est avec lui que vous appellerez votre menu dans la vue
+
+#    app.voter.request:
+#        class: FormGeneratorBundle\Service\Voter\RequestVoter
+#        arguments:
+#            - ["@service_container"]
+#        tags:
+#            - { name: knp_menu.voter }

@@ -3,10 +3,14 @@ id: "valuation_meet"
 fields:
     attr:
         - id: "valuation_date"
-          type: "date"
+          type: "genemu_jquerydate"
           conf:
               label: "Date de l'entretien :"
               required: false
+              attr:
+                  class: 'datepicker'
+              widget: 'single_text'
+              format: 'dd/MM/yyyy'
         - id: "valuation_bool"
           type: "checkbox"
           conf:
@@ -17,43 +21,6 @@ fields:
           conf:
               label: "Si oui, préciser l’événement et le contexte : "
               required: false
-#        - id: "valuation_datetime"
-#          type: "datetime"
-#          conf:
-#              label: "Saisissez une date et une heure"
-#              required: false
-#              attr:
-#                  class: 'custom-time'
-#        - id: "valuation_choice"
-#          type: "choice"
-#          conf:
-#              label: "Genre"
-#              required: true
-#              choices: { m: "Masculin", f: "Féminin" }
-#              expanded: true
-#              multiple: false
-#        - id: "valuation_city"
-#          type: "entity"
-#          conf:
-#              label: "Sélectionnez une ville :"
-#              required: true
-#              class: "FormGeneratorBundle:City"
-#              data_class: "FormGeneratorBundle\Entity\City"
-#              property: "name"
-#              expanded: true
-#              multiple: false
-#              attr:
-#                  class: 'select-select2'
-#        - id: "valuation_cities"
-#          type: "entity"
-#          conf:
-#              label: "Sélectionnez une/plusieurs ville :"
-#              required: false
-#              class: "FormGeneratorBundle:City"
-#              data_class: null
-#              choice_label: "name"
-#              expanded: true
-#              multiple: true
         - id: "valuation_missions"
           type: collection
           conf:
@@ -62,14 +29,14 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: "Saisissez des objectifs ci-dessous :"
+              label: "Evaluation de la mission permanente"
           child:
-              - id: "theme_text"
+              - id: "mission_theme"
                 type: "text"
                 conf:
                     label: "Thème de la mission permanente"
                     required: false
-              - id: "valuation_choice"
+              - id: "mission_state"
                 type: "choice"
                 conf:
                     label: "Etat"
@@ -77,91 +44,95 @@ fields:
                     choices: { n: "N", p: "P", r: "R", d: "D" }
                     expanded: true
                     multiple: false
-              - id: "valuation_text"
+              - id: "mission_comment"
                 type: 'textarea'
                 conf:
                     label: "Commentaires "
                     required: false
           number: 5
-#        - id: "valuation_goals"
-#          type: collection
-#          conf:
-#              allow_add: true
-#              type: "to defined"
-#              allow_delete: true
-#              by_reference: false
-#              required: false
-#              label: "Saisissez des objectifs ci-dessous :"
-#          child:
-#              - id: "review_text"
-#                type: "text"
-#                conf:
-#                    label: "Rappel des objectifs"
-#                    required: false
-#              - id: "metric_int"
-#                type: "number"
-#                conf:
-#                    label: "Indicateur de mesure"
-#                    required: false
-#              - id: "valuation_city2"
-#                type: "entity"
-#                conf:
-#                    label: "Sélectionnez une ville :"
-#                    required: false
-#                    class: "FormGeneratorBundle:City"
-#                    data_class: "FormGeneratorBundle\Entity\City"
-#                    choice_label: "name"
-#                    expanded: true
-#                    multiple: false
-#                    label_attr:
-#                        class: 'radio-inline'
-#              - id: "review_text2"
-#                type: "text"
-#                conf:
-#                    label: "Label 4"
-#                    required: false
-#              - id: "metric_int2"
-#                type: "number"
-#                conf:
-#                    label: "Label 5"
-#                    required: false
-#              - id: "valuation_city22"
-#                type: "entity"
-#                conf:
-#                    label: "Label 6 :"
-#                    required: false
-#                    class: "FormGeneratorBundle:City"
-#                    data_class: "FormGeneratorBundle\Entity\City"
-#                    choice_label: "name"
-#                    expanded: true
-#                    multiple: false
-#              - id: "metric_int3"
-#                type: "number"
-#                conf:
-#                    label: "Label 7"
-#                    required: false
-#          number: 2
-#        - id: "valuation_skill"
-#          type: collection
-#          conf:
-#              allow_add: true
-#              type: "to defined"
-#              allow_delete: true
-#              by_reference: false
-#              required: false
-#              label: "Entrez vos compétences :"
-#          child:
-#              - id: "review_text"
-#                type: "text"
-#                conf:
-#                    label: "Compétence :"
-#                    required: false
-#              - id: "metric_int"
-#                type: "number"
-#                conf:
-#                    label: "Niveau"
-#                    required: false
-#          number: 2
+        - id: "valuation_goals"
+          type: collection
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Evaluation de l’atteinte des objectifs  :"
+          child:
+              - id: "goal_text"
+                type: "text"
+                conf:
+                    label: "Rappel des objectifs"
+                    required: false
+              - id: "goal_metric"
+                type: "number"
+                conf:
+                    label: "Indicateur de mesure"
+                    required: false
+              - id: "goal_deadline"
+                type: "genemu_jquerydate"
+                conf:
+                    label: "Echéance"
+                    required: false
+                    attr:
+                        class: 'datepicker'
+                    widget: 'single_text'
+                    format: 'dd/MM/yyyy'
+              - id: "goal_state"
+                type: "choice"
+                conf:
+                    label: "Etat"
+                    required: true
+                    choices: { n: "N", p: "P", r: "R", d: "D" }
+                    expanded: true
+                    multiple: false
+              - id: "goal_comment"
+                type: "textarea"
+                conf:
+                    label: "Commentaire(s)"
+                    required: false
+          number: 5
+        - id: "general_valuation"
+          type: "genemu_tinymce"
+          conf:
+              label: "Appréciation générale de la tenue du poste pour l’année écoulée :"
+              required: false
+        - id: "valuation_future_goals"
+          type: collection
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Evaluation de l’atteinte des objectifs  :"
+          child:
+              - id: "future_goal_text"
+                type: "text"
+                conf:
+                    label: "Rappel des objectifs"
+                    required: false
+              - id: "future_goal_metric"
+                type: "number"
+                conf:
+                    label: "Indicateur de mesure"
+                    required: false
+              - id: "future_goal_deadline"
+                type: "genemu_jquerydate"
+                conf:
+                    label: "Echéance"
+                    required: false
+                    attr:
+                        class: 'datepicker'
+                    widget: 'single_text'
+                    format: 'dd/MM/yyyy'
+              - id: "future_goal_comment"
+                type: "textarea"
+                conf:
+                    label: "Commentaires (risques, difficultés possibles, moyens nécessaires, priorités..)"
+                    required: false
+          number: 5
 
 
 

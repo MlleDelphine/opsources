@@ -1,0 +1,21 @@
+services:
+    sonata.admin.capacity:
+        class: FormGeneratorBundle\Admin\CapacityAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Compétence", label: "Capacité" }
+        arguments:
+            - ~
+            - FormGeneratorBundle\Entity\Capacity
+            - ~
+        calls:
+            - [ setTranslationDomain, [FomrGeneratorBundle]]
+    sonata.admin.stateSkill:
+        class: FormGeneratorBundle\Admin\SkillStateAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Compétence", label: "Statut d'une compétence" }
+        arguments:
+            - ~
+            - FormGeneratorBundle\Entity\SkillState
+            - ~
+        calls:
+            - [ setTranslationDomain, [FormGeneratorBundle]]

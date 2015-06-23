@@ -1,5 +1,7 @@
+{# Affichage en tableau de champs collection existants #}
+
 {# Affichage de la collection d'attributs SECONDAIRE. But : ne pas afficher les labels + afficher un tableau#}
-{% block customCollection_widget %}
+{% block customCollectionField_widget %}
     {% if numberFields is null %}
         {% set col = 'col-md-12' %}
     {% else %}
@@ -8,37 +10,85 @@
     {% endif %}
     {% spaceless %}
         <div {{ block('widget_container_attributes') }}>
-            {{ block('collection_rows') }}
+            {{ block('collectionField_rows') }}
             {{ form_rest(form) }}
         </div>
     {% endspaceless %}
 {% endblock %}
 
-{% block collection_rows %}
+{% block collectionField_rows %}
     {% spaceless %}
         {{ form_errors(form) }}
         <table class="table table-condensed col-md-12">
             <thead>
             <tr>
                 {% for key, child in form %}
-                    {% if loop.index <= numberFields %}
+                    {% if loop.index <= 1 %}
                         {%  for k, c in child %}
-                            {%  if  c.vars.label is not null and loop.index <= numberFields %}
-                                <th data-field="id" class="{{ col }}">{{ c.vars.label }}</th>
+                            {%  if  c.vars.label is not null %}
+                                <th data-field="id" class="">{{ c.vars.label }}</th> {#{{ col }} dans class#}
                             {%  endif %}
                         {%  endfor %}
                     {% endif %}
                 {% endfor %}
             </tr>
             </thead>
-            {{ block('only_fields') }}
+            {{ block('only_fields_field') }}
         </table>
     {% endspaceless %}
-{% endblock collection_rows %}
+{% endblock collectionField_rows %}
 
-{% block only_fields %}
+{% block only_fields_field %}
     {% for key, child in form %}
-        {% if loop.first %}
+        <tr>
+            {%  for c in child %}
+                <td>{{ form_widget(c) }}</td>
+            {%  endfor %}
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+    {# Affichage de la collection d'attributs SECONDAIRE. But : ne pas afficher les labels + afficher un tableau#}
+    {% block customCollection_widget %}
+        {% if numberFields is null %}
+            {% set col = 'col-md-12' %}
+        {% else %}
+            {% set valCol = 12/numberFields %}
+            {% set col = 'col-md-'~valCol|round(0, 'ceil') %}
+        {% endif %}
+        {% spaceless %}
+            <div {{ block('widget_container_attributes') }}>
+                {{ block('collection_rows') }}
+                {{ form_rest(form) }}
+            </div>
+        {% endspaceless %}
+    {% endblock %}
+
+    {% block collection_rows %}
+        {% spaceless %}
+            {{ form_errors(form) }}
+            <table class="table table-condensed col-md-12">
+                <thead>
+                <tr>
+                    {% for key, child in form %}
+                        {% if loop.index <= numberFields %}
+                            {%  for k, c in child %}
+                                {%  if  c.vars.label is not null and loop.index <= numberFields %}
+                                    <th data-field="id" class="">{{ c.vars.label }}</th> {#{{ col }} dans class#}
+                                {%  endif %}
+                            {%  endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                </thead>
+                {{ block('only_fields') }}
+            </table>
+        {% endspaceless %}
+    {% endblock collection_rows %}
+
+    {% block only_fields %}
+    {% for key, child in form %}
+    {% if loop.first %}
 <tr>
     {% endif %}
     <td>
@@ -81,7 +131,7 @@
             <div class="icheck-inline">
                 {% for child in form.children %}
                     <label class="radio-inline">{{ child.vars.label }}
-                    {{ form_widget(child, {'attr':{ 'class': 'icheck icheck-radio', 'data-radio': 'iradio_square-blue' }}) }}
+                        {{ form_widget(child, {'attr':{ 'class': 'icheck icheck-radio', 'data-radio': 'iradio_square-blue' }}) }}
                     </label>
                 {% endfor %}
             </div>
