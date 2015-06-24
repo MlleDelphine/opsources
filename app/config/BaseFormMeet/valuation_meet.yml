@@ -9,6 +9,7 @@ fields:
               required: false
               attr:
                   class: 'datepicker'
+                  data-tab: 'tab_3'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
         - id: "valuation_bool"
@@ -16,11 +17,16 @@ fields:
           conf:
               label: "L’année a-t-elle été marquée par un événement significatif (mutation, évolution importante des responsabilités, absence de longue durée, Etc) ?"
               required: false
+              attr:
+                  data-tab: 'tab_3'
+
         - id: "valuation_text"
           type: 'genemu_tinymce'
           conf:
               label: "Si oui, préciser l’événement et le contexte : "
               required: false
+              attr:
+                  data-tab: 'tab_3'
         - id: "valuation_missions"
           type: collection
           conf:
@@ -30,6 +36,8 @@ fields:
               by_reference: false
               required: false
               label: "Evaluation de la mission permanente"
+              attr:
+                  data-tab: 'tab_2'
           child:
               - id: "mission_theme"
                 type: "text"
@@ -59,6 +67,8 @@ fields:
               by_reference: false
               required: false
               label: "Evaluation de l’atteinte des objectifs  :"
+              attr:
+                  data-tab: 'tab_2'
           child:
               - id: "goal_text"
                 type: "text"
@@ -98,6 +108,8 @@ fields:
           conf:
               label: "Appréciation générale de la tenue du poste pour l’année écoulée :"
               required: false
+              attr:
+                  data-tab: 'tab_1'
         - id: "valuation_future_goals"
           type: collection
           conf:
@@ -106,7 +118,9 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: "Evaluation de l’atteinte des objectifs  :"
+              label: "Nouveaux objectifs  :"
+              attr:
+                  data-tab: 'tab_3'
           child:
               - id: "future_goal_text"
                 type: "text"
@@ -133,6 +147,13 @@ fields:
                     label: "Commentaires (risques, difficultés possibles, moyens nécessaires, priorités..)"
                     required: false
           number: 5
+        - id: employee_obs
+          type: "textarea"
+          conf:
+              label: "Observations éventuelles du salarié à l’issue de l’entretien (à remplir par le salarié)"
+              required: false
+              attr:
+                  data-tab: 'tab_2'
 
 
 

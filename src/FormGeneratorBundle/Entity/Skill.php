@@ -44,7 +44,7 @@ class Skill
 
     /**
      * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\SkillState", inversedBy="skill", cascade={"persist"})
-     * @ORM\JoinColumn(name="skill_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="skillstate_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $state;
 
@@ -140,7 +140,7 @@ class Skill
      * @param \FormGeneratorBundle\Entity\Skill $state
      * @return Skill
      */
-    public function setState(\FormGeneratorBundle\Entity\Skill $state = null)
+    public function setState(\FormGeneratorBundle\Entity\SkillState $state = null)
     {
         $this->state = $state;
 

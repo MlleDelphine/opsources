@@ -61,8 +61,8 @@ class ValuationMeet
     private $updated;
 
     /**
- * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationAttribute", mappedBy="valuationMeet", cascade={"remove", "persist"})
- */
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationAttribute", mappedBy="valuationMeet", cascade={"remove", "persist"})
+     */
     private $attributes;
 
     /**
@@ -155,7 +155,7 @@ class ValuationMeet
     public function __construct()
     {
         $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
-       // $this->created = new \Datetime();
+        // $this->created = new \Datetime();
 
     }
 
@@ -290,7 +290,7 @@ class ValuationMeet
     /**
      * Get skills
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSkills()
     {

@@ -24,6 +24,7 @@ class SkillType extends AbstractType {
         $builder->add('name', 'text', array('label' => "Qualités personnelles", 'disabled' => true))
             ->add('state', 'entity', array(
                 'class' => 'FormGeneratorBundle:SkillState',
+                'data_class' => 'FormGeneratorBundle\Entity\SkillState',
                 'property' => 'name',
                 'label' => 'Etat',
                 'multiple' => false,
@@ -32,6 +33,7 @@ class SkillType extends AbstractType {
                 'attr' => array('class' => 'icheck icheck-radio', 'data-radio' => 'iradio_square-blue'),
                 'label_attr' => array('class' => 'radio-inline')
             ))
+            ->add('strongPoint', 'text', array('label' => "Point fort du salarié :"))
             ->add('comments', 'textarea', array('label' => 'Commentaire(s)'));
     }
 

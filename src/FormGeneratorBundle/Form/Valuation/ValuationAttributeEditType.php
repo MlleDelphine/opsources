@@ -48,9 +48,7 @@ class ValuationAttributeEditType  extends AbstractType {
                             foreach ($allConf['conf'] as $name => $value) {
                                 $options[$name] = $value;
                             }
-                            switch ($allConf['type']):
-                                case 'genemu_jqueryselect2_entity':
-                                case 'entity':
+                            if($allConf['type'] == 'genemu_jqueryselect2_entity' || $allConf['type'] == 'entity'){
                                     if($data->getValue() == null){
                                         $options['data'] = null;
                                     }
@@ -71,8 +69,8 @@ class ValuationAttributeEditType  extends AbstractType {
                                             $options
                                         );
                                     }
-                                    break;
-                                case 'collection':
+                                    }
+                                 elseif($allConf['type'] == 'collection'){
                                     $confChild = $allConf['child'];
                                     $label = $allConf['conf']['label'];
                                     $form->add(
@@ -83,21 +81,22 @@ class ValuationAttributeEditType  extends AbstractType {
                                         'by_reference' => false,
                                         'required' => false,
                                         'label' => $label));
-                                    break;
-                                case 'choice':
+                                   }
+                                elseif($allConf['type'] == 'choice'){
                                     $allConf['type'] = new CustomRadioType();
                                     $form->add(
                                         'value',
                                         $allConf,
                                         $options
                                     );
-                                default:
+                               }
+							   else{
                                     $form->add(
                                         'value',
                                         $allConf['type'],
                                         $options
                                     );
-                            endswitch;
+                         }
                         }
 
                     }

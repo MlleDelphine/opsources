@@ -20,7 +20,32 @@
                 <h3 class="panel-title">{{ name }}</h3>
             </div>
             <div class="panel-body">
-                {{ form(form) }}
+                <ul class="nav nav-tabs">
+                    {% for tab in uiTab %}
+                        <li class="{% if loop.first %}active{% endif %}">
+                            <a href="#{{ tab.id }}" data-toggle="tab" aria-expanded="true">
+                                {{ tab.name}} </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content">
+                    {{  form_start(form, { 'attr': {'class': 'form-horizontal form-bordered'}}) }}
+                    {% for tab in uiTab %}
+                        <div id="{{ tab.id }}" class="tab-pane{% if loop.first %}active{% endif %}">
+                        </div>
+                    {% endfor %}
+                    {% for child in form.children %}
+                        {{ dump(child.vars.attr) }}
+                        {% for c in child.children %}
+                            {{ dump(c.vars.attr) }}
+                            {{ c.vars.label }}
+                            {{ form_widget(c) }}
+                        {% endfor %}
+                    {% endfor %}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+                </div>
+
             </div>
         </div>
     {% endblock %}

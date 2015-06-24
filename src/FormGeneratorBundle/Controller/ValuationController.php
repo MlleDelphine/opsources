@@ -21,6 +21,8 @@ class ValuationController extends Controller
      */
     public function newAction()
     {
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
+
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $meet = new ValuationMeet();
@@ -30,6 +32,7 @@ class ValuationController extends Controller
         return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
             'name' => $name,
+            'uiTab' => $uiTab,
             'form'   => $form->createView(),
         ));
     }
@@ -40,6 +43,7 @@ class ValuationController extends Controller
      */
     public function addAction(Request $request)
     {
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $meet = new ValuationMeet();
@@ -57,6 +61,7 @@ class ValuationController extends Controller
         return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
             'name' => $name,
+            'uiTab' => $uiTab,
             'form'   => $form->createView(),
         ));
     }
