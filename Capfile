@@ -4,7 +4,7 @@ require 'capistrano/setup'
 # Include default deployment tasks
 require 'capistrano/deploy'
 
-require 'capistrano-copy-files'
+require 'capistrano/copy_files'
 require 'capistrano/composer'
 require 'capistrano/bower'
 require 'capistrano/symfony'
