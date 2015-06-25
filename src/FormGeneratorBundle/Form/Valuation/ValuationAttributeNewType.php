@@ -18,10 +18,12 @@ use FormGeneratorBundle\Form\Type\CustomCollectionType;
 class ValuationAttributeNewType extends AbstractType{
 
     protected $attributes;
+    protected $tab;
 
-    public function __construct ($attributes)
+    public function __construct ($attributes, $tab = null)
     {
         $this->attributes = $attributes;
+        $this->tab = $tab;
 
     }
 
@@ -59,6 +61,7 @@ class ValuationAttributeNewType extends AbstractType{
                                         $options[$name] = $value;
                                         $fieldName = 'value';
                                     }
+                                    $this->tab = $allConf['conf']['attr']['data-tab'];
                                 }
                                 if(!$confChild) {
                                     $form->add(
@@ -78,8 +81,8 @@ class ValuationAttributeNewType extends AbstractType{
                                 }
                             }
                         }
-                        $form->add('name', 'hidden');
-                        $form->add('fieldType', 'hidden');
+                        $form->add('name', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+                        $form->add('fieldType', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                     }
                 }
             });

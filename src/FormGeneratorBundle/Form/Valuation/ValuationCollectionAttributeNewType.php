@@ -19,11 +19,12 @@ use FormGeneratorBundle\Form\Type\CustomRadioType;
 class ValuationCollectionAttributeNewType extends AbstractType{
 
     protected $attributes;
-    protected $test;
+    protected $tab;
 
-    public function __construct ($attributes)
+    public function __construct ($attributes, $tab = null)
     {
         $this->attributes = $attributes;
+        $this->tab = $tab;
 
     }
 
@@ -54,9 +55,10 @@ class ValuationCollectionAttributeNewType extends AbstractType{
                                 $options
                             );
                         }
+                        $this->tab = $allConf['conf']['attr']['data-tab'];
                     }
-                    $form->add('name', 'hidden');
-                    $form->add('fieldType', 'hidden');
+                    $form->add('name', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+                    $form->add('fieldType', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                 }
             });
     }

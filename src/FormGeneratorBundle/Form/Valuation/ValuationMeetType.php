@@ -47,7 +47,7 @@ class ValuationMeetType extends AbstractType{
                         'allow_delete' => true,
                         'by_reference' => false,
                         'required' => false,
-                        'label' => false));
+                        'label' => 'Atttttt'));
                 }
                 //Edition d'un formulaire existant
                 else{
@@ -68,32 +68,32 @@ class ValuationMeetType extends AbstractType{
 
         $builder
             ->add('name', 'text', array('label' => 'Nom :', 'attr' => array('data-tab'  => 'tab_1')))
-            ->add('assessor', 'genemu_jqueryselect2_entity', array(
-                'class' => 'UserBundle:User',
-                'label' => 'Evaluateur',
-                'multiple' => false,
-                'placeholder' => 'Sélectionner',
-                'required' => false,
-                'attr' => array('data-tab'  => 'tab_1')
-            ))
-            ->add('assessed', 'genemu_jqueryselect2_entity', array(
-                'class' => 'UserBundle:User',
-                //'property' => 'name',
-                'label' => 'Evalué',
-                'multiple' => false,
-                'placeholder' => 'Sélectionner',
-                'required' => false,
-                'attr' => array('data-tab'  => 'tab_1')
-            ))
-            ->add('assessed', 'genemu_jqueryselect2_entity', array(
-                'class' => 'UserBundle:User',
-                //'property' => 'name',
-                'label' => 'Evalué',
-                'multiple' => false,
-                'placeholder' => 'Sélectionner',
-                'required' => false,
-                'attr' => array('data-tab'  => 'tab_1')
-            ))
+//            ->add('assessor', 'genemu_jqueryselect2_entity', array(
+//                'class' => 'UserBundle:User',
+//                'label' => 'Evaluateur',
+//                'multiple' => false,
+//                'placeholder' => 'Sélectionner',
+//                'required' => false,
+//                'attr' => array('data-tab'  => 'tab_1')
+//            ))
+//            ->add('assessed', 'genemu_jqueryselect2_entity', array(
+//                'class' => 'UserBundle:User',
+//                //'property' => 'name',
+//                'label' => 'Evalué',
+//                'multiple' => false,
+//                'placeholder' => 'Sélectionner',
+//                'required' => false,
+//                'attr' => array('data-tab'  => 'tab_1')
+//            ))
+//            ->add('assessed', 'genemu_jqueryselect2_entity', array(
+//                'class' => 'UserBundle:User',
+//                //'property' => 'name',
+//                'label' => 'Evalué',
+//                'multiple' => false,
+//                'placeholder' => 'Sélectionner',
+//                'required' => false,
+//                'attr' => array('data-tab'  => 'tab_1')
+//            ))
             ->add('skills', new CustomCollectionFieldType(3), array(
                 'type' => new SkillType(),
                 'allow_add' => true,
