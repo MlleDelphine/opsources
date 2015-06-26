@@ -4,3 +4,5 @@
   name: 'Objectifs passés et futurs'
 - id: 'tab_3'
   name: 'Autres'
+- id: 'tab_4'
+  name: 'Onglet en test'

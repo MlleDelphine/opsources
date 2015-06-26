@@ -17,6 +17,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt|error)|css|images|js)/
             security: false
+            anonymous: true
         main:
             pattern: ^/
             form_login:
@@ -32,4 +33,5 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
        # - { path: ^/admin/, role: ROLE_ADMIN }
-        #- { path: ^/valuation/, role: [ROLE_ADMIN, ROLE_USER]}
+#        - { path: ^/valuation/^, role: [ROLE_ADMIN, ROLE_USER]}
+#        - { path: ^/, role: [ROLE_ADMIN, ROLE_USER]}

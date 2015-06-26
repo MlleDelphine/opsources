@@ -30,6 +30,13 @@ class ValuationMeet
     private $name;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(name="meetDate", type="datetime")
+     */
+
+    private $meetDate;
+
+    /**
      * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="valuationMeet", cascade={"persist"})
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -295,5 +302,28 @@ class ValuationMeet
     public function getSkills()
     {
         return $this->skills;
+    }
+
+    /**
+     * Set meetDate
+     *
+     * @param \DateTime $meetDate
+     * @return ValuationMeet
+     */
+    public function setMeetDate($meetDate)
+    {
+        $this->meetDate = $meetDate;
+
+        return $this;
+    }
+
+    /**
+     * Get meetDate
+     *
+     * @return \DateTime 
+     */
+    public function getMeetDate()
+    {
+        return $this->meetDate;
     }
 }

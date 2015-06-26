@@ -5,7 +5,10 @@
         <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/icheck/skins/all.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/datetimepicker/jquery.datetimepicker.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/formgenerator/css/custom-form.css') }}">
+        {% stylesheets output='bundles/formgenerator/compiled/form-opus.css' filter='less'
+        'bundles/formgenerator/css/custom-form.less' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
         <link rel="stylesheet" href="{{ asset('vendor/jqueryui/themes/overcast/jquery-ui.min.css')}}">
         {{ form_stylesheet(form) }}
     {% endif %}
@@ -20,7 +23,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">{{ name }}</h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body tabbable-custom">
                 <ul class="nav nav-tabs">
                     {% for tab in uiTab %}
                         <li class="{% if loop.first %}active{% endif %}">

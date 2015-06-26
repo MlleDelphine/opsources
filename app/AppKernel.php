@@ -23,7 +23,7 @@ class AppKernel extends Kernel
 
             //Connexion
             new FOS\UserBundle\FOSUserBundle(),
-           // new FR3D\LdapBundle\FR3DLdapBundle(),
+            // new FR3D\LdapBundle\FR3DLdapBundle(),
             new \UserBundle\UserBundle(),
 
             //Sonata
@@ -38,6 +38,8 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new Hautelook\AliceBundle\HautelookAliceBundle();
         }
 
         return $bundles;
