@@ -7,7 +7,8 @@
  */
 namespace UserBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
+use Arianespace\PlexcelBundle\Security\User\UserInterface;
+use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="fos_user")
  * @ORM\Entity
  */
-class User extends BaseUser
+class User extends BaseUser implements UserInterface
 {
     /**
      * @var integer
@@ -26,20 +27,6 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
-     */
-    private $lastName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
-     */
-    private $firstName;
 
     /**
      * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationMeet", mappedBy="assessor", cascade={"persist"})
@@ -75,7 +62,12 @@ class User extends BaseUser
 
     public function __toString()
     {
-        return (string)$this->getFirstName().' '.$this->getLastName();
+        return (string)$this->getUsername();
+    }
+
+    public function getDisplayName(){
+
+        return $this->getUsername();
     }
 
     /**
@@ -86,52 +78,6 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     * @return User
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Get lastName
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set firstName
-     *
-     * @param string $firstName
-     * @return User
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
     }
 
 

@@ -11,6 +11,7 @@ namespace FormGeneratorBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Service;
 
 
 
@@ -21,7 +22,8 @@ class DefaultController extends Controller{
      */
     public function indexAction()
     {
-        return $this->render('default/index.html.twig');
+        $user = $this->getUser();
+        return $this->render('AppBundle:Default:index.html.twig', array('user' => $user));
     }
 
 }

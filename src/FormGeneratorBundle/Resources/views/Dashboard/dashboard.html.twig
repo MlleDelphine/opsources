@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% if form is defined %}
+        <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/icheck/skins/all.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/datetimepicker/jquery.datetimepicker.css') }}">
+        {% stylesheets output='bundles/formgenerator/compiled/form-opus.css' filter='less'
+        'bundles/formgenerator/css/custom-form.less' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+        {% endstylesheets %}
+        <link rel="stylesheet" href="{{ asset('vendor/jqueryui/themes/overcast/jquery-ui.min.css')}}">
+        {{ form_stylesheet(form) }}
+    {% endif %}
+{% endblock %}
+
+{% block mainmenu %}
+    {{ include('FormGeneratorBundle:Menu:knp_menu_bs.html.twig') }}
+{% endblock %}

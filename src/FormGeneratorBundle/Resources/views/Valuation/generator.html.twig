@@ -1,22 +1,4 @@
-{% extends 'base.html.twig' %}
-{% block stylesheets %}
-    {{ parent() }}
-    {% if form is defined %}
-        <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('vendor/icheck/skins/all.css') }}">
-        <link rel="stylesheet" href="{{ asset('vendor/datetimepicker/jquery.datetimepicker.css') }}">
-        {% stylesheets output='bundles/formgenerator/compiled/form-opus.css' filter='less'
-        'bundles/formgenerator/css/custom-form.less' %}
-        <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
-        {% endstylesheets %}
-        <link rel="stylesheet" href="{{ asset('vendor/jqueryui/themes/overcast/jquery-ui.min.css')}}">
-        {{ form_stylesheet(form) }}
-    {% endif %}
-{% endblock %}
-{% block mainmenu %}
-    {{ include('FormGeneratorBundle:Menu:knp_menu_bs.html.twig') }}
-{% endblock %}
-
+{% extends 'AppBundle::layout.html.twig' %}
     {% block body %}
         {% set fields = null %}
         <div class="panel panel-info">
@@ -74,36 +56,3 @@
             </div>
         </div>
     {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% if form is defined %}
-        <script src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
-        <script src="{{ asset('vendor/jqueryui/jquery-ui.min.js') }}"></script>
-        <script src="{{ asset('vendor/jqueryui/ui/i18n/datepicker-fr.js') }}"></script>
-        <script src="{{ asset('vendor/datetimepicker/jquery.datetimepicker.js') }}"></script>
-        <script src="{{ asset('vendor/bower-tinymce-amd/tinymce/tinymce.js') }}"></script>
-        <script src="{{ asset('vendor/icheck/icheck.min.js') }}"></script>
-        <script>
-            $( document ).ready(function() {
-                //iCheck pour boutons radio
-                $(document).find('input.icheck-radio').each(function(i, obj) {
-                    $(this).iCheck({
-                        radioClass: $(this).data('radio')
-                    })
-                });
-                //icheck pour champ entity en checkbox : override BS (class .radio et surtout la div qui prend les attr définis du input)
-                $(document).find('div.icheck-radio').find('input').each(function(i, obj) {
-                    $(this).closest('label').unwrap();
-                    $(this).iCheck({
-                        radioClass: $(this).closest('div.icheck-radio').data('radio')
-                    })
-                });
-            });
-        </script>
-        {{ form_javascript(form) }}
-    {% endif %}
-{% endblock %}
-
-    {#{{ form.customFieldsiievolution_dateiivalue.vars.value }}#}
-{#{{ form.customFieldsiievolution_datetimeiitype.vars.value }}#}

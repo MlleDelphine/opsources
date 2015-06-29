@@ -1,0 +1,23 @@
+{% extends '@custom_plexcel/layout_login.html.twig' %}
+
+{% block title %}{{ application.name }} {{ application.version }}{% endblock %}
+
+{% block form %}
+    <form action="" method="post">
+        Coucou !
+        <div id="login-application">
+            <h1>{{ application.name }}<sup>{{ application.version }}</sup></h1>
+            <p>
+                {{ application.description }}
+            </p>
+        </div>
+        <p style="text-align: left;">
+            Bienvenue {{ user.displayName }}<br />
+            Vous êtes authentifié(e).
+        </p>
+        <div>
+            <a class="button" href="{{ path('arianespace_plexcel_logout') }}">Autre utilisateur</a>
+            <input type="submit" class="info" id="_submit" name="_submit" value="Entrer" />
+        </div>
+    </form>
+{% endblock %}

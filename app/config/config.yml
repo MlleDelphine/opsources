@@ -5,15 +5,19 @@ imports:
     - { resource: sonata.yml }
     - { resource: '@FormGeneratorBundle/Resources/config/services.yml' }
     - { resource: '@FormGeneratorBundle/Resources/config/admin.yml' }
+    - { resource: '@UserBundle/Resources/config/services.yml' }
+    - { resource: '@AppBundle/Resources/config/services.yml' }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    assetic.filter.compass.images_dir: %kernel.root_dir%/../web/img
+    assetic.filter.compass.http_path:  /img
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator: { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -40,6 +44,7 @@ twig:
     strict_variables: "%kernel.debug%"
     paths:
         "%kernel.root_dir%/../app/Resources/FOSUserBundle/views": custom_fos
+        "%kernel.root_dir%/../app/Resources/ArianespacePlexcelBundle/Resources/views": custom_plexcel
     form:
         resources:
             - "FormGeneratorBundle:Form:form_fields.html.twig"
@@ -53,7 +58,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [UserBundle, FOSUserBundle, FormGeneratorBundle]
+    bundles:        [UserBundle, FOSUserBundle, FormGeneratorBundle, AppBundle, ArianespaceThemeBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -61,6 +66,10 @@ assetic:
             node:       /usr/bin/node
             node_paths: [/usr/lib/node_modules]
             apply_to:   "\.less$"
+        sass:
+            bin: /usr/local/bin/sass
+        compass:
+            bin: /usr/local/bin/compass
 
 braincrafted_bootstrap:
     less_filter: less
@@ -147,6 +156,24 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: UserBundle\Entity\User
+
+arianespace_plexcel:
+    enable:               false #active plexcel (mettre en false pour le dev)
+    autologin:            true
+    local:                false
+    create:               false
+    application:
+        name:                 Application Arianespace
+        version:              v1
+        description:
+    auto_add_domain:      ~
+    autologin_redirect_route:  start
+    check_plexcel_login:  true # true en dev et false en prod
+    check_plexcel_login_route:  ask_plexcel_authorization
+    check_plexcel_redirect_route:  homepage
+    authorized_cn:        []
+    user_manager:         ~
+    file:                 ~
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -21,7 +21,7 @@ class SkillType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', array('label' => "Qualités personnelles", 'disabled' => true))
+        $builder->add('name', 'textarea', array('label' => "Qualités personnelles", 'disabled' => true, 'attr' => array('class' => 'textarea-resize none-sense')))
             ->add('state', 'entity', array(
                 'class' => 'FormGeneratorBundle:SkillState',
                 'data_class' => 'FormGeneratorBundle\Entity\SkillState',
@@ -34,7 +34,7 @@ class SkillType extends AbstractType {
                 'label_attr' => array('class' => 'radio-inline')
             ))
             ->add('strongPoint', 'text', array('label' => "Point fort du salarié :"))
-            ->add('comments', 'textarea', array('label' => 'Commentaire(s)'));
+            ->add('comments', 'textarea', array('label' => 'Commentaire(s)', 'attr' => array('class' => 'textarea-resize no-horizontal')));
     }
 
 

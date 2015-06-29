@@ -10,7 +10,8 @@
             <a href="#" class="navbar-brand">Opus </a>
         </div>
         <div class="navbar-collapse collapse" id="navbar">
-            {{ knp_menu_render('main', {'template': 'FormGeneratorBundle:Menu:knp_menu.html.twig'}) }} {#FormGeneratorBundle:Builder:mainMenu#}
+            {{ knp_menu_render('main', {'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}
+            {{ knp_menu_render('user', {'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}
         </div>
     </div>
 </nav>
