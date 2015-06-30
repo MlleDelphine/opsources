@@ -29,14 +29,13 @@ security:
                path:    /logout
                target: /
            anonymous:    true
-
        secured_area:
            pattern:    ^/
            plexcel: true
            form_login:
                provider: fos_userbundle
            logout:
-               path:               /logout
+               path:    /logout
                invalidate_session: false
                handlers:           [ arianespace.plexcel.logout_handler ]
                target: /login
@@ -61,4 +60,4 @@ security:
         - { path: ^/try_sso, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
 #        - { path: ^/valuation/^, role: [ROLE_ADMIN, ROLE_USER]}
-#        - { path: ^/, role: [ROLE_ADMIN, ROLE_USER]}
+        - { path: ^/, role: [ROLE_ADMIN, ROLE_USER]}

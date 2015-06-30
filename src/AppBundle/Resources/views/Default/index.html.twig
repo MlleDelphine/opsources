@@ -1,4 +1,40 @@
 {% extends 'AppBundle::layout.html.twig' %}
 {% block body %}
-    hello
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Entretiens d'appréciation dont je suis l'évaluateur</h3>
+            </div>
+            <div class="panel-body tabbable-custom">
+                {{ addDataTable(vmAssessorDataTable) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Entretiens d'appréciation dont je suis l'évalué</h3>
+            </div>
+            <div class="panel-body tabbable-custom">
+                {{ addDataTable(vmAssessedDataTable) }}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $(document).find('.dataTables_length').addClass('col-md-6');
+            console.log($(document).find('.dataTables_length'));
+
+            $(document).find('.dataTables_filter').find('label').addClass('form-control');
+            console.log($(document).find('.dataTables_filter').find('label'));
+        });
+    </script>
+{%  endblock %}
+
+
+

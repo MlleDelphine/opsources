@@ -49,11 +49,6 @@ twig:
         resources:
             - "FormGeneratorBundle:Form:form_fields.html.twig"
 
-#Bootstrap Configuration
-#bc_bootstrap:
-#    assets_dir:  "%kernel.root_dir%/../vendor/twitter/bootstrap"
-#    jquery_path: "%kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js"
-
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
@@ -70,6 +65,11 @@ assetic:
             bin: /usr/local/bin/sass
         compass:
             bin: /usr/local/bin/compass
+    assets:
+        data_tables:
+            inputs:
+                - %kernel.root_dir%/../web/vendor/datatables/media/js/jquery.js
+                - %kernel.root_dir%/../web/vendor/datatables/media/js/jquery.dataTables.min.js
 
 braincrafted_bootstrap:
     less_filter: less

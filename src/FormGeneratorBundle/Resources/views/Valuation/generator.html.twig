@@ -16,6 +16,7 @@
                 </ul>
                 {{  form_start(form, { 'attr': {'class': 'form-horizontal form-bordered'}}) }}
                 <div class="tab-content">
+                    {{ form_errors(form) }}
                     {% for tab in uiTab %}
                         <div id="{{ tab.id }}" class="tab-pane{% if loop.first %} active{% endif %}">
                             {# Gestion champs directement liés à l'entité #}

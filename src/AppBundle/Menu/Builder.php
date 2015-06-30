@@ -17,20 +17,31 @@ class Builder extends ContainerAware
 
     public function mainMenu(FactoryInterface $factory, $request, array $options = null)
     {
+        $routeName = $request->get('_route');
 
         $menu = $factory->createItem('mainMenu');
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
 
-        $menu->addChild('Tableau de bord', array('route' => 'homepage'))
-            ->setAttribute('icon', 'glyphicon glyphicon-home');
+        $route = 'homepage';
+        $class = $this->testRoute($routeName, $route);
 
-        $menu->addChild('Entretiens d\'appréciation', array('route' => 'new_valuationmeet'))
-            ->setAttribute('dropdown', true);
-        $menu['Entretiens d\'appréciation']->addChild('Créer', array('route' => 'new_valuationmeet'));
+        $menu->addChild('Tableau de bord', array('route' => $route))
+            ->setAttribute('icon', 'glyphicon glyphicon-home')
+            ->setAttribute('class', $class);
 
-        $menu->addChild('Entretiens professionnels', array('route' => 'new_professionalmeet'))
-            ->setAttribute('dropdown', true);
-        $menu['Entretiens professionnels']->addChild('Créer', array('route' => 'new_professionalmeet'));
+        $route = 'new_valuationmeet';
+        $class = $this->testRoute($routeName, $route);
+        $menu->addChild('Entretiens d\'appréciation', array('route' => $route))
+            ->setAttribute('dropdown', true)
+            ->setAttribute('class', $class);
+        $menu['Entretiens d\'appréciation']->addChild('Créer', array('route' => $route));
+
+        $route = 'new_professionalmeet';
+        $class = $this->testRoute($routeName, $route);
+        $menu->addChild('Entretiens professionnels', array('route' => $route))
+            ->setAttribute('dropdown', true)
+            ->setAttribute('class', $class);
+        $menu['Entretiens professionnels']->addChild('Créer', array('route' => $route));
 
 
         // ... add more children
@@ -55,5 +66,19 @@ class Builder extends ContainerAware
             ->setAttribute('class', 'nav navbar-nav navbar-right');
 
         return $menu;
+    }
+
+    /**
+     * Détermine si une route est la route actuelle
+     * @param $actualRoute
+     * @param $route
+     * @return string
+     *
+     */
+    protected function testRoute($actualRoute, $route){
+        if($actualRoute === $route){
+            return 'active';
+        }
+        return '';
     }
 }

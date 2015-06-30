@@ -1,5 +1,9 @@
-app:
+formgenerator:
     resource: "@FormGeneratorBundle/Controller/"
+    type:     annotation
+
+app:
+    resource: "@AppBundle/Controller/"
     type:     annotation
 
 opus_user:

@@ -51,7 +51,8 @@
     "arianespace/theme-bundle": "dev-master",
     "arianespace/plexcel-bundle": "dev-master",
     "sonata-project/doctrine-orm-admin-bundle": "2.3.2",
-    "sonata-project/admin-bundle": "2.3.3"
+    "sonata-project/admin-bundle": "2.3.3",
+    "brown298/data-tables-bundle": "dev-master"
 
   },
   "require-dev": {

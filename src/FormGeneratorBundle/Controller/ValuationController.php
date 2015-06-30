@@ -75,6 +75,8 @@ class ValuationController extends Controller
      */
     public function editAction($id)
     {
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
+
         $em = $this->getDoctrine()->getManager();
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
@@ -90,6 +92,7 @@ class ValuationController extends Controller
 
         return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'form'   => $form->createView(),
+            'uiTab' => $uiTab,
             'name' => $name,
         ));
     }
@@ -99,8 +102,10 @@ class ValuationController extends Controller
      *
      * @Route("/update/{id}", requirements={"id" = "\d+"}, name="update_valuationmeet")
      */
-    public function updateAction(Request $request, $id){
+    public function updateAction(Request $request, $id)
+    {
 
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $em = $this->getDoctrine()->getManager();
@@ -122,6 +127,7 @@ class ValuationController extends Controller
         return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
             'entity' => $meet,
             'name' => $name,
+            'uiTab' => $uiTab,
             'form'   => $form->createView(),
         ));
 
