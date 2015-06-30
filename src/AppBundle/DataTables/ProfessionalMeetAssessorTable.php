@@ -20,30 +20,30 @@ use Symfony\Component\Templating\EngineInterface;
  *
  * @package AppBundle\DataTables
  *
- * @DataTable\Table(id="valuationMeetAssessorTable")
+ * @DataTable\Table(id="professionalMeetAssessorTable")
  *
  *
  */
-class ValuationMeetAssessorTable extends QueryBuilderDataTable implements QueryBuilderDataTableInterface{
+class ProfessionalMeetAssessorTable extends QueryBuilderDataTable implements QueryBuilderDataTableInterface{
 
     /**
      * @var datetime
-     * @DataTable\Column(source="valuationMeet.meetDate", name="Date",  class="text-center")
+     * @DataTable\Column(source="professionalMeet.meetDate", name="Date",  class="text-center")
      * @DataTable\Column(sortable=true)
-     * @DataTable\Format(dataFields={"dateAttribute":"valuationMeet.meetDate"}, template="AppBundle:DataTable:_date_template.html.twig")
+     * @DataTable\Format(dataFields={"dateAttribute":"professionalMeet.meetDate"}, template="AppBundle:DataTable:_date_template.html.twig")
      */
     public $meetDate;
 
     /**
      * @var int
-     * @DataTable\Column(source="valuationMeet.id", name="ID", class="")
+     * @DataTable\Column(source="professionalMeet.id", name="ID", class="")
      * @DataTable\Column(sortable=true)
      */
     public $id;
 
     /**
      * @var string
-     * @DataTable\Column(source="valuationMeet.name", name="Intitulé",  class="text-center")
+     * @DataTable\Column(source="professionalMeet.name", name="Intitulé",  class="text-center")
      * @DataTable\Column(sortable=true)
      * @DataTable\DefaultSort()
      */
@@ -51,25 +51,25 @@ class ValuationMeetAssessorTable extends QueryBuilderDataTable implements QueryB
 
     /**
      * @var string
-     * @DataTable\Column(source="valuationMeet.assessor", name="Evaluateur",  class="text-center")
+     * @DataTable\Column(source="professionalMeet.assessor", name="Evaluateur",  class="text-center")
      * @DataTable\Column(sortable=true)
-     * @DataTable\Format(dataFields={"person":"valuationMeet.assessor"}, template="AppBundle:DataTable:_person_template.html.twig")
+     * @DataTable\Format(dataFields={"person":"professionalMeet.assessor"}, template="AppBundle:DataTable:_person_template.html.twig")
      * @DataTable\DefaultSort()
      */
     public $assessor;
 
     /**
      * @var string
-     * @DataTable\Column(source="valuationMeet.assessed", name="Evalué",  class="text-center")
+     * @DataTable\Column(source="professionalMeet.assessed", name="Evalué",  class="text-center")
      * @DataTable\Column(sortable=true)
-     * @DataTable\Format(dataFields={"person":"valuationMeet.assessed"}, template="AppBundle:DataTable:_person_template.html.twig")
+     * @DataTable\Format(dataFields={"person":"professionalMeet.assessed"}, template="AppBundle:DataTable:_person_template.html.twig")
      * @DataTable\DefaultSort()
      */
     public $assessed;
 
     /**
      * @DataTable\Column(source="", name="Actions",  class="")
-     * @DataTable\Format(dataFields={"id":"valuationMeet.id", "routeName": "edit_valuationmeet"}, template="AppBundle:DataTable:_dataTables_action.html.twig")
+     * @DataTable\Format(dataFields={"id":"professionalMeet.id", "routeName": "edit_professionalmeet"}, template="AppBundle:DataTable:_dataTables_action.html.twig")
      */
     public $action;
 
@@ -90,9 +90,9 @@ class ValuationMeetAssessorTable extends QueryBuilderDataTable implements QueryB
     public function getQueryBuilder(Request $request = null)
     {
         $assessor = $this->container->get('security.context')->getToken()->getUser();
-        $valuationMeetRepository = $this->em->getRepository('FormGeneratorBundle:ValuationMeet');
-        $qb = $valuationMeetRepository->createQueryBuilder('valuationMeet')
-            ->leftJoin('valuationMeet.assessor', 'aor')
+        $professionalMeetRepository = $this->em->getRepository('FormGeneratorBundle:ProfessionalMeet');
+        $qb = $professionalMeetRepository->createQueryBuilder('professionalMeet')
+            ->leftJoin('professionalMeet.assessor', 'aor')
             ->andWhere('aor.id = :assessorId')
             ->setParameter("assessorId", $assessor->getId());
 

@@ -1,0 +1,18 @@
+{% if id is defined %}{#<div class="datatable-action text-center">#}
+    {#<a href="{{ path((route), {'id':id}) }}">#}
+        {#<button class="btn btn-success btn-lg">#}
+            {#<i class="ace-icon fa fa-wrench  bigger-110 icon-only"></i>#}
+        {#</button>#}
+    {#</a>#}
+    {#&#123;&#35;<a data-toggle="modal" href="#delete-{{ id }}">&#35;&#125;#}
+        {#&#123;&#35;<button class="btn btn-danger btn-lg">&#35;&#125;#}
+            {#&#123;&#35;<i class="ace-icon fa fa-trash-o bigger-110 icon-only"></i>&#35;&#125;#}
+        {#&#123;&#35;</button>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+{#</div>#}
+
+{#&#123;&#35;{{ render(controller("FormationAdminBundle:Formation:deleteForm", {'id':id})) }}&#35;&#125;#}
+
+    {{ dump(id) }}
+
+{% endif %}

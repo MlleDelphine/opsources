@@ -37,7 +37,7 @@ class ValuationMeet
     private $meetDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="valuationMeet", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="valuationMeets", cascade={"persist"})
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $status;

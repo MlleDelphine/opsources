@@ -37,7 +37,7 @@ class ProfessionalMeet
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="professionalMeet", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="professionalMeets", cascade={"persist"})
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $status;
