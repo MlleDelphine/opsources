@@ -18,7 +18,7 @@ use AppBundle\DataTables;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/{tableName}", defaults={"tableName" = null}, name="homepage")
+     * @Route("/app/{tableName}", defaults={"tableName" = null}, name="homepage")
      * @Template()
      *
      * @param \Symfony\Component\HttpFoundation\Request $request

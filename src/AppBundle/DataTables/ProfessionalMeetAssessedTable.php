@@ -69,7 +69,7 @@ class ProfessionalMeetAssessedTable extends QueryBuilderDataTable implements Que
 
     /**
      * @DataTable\Column(source="", name="Actions",  class="")
-     * @DataTable\Format(dataFields={"id":"professionalMeet.id", "routeName": "edit_professionalmeet"}, template="AppBundle:DataTable:_dataTables_action.html.twig")
+     * @DataTable\Format(dataFields={"id":"professionalMeet.id", "customRouteName": "edit_professionalmeet" }, template="AppBundle:DataTable:_dataTables_action.html.twig")
      */
     public $action;
 

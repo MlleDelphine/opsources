@@ -56,8 +56,8 @@
             </div>
             <div class="panel-body tabbable-custom">
                 {{ addDataTable(pmAssessedDataTable, {
-                    'path':          path('homepage',{'tableName':'mAssessed'}),
-                    'id':            'mAssessed',
+                    'path':          path('homepage',{'tableName':'pmAssessed'}),
+                    'id':            'pmAssessed',
                     'bLengthChange': 1,
                     'bInfo':         1,
                     'bFilter':       1
@@ -71,15 +71,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        $(document).ready(function(){
-//            $(document).find('.dataTables_length').addClass('col-md-6');
-//            console.log($(document).find('.dataTables_length'));
-//
-//            $(document).find('.dataTables_filter').find('label').addClass('form-control');
-//            console.log($(document).find('.dataTables_filter').find('label'));
-        });
-    </script>
 {%  endblock %}
 
 
