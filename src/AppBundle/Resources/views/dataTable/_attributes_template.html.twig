@@ -1,0 +1,7 @@
+{% for attribute in attributes %}
+    <span class="tag">{{ attribute.name }}</span>
+    <span class="tag">{{ attribute.value|raw }}</span>
+    {% if loop.index is divisible by(3) %}
+        <br><br>
+    {% endif %}
+{%  endfor %}

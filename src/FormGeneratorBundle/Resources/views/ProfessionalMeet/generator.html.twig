@@ -5,7 +5,8 @@
         <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/icheck/skins/all.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/datetimepicker/jquery.datetimepicker.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/formgenerator/css/custom-form.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/formgenerator/css/custom-form.less') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/jqueryui/themes/overcast/jquery-ui.min.css')}}">
         {{ form_stylesheet(form) }}
     {% endif %}
 {% endblock %}
@@ -14,12 +15,59 @@
 {% endblock %}
 
     {% block body %}
+        {% set fields = null %}
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">{{ name }}</h3>
             </div>
             <div class="panel-body">
-                {{ form(form) }}
+                <ul class="nav nav-tabs">
+                    {% for tab in uiTab %}
+                        <li class="{% if loop.first %}active{% endif %}">
+                            <a href="#{{ tab.id }}" data-toggle="tab" aria-expanded="true">
+                                {{ tab.name}} </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {{  form_start(form, { 'attr': {'class': 'form-horizontal form-bordered'}}) }}
+                <div class="tab-content">
+                    {% for tab in uiTab %}
+                        <div id="{{ tab.id }}" class="tab-pane{% if loop.first %} active{% endif %}">
+                            {# Gestion champs directement liés à l'entité #}
+                            {% for child in form.children %}{# name, skills, attributes, submit#}
+                                {% if attribute(child.vars.attr, 'data-tab') is defined and attribute(child.vars.attr, 'data-tab') == tab.id %}
+                                    {{ form_label(child) }}
+                                    {{ form_widget(child) }}
+                                {% endif %}
+                            {% endfor %}
+
+                            {# Gestion champs dynamiques (attributes)#}
+                            {% for child in form.children.attributes %}
+                                {% for c in child %} {# collectionAttributes, fieldType, name#}
+                                    {% if attribute(c.vars.attr, 'data-tab') is defined and attribute(c.vars.attr, 'data-tab') == tab.id %}
+                                        {{ form_label(c) }}
+                                        {{ form_widget(c) }}
+                                    {% endif %}
+
+                                    {# Si un attribute est un collectionAttribute #}
+                                    {% if c.children is not empty %}
+                                        {% for cA in c.children %} {# cA : chaque ligne de collection #}
+                                            {% for cc in cA.children %}
+                                                {% if attribute(cc.vars.attr, 'data-tab') is defined and attribute(cc.vars.attr, 'data-tab') == tab.id %}
+                                                    {{ form_widget(c) }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {# end collectionAttribute #}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+                {{ form_widget(form.submit) }}
+                {{ form_end(form) }}
+
             </div>
         </div>
     {% endblock %}
@@ -29,15 +77,23 @@
     {% if form is defined %}
         <script src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
         <script src="{{ asset('vendor/jqueryui/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('vendor/jqueryui/ui/i18n/datepicker-fr.js') }}"></script>
         <script src="{{ asset('vendor/datetimepicker/jquery.datetimepicker.js') }}"></script>
         <script src="{{ asset('vendor/bower-tinymce-amd/tinymce/tinymce.js') }}"></script>
         <script src="{{ asset('vendor/icheck/icheck.min.js') }}"></script>
         <script>
             $( document ).ready(function() {
                 //iCheck pour boutons radio
-                $(document).find('.icheck-radio').each(function(i, obj) {
+                $(document).find('input.icheck-radio').each(function(i, obj) {
                     $(this).iCheck({
                         radioClass: $(this).data('radio')
+                    })
+                });
+                //icheck pour champ entity en checkbox : override BS (class .radio et surtout la div qui prend les attr définis du input)
+                $(document).find('div.icheck-radio').find('input').each(function(i, obj) {
+                    $(this).closest('label').unwrap();
+                    $(this).iCheck({
+                        radioClass: $(this).closest('div.icheck-radio').data('radio')
                     })
                 });
             });

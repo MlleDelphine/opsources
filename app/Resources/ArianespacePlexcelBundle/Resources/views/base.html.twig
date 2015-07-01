@@ -1,0 +1,42 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="fr"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+
+    {% block stylesheets %}
+        {% stylesheets
+        '@ArianespaceThemeBundle/Resources/assets/css/main.scss'
+        filter='compass' output='css/compiled/ae_main.css' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<body id="ae_container" class="{% block body_class %}{% endblock %}">
+{% block body %}
+{% endblock %}
+
+
+{% block javascripts %}
+    {% javascripts
+    '@ArianespaceThemeBundle/Resources/assets/js/jquery.js'
+    '@ArianespaceThemeBundle/Resources/assets/js/jquery.cookie.js'
+    '@ArianespaceThemeBundle/Resources/assets/js/select2.min.js'
+    '@ArianespaceThemeBundle/Resources/assets/js/select2_locale_fr.js'
+    '@ArianespaceThemeBundle/Resources/assets/js/theme.js'
+    '@ArianespaceThemeBundle/Resources/assets/js/jqueryui.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+{% block javascripts_end %}
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+{% endblock %}
+</body>
+</html>

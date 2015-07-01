@@ -28,9 +28,16 @@ class ProfessionalMeet
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="meetDate", type="datetime")
+     */
+
+    private $meetDate;
+
 
     /**
-     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="professionalMeet", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="professionalMeets", cascade={"persist"})
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $status;
@@ -256,5 +263,28 @@ class ProfessionalMeet
     public function getAssessed()
     {
         return $this->assessed;
+    }
+
+    /**
+     * Set meetDate
+     *
+     * @param \DateTime $meetDate
+     * @return ProfessionalMeet
+     */
+    public function setMeetDate($meetDate)
+    {
+        $this->meetDate = $meetDate;
+
+        return $this;
+    }
+
+    /**
+     * Get meetDate
+     *
+     * @return \DateTime 
+     */
+    public function getMeetDate()
+    {
+        return $this->meetDate;
     }
 }

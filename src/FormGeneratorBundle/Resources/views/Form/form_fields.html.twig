@@ -1,6 +1,6 @@
 {# Affichage en tableau de champs collection existants #}
 
-{# Affichage de la collection d'attributs SECONDAIRE. But : ne pas afficher les labels + afficher un tableau#}
+{# Affichage d'une collection d'attributs directement lié. But : ne pas afficher les labels + afficher un tableau#}
 {% block customCollectionField_widget %}
     {% if numberFields is null %}
         {% set col = 'col-md-12' %}
@@ -73,7 +73,7 @@
                     {% for key, child in form %}
                         {% if loop.index <= numberFields %}
                             {%  for k, c in child %}
-                                {%  if  c.vars.label is not null and loop.index <= numberFields %}
+                                {%  if  c.vars.label is not null and c.vars.label is not empty and loop.index <= numberFields %}
                                     <th data-field="id" class="">{{ c.vars.label }}</th> {#{{ col }} dans class#}
                                 {%  endif %}
                             {%  endfor %}
@@ -105,7 +105,7 @@
     {% endblock %}
 
 
-    {# Affichage de la  collection d'attributs PRINCIPALE. But : ne pas afficher les labels#}
+    {# Affichage de la collection d'attributs PRINCIPALE. But : ne pas afficher les labels#}
     {% block customCollectionAttribute_widget %}
         {% spaceless %}
             <div {{ block('widget_container_attributes') }}>

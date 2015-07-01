@@ -17,14 +17,19 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FormGeneratorBundle\FormGeneratorBundle(),
+            new AppBundle\AppBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
+            new Brown298\DataTablesBundle\Brown298DataTablesBundle(),
+
 
             //Connexion
             new FOS\UserBundle\FOSUserBundle(),
-           // new FR3D\LdapBundle\FR3DLdapBundle(),
+            // new FR3D\LdapBundle\FR3DLdapBundle(),
             new \UserBundle\UserBundle(),
+            new \Arianespace\PlexcelBundle\ArianespacePlexcelBundle(),
+            new \Arianespace\ThemeBundle\ArianespaceThemeBundle(),
 
             //Sonata
             new Sonata\CoreBundle\SonataCoreBundle(),
@@ -38,6 +43,9 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new Hautelook\AliceBundle\HautelookAliceBundle();
+//            $bundles[] = new Arianespace\PlexcelBundle\ArianespacePlexcelBundle();
         }
 
         return $bundles;

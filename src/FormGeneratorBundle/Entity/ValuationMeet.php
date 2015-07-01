@@ -30,7 +30,14 @@ class ValuationMeet
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="valuationMeet", cascade={"persist"})
+     * @var \DateTime
+     * @ORM\Column(name="meetDate", type="datetime")
+     */
+
+    private $meetDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="FormGeneratorBundle\Entity\Status", inversedBy="valuationMeets", cascade={"persist"})
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $status;
@@ -61,8 +68,8 @@ class ValuationMeet
     private $updated;
 
     /**
- * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationAttribute", mappedBy="valuationMeet", cascade={"remove", "persist"})
- */
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationAttribute", mappedBy="valuationMeet", cascade={"remove", "persist"})
+     */
     private $attributes;
 
     /**
@@ -155,7 +162,7 @@ class ValuationMeet
     public function __construct()
     {
         $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
-       // $this->created = new \Datetime();
+        // $this->created = new \Datetime();
 
     }
 
@@ -290,10 +297,33 @@ class ValuationMeet
     /**
      * Get skills
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSkills()
     {
         return $this->skills;
+    }
+
+    /**
+     * Set meetDate
+     *
+     * @param \DateTime $meetDate
+     * @return ValuationMeet
+     */
+    public function setMeetDate($meetDate)
+    {
+        $this->meetDate = $meetDate;
+
+        return $this;
+    }
+
+    /**
+     * Get meetDate
+     *
+     * @return \DateTime 
+     */
+    public function getMeetDate()
+    {
+        return $this->meetDate;
     }
 }

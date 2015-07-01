@@ -1,0 +1,77 @@
+{% extends 'AppBundle::layout.html.twig' %}
+{% block body %}
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Entretiens d'appréciation dont je suis l'évaluateur</h3>
+            </div>
+            <div class="panel-body tabbable-custom">
+                {{ addDataTable(vmAssessorDataTable, {
+                    'path':          path('homepage',{'tableName':'vmAssessor'}),
+                    'id':            'vmAssessor',
+                    'bLengthChange': 1,
+                    'bInfo':         1,
+                    'bFilter':       1
+                }) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Entretiens d'appréciation dont je suis l'évalué</h3>
+            </div>
+            <div class="panel-body tabbable-custom">
+                {{ addDataTable(vmAssessedDataTable, {
+                    'path':          path('homepage',{'tableName':'vmAssessed'}),
+                    'id':            'vmAssessed',
+                    'bLengthChange': 1,
+                    'bInfo':         1,
+                    'bFilter':       1
+                }) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Entretiens professionnels dont je suis l'évaluateur</h3>
+            </div>
+            <div class="panel-body tabbable-custom">
+                {{ addDataTable(pmAssessorDataTable, {
+                    'path':          path('homepage',{'tableName':'pmAssessor'}),
+                    'id':            'pmAssessor',
+                    'bLengthChange': 1,
+                    'bInfo':         1,
+                    'bFilter':       1
+                }) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">Entretiens professionnels dont je suis l'évalué</h3>
+            </div>
+            <div class="panel-body tabbable-custom">
+                {{ addDataTable(pmAssessedDataTable, {
+                    'path':          path('homepage',{'tableName':'pmAssessed'}),
+                    'id':            'pmAssessed',
+                    'bLengthChange': 1,
+                    'bInfo':         1,
+                    'bFilter':       1
+                }) }}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{%  endblock %}
+
+
+

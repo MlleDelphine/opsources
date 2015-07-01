@@ -47,7 +47,7 @@ class ValuationMeetType extends AbstractType{
                         'allow_delete' => true,
                         'by_reference' => false,
                         'required' => false,
-                        'label' => false));
+                        'label' => 'Atttttt'));
                 }
                 //Edition d'un formulaire existant
                 else{
@@ -67,13 +67,15 @@ class ValuationMeetType extends AbstractType{
         );
 
         $builder
-            ->add('name', 'text', array('label' => 'Nom :'))
+            ->add('name', 'text', array('label' => 'Nom :', 'attr' => array('data-tab'  => 'tab_1')))
+            ->add('meetDate', 'genemu_jquerydate', array('label' => 'Date de l\'entretien  :', 'attr' => array('class' => 'datepicker', 'data-tab'  => 'tab_1'), 'widget' => 'single_text'))
             ->add('assessor', 'genemu_jqueryselect2_entity', array(
                 'class' => 'UserBundle:User',
                 'label' => 'Evaluateur',
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
-                'required' => false
+                'required' => false,
+                'attr' => array('data-tab'  => 'tab_1')
             ))
             ->add('assessed', 'genemu_jqueryselect2_entity', array(
                 'class' => 'UserBundle:User',
@@ -81,7 +83,8 @@ class ValuationMeetType extends AbstractType{
                 'label' => 'Evalué',
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
-                'required' => false
+                'required' => false,
+                'attr' => array('data-tab'  => 'tab_1')
             ))
             ->add('assessed', 'genemu_jqueryselect2_entity', array(
                 'class' => 'UserBundle:User',
@@ -89,7 +92,8 @@ class ValuationMeetType extends AbstractType{
                 'label' => 'Evalué',
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
-                'required' => false
+                'required' => false,
+                'attr' => array('data-tab'  => 'tab_1')
             ))
             ->add('skills', new CustomCollectionFieldType(3), array(
                 'type' => new SkillType(),
@@ -97,7 +101,8 @@ class ValuationMeetType extends AbstractType{
                 'allow_delete' => false,
                 'by_reference' => false,
                 'required' => false,
-                'label' => false
+                'label' => false,
+                'attr' => array('data-tab'  => 'tab_3')
             ))
 
 

@@ -1,5 +1,9 @@
-app:
+formgenerator:
     resource: "@FormGeneratorBundle/Controller/"
+    type:     annotation
+
+app:
+    resource: "@AppBundle/Controller/"
     type:     annotation
 
 opus_user:
@@ -13,3 +17,6 @@ _sonata_admin:
     resource: .
     type: sonata_admin
     prefix: /admin
+
+plexcel_bundle:
+    resource: "@ArianespacePlexcelBundle/Resources/config/routing.yml"
