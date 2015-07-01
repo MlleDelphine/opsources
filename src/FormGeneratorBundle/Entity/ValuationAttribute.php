@@ -56,6 +56,48 @@ class ValuationAttribute
      */
     private $collectionAttributes;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valueText", type="text", nullable=true)
+     */
+    private $valueText;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valueDatetime", type="datetime", length=255, nullable=true)
+     */
+    private $valueDatetime;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valueDate", type="datetime", length=255, nullable=true)
+     */
+    private $valueDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valueBool", type="boolean", nullable=true)
+     */
+    private $valueBool;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valueString", type="string", length=255, nullable=true)
+     */
+    private $valueString;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="valueInteger", type="integer", length=255, nullable=true)
+     */
+    private $valueInteger;
+
 
     /**
      * Get id
@@ -213,4 +255,178 @@ class ValuationAttribute
 
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->collectionAttributes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set valueText
+     *
+     * @param string $valueText
+     * @return ValuationAttribute
+     */
+    public function setValueText($valueText)
+    {
+        $this->valueText = $valueText;
+
+        return $this;
+    }
+
+    /**
+     * Get valueText
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        return $this->valueText;
+    }
+
+    /**
+     * Set valueDatetime
+     *
+     * @param \DateTime $valueDatetime
+     * @return ValuationAttribute
+     */
+    public function setValueDatetime($valueDatetime)
+    {
+        $this->valueDatetime = $valueDatetime;
+
+        return $this;
+    }
+
+    /**
+     * Get valueDatetime
+     *
+     * @return \DateTime
+     */
+    public function getValueDatetime()
+    {
+        return $this->valueDatetime;
+    }
+
+    /**
+     * Set valueDate
+     *
+     * @param \DateTime $valueDate
+     * @return ValuationAttribute
+     */
+    public function setValueDate($valueDate)
+    {
+        $this->valueDate = $valueDate;
+
+        return $this;
+    }
+
+    /**
+     * Get valueDate
+     *
+     * @return \DateTime
+     */
+    public function getValueDate()
+    {
+        return $this->valueDate;
+    }
+
+    /**
+     * Set valueBool
+     *
+     * @param boolean $valueBool
+     * @return ValuationAttribute
+     */
+    public function setValueBool($valueBool)
+    {
+        $this->valueBool = $valueBool;
+
+        return $this;
+    }
+
+    /**
+     * Get valueBool
+     *
+     * @return boolean
+     */
+    public function getValueBool()
+    {
+        return $this->valueBool;
+    }
+
+    /**
+     * Set valueString
+     *
+     * @param string $valueString
+     * @return ValuationAttribute
+     */
+    public function setValueString($valueString)
+    {
+        $this->valueString = $valueString;
+
+        return $this;
+    }
+
+    /**
+     * Get valueString
+     *
+     * @return string
+     */
+    public function getValueString()
+    {
+        return $this->valueString;
+    }
+
+    /**
+     * Set valueInteger
+     *
+     * @param integer $valueInteger
+     * @return ValuationAttribute
+     */
+    public function setValueInteger($valueInteger)
+    {
+        $this->valueInteger = $valueInteger;
+
+        return $this;
+    }
+
+    /**
+     * Get valueInteger
+     *
+     * @return integer
+     */
+    public function getValueInteger()
+    {
+        return $this->valueInteger;
+    }
+
+
+    /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function setValueType(){
+        if($this->fieldType == 'date'){
+            $this->setValueDate($this->value);
+        }
+        elseif($this->fieldType == 'datetime' || $this->fieldType == "genemu_jquerydate"){
+            $this->setValueDatetime(unserialize($this->value));
+        }
+        elseif($this->fieldType == 'text'){
+            $this->setValueString(unserialize($this->value));
+        }
+        elseif($this->fieldType == 'textarea' || $this->fieldType == "genemu_tinymce" ){
+            $this->setValueText(unserialize($this->value));
+        }
+        elseif($this->fieldType == 'bool'){
+            $this->setValueDate(unserialize($this->value));
+        }
+        elseif($this->fieldType == 'number'){
+            $this->setValueInteger(unserialize($this->value));
+        }
+        else{
+            $this->setValue(unserialize($this->value));
+        }
+    }
 }
