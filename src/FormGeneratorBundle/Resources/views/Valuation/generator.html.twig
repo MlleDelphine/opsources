@@ -22,6 +22,7 @@
                             {# Gestion champs directement liés à l'entité #}
                             {% for child in form.children %}{# name, skills, attributes, submit#}
                                 {% if attribute(child.vars.attr, 'data-tab') is defined and attribute(child.vars.attr, 'data-tab') == tab.id %}
+
                                     {{ form_label(child) }}
                                     {{ form_widget(child) }}
                                 {% endif %}

@@ -38,6 +38,11 @@ class Status
      */
     private $professionalMeets;
 
+    /**
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ConditionsMeet", mappedBy="status", cascade={"persist"})
+     */
+    private $conditionsMeets;
+
 
     /**
      * Get id
@@ -77,6 +82,8 @@ class Status
     public function __construct()
     {
         $this->valuationMeets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->professionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->conditionsMeets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -143,5 +150,38 @@ class Status
     public function getProfessionalMeets()
     {
         return $this->professionalMeets;
+    }
+
+    /**
+     * Add conditionsMeets
+     *
+     * @param \FormGeneratorBundle\Entity\ConditionsMeet $conditionsMeets
+     * @return Status
+     */
+    public function addConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $conditionsMeets)
+    {
+        $this->conditionsMeets[] = $conditionsMeets;
+
+        return $this;
+    }
+
+    /**
+     * Remove conditionsMeets
+     *
+     * @param \FormGeneratorBundle\Entity\ConditionsMeet $conditionsMeets
+     */
+    public function removeConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $conditionsMeets)
+    {
+        $this->conditionsMeets->removeElement($conditionsMeets);
+    }
+
+    /**
+     * Get conditionsMeets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConditionsMeets()
+    {
+        return $this->conditionsMeets;
     }
 }

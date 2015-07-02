@@ -1,30 +1,27 @@
 name: "Entretien professionel"
-id: "valuation_meet"
+id: "professional_meet"
 fields:
     attr:
-        - id: "valuation_date"
-          type: "date"
-          conf:
-              label: "Date de l'entretien :"
-              required: false
-        - id: "valuation_bool"
-          type: "checkbox"
-          conf:
-              label: "L’année a-t-elle été marquée par un événement significatif (mutation, évolution importante des responsabilités, absence de longue durée, Etc) ?"
-              required: false
-        - id: "valuation_text"
-          type: 'genemu_tinymce'
-          conf:
-              label: "Si oui, préciser l’événement et le contexte : "
-              required: false
-#        - id: "valuation_datetime"
+#        - id: "professional_temp"
+#          type: "choice"
+#          conf:
+#              label: "Date de l'entretien :"
+#              required: false
+#        - id: "professional_text"
+#          type: 'genemu_tinymce'
+#          conf:
+#              label: "<i>Si oui, préciser l’événement et le contexte :</i> "
+#              required: false
+#              attr:
+#                  class: "tab_1"
+#        - id: "professional_datetime"
 #          type: "datetime"
 #          conf:
 #              label: "Saisissez une date et une heure"
 #              required: false
 #              attr:
 #                  class: 'custom-time'
-#        - id: "valuation_choice"
+#        - id: "professional_choice"
 #          type: "choice"
 #          conf:
 #              label: "Genre"
@@ -32,7 +29,7 @@ fields:
 #              choices: { m: "Masculin", f: "Féminin" }
 #              expanded: true
 #              multiple: false
-#        - id: "valuation_city"
+#        - id: "professional_city"
 #          type: "entity"
 #          conf:
 #              label: "Sélectionnez une ville :"
@@ -44,7 +41,7 @@ fields:
 #              multiple: false
 #              attr:
 #                  class: 'select-select2'
-#        - id: "valuation_cities"
+#        - id: "professional_cities"
 #          type: "entity"
 #          conf:
 #              label: "Sélectionnez une/plusieurs ville :"
@@ -54,7 +51,7 @@ fields:
 #              choice_label: "name"
 #              expanded: true
 #              multiple: true
-        - id: "valuation_missions"
+        - id: "professional_temp"
           type: collection
           conf:
               allow_add: true
@@ -62,28 +59,23 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: "Saisissez des objectifs ci-dessous :"
+              label: "Précisez dans quel cadre a eu lieu l'entretien.<br> Entretien professionnel :"
+              attr:
+                  data-tab: 'tab_1'
           child:
-              - id: "theme_text"
-                type: "text"
-                conf:
-                    label: "Thème de la mission permanente"
-                    required: false
-              - id: "valuation_choice"
+              - id: "temp_choice"
                 type: "choice"
                 conf:
-                    label: "Etat"
                     required: true
-                    choices: { n: "N", p: "P", r: "R", d: "D" }
+                    choices: { annual: "annuel", parent: "à l'issue d'un congé lié à la parentalité", duration: "à l'issue d’un arrêt de longue durée ", sabbatique: "à l'issue d’un congé sabbatique ", mobility: "à l'issue d’un période de mobilité volontaire sécurisée ", mandat: "à l'issue d’un mandat syndical ou représentatif" }
                     expanded: true
                     multiple: false
-              - id: "valuation_text"
-                type: 'textarea'
-                conf:
-                    label: "Commentaires "
-                    required: false
-          number: 5
-#        - id: "valuation_goals"
+                    label: ' ' #Norme W3C : mieux vaut <th> vide que rien
+                    attr:
+                        data-tab: 'tab_1'
+                        class: "col-md-2"
+          number: 1
+#        - id: "professional_goals"
 #          type: collection
 #          conf:
 #              allow_add: true
@@ -103,7 +95,7 @@ fields:
 #                conf:
 #                    label: "Indicateur de mesure"
 #                    required: false
-#              - id: "valuation_city2"
+#              - id: "professional_city2"
 #                type: "entity"
 #                conf:
 #                    label: "Sélectionnez une ville :"
@@ -125,7 +117,7 @@ fields:
 #                conf:
 #                    label: "Label 5"
 #                    required: false
-#              - id: "valuation_city22"
+#              - id: "professional_city22"
 #                type: "entity"
 #                conf:
 #                    label: "Label 6 :"
@@ -141,28 +133,165 @@ fields:
 #                    label: "Label 7"
 #                    required: false
 #          number: 2
-#        - id: "valuation_skill"
-#          type: collection
-#          conf:
-#              allow_add: true
-#              type: "to defined"
-#              allow_delete: true
-#              by_reference: false
-#              required: false
-#              label: "Entrez vos compétences :"
-#          child:
-#              - id: "review_text"
-#                type: "text"
-#                conf:
-#                    label: "Compétence :"
-#                    required: false
-#              - id: "metric_int"
-#                type: "number"
-#                conf:
-#                    label: "Niveau"
-#                    required: false
-#          number: 2
+        - id: "professional_skills"
+          type: collection
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Quels sont les points forts du salarié, sa valeur ajotuée dans l'équipe ?"
+              attr:
+                  data-tab: 'tab_2'
+          child:
+              - id: "skills_text"
+                type: "text"
+                conf:
+                    label: "Compétences métier (savoir/savoir-faire) ou aptitudes particulières"
+                    required: false
+                    attr:
+                        data-tab: 'tab_2'
+              - id: "skills_comment"
+                type: "textarea"
+                conf:
+                    label: "Commentaire/Illustration"
+                    required: false
+                    attr:
+                        data-tab: 'tab_2'
+          number: 5
 
+        - id: "condition_bool"
+          type: "checkbox"
+          conf:
+              label: "Le salarié détient une <i>compétence rare ou unique</i> nécessaire au bon fonctionnement de l’entreprise : "
+              required: false
+              attr:
+                 data-tab: 'tab_2'
+        - id: "professional_skill"
+          type: collection
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: false
+              attr:
+                  data-tab: 'tab_2'
+          child:
+              - id: "skill_text"
+                type: "text"
+                conf:
+                    label: "Compétences "
+                    required: false
+                    attr:
+                        data-tab: 'tab_2'
+              - id: "skill_comment"
+                type: "textarea"
+                conf:
+                    label: "Comment envisagez-vous la transmission ou le partage de cette compétence ?"
+                    required: false
+                    attr:
+                        data-tab: 'tab_2'
+          number: 5
+        - id: "professional_improve"
+          type: collection
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Quels sont les points à améliorer ?"
+              attr:
+                  data-tab: 'tab_2'
+          child:
+              - id: "improve_text"
+                type: "text"
+                conf:
+                    label: "Aptitude, savoir, savoir-faire, comportement, Etc. "
+                    required: false
+                    attr:
+                        data-tab: 'tab_2'
+              - id: "improve_comment"
+                type: "textarea"
+                conf:
+                    label: "Commentaires/ illustration"
+                    required: false
+                    attr:
+                        data-tab: 'tab_2'
+          number: 5
+
+        - id: "professional_evolution"
+          type: "textarea"
+          conf:
+              label: "Evolutions prévisibles, à court et moyen terme, dans l’emploi du salarié, dans le service ou l’entreprise (évolutions d’organisation, techniques, technologiques, évolution de la charge de service, départs à la retraite, recrutements à venir, nouveaux projets …) :"
+              required: false
+              attr:
+                  data-tab: "tab_3"
+
+        - id: "professional_goals"
+          type: "textarea"
+          conf:
+              label: "<i>Objectifs de professionnalisation du salarié </i>: Evolutions souhaitées dans le poste, dans l’entreprise ou autre projet professionnel  à court ou moyen terme :"
+              required: false
+              attr:
+                  data-tab: "tab_3"
+        - id: "professional_mobility_bool"
+          type: "checkbox"
+          conf:
+              label: "Le salarié est mobile géographiquement :"
+              required: false
+              attr:
+                  data-tab: "tab_3"
+
+        - id: "professional_mobility_site"
+          type: collection
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Si oui vers quel(s) site(s) et à quelle échéance ?"
+              attr:
+                  data-tab: 'tab_3'
+          child:
+              - id: "improve_text"
+                type: "text"
+                conf:
+                    label: "Site"
+                    required: false
+                    attr:
+                        data-tab: 'tab_3'
+              - id: "improve_comment"
+                type: "genemu_jquerydate"
+                conf:
+                    label: "Echéance"
+                    required: false
+                    attr:
+                        data-tab: 'tab_3'
+                        class: 'datepicker'
+                    widget: 'single_text'
+                    format: 'dd/MM/yyyy'
+          number: 5
+
+        - id: "professional_review"
+          type: 'textarea'
+          conf:
+              label: "Avis de l’évaluateur sur ces objectifs de professionnalisation (atouts/ freins, possibilités,…):"
+              required: false
+              attr:
+                  data-tab: "tab_3"
+
+        - id: "professional_prof_evolution"
+          type: "checkbox"
+          conf:
+              label: "Le salarié souhaite un entretien spécifique pour discuter de son évolution professionnelle avec la DRH"
+              required: false
+              attr:
+                  data-tab: "tab_3"
 
 
 

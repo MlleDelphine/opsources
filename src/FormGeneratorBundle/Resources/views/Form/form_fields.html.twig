@@ -127,13 +127,21 @@
     {% endblock collection_rows_attr %}
 
     {% block customRadio_widget %}
-        <div class="input-group">
-            <div class="icheck-inline">
-                {% for child in form.children %}
-                    <label class="radio-inline">{{ child.vars.label }}
-                        {{ form_widget(child, {'attr':{ 'class': 'icheck icheck-radio', 'data-radio': 'iradio_square-blue' }}) }}
-                    </label>
-                {% endfor %}
+
+        <div class="icheck-inline">
+            {% for child in form.children %}
+            {%  if loop.first %}
+            <div class="col-md-12">
+                {% endif %}
+                <label class="radio-inline">{{ child.vars.label }}
+                    {{ form_widget(child, {'attr':{ 'class': 'icheck icheck-radio', 'data-radio': 'iradio_square-blue' }}) }}
+                </label>
+                {% if loop.last %}
             </div>
+            {% elseif loop.index is divisible by(4) %}
+               </div> <div class="col-md-12">
+                {% endif %}
+            {% endfor %}
         </div>
+
     {% endblock %}

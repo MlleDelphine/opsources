@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
+    {% stylesheets output='bundles/app/compiled/menu.css' filter='less'
+    'bundles/app/css/left-menu.less' %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
+    {% endstylesheets %}
     {% if form is defined %}
         <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/icheck/skins/all.css') }}">
@@ -15,6 +19,7 @@
 {% endblock %}
 {% block mainmenu %}
     {{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}
+
 {% endblock %}
 
     {% block body %}

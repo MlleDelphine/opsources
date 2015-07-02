@@ -27,6 +27,8 @@ class ProfessionalMeetController extends Controller{
      */
     public function newAction()
     {
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');
+
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
         $meet = new ProfessionalMeet();
@@ -36,6 +38,7 @@ class ProfessionalMeetController extends Controller{
         return $this->render('FormGeneratorBundle:ProfessionalMeet:generator.html.twig', array(
             'entity' => $meet,
             'name' => $name,
+            'uiTab' => $uiTab,
             'form'   => $form->createView(),
         ));
     }
@@ -46,6 +49,8 @@ class ProfessionalMeetController extends Controller{
      */
     public function addAction(Request $request)
     {
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');
+
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
         $meet = new ProfessionalMeet();
@@ -63,6 +68,7 @@ class ProfessionalMeetController extends Controller{
         return $this->render('FormGeneratorBundle:ProfessionalMeet:generator.html.twig', array(
             'entity' => $meet,
             'name' => $name,
+            'uiTab' => $uiTab,
             'form'   => $form->createView(),
         ));
     }
@@ -76,6 +82,8 @@ class ProfessionalMeetController extends Controller{
      */
     public function editAction($id)
     {
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');
+
         $em = $this->getDoctrine()->getManager();
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
@@ -90,6 +98,7 @@ class ProfessionalMeetController extends Controller{
 
         return $this->render('FormGeneratorBundle:ProfessionalMeet:generator.html.twig', array(
             'form'   => $form->createView(),
+            'uiTab' => $uiTab,
             'name' => $name,
         ));
     }
@@ -100,6 +109,7 @@ class ProfessionalMeetController extends Controller{
      * @Route("/update/{id}", requirements={"id" = "\d+"}, name="update_professionalmeet")
      */
     public function updateAction(Request $request, $id){
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');
 
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
@@ -122,6 +132,7 @@ class ProfessionalMeetController extends Controller{
         return $this->render('FormGeneratorBundle:ProfessionalMeet:generator.html.twig', array(
             'entity' => $meet,
             'name' => $name,
+            'uiTab' => $uiTab,
             'form'   => $form->createView(),
         ));
 

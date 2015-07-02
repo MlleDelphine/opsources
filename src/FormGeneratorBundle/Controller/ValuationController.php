@@ -106,6 +106,7 @@ class ValuationController extends Controller
     {
 
         $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
+
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $em = $this->getDoctrine()->getManager();
