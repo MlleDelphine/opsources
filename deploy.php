@@ -8,22 +8,22 @@ set('var_dir', 'app');
 
 //serverList('app/config/servers.yml');
 
-server('preprod', 'notes.zephyr-web.eu', 17644)
+server('preprod', 'preprod.opus.ariane.njord.fr', 17645)
     ->user('deploy')
-    ->password('nJ9q89ZnJY97dfC')
+    ->password('9h3MiJ28y6UiXpQ')
     ->stage('preproduction')
     ->env('deploy_path', '/var/www/preprod')
-    ->env('branch','dev-emmanuelle');
+    ->env('branch','dev-delphine');
 
-server('prod', 'notes.zephyr-web.eu', 17644)
+server('prod', 'opus.ariane.njord.fr', 17645)
     ->user('deploy')
-    ->password('nJ9q89ZnJY97dfC')
+    ->password('9h3MiJ28y6UiXpQ')
     ->stage('production')
     ->env('deploy_path', '/var/www/prod')
     ->env('branch','master');
 
 
-set('repository', 'git@bitbucket.org:zephyrintranet/notes.git');
+set('repository', 'git@bitbucket.org:ariane-space/opus.git');
 
 set('shared_dirs', ['app/logs', 'web/uploads']);
 
