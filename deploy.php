@@ -22,6 +22,13 @@ server('prod', 'opus.ariane.njord.fr', 17645)
     ->env('deploy_path', '/var/www/prod')
     ->env('branch','master');
 
+server('ariane', 'ae-e-zw31.ad.arianespace.fr', 22)
+    ->user('ext0758')
+    ->password('Delphine')
+    ->stage('ariane')
+    ->env('deploy_path', '/var/www/opus32')
+    ->env('branch','master');
+
 
 set('repository', 'git@bitbucket.org:ariane-space/opus.git');
 

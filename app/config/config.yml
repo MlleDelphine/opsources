@@ -68,7 +68,6 @@ assetic:
     assets:
         data_tables:
             inputs:
-                - %kernel.root_dir%/../web/vendor/datatables/media/js/jquery.js
                 - %kernel.root_dir%/../web/vendor/datatables/media/js/jquery.dataTables.min.js
 
 braincrafted_bootstrap:

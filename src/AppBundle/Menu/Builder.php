@@ -20,7 +20,7 @@ class Builder extends ContainerAware
         $routeName = $request->get('_route');
 
         $menu = $factory->createItem('mainMenu');
-        $menu->setChildrenAttribute('class', 'nav navbar-nav');
+        $menu->setChildrenAttribute('class', 'nav');
 
         $route = 'homepage';
         $class = $this->testRoute($routeName, $route);
@@ -52,7 +52,7 @@ class Builder extends ContainerAware
     public function userMenu(FactoryInterface $factory, $request, array $options = null)
     {
         $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
+        $menu->setChildrenAttribute('class', 'dropdown-menu dropdown-user');
 
         /*
         You probably want to show user specific information such as the username here. That's possible! Use any of the below methods to do this.
@@ -63,7 +63,7 @@ class Builder extends ContainerAware
         */
         $menu->addChild('Déconnexion', array('route' => 'arianespace_plexcel_logout'))
             ->setAttribute('icon', 'glyphicon glyphicon-off' )
-            ->setAttribute('class', 'nav navbar-nav navbar-right');
+            ->setAttribute('class', '');
 
         return $menu;
     }
