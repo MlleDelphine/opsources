@@ -1,5 +1,11 @@
 {% extends 'AppBundle::layout.html.twig' %}
     {% block body %}
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Création / Edition</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
         {% set fields = null %}
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -52,7 +58,9 @@
                         </div>
                     {% endfor %}
                 </div>
+                <div class="text-center" style="margin-top: 15px;">
                 {{ form_widget(form.submit) }}
+                    </div>
                 {{ form_end(form) }}
 
             </div>

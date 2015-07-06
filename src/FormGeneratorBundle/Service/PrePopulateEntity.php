@@ -255,7 +255,7 @@ class PrePopulateEntity{
                 'method' => 'POST'
             )
         );
-        $form->add('submit', 'submit', array('label' => 'Créer', 'attr' => array('class' => 'btn btn-sm btn-primary col-md-offset-6')));
+        $form->add('submit', 'submit', array('label' => 'Créer', 'attr' => array('class' => 'btn btn-sm  btn-info col-md-offset-6')));
 
         return $form;
     }
@@ -279,7 +279,7 @@ class PrePopulateEntity{
                 'method' => 'POST'
             )
         );
-        $form->add('submit', 'submit', array('label' => 'Créer', 'attr' => array('class' => 'btn btn-sm btn-primary  col-md-offset-6')));
+        $form->add('submit', 'submit', array('label' => 'Créer', 'attr' => array('class' => 'btn btn-sm  btn-info')));
 
         return $form;
     }
@@ -299,7 +299,7 @@ class PrePopulateEntity{
             'action' => $this->router->generate('update_valuationmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 
-        $form->add('submit', 'submit', array('label' => 'Modifier', 'attr' => array('class' => 'btn btn-sm btn-primary  col-md-offset-6')));
+        $form->add('submit', 'submit', array('label' => 'Créer', 'attr' => array('class' => 'btn btn-sm  btn-info')));
 
         return $form;
     }
@@ -319,7 +319,7 @@ class PrePopulateEntity{
             'action' => $this->router->generate('update_professionalnmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 
-        $form->add('submit', 'submit', array('label' => 'Modifier', 'attr' => array('class' => 'btn btn-sm btn-primary  col-md-offset-6')));
+        $form->add('submit', 'submit', array('label' => 'Modifier', 'attr' => array('class' => 'btn btn-sm  btn-info')));
 
         return $form;
     }
