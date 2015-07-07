@@ -73,9 +73,9 @@ class ConditionsMeet
     private $attributes;
 
     /**
-     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\Skill", mappedBy="conditionsMeet", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\WorkCondition", mappedBy="conditionsMeet", cascade={"remove", "persist"})
      */
-    private $skills;
+    private $workConditions;
 
 
     /**
@@ -269,37 +269,37 @@ class ConditionsMeet
     }
 
     /**
-     * Add skills
+     * Add workConditions
      *
-     * @param \FormGeneratorBundle\Entity\Skill $skills
+     * @param \FormGeneratorBundle\Entity\WorkCondition $workConditions
      * @return ConditionsMeet
      */
-    public function addSkill(\FormGeneratorBundle\Entity\Skill $skills)
+    public function addWorkCondition(\FormGeneratorBundle\Entity\WorkCondition $workConditions)
     {
-        $skills->setConditionsMeet($this);
-        $this->skills[] = $skills;
+        $workConditions->setConditionsMeet($this);
+        $this->workConditions[] = $workConditions;
 
         return $this;
     }
 
     /**
-     * Remove skills
+     * Remove workConditions
      *
-     * @param \FormGeneratorBundle\Entity\Skill $skills
+     * @param \FormGeneratorBundle\Entity\WorkCondition $workConditions
      */
-    public function removeSkill(\FormGeneratorBundle\Entity\Skill $skills)
+    public function removeWorkCondition(\FormGeneratorBundle\Entity\WorkCondition $workConditions)
     {
-        $this->skills->removeElement($skills);
+        $this->workConditions->removeElement($workConditions);
     }
 
     /**
-     * Get skills
+     * Get workConditions
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSkills()
+    public function getWorkConditions()
     {
-        return $this->skills;
+        return $this->workConditions;
     }
 
     /**

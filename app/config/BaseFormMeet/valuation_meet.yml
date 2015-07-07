@@ -2,22 +2,6 @@ name: "Entretien d'appréciation"
 id: "valuation_meet"
 fields:
     attr:
-#              format: 'dd/MM/yyyy'
-#        - id: "valuation_bool"
-#          type: "checkbox"
-#          conf:
-#              label: "L’année a-t-elle été marquée par un événement significatif (mutation, évolution importante des responsabilités, absence de longue durée, Etc) ?"
-#              required: false
-#              attr:
-#                  data-tab: 'tab_3'
-#
-#        - id: "valuation_text"
-#          type: 'genemu_tinymce'
-#          conf:
-#              label: "Si oui, préciser l’événement et le contexte : "
-#              required: false
-#              attr:
-#                  data-tab: 'tab_3'
         - id: "valuation_missions"
           type: collection
           conf:
@@ -54,6 +38,7 @@ fields:
                     required: false
                     attr:
                         data-tab: 'tab_3'
+                        class: "textarea-resize no-horizontal form-control"
           number: 5
         - id: "valuation_goals"
           type: collection
@@ -108,6 +93,7 @@ fields:
                     required: false
                     attr:
                         data-tab: 'tab_2'
+                        class: 'textarea-resize no-horizontal form-control'
           number: 5
         - id: "general_valuation"
           type: "genemu_tinymce"
@@ -159,14 +145,15 @@ fields:
                     required: false
                     attr:
                         data-tab: 'tab_2'
+                        class: 'textarea-resize no-horizontal form-control'
           number: 5
-#        - id: employee_obs
-#          type: "textarea"
-#          conf:
-#              label: "Observations éventuelles du salarié à l’issue de l’entretien (à remplir par le salarié)"
-#              required: false
-#              attr:
-#                  data-tab: 'tab_2'
+        - id: employee_obs
+          type: "textarea"
+          conf:
+              label: "Observations éventuelles du salarié à l’issue de l’entretien (à remplir par le salarié)"
+              required: false
+              attr:
+                  data-tab: 'tab_4'
 
 
 

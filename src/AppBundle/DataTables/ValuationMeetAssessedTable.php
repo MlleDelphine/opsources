@@ -69,7 +69,7 @@ class ValuationMeetAssessedTable extends QueryBuilderDataTable implements QueryB
 
     /**
      * @DataTable\Column(source="", name="Actions",  class="")
-     * @DataTable\Format(dataFields={"id":"valuationMeet.id"}, template="AppBundle:DataTable:_dataTables_action_editval.html.twig")
+     * @DataTable\Format(dataFields={"id":"valuationMeet.id", "customArgs": { "routeName": "edit_valuationmeet"} }, template="AppBundle:DataTable:_dataTables_action_editval.html.twig")
      */
     public $action;
 

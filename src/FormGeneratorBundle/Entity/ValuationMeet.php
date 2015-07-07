@@ -162,7 +162,6 @@ class ValuationMeet
     public function __construct()
     {
         $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
-        // $this->created = new \Datetime();
 
     }
 
@@ -210,6 +209,7 @@ class ValuationMeet
     public function setStatus(\FormGeneratorBundle\Entity\Status $status = null)
     {
         $this->status = $status;
+        $status->addValuationMeet($this);
 
         return $this;
     }
@@ -320,10 +320,12 @@ class ValuationMeet
     /**
      * Get meetDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getMeetDate()
     {
         return $this->meetDate;
     }
+
+
 }

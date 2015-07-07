@@ -53,7 +53,15 @@
                         </div>
                     {% endfor %}
                 </div>
-                {{ form_widget(form.submit) }}
+                <div class="text-center" style="margin-top: 15px;">
+                    {% if(form.save is defined) %}
+                        {{ form_widget(form.save) }}
+                    {% elseif(form.refused is defined) %}
+                        {{ form_widget(form.refused) }}
+                    {% else %}
+                    {% endif %}
+                    {{ form_widget(form.submit) }}
+                </div>
                 {{ form_end(form) }}
 
             </div>

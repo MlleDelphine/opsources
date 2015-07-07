@@ -18,41 +18,24 @@ security:
             id: fos_user.user_provider.username
 
     firewalls:
-       admin:
-           pattern: admin/
-           form_login:
-               check_path: /admin/login_check
-               login_path: /login
-               provider: fos_userbundle
-           logout:
-               path:    /logout
-               target: /
-           anonymous:    true
-       secured_area:
-           pattern:    ^/
-           plexcel: true
-           form_login:
-               provider: fos_userbundle
-           logout:
-               path:    /logout
-               invalidate_session: false
-               handlers:           [ arianespace.plexcel.logout_handler ]
-               target: /login
-           anonymous:    true
-       main:
-           pattern: ^/
-           form_login:
-               check_path: /login_check
-               login_path: /login
-               provider: fos_userbundle
-           logout:
-               path:    /logout
-               target: /login
-           anonymous:    true
-       dev:
-           pattern: ^/(_(profiler|wdt|error)|css|images|js)/
-           security: false
-           anonymous: true
+        dev:
+            pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+            security: false
+            anonymous: true
+        login:
+            pattern:  ^/login$
+            security: false
+        secured_area:
+            pattern:    ^/
+            plexcel: true
+            form_login:
+                provider: fos_userbundle
+            logout:
+                path:    /logout
+                invalidate_session: false
+                handlers:           [ arianespace.plexcel.logout_handler ]
+                target: /login
+            anonymous:    true
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

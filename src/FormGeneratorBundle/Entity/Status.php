@@ -29,6 +29,13 @@ class Status
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=20, nullable=true)
+     */
+    private $code;
+
+    /**
      * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationMeet", mappedBy="status", cascade={"persist"})
      */
     private $valuationMeets;
@@ -183,5 +190,28 @@ class Status
     public function getConditionsMeets()
     {
         return $this->conditionsMeets;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Status
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }
