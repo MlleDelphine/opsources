@@ -19,3 +19,25 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [FormGeneratorBundle]]
+
+    sonata.admin.status:
+        class: FormGeneratorBundle\Admin\StatusAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Suivi des fiches", label: "Statut de fiche" }
+        arguments:
+            - ~
+            - FormGeneratorBundle\Entity\Status
+            - ~
+        calls:
+            - [ setTranslationDomain, [FormGeneratorBundle]]
+
+    sonata.admin.condition:
+        class: FormGeneratorBundle\Admin\ConditionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "ConditionsMeet de travail", label: "ConditionsMeet" }
+        arguments:
+            - ~
+            - FormGeneratorBundle\Entity\Condition
+            - ~
+        calls:
+            - [ setTranslationDomain, [FormGeneratorBundle]]

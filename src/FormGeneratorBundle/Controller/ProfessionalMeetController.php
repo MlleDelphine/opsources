@@ -21,12 +21,14 @@ use FormGeneratorBundle\Service;
  */
 
 class ProfessionalMeetController extends Controller{
-    
+
     /**
      * @Route("/new", name="new_professionalmeet")
      */
     public function newAction()
     {
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');
+
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
         $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
         $meet = new ProfessionalMeet();
@@ -36,6 +38,7 @@ class ProfessionalMeetController extends Controller{
         return $this->render('FormGeneratorBundle:ProfessionalMeet:generator.html.twig', array(
             'entity' => $meet,
             'name' => $name,
+            'uiTab' => $uiTab,
             'form'   => $form->createView(),
         ));
     }
@@ -47,7 +50,6 @@ class ProfessionalMeetController extends Controller{
     public function addAction(Request $request)
     {
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
-        $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
         $meet = new ProfessionalMeet();
 
         $form = $this->get('app.prepopulate_entity')->populateProfessionalMeet($meet, $attributes);
@@ -56,15 +58,19 @@ class ProfessionalMeetController extends Controller{
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                if($form->get('save')->isClicked()){
+                    $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' => "pending_m"));
+                    $meet->setStatus($status);
+                }
+                elseif($form->get('submit')->isClicked()){
+                    $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' => "validated_m"));
+                    $meet->setStatus($status);
+                }
                 $em->persist($meet);
                 $em->flush();
             }
         }
-        return $this->render('FormGeneratorBundle:ProfessionalMeet:generator.html.twig', array(
-            'entity' => $meet,
-            'name' => $name,
-            'form'   => $form->createView(),
-        ));
+        return $this->forward('FormGeneratorBundle:ProfessionalMeet:edit', array('id' => $meet->getId()));
     }
 
 
@@ -77,21 +83,33 @@ class ProfessionalMeetController extends Controller{
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
-        $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
         $entity = $em->getRepository('FormGeneratorBundle:ProfessionalMeet')->find($id);
 
+        if($this->get('app.accesscontrol_meet')->canAccess($entity)) {
+            $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Formation entity.');
+            $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
+            $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
+
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Formation entity.');
+            }
+
+            $form = $this->get('app.prepopulate_entity')->populateProfessionalMeetForEdit($entity, $attributes);
+
+            return $this->render(
+                'FormGeneratorBundle:ProfessionalMeet:generator.html.twig',
+                array(
+                    'form' => $form->createView(),
+                    'uiTab' => $uiTab,
+                    'name' => $name,
+                )
+            );
         }
-
-        $form = $this->get('app.prepopulate_entity')->populateProfessionalMeetForEdit($entity, $attributes);
-
-        return $this->render('FormGeneratorBundle:ProfessionalMeet:generator.html.twig', array(
-            'form'   => $form->createView(),
-            'name' => $name,
-        ));
+        else{
+            return $this->forward('AppBundle:Default:index');
+        }
     }
 
     /**
@@ -101,29 +119,69 @@ class ProfessionalMeetController extends Controller{
      */
     public function updateAction(Request $request, $id){
 
-        $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
-        $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
         $em = $this->getDoctrine()->getManager();
-
         $meet = $em->getRepository('FormGeneratorBundle:ProfessionalMeet')->find($id);
+        if($this->get('app.accesscontrol_meet')->canAccess($meet)) {
+            $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');
 
-        $form = $this->get('app.prepopulate_entity')->populateProfessionalMeetForEdit($meet, $attributes);
+            $attributes = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'fields');
+            $name = $this->get('app.customfields_parser')->parseYamlConf('professional_meet', 'name');
 
-        if ($request->isMethod('POST') or $request->isMethod('PUT')) {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($meet);
-                $em->flush();
+            $form = $this->get('app.prepopulate_entity')->populateProfessionalMeetForEdit($meet, $attributes);
+
+            if ($request->isMethod('POST') or $request->isMethod('PUT')) {
+                $form->handleRequest($request);
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
+                    //Le manager édite
+                    if ($this->getUser() === $meet->getAssessor()) {
+                        if ($form->get('save')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "pending_m")
+                            );
+                            $meet->setStatus($status);
+                        } elseif ($form->get('submit')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "validated_m")
+                            );
+                            $meet->setStatus($status);
+                        } elseif ($form->get('refused')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "refused_m")
+                            );
+                            $meet->setStatus($status);
+                        }
+                    } // L'évalué édite
+                    elseif ($this->getUser() == $meet->getAssessed()) {
+                        if ($form->get('submit')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "validated_e")
+                            );
+                            $meet->setStatus($status);
+                        } elseif ($form->get('refused')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "refused_e")
+                            );
+                            $meet->setStatus($status);
+                        }
+                    }
+                    $em->persist($meet);
+                    $em->flush();
+                }
             }
+
+            return $this->render(
+                'FormGeneratorBundle:ProfessionalMeet:generator.html.twig',
+                array(
+                    'entity' => $meet,
+                    'name' => $name,
+                    'uiTab' => $uiTab,
+                    'form' => $form->createView(),
+                )
+            );
         }
-
-
-        return $this->render('FormGeneratorBundle:ProfessionalMeet:generator.html.twig', array(
-            'entity' => $meet,
-            'name' => $name,
-            'form'   => $form->createView(),
-        ));
-
+        else{
+            return $this->forward('AppBundle:Default:Index');
+        }
     }
 }

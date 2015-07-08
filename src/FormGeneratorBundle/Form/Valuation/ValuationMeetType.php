@@ -47,7 +47,7 @@ class ValuationMeetType extends AbstractType{
                         'allow_delete' => true,
                         'by_reference' => false,
                         'required' => false,
-                        'label' => 'Atttttt'));
+                        'label' => ''));
                 }
                 //Edition d'un formulaire existant
                 else{

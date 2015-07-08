@@ -20,12 +20,13 @@
     },
     {
       "type": "vcs",
-      "url": "git@gitlab.ad.arianespace.fr:arianespace/theme-bundle.git"
+      "url" : "git@gitlab.ad.Arianespace.fr:arianespace/theme-bundle.git"
     },
     {
       "type": "vcs",
-      "url": "git@gitlab.ad.arianespace.fr:arianespace/plexcel-bundle.git"
+      "url" : "git@gitlab.ad.Arianespace.fr:arianespace/plexcel-bundle.git"
     }
+
   ],
   "require": {
     "php": ">=5.3.3",
@@ -70,7 +71,8 @@
     "phpunit/phpunit":                   "~4.1",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "doctrine/data-fixtures":  "dev-master",
-    "hautelook/alice-bundle":  "0.1.*"
+    "hautelook/alice-bundle":  "0.1.*",
+    "deployer/deployer": "~3.0"
   },
   "scripts": {
     "post-root-package-install": [

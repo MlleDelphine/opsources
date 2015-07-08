@@ -16,10 +16,8 @@
 {% block mainmenu %}
     {{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}
 {% endblock %}
-
     {% block body %}
     {% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
     {% if form is defined %}
