@@ -478,7 +478,15 @@ class PrePopulateEntity{
             'action' => $this->router->generate('update_conditionsmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 
-        $form->add('refused', 'submit', array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger')));
+        $statusPending = $this->em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' => 'pending_m'));
+        if($entity->getStatus() === $statusPending){
+            //Si le manager l'a créé puis seulement enregistré il peut enregistrer à nouveau ou valider
+            $form->add('save', 'submit', array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info')));
+        }
+        else{
+            //Si le manager a eu le retour de l'utilisateur il peut valider ou invalider
+            $form->add('refused', 'submit', array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger')));
+        }
         $form->add('submit', 'submit', array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success')));
 
         return $form;

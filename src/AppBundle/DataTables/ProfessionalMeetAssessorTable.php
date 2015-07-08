@@ -68,6 +68,14 @@ class ProfessionalMeetAssessorTable extends QueryBuilderDataTable implements Que
     public $assessed;
 
     /**
+     * @var string
+     * @DataTable\Column(source="professionalMeet.status.name", name="Statut",  class="text-center")
+     * @DataTable\Column(sortable=true)
+     * @DataTable\DefaultSort()
+     */
+    public $status;
+
+    /**
      * @DataTable\Column(source="", name="Actions",  class="")
      * @DataTable\Format(dataFields={"id":"professionalMeet.id"}, template="AppBundle:DataTable:_dataTables_action_editpro.html.twig")
      */

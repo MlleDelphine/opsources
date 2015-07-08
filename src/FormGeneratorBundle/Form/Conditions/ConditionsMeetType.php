@@ -76,24 +76,15 @@ class ConditionsMeetType extends AbstractType{
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
                 'required' => false,
+                'disabled' => true,
                 'attr' => array('data-tab'  => 'tab_1')
             ))
             ->add('assessed', 'genemu_jqueryselect2_entity', array(
                 'class' => 'UserBundle:User',
-                //'property' => 'name',
                 'label' => 'Evalué',
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
-                'required' => false,
-                'attr' => array('data-tab'  => 'tab_1')
-            ))
-            ->add('assessed', 'genemu_jqueryselect2_entity', array(
-                'class' => 'UserBundle:User',
-                //'property' => 'name',
-                'label' => 'Evalué',
-                'multiple' => false,
-                'placeholder' => 'Sélectionner',
-                'required' => false,
+                'required' => true,
                 'attr' => array('data-tab'  => 'tab_1')
             ))
             ->add('workConditions', new CustomCollectionFieldType(3), array(

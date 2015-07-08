@@ -68,8 +68,16 @@ class ConditionsMeetAssessedTable extends QueryBuilderDataTable implements Query
     public $assessed;
 
     /**
+     * @var string
+     * @DataTable\Column(source="conditionsMeet.status.name", name="Statut",  class="text-center")
+     * @DataTable\Column(sortable=true)
+     * @DataTable\DefaultSort()
+     */
+    public $status;
+
+    /**
      * @DataTable\Column(source="", name="Actions",  class="")
-     * @DataTable\Format(dataFields={"id":"conditionsMeet.id", "customArgs": { "routeName": "edit_conditionsmeet"} }, template="AppBundle:DataTable:_dataTables_action_editcond.html.twig")
+     * @DataTable\Format(dataFields={"id":"conditionsMeet.id" }, template="AppBundle:DataTable:_dataTables_action_editcond.html.twig")
      */
     public $action;
 

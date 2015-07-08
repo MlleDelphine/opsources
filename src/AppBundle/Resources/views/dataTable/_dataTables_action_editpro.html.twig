@@ -1,7 +1,7 @@
 {% if id is defined %}
 
 <div class="datatable-action text-center">
-    <a href="{{ path(( customRouteName ), {'id':id}) }}">
+    <a href="{{ path('edit_professionalmeet', {'id':id}) }}">
         <button class="btn btn-success btn-md">
             <i class="glyphicon glyphicon-pencil"></i>
         </button>

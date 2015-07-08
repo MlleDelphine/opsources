@@ -43,9 +43,7 @@ class ValuationController extends Controller
      */
     public function addAction(Request $request)
     {
-        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
-        $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $meet = new ValuationMeet();
 
         $form = $this->get('app.prepopulate_entity')->populateValuationMeet($meet, $attributes);
@@ -66,12 +64,7 @@ class ValuationController extends Controller
                 $em->flush();
             }
         }
-        return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
-            'entity' => $meet,
-            'name' => $name,
-            'uiTab' => $uiTab,
-            'form'   => $form->createView(),
-        ));
+        return $this->forward('FormGeneratorBundle:ValuationMeet:edit', array('id' => $meet->getId()));
     }
 
 
@@ -83,26 +76,33 @@ class ValuationController extends Controller
      */
     public function editAction($id)
     {
-        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
-
         $em = $this->getDoctrine()->getManager();
-        $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
-        $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
-
         $entity = $em->getRepository('FormGeneratorBundle:ValuationMeet')->find($id);
 
+        if($this->get('app.accesscontrol_meet')->canAccess($entity)) {
+            $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
+            $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
+            $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Formation entity.');
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Formation entity.');
+            }
+
+            $form = $this->get('app.prepopulate_entity')->populateValuationMeetForEdit($entity, $attributes);
+
+            return $this->render(
+                'FormGeneratorBundle:Valuation:generator.html.twig',
+                array(
+                    'form' => $form->createView(),
+                    'uiTab' => $uiTab,
+                    'name' => $name,
+                )
+            );
         }
-
-        $form = $this->get('app.prepopulate_entity')->populateValuationMeetForEdit($entity, $attributes);
-
-        return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
-            'form'   => $form->createView(),
-            'uiTab' => $uiTab,
-            'name' => $name,
-        ));
+        else{
+            return $this->forward('AppBundle:Default:index');
+        }
     }
 
     /**
@@ -112,33 +112,71 @@ class ValuationController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-
-        $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
-
-        $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
-        $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
         $em = $this->getDoctrine()->getManager();
-
         $meet = $em->getRepository('FormGeneratorBundle:ValuationMeet')->find($id);
 
-        $form = $this->get('app.prepopulate_entity')->populateValuationMeetForEdit($meet, $attributes);
+        if($this->get('app.accesscontrol_meet')->canAccess($meet)) {
+            $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
 
-        if ($request->isMethod('POST') or $request->isMethod('PUT')) {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($meet);
-                $em->flush();
+            $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');
+            $name = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'name');
+
+            $form = $this->get('app.prepopulate_entity')->populateValuationMeetForEdit($meet, $attributes);
+
+            if ($request->isMethod('POST') or $request->isMethod('PUT')) {
+                $form->handleRequest($request);
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
+                    //Le manager édite
+                    if ($this->getUser() === $meet->getAssessor()) {
+                        if ($form->get('save')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "pending_m")
+                            );
+                            $meet->setStatus($status);
+                        } elseif ($form->get('submit')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "validated_m")
+                            );
+                            $meet->setStatus($status);
+                        } elseif ($form->get('refused')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "refused_m")
+                            );
+                            $meet->setStatus($status);
+                        }
+                    } // L'évalué édite
+                    elseif ($this->getUser() == $meet->getAssessed()) {
+                        if ($form->get('submit')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "validated_e")
+                            );
+                            $meet->setStatus($status);
+                        } elseif ($form->get('refused')->isClicked()) {
+                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "refused_e")
+                            );
+                            $meet->setStatus($status);
+                        }
+                    }
+                    $em->persist($meet);
+                    $em->flush();
+                }
             }
+
+
+            return $this->render(
+                'FormGeneratorBundle:Valuation:generator.html.twig',
+                array(
+                    'entity' => $meet,
+                    'name' => $name,
+                    'uiTab' => $uiTab,
+                    'form' => $form->createView(),
+                )
+            );
+        } else{
+            return $this->forward('AppBundle:Default:Index');
         }
-
-
-        return $this->render('FormGeneratorBundle:Valuation:generator.html.twig', array(
-            'entity' => $meet,
-            'name' => $name,
-            'uiTab' => $uiTab,
-            'form'   => $form->createView(),
-        ));
 
     }
 }
