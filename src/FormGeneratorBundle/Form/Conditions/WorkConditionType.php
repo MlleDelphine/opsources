@@ -27,7 +27,7 @@ class WorkConditionType extends AbstractType {
                 'required' => true,
                 'expanded' => true,
                 'multiple' => false))
-            ->add('comments', 'textarea', array('label' => 'Commentaire(s)', 'attr' => array('class' => 'textarea-resize no-horizontal', 'required' => false)));
+            ->add('comments', 'textarea', array('label' => 'Commentaire(s)', 'required' => false, 'attr' => array('class' => 'textarea-resize no-horizontal')));
     }
 
 

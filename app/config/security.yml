@@ -27,7 +27,7 @@ security:
             security: false
         secured_area:
             pattern:    ^/
-            plexcel: true
+            #plexcel: true
             form_login:
                 provider: fos_userbundle
             logout:
@@ -36,6 +36,17 @@ security:
                 handlers:           [ arianespace.plexcel.logout_handler ]
                 target: /login
             anonymous:    true
+
+#        secured_area:
+#            pattern:    ^/
+#            plexcel: true
+#            form_login:
+#                provider: fos_userbundle
+#            logout:
+#                path:               /logout
+#                invalidate_session: false
+#                handlers:           [ arianespace.plexcel.logout_handler ]
+#            anonymous:    true
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

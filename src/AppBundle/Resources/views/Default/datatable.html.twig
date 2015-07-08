@@ -10,7 +10,19 @@
     <div class="col-md-12">
         <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa {{ icon }} fa-fw"></i> {{ title }} </h3>
+                <i class="fa {{ icon }} fa-fw"></i> {{ title }}
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" type="button" aria-expanded="true">
+                            Actions
+                            <span class="caret"></span>
+                        </button>
+                        <ul role="menu" class="dropdown-menu pull-right">
+                            <li><a href="{{ path((createRouteName)) }}">Créer</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="panel-body tabbable-custom">
                 {{ addDataTable(dataTable, {

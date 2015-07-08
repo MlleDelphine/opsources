@@ -31,14 +31,14 @@ class WorkCondition
     /**
      * @var string
      *
-     * @ORM\Column(name="evaluation", type="integer")
+     * @ORM\Column(name="evaluation", type="integer", )
      */
-    private $evaluation;
+    private $evaluation = 0;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="comments", type="text")
+     * @ORM\Column(name="comments", type="text", nullable=true)
      */
     private $comments;
 

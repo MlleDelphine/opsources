@@ -134,6 +134,7 @@ doctrine:
                     FormGeneratorBundle: ~
                     UserBundle: ~
                     FOSUserBundle: ~
+                    ArianespacePlexcelBundle: ~
 #                    translatable:
 #                        type: annotation
 #                        alias: Gedmo
@@ -162,17 +163,17 @@ arianespace_plexcel:
     local:                false
     create:               false
     application:
-        name:                 Application Arianespace
-        version:              v1
+        name:                 ArianEspace - Opus
+        version:              v2
         description:
     auto_add_domain:      ~
-    autologin_redirect_route:  start
-    check_plexcel_login:  true # true en dev et false en prod
+    autologin_redirect_route:  homepage
+    check_plexcel_login:  false # true en dev et false en prod
     check_plexcel_login_route:  ask_plexcel_authorization
     check_plexcel_redirect_route:  homepage
     authorized_cn:        []
     user_manager:         ~
-    file:                 ~
+    file:                 "%kernel.root_dir%/../plexcel/plexcel.php" #"%kernel.root_dir%/../vendor/arianespace/plexcel-bundle/Arianespace/PlexcelBundle/Plexcel.php" #~
 
 # Swiftmailer Configuration
 swiftmailer:
