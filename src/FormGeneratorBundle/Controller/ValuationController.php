@@ -50,7 +50,9 @@ class ValuationController extends Controller
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
+            die;
             if ($form->isValid()) {
+
                 $em = $this->getDoctrine()->getManager();
                 if($form->get('save')->isClicked()){
                     $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' => "pending_m"));
@@ -60,10 +62,12 @@ class ValuationController extends Controller
                     $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' => "validated_m"));
                     $meet->setStatus($status);
                 }
+                $meet->setAssessor($this->getUser());
                 $em->persist($meet);
                 $em->flush();
             }
         }
+
         return $this->forward('FormGeneratorBundle:ValuationMeet:edit', array('id' => $meet->getId()));
     }
 

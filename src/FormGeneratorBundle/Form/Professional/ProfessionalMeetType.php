@@ -13,16 +13,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class ProfessionalMeetType extends AbstractType{
 
     protected $attributes;
     protected $em;
+    private $security;
 
-    public function __construct ($attributes, $em)
+
+    public function __construct ($attributes, $em, TokenStorage $security)
     {
         $this->attributes = $attributes;
         $this->em = $em;
+        $this->security = $security;
     }
 
     /**
@@ -42,7 +46,7 @@ class ProfessionalMeetType extends AbstractType{
                 if (!$event || null === $meet->getId()) {
                     $form->add(
                         'attributes', new CustomCollectionAttributeType(), array(
-                        'type' => new ProfessionalAttributeNewType($this->attributes['attr']),
+                        'type' => new ProfessionalAttributeNewType($this->attributes['attr'], $this->security),
                         'allow_add' => true,
                         'allow_delete' => true,
                         'by_reference' => false,
@@ -53,7 +57,7 @@ class ProfessionalMeetType extends AbstractType{
                 else{
                     $form->add(
                         'attributes',  new CustomCollectionAttributeType(), array(
-                            'type' => new ProfessionalAttributeEditType($this->attributes['attr'], $this->em),
+                            'type' => new ProfessionalAttributeEditType($this->attributes['attr'], $this->em, $this->security),
                             'allow_add' => true,
                             'allow_delete' => false,
                             'by_reference' => false,
@@ -76,16 +80,7 @@ class ProfessionalMeetType extends AbstractType{
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
                 'required' => false,
-                'attr' => array('data-tab'  => 'tab_1')
-            ))
-            ->add('assessed', 'genemu_jqueryselect2_entity', array(
-                'class' => 'UserBundle:User',
-                //'property' => 'name',
-                'label' => 'Evalué',
-                'multiple' => false,
-                'placeholder' => 'Sélectionner',
-                'required' => false,
-                'attr' => array('data-tab'  => 'tab_1')
+                'attr' => array('data-tab'  => 'tab_1', 'disabled' => true)
             ))
             ->add('assessed', 'genemu_jqueryselect2_entity', array(
                 'class' => 'UserBundle:User',

@@ -7,6 +7,7 @@
  */
 namespace FormGeneratorBundle\Form\Conditions;
 
+use Doctrine\ORM\EntityManager;
 use FormGeneratorBundle\Entity\WorkCondition;
 use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use FormGeneratorBundle\Form\Type\CustomCollectionType;
@@ -15,16 +16,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+
 
 class ConditionsMeetType extends AbstractType{
 
     protected $attributes;
     protected $em;
+    private $security;
 
-    public function __construct ($attributes, $em)
+    public function __construct ($attributes, EntityManager $em, TokenStorage $security)
     {
         $this->attributes = $attributes;
         $this->em = $em;
+        $this->security = $security;
     }
     /**
      * @param FormBuilderInterface $builder
@@ -54,7 +59,7 @@ class ConditionsMeetType extends AbstractType{
                 else{
                     $form->add(
                         'attributes',  new CustomCollectionAttributeType(), array(
-                            'type' => new ConditionsAttributeEditType($this->attributes['attr'], $this->em),
+                            'type' => new ConditionsAttributeEditType($this->attributes['attr'], $this->em, $this->security),
                             'allow_add' => true,
                             'allow_delete' => false,
                             'by_reference' => false,
@@ -77,7 +82,7 @@ class ConditionsMeetType extends AbstractType{
                 'placeholder' => 'Sélectionner',
                 'required' => false,
                 'disabled' => true,
-                'attr' => array('data-tab'  => 'tab_1')
+                'attr' => array('data-tab'  => 'tab_1', 'disabled' => true)
             ))
             ->add('assessed', 'genemu_jqueryselect2_entity', array(
                 'class' => 'UserBundle:User',

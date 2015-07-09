@@ -66,6 +66,7 @@ class ProfessionalMeetController extends Controller{
                     $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' => "validated_m"));
                     $meet->setStatus($status);
                 }
+                $meet->setAssessor($this->getUser());
                 $em->persist($meet);
                 $em->flush();
             }

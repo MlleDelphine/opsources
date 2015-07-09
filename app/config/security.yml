@@ -46,6 +46,7 @@ security:
 #                path:               /logout
 #                invalidate_session: false
 #                handlers:           [ arianespace.plexcel.logout_handler ]
+#                target: /login
 #            anonymous:    true
 
     access_control:

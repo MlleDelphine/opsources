@@ -1,8 +1,8 @@
-- id: 'tab_1'
-  name: 'Informations employés'
-- id: 'tab_2'
-  name: 'Objectifs passés et futurs'
-- id: 'tab_3'
-  name: 'Autres'
-- id: 'tab_4'
-  name: 'Onglet en test'
+- id: "tab_1"
+  name: "Général"
+- id: "tab_2"
+  name: "Bilan de l'année écoulée"
+- id: "tab_3"
+  name: "Nouveaux objectifs"
+- id: "tab_4"
+  name: "Impression évalué"

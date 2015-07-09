@@ -9,3 +9,4 @@ fields:
               required: false
               attr:
                   data-tab: 'tab_1'
+                  data-access: "assessed"

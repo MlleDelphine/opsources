@@ -14,16 +14,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class ValuationMeetType extends AbstractType{
 
     protected $attributes;
     protected $em;
+    private $security;
 
-    public function __construct ($attributes, $em)
+    public function __construct ($attributes, $em, TokenStorage $security)
     {
         $this->attributes = $attributes;
         $this->em = $em;
+        $this->security = $security;
     }
     /**
      * @param FormBuilderInterface $builder
@@ -42,18 +45,18 @@ class ValuationMeetType extends AbstractType{
                 if (!$event || null === $meet->getId()) {
                     $form->add(
                         'attributes', new CustomCollectionAttributeType(), array(
-                        'type' => new ValuationAttributeNewType($this->attributes['attr']),
+                        'type' => new ValuationAttributeNewType($this->attributes['attr'], $this->security),
                         'allow_add' => true,
                         'allow_delete' => true,
                         'by_reference' => false,
                         'required' => false,
-                        'label' => ''));
+                        'label' => false));
                 }
                 //Edition d'un formulaire existant
                 else{
                     $form->add(
                         'attributes',  new CustomCollectionAttributeType(), array(
-                            'type' => new ValuationAttributeEditType($this->attributes['attr'], $this->em),
+                            'type' => new ValuationAttributeEditType($this->attributes['attr'], $this->em, $this->security),
                             'allow_add' => true,
                             'allow_delete' => false,
                             'by_reference' => false,
@@ -75,20 +78,10 @@ class ValuationMeetType extends AbstractType{
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
                 'required' => false,
-                'attr' => array('data-tab'  => 'tab_1')
+                'attr' => array('data-tab'  => 'tab_1', 'disabled' => true)
             ))
             ->add('assessed', 'genemu_jqueryselect2_entity', array(
                 'class' => 'UserBundle:User',
-                //'property' => 'name',
-                'label' => 'Evalué',
-                'multiple' => false,
-                'placeholder' => 'Sélectionner',
-                'required' => false,
-                'attr' => array('data-tab'  => 'tab_1')
-            ))
-            ->add('assessed', 'genemu_jqueryselect2_entity', array(
-                'class' => 'UserBundle:User',
-                //'property' => 'name',
                 'label' => 'Evalué',
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
@@ -102,10 +95,8 @@ class ValuationMeetType extends AbstractType{
                 'by_reference' => false,
                 'required' => false,
                 'label' => false,
-                'attr' => array('data-tab'  => 'tab_3')
+                'attr' => array('data-tab'  => "tab_2")
             ))
-
-
         ;
 
 
