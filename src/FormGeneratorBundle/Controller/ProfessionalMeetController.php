@@ -85,6 +85,9 @@ class ProfessionalMeetController extends Controller{
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('FormGeneratorBundle:ProfessionalMeet')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('This meet does not exist');
+        }
 
         if($this->get('app.accesscontrol_meet')->canAccess($entity)) {
             $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');

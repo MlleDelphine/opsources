@@ -13,17 +13,21 @@ use FormGeneratorBundle\Form\Type\CustomRadioType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 
 class ConditionsCollectionAttributeEditType extends AbstractType {
 
     protected $attributes;
     protected $em;
+    private $security;
 
-    public function __construct ($attributes, $em)
+
+    public function __construct ($attributes, $em, TokenStorage $security)
     {
         $this->attributes = $attributes;
         $this->em = $em;
+        $this->security = $security;
     }
 
     /**
@@ -47,6 +51,24 @@ class ConditionsCollectionAttributeEditType extends AbstractType {
                             foreach ($allConf['conf'] as $name => $value) {
                                 $options[$name] = $value;
                             }
+
+                            //Qui est connecté et quel rôle a t-il sur la fiche ?
+                            $user = $this->security->getToken()->getUser();
+                            $meet = $data->getConditionsMeet();
+                            //Si évalué tout est désactivé sauf les siens
+                            if($meet->getAssessed() === $user){
+                                $options['disabled'] = true;
+                                if($allConf['conf']['attr']['data-access'] == 'assessed'){
+                                    unset($options['disabled']);
+                                }
+                            }
+                            elseif($meet->getAssessor() === $user){
+                                if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
+                                    $options['disabled'] == true;
+                                }
+                            }
+
+                            //On crée les champs
                             switch ($allConf['type']):
                                 case 'entity':
                                     if($data->getValue() == null){

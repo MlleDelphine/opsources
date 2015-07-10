@@ -49,6 +49,11 @@ class ProfessionalCollectionAttributeNewType extends AbstractType{
                             foreach ($allConf['conf'] as $name => $value) {
                                 $options[$name] = $value;
                             }
+                            //Seul le manager peut remplir certains champs
+                            if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
+                                $options['disabled'] = true;
+                                $options['attr']['readonly'] = true;
+                            }
                             $form->add(
                                 'value',
                                 $allConf['type'],

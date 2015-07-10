@@ -87,6 +87,10 @@ class ConditionsMeetController extends Controller{
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('FormGeneratorBundle:ConditionsMeet')->find($id);
 
+        if (!$entity) {
+            throw $this->createNotFoundException('This meet does not exist');
+        }
+
         if($this->get('app.accesscontrol_meet')->canAccess($entity)) {
             $uiTab = $this->get('app.customfields_parser')->parseYamlConf('conditions_meet_ui');
             $attributes = $this->get('app.customfields_parser')->parseYamlConf('conditions_meet', 'fields');

@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * User
  *
  * @ORM\Table(name="fos_user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UserBundle\Entity\Repository\UserRepository")
  */
 class User extends BaseUser implements UserInterface
 {

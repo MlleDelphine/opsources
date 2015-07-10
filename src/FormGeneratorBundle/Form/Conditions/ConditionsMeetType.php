@@ -8,7 +8,9 @@
 namespace FormGeneratorBundle\Form\Conditions;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use FormGeneratorBundle\Entity\WorkCondition;
+use UserBundle\Entity\Repository\UserRepository;
 use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use FormGeneratorBundle\Form\Type\CustomCollectionType;
 use FormGeneratorBundle\Form\Type\CustomCollectionFieldType;
@@ -38,12 +40,26 @@ class ConditionsMeetType extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $formFactory = $builder->getFormFactory();
-        $builder->addEventListener(
-            FormEvents::POST_SET_DATA,
-            function (\Symfony\Component\Form\FormEvent $event) use ($formFactory) {
+        $user = $this->security->getToken()->getUser();
 
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (\Symfony\Component\Form\FormEvent $event) use ($user) {
                 $meet = $event->getData();
                 $form = $event->getForm();
+                //On s'occupe de retirer le connecté de la liste des évalués potentiels
+                $form->add('assessed', 'genemu_jqueryselect2_entity', array(
+                    'class' => 'UserBundle:User',
+                    'query_builder' => function(UserRepository $er) use ($user){
+                        return $er->findAllExcept($user);
+                    },
+                    'label' => 'Evalué',
+                    'multiple' => false,
+                    'placeholder' => 'Sélectionner',
+                    'required' => false,
+                    'attr' => array('data-tab'  => 'tab_1')
+                ));
+
                 //Nouveau formulaire
                 if (!$event || null === $meet->getId()) {
                     $form->add(
@@ -68,7 +84,6 @@ class ConditionsMeetType extends AbstractType{
                         )
                     );
                 }
-
             }
         );
 
@@ -82,14 +97,6 @@ class ConditionsMeetType extends AbstractType{
                 'placeholder' => 'Sélectionner',
                 'required' => false,
                 'disabled' => true,
-                'attr' => array('data-tab'  => 'tab_1', 'disabled' => true)
-            ))
-            ->add('assessed', 'genemu_jqueryselect2_entity', array(
-                'class' => 'UserBundle:User',
-                'label' => 'Evalué',
-                'multiple' => false,
-                'placeholder' => 'Sélectionner',
-                'required' => true,
                 'attr' => array('data-tab'  => 'tab_1')
             ))
             ->add('workConditions', new CustomCollectionFieldType(3), array(
@@ -99,13 +106,8 @@ class ConditionsMeetType extends AbstractType{
                 'by_reference' => false,
                 'required' => false,
                 'label' => false,
-                'attr' => array('data-tab'  => 'tab_1')
-            ))
-
-
-        ;
-
-
+                'attr' => array('data-tab'  => 'tab_2')
+            ));
     }
 
     /**

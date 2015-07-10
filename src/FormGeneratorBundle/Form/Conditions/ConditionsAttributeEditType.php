@@ -94,7 +94,7 @@ class ConditionsAttributeEditType extends AbstractType {
                                 $label = $allConf['conf']['label'];
                                 $form->add(
                                     'collectionAttributes', new CustomCollectionType(count($confChild)), array(
-                                    'type' => new ConditionsCollectionAttributeEditType($confChild, $this->em),
+                                    'type' => new ConditionsCollectionAttributeEditType($confChild, $this->em, $this->security),
                                     'allow_add' => true,
                                     'allow_delete' => true,
                                     'by_reference' => false,

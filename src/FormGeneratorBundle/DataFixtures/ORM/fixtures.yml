@@ -20,7 +20,7 @@ FormGeneratorBundle\Entity\SkillState:
     state1:
         name: "A maintenir"
 
-FormGenerator\Entity\Status:
+FormGeneratorBundle\Entity\Status:
     status0:
         name: "En cours d'édition par le manager"
         code: "pending_m"
@@ -40,7 +40,7 @@ FormGenerator\Entity\Status:
         name: "Validée définitivement par le manager"
         code: "closed"
 
-FormGenerator\Entity\Condition:
+FormGeneratorBundle\Entity\Condition:
     workCond0:
         name: "Sa charge de travail"
     workCond1:

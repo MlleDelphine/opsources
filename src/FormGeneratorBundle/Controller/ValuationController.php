@@ -47,10 +47,9 @@ class ValuationController extends Controller
         $meet = new ValuationMeet();
 
         $form = $this->get('app.prepopulate_entity')->populateValuationMeet($meet, $attributes);
-
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
-            die;
+
             if ($form->isValid()) {
 
                 $em = $this->getDoctrine()->getManager();
@@ -82,7 +81,9 @@ class ValuationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('FormGeneratorBundle:ValuationMeet')->find($id);
-
+        if (!$entity) {
+            throw $this->createNotFoundException('This meet does not exist');
+        }
         if($this->get('app.accesscontrol_meet')->canAccess($entity)) {
             $uiTab = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet_ui');
             $attributes = $this->get('app.customfields_parser')->parseYamlConf('valuation_meet', 'fields');

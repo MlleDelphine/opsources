@@ -49,10 +49,7 @@ class ValuationAttributeNewType extends AbstractType{
                         $confChild = false;
                         foreach ($this->attributes as $allConf) {
                             if ($allConf['id'] == $data->getName()) {
-                                //Seul le manager peut créer
-                                if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
-                                    $options['disabled'] = true;
-                                }
+
 
                                 if($allConf['type'] == 'choice'){
                                     $allConf['type'] = new CustomRadioType();
@@ -70,6 +67,12 @@ class ValuationAttributeNewType extends AbstractType{
                                     }
                                     $this->tab = $allConf['conf']['attr']['data-tab'];
                                 }
+                                //Seul le manager peut remplir certains champs
+                                if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
+                                    $options['disabled'] = true;
+                                    $options['attr']['readonly'] = true;
+                                }
+
                                 if(!$confChild) {
                                     $form->add(
                                         $fieldName,
