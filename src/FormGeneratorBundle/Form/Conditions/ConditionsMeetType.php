@@ -39,28 +39,92 @@ class ConditionsMeetType extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $formFactory = $builder->getFormFactory();
+
         $user = $this->security->getToken()->getUser();
 
         $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
+            FormEvents::POST_SET_DATA,
             function (\Symfony\Component\Form\FormEvent $event) use ($user) {
                 $meet = $event->getData();
                 $form = $event->getForm();
-                //On s'occupe de retirer le connecté de la liste des évalués potentiels
-                $form->add('assessed', 'genemu_jqueryselect2_entity', array(
-                    'class' => 'UserBundle:User',
-                    'query_builder' => function(UserRepository $er) use ($user){
-                        return $er->findAllExcept($user);
-                    },
-                    'label' => 'Evalué',
-                    'multiple' => false,
-                    'placeholder' => 'Sélectionner',
+                //Si évalué tout est désactivé sauf les siens
+                $access = true;
+
+                if($meet->getAssessed() === $user){
+                    $attr = array('data-tab' => 'tab_1', 'disabled' => true);
+                    $access = false;
+                }
+                elseif($meet->getAssessor() === $user){
+                    $attr = array('data-tab' => 'tab_1');
+
+                }
+                else{
+                    $attr = array('data-tab' => "tab_1");
+
+                }
+
+                $form->add('name', 'text', array(
+                    'label' => 'Nom :',
+                    'attr' => $attr))
+                    ->add('meetDate', 'genemu_jquerydate', array(
+                        'label' => 'Date de l\'entretien  :',
+                        'attr' => $attr,
+                        'widget' => 'single_text'))
+                    ->add('assessor', 'genemu_jqueryselect2_entity', array(
+                        'class' => 'UserBundle:User',
+                        'label' => 'Evaluateur',
+                        'multiple' => false,
+                        'placeholder' => 'Sélectionner',
+                        'required' => false,
+                        'disabled' => true,
+                        'attr' => $attr)
+                );
+                if($meet->getAssessed() === $user) {
+                    //On s'occupe de retirer le connecté de la liste des évalués potentiels
+//                    $form->add(
+//                        'assessed',
+//                        'genemu_jqueryselect2_entity',
+//                        array(
+//                            'class' => 'UserBundle:User',
+//                            'label' => 'Evalué',
+//                            'multiple' => false,
+//                            'placeholder' => 'Sélectionner',
+//                            'required' => false,
+//                            'attr' => $attr
+//                        )
+//                    );
+                }
+                else{
+                    //On affiche le connecté de la liste des évalués (car il a été choisi et c'est l'évalué qui est connecté)
+                    $form->add(
+                        'assessed',
+                        'genemu_jqueryselect2_entity',
+                        array(
+                            'class' => 'UserBundle:User',
+                            'query_builder' => function (UserRepository $er) use ($user) {
+                                return $er->findAllExcept($user);
+                            },
+                            'label' => 'Evalué',
+                            'multiple' => false,
+                            'placeholder' => 'Sélectionner',
+                            'required' => false,
+                            'attr' => $attr
+                        )
+                    );
+
+                }
+                $attr['data-tab'] = "tab_2";
+                $form->add('workConditions', new CustomCollectionFieldType(3), array(
+                    'type' => new WorkConditionType($access),
+                    'allow_add' => true,
+                    'allow_delete' => false,
+                    'by_reference' => false,
                     'required' => false,
-                    'attr' => array('data-tab'  => 'tab_1')
+                    'label' => false,
+                    'attr' => $attr
                 ));
 
-                //Nouveau formulaire
+                //Nouveau champs de formulaire
                 if (!$event || null === $meet->getId()) {
                     $form->add(
                         'attributes', new CustomCollectionAttributeType(), array(
@@ -86,28 +150,6 @@ class ConditionsMeetType extends AbstractType{
                 }
             }
         );
-
-        $builder
-            ->add('name', 'text', array('label' => 'Nom :', 'attr' => array('data-tab'  => 'tab_1')))
-            ->add('meetDate', 'genemu_jquerydate', array('label' => 'Date de l\'entretien  :', 'attr' => array('class' => 'datepicker', 'data-tab'  => 'tab_1'), 'widget' => 'single_text'))
-            ->add('assessor', 'genemu_jqueryselect2_entity', array(
-                'class' => 'UserBundle:User',
-                'label' => 'Evaluateur',
-                'multiple' => false,
-                'placeholder' => 'Sélectionner',
-                'required' => false,
-                'disabled' => true,
-                'attr' => array('data-tab'  => 'tab_1')
-            ))
-            ->add('workConditions', new CustomCollectionFieldType(3), array(
-                'type' => new WorkConditionType(),
-                'allow_add' => true,
-                'allow_delete' => false,
-                'by_reference' => false,
-                'required' => false,
-                'label' => false,
-                'attr' => array('data-tab'  => 'tab_2')
-            ));
     }
 
     /**

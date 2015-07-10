@@ -47,6 +47,16 @@ class User extends BaseUser implements UserInterface
      * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ProfessionalMeet", mappedBy="assessed", cascade={"persist"})
      */
     private $assessedProfessionalMeets;
+    /**
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ConditionsMeet", mappedBy="assessor", cascade={"persist"})
+     */
+    private $assessorConditionsMeets;
+
+    /**
+     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ConditionsMeet", mappedBy="assessed", cascade={"persist"})
+     */
+    private $assessedConditionseets;
+
 
 
 
@@ -57,6 +67,8 @@ class User extends BaseUser implements UserInterface
         $this->assessedValuationMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessorProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessedProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->assessorConditionsMeets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->assessedConditionseetss = new \Doctrine\Common\Collections\ArrayCollection();
         // your own logic
     }
 
@@ -90,7 +102,6 @@ class User extends BaseUser implements UserInterface
     public function addAssessorValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets)
     {
         $this->assessorValuationMeets[] = $assessorValuationMeets;
-        $assessorValuationMeets->setAssessor($this);
 
         return $this;
     }
@@ -124,7 +135,6 @@ class User extends BaseUser implements UserInterface
     public function addAssessedValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets)
     {
         $this->assessedValuationMeets[] = $assessedValuationMeets;
-        $assessedValuationMeets->setAssessed($this);
 
         return $this;
     }
@@ -158,7 +168,6 @@ class User extends BaseUser implements UserInterface
     public function addAssessorProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets)
     {
         $this->assessorProfessionalMeets[] = $assessorProfessionalMeets;
-        $assessorProfessionalMeets->setAssessor($this);
 
         return $this;
     }
@@ -192,7 +201,6 @@ class User extends BaseUser implements UserInterface
     public function addAssessedProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets)
     {
         $this->assessedProfessionalMeets[] = $assessedProfessionalMeets;
-        $assessedProfessionalMeets->setAssessed($this);
 
         return $this;
     }
@@ -216,4 +224,70 @@ class User extends BaseUser implements UserInterface
     {
         return $this->assessedProfessionalMeets;
     }
+    /**
+     * Add assessorConditionsMeets
+     *
+     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets
+     * @return User
+     */
+    public function addAssessorConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets)
+    {
+        $this->assessorConditionsMeets[] = $assessorConditionsMeets;
+
+        return $this;
+    }
+
+    /**
+     * Remove assessorConditionsMeets
+     *
+     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets
+     */
+    public function removeAssessorConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets)
+    {
+        $this->assessorConditionsMeets->removeElement($assessorConditionsMeets);
+    }
+
+    /**
+     * Get assessorConditionsMeets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssessorConditionsMeets()
+    {
+        return $this->assessorConditionsMeets;
+    }
+
+    /**
+     * Add assessedConditionsMeets
+     *
+     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets
+     * @return User
+     */
+    public function addAssessedConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets)
+    {
+        $this->assessedConditionsMeets[] = $assessedConditionsMeets;
+
+        return $this;
+    }
+
+    /**
+     * Remove assessedConditionsMeets
+     *
+     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets
+     */
+    public function removeAssessedConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets)
+    {
+        $this->assessedConditionsMeets->removeElement($assessedConditionsMeets);
+    }
+
+    /**
+     * Get assessedConditionsMeets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssessedConditionsMeets()
+    {
+        return $this->assessedConditionsMeets;
+    }
+
 }

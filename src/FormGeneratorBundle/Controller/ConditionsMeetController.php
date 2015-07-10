@@ -49,7 +49,6 @@ class ConditionsMeetController extends Controller{
      */
     public function addAction(Request $request)
     {
-
         $attributes = $this->get('app.customfields_parser')->parseYamlConf('conditions_meet', 'fields');
         $meet = new ConditionsMeet();
 
@@ -92,6 +91,7 @@ class ConditionsMeetController extends Controller{
         }
 
         if($this->get('app.accesscontrol_meet')->canAccess($entity)) {
+
             $uiTab = $this->get('app.customfields_parser')->parseYamlConf('conditions_meet_ui');
             $attributes = $this->get('app.customfields_parser')->parseYamlConf('conditions_meet', 'fields');
             $name = $this->get('app.customfields_parser')->parseYamlConf('conditions_meet', 'name');
@@ -126,6 +126,8 @@ class ConditionsMeetController extends Controller{
         $em = $this->getDoctrine()->getManager();
         $meet = $em->getRepository('FormGeneratorBundle:ConditionsMeet')->find($id);
 
+
+
         if($this->get('app.accesscontrol_meet')->canAccess($meet)) {
             $uiTab = $this->get('app.customfields_parser')->parseYamlConf('conditions_meet_ui');
 
@@ -135,8 +137,15 @@ class ConditionsMeetController extends Controller{
             $form = $this->get('app.prepopulate_entity')->populateConditionsMeetForEdit($meet, $attributes);
 
             if ($request->isMethod('POST') or $request->isMethod('PUT')) {
-                $form->handleRequest($request);
+
+                dump($meet->getName());
+//                $form->handleRequest($request);
+                $form->submit($request->request->get($form->getName(), false));
+                dump($meet->getName());
+                die;
+
                 if ($form->isValid()) {
+
                     $em = $this->getDoctrine()->getManager();
                     //Le manager édite
                     if ($this->getUser() === $meet->getAssessor()) {
@@ -158,6 +167,7 @@ class ConditionsMeetController extends Controller{
                         }
                     } // L'évalué édite
                     elseif ($this->getUser() == $meet->getAssessed()) {
+
                         if ($form->get('submit')->isClicked()) {
                             $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
                                 array('code' => "validated_e")
@@ -170,9 +180,12 @@ class ConditionsMeetController extends Controller{
                             $meet->setStatus($status);
                         }
                     }
-
+                    dump($meet);
+                    die;
                     $em->persist($meet);
                     $em->flush();
+                    dump($form->getData());
+                    die;
                 }
             }
 

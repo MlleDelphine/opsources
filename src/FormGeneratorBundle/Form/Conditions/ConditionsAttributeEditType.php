@@ -22,12 +22,14 @@ class ConditionsAttributeEditType extends AbstractType {
     private $security;
     protected $attributes;
     protected $em;
+    protected $tab;
 
-    public function __construct ($attributes, $em, TokenStorage $security)
+    public function __construct ($attributes, $em, TokenStorage $security, $tab = null)
     {
         $this->attributes = $attributes;
         $this->em = $em;
         $this->security = $security;
+        $this->tab = $tab;
     }
 
     /**
@@ -67,6 +69,7 @@ class ConditionsAttributeEditType extends AbstractType {
                                 }
                             }
 
+                            $this->tab = $allConf['conf']['attr']['data-tab'];
                             if($allConf['type'] == 'genemu_jqueryselect2_entity' || $allConf['type'] == 'entity'){
                                 if($data->getValue() == null){
                                     $options['data'] = null;
@@ -119,8 +122,8 @@ class ConditionsAttributeEditType extends AbstractType {
                         }
 
                     }
-                    $form->add('name', 'hidden');
-                    $form->add('fieldType', 'hidden');
+                    $form->add('name', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+                    $form->add('fieldType', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                 }
             });
     }

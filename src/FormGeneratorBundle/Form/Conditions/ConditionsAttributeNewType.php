@@ -47,7 +47,6 @@ class ConditionsAttributeNewType extends AbstractType{
                         $confChild = false;
                         foreach ($this->attributes as $allConf) {
                             if ($allConf['id'] == $data->getName()) {
-
                                 if($allConf['type'] == 'choice'){
                                     $allConf['type'] = new CustomRadioType();
                                 }
@@ -61,8 +60,8 @@ class ConditionsAttributeNewType extends AbstractType{
                                         $options[$name] = $value;
                                         $fieldName = "value";
                                     }
-                                    $this->tab = $allConf['conf']['attr']['data-tab'];
                                 }
+                                $this->tab = $allConf['conf']['attr']['data-tab'];
 
                                 //Seul le manager peut remplir certains champs
                                 if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
