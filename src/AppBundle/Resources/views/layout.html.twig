@@ -26,21 +26,35 @@
         <script src="{{ asset('vendor/jqueryui/ui/i18n/datepicker-fr.js') }}"></script>
         <script src="{{ asset('vendor/datetimepicker/jquery.datetimepicker.js') }}"></script>
         <script src="{{ asset('vendor/bower-tinymce-amd/tinymce/tinymce.js') }}"></script>
-        <script src="{{ asset('vendor/icheck/icheck.min.js') }}"></script>
+        <script src="{{ asset('vendor/icheck/icheck.js') }}"></script>
         <script>
             $( document ).ready(function() {
+
+
+                function propStopped( event ) {
+                    if ( event.isPropagationStopped() ) {
+                        console.log('Called');
+
+                    } else {
+                        console.log("not called");
+                    }
+                }
+
+
                 //iCheck pour boutons radio
                 $(document).find('input.icheck-radio').each(function(i, obj) {
                     $(this).iCheck({
                         radioClass: $(this).data('radio')
                     });
                     if($(this).hasClass('disabled')){
+                        console.log('disabled');
                         $(this).closest('div.iradio_square-blue').addClass('disabled');
-                        $(this).closest('.icheck-inline').children().on('click', function(e){
-                            console.log('H');
-//                            e.preventDefault();
-                            e.stopPropagation();
+
+                        $(this).next('ins').on('click mousedown mouseup mouseover mouseout touchbegin.i touchend.i', function(event) {
+                            event.stopPropagation();
+                            propStopped( event );
                         });
+
 
                     }
                 });
@@ -63,8 +77,11 @@
                         });
                     }
                 });
+                //On désactive les select2 s'ils ont readonly = 1
+
             });
         </script>
+
         {{ form_javascript(form) }}
     {% endif %}
 {% endblock %}

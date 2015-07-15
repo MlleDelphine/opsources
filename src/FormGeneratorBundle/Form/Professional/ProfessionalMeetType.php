@@ -44,9 +44,23 @@ class ProfessionalMeetType extends AbstractType{
             function (\Symfony\Component\Form\FormEvent $event) use ($user) {
                 $meet = $event->getData();
                 $form = $event->getForm();
+                $validatedE = $this->em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' =>"validated_e"));
+                if($meet->getAssessor()){
+                    $assessor = $meet->getAssessor();
+                }
+                else{
+                    $assessor = $user;
+                }
                 //Si évalué tout est désactivé sauf les siens
-                if($meet->getAssessed() === $user){
-                    $attr = array('data-tab' => 'tab_1', 'disabled' => true);
+                $access = true;
+
+                if($meet->getAssessor() === $user && $meet->getStatus() ==  $validatedE){
+                    $attr = array('data-tab' => 'tab_1', 'readonly' => true);
+                    $access = false;
+                }
+                elseif($meet->getAssessed() === $user){
+                    $attr = array('data-tab' => 'tab_1', 'readonly' => true);
+                    $access = false;
                 }
                 elseif($meet->getAssessor() === $user){
                     $attr = array('data-tab' => 'tab_1');
@@ -61,33 +75,21 @@ class ProfessionalMeetType extends AbstractType{
                     ->add('meetDate', 'genemu_jquerydate', array(
                         'label' => 'Date de l\'entretien  :',
                         'attr' => $attr,
-                        'widget' => 'single_text'))
-                    ->add('assessor', 'genemu_jqueryselect2_entity', array(
-                            'class' => 'UserBundle:User',
-                            'label' => 'Evaluateur',
-                            'multiple' => false,
-                            'placeholder' => 'Sélectionner',
-                            'required' => false,
-                            'disabled' => true,
-                            'attr' => $attr)
-                    );
-                if($meet->getAssessed() === $user) {
-                    //On s'occupe de retirer le connecté de la liste des évalués potentiels
-                    $form->add(
-                        'assessed',
-                        'genemu_jqueryselect2_entity',
-                        array(
-                            'class' => 'UserBundle:User',
-                            'label' => 'Evalué',
-                            'multiple' => false,
-                            'placeholder' => 'Sélectionner',
-                            'required' => false,
-                            'attr' => $attr
-                        )
-                    );
-                }
-                else{
-                    //On affiche le connecté de la liste des évalués (car il a été choisi et c'est l'évalué qui est connecté)
+                        'widget' => 'single_text'));
+
+                $form->add('assessor', 'genemu_jqueryselect2_entity', array(
+                        'class' => 'UserBundle:User',
+                        'query_builder' => function (UserRepository $er) use ($assessor) {
+                            return $er->findOneByQuery($assessor);
+                        },
+                        'label' => 'Evaluateur',
+                        'multiple' => false,
+                        'placeholder' => 'Sélectionner',
+                        'required' => true,
+                        'attr' => $attr)
+                );
+                if(!$meet->getAssessed() || $access == true) {
+                    //On affiche tous les users(sauf le connecté qui est le manager) = création
                     $form->add(
                         'assessed',
                         'genemu_jqueryselect2_entity',
@@ -99,7 +101,26 @@ class ProfessionalMeetType extends AbstractType{
                             'label' => 'Evalué',
                             'multiple' => false,
                             'placeholder' => 'Sélectionner',
-                            'required' => false,
+                            'required' => true,
+                            'attr' => $attr
+                        )
+                    );
+                }
+                else{
+                    $assessed = $meet->getAssessed();
+                    //On laisse le connecté de la liste des évalués potentiels
+                    $form->add(
+                        'assessed',
+                        'genemu_jqueryselect2_entity',
+                        array(
+                            'class' => 'UserBundle:User',
+                            'query_builder' => function (UserRepository $er) use ($assessed) {
+                                return $er->findOneByQuery($assessed);
+                            },
+                            'label' => 'Evalué',
+                            'multiple' => false,
+                            'placeholder' => 'Sélectionner',
+                            'required' => true,
                             'attr' => $attr
                         )
                     );

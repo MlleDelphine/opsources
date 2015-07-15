@@ -64,7 +64,7 @@ arianespace_plexcel:
         description:
     auto_add_domain:      ~
     autologin_redirect_route:  homepage
-    check_plexcel_login:  false # true en dev et false en prod
+    check_plexcel_login:  true # true en dev et false en prod
     check_plexcel_login_route:  ask_plexcel_authorization
     check_plexcel_redirect_route:  homepage
     authorized_cn:        []

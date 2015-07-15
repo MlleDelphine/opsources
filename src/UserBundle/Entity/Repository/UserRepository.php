@@ -21,4 +21,13 @@ class UserRepository extends EntityRepository
 
         return $qb;
     }
+
+    public function findOneByQuery(User $user) {
+
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.id = :uid')
+            ->setParameter(':uid', $user->getId());
+
+        return $qb;
+    }
 }

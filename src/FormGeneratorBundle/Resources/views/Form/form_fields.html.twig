@@ -129,7 +129,11 @@
 
     {% block customRadio_widget %}
         {# On merge les attributs pour l'affichage et l'éventuel readonly #}
-        {% set classes = {'class': 'icheck icheck-radio '~form.vars.attr.class} %}
+        {%  if(form.vars.attr.class is defined) %}
+            {% set classes = {'class': 'icheck icheck-radio '~form.vars.attr.class} %}
+        {% else %}
+            {% set classes = {'class': 'icheck icheck-radio '} %}
+        {% endif %}
         {% set others = {'data-radio':' iradio_square-blue' } %}
 
         {% set attr = attr|merge(form.vars.attr) %}
