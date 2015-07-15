@@ -128,25 +128,33 @@
     {% endblock collection_rows_attr %}
 
     {% block customRadio_widget %}
-        {# On merge les attributs pour l'affichage et l'éventuel disabled #}
-        {% set attr = { 'class': 'icheck icheck-radio', 'data-radio': 'iradio_square-blue' } %}
+        {# On merge les attributs pour l'affichage et l'éventuel readonly #}
+        {% set classes = {'class': 'icheck icheck-radio '~form.vars.attr.class} %}
+        {% set others = {'data-radio':' iradio_square-blue' } %}
+
         {% set attr = attr|merge(form.vars.attr) %}
+        {% set attr = attr|merge(classes) %}
+        {% set attr = attr|merge(others) %}
+
+
+        {#{{ dump(attr) }}#}
+
 
         <div class="icheck-inline">
-            {% for child in form.children %}
+        {% for child in form.children %}
             {%  if loop.first %}
-            <div class="col-md-12">
-                {% endif %}
-                <label class="radio-inline">
-                    {{ child.vars.label }}
-                    {{ form_widget(child, {'attr': (attr)}) }}
-                </label>
-                {% if loop.last %}
-            </div>
+                <div class="col-md-12">
+            {% endif %}
+            <label class="radio-inline">
+                {{ child.vars.label }}
+                {{ form_widget(child, {'attr': (attr)}) }}
+            </label>
+            {% if loop.last %}
+                </div>
             {% elseif loop.index is divisible by(6) %}
-               </div> <div class="col-md-12">
-                {% endif %}
-            {% endfor %}
+                </div> <div class="col-md-12">
+            {% endif %}
+        {% endfor %}
         </div>
 
     {% endblock %}

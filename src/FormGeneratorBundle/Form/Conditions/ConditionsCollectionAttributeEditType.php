@@ -57,14 +57,14 @@ class ConditionsCollectionAttributeEditType extends AbstractType {
                             $meet = $data->getConditionsMeet();
                             //Si évalué tout est désactivé sauf les siens
                             if($meet->getAssessed() === $user){
-                                $options['disabled'] = true;
+                                $options['attr']['readonly'] = true;
                                 if($allConf['conf']['attr']['data-access'] == 'assessed'){
-                                    unset($options['disabled']);
+                                    unset($options['attr']['readonly']);
                                 }
                             }
                             elseif($meet->getAssessor() === $user){
                                 if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
-                                    $options['disabled'] == true;
+                                    $options['attr']['readonly'] == true;
                                 }
                             }
 

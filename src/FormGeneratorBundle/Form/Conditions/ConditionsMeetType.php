@@ -43,7 +43,7 @@ class ConditionsMeetType extends AbstractType{
         $user = $this->security->getToken()->getUser();
 
         $builder->addEventListener(
-            FormEvents::POST_SET_DATA,
+            FormEvents::PRE_SET_DATA,
             function (\Symfony\Component\Form\FormEvent $event) use ($user) {
                 $meet = $event->getData();
                 $form = $event->getForm();
@@ -51,7 +51,7 @@ class ConditionsMeetType extends AbstractType{
                 $access = true;
 
                 if($meet->getAssessed() === $user){
-                    $attr = array('data-tab' => 'tab_1', 'disabled' => true);
+                    $attr = array('data-tab' => 'tab_1', 'readonly' => true);
                     $access = false;
                 }
                 elseif($meet->getAssessor() === $user){
@@ -60,7 +60,6 @@ class ConditionsMeetType extends AbstractType{
                 }
                 else{
                     $attr = array('data-tab' => "tab_1");
-
                 }
 
                 $form->add('name', 'text', array(
@@ -69,30 +68,31 @@ class ConditionsMeetType extends AbstractType{
                     ->add('meetDate', 'genemu_jquerydate', array(
                         'label' => 'Date de l\'entretien  :',
                         'attr' => $attr,
-                        'widget' => 'single_text'))
-                    ->add('assessor', 'genemu_jqueryselect2_entity', array(
+                        'widget' => 'single_text'));
+                //Les select2 / select n'ont pas readonly : on ajoute disabled
+                //$attr['disabled'] = true;
+                $form->add('assessor', 'genemu_jqueryselect2_entity', array(
                         'class' => 'UserBundle:User',
                         'label' => 'Evaluateur',
                         'multiple' => false,
                         'placeholder' => 'Sélectionner',
                         'required' => false,
-                        'disabled' => true,
                         'attr' => $attr)
                 );
                 if($meet->getAssessed() === $user) {
-                    //On s'occupe de retirer le connecté de la liste des évalués potentiels
-//                    $form->add(
-//                        'assessed',
-//                        'genemu_jqueryselect2_entity',
-//                        array(
-//                            'class' => 'UserBundle:User',
-//                            'label' => 'Evalué',
-//                            'multiple' => false,
-//                            'placeholder' => 'Sélectionner',
-//                            'required' => false,
-//                            'attr' => $attr
-//                        )
-//                    );
+                    //On laisse le connecté de la liste des évalués potentiels
+                    $form->add(
+                        'assessed',
+                        'genemu_jqueryselect2_entity',
+                        array(
+                            'class' => 'UserBundle:User',
+                            'label' => 'Evalué',
+                            'multiple' => false,
+                            'placeholder' => 'Sélectionner',
+                            'required' => false,
+                            'attr' => $attr
+                        )
+                    );
                 }
                 else{
                     //On affiche le connecté de la liste des évalués (car il a été choisi et c'est l'évalué qui est connecté)
@@ -114,6 +114,7 @@ class ConditionsMeetType extends AbstractType{
 
                 }
                 $attr['data-tab'] = "tab_2";
+               // unset($attr['disabled']);
                 $form->add('workConditions', new CustomCollectionFieldType(3), array(
                     'type' => new WorkConditionType($access),
                     'allow_add' => true,

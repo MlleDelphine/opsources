@@ -30,10 +30,10 @@ class WorkConditionType extends AbstractType {
         if($this->access){
             $builder->add('name', 'textarea', array(
                 'label' => "Critères (conditions)",
-                'disabled' => true,
                 'required' => false,
                 'attr' => array(
-                    'class' => 'textarea-resize none-sense')))
+                    'class' => 'textarea-resize none-sense',
+                    'readonly' => true)))
                 ->add('evaluation', new CustomRadioType($this->access), array('label' => 'Notation',
                     'choices' => array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 0 => "Pas d'avis"),
                     'required' => true,
@@ -44,21 +44,20 @@ class WorkConditionType extends AbstractType {
         else{
             $builder->add('name', 'textarea', array(
                 'label' => "Critères (conditions)",
-                'disabled' => true,
                 'required' => false,
                 'attr' => array(
                     'class' => 'textarea-resize none-sense',
-                    'disabled' => true)))
+                    'readonly' => true)))
                 ->add('evaluation', new CustomRadioType(), array('label' => 'Notation',
                     'choices' => array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 0 => "Pas d'avis"),
                     'required' => true,
                     'expanded' => true,
                     'multiple' => false,
-                    'attr' => array('disabled' => true)))
+                    'attr' => array("class" => "disabled")))
                 ->add('comments', 'textarea', array(
                     'label' => 'Commentaire(s)',
                     'required' => false,
-                    'attr' => array('class' => 'textarea-resize no-horizontal', 'disabled' => true)));
+                    'attr' => array('class' => 'textarea-resize no-horizontal', 'readonly' => true)));
         }
 
     }

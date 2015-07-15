@@ -33,14 +33,35 @@
                 $(document).find('input.icheck-radio').each(function(i, obj) {
                     $(this).iCheck({
                         radioClass: $(this).data('radio')
-                    })
+                    });
+                    if($(this).hasClass('disabled')){
+                        $(this).closest('div.iradio_square-blue').addClass('disabled');
+                        $(this).closest('.icheck-inline').children().on('click', function(e){
+                            console.log('H');
+//                            e.preventDefault();
+                            e.stopPropagation();
+                        });
+
+                    }
                 });
                 //icheck pour champ entity en checkbox : override BS (class .radio et surtout la div qui prend les attr définis du input)
                 $(document).find('div.icheck-radio').find('input').each(function(i, obj) {
                     $(this).closest('label').unwrap();
                     $(this).iCheck({
                         radioClass: $(this).closest('div.icheck-radio').data('radio')
-                    })
+                    });
+                    if($(this).hasClass('disabled')){
+                        $(this).closest('div.iradio_square-blue').addClass('disabled');
+
+                        $(this).next('ins').bind('click', function(e){
+                            console.log('click2');
+                            $(this).unbind('click');
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                        });
+                    }
                 });
             });
         </script>

@@ -138,14 +138,8 @@ class ConditionsMeetController extends Controller{
 
             if ($request->isMethod('POST') or $request->isMethod('PUT')) {
 
-                dump($meet->getName());
-//                $form->handleRequest($request);
-                $form->submit($request->request->get($form->getName(), false));
-                dump($meet->getName());
-                die;
-
+                $form->handleRequest($request);
                 if ($form->isValid()) {
-
                     $em = $this->getDoctrine()->getManager();
                     //Le manager édite
                     if ($this->getUser() === $meet->getAssessor()) {
@@ -180,12 +174,10 @@ class ConditionsMeetController extends Controller{
                             $meet->setStatus($status);
                         }
                     }
-                    dump($meet);
-                    die;
+
                     $em->persist($meet);
                     $em->flush();
-                    dump($form->getData());
-                    die;
+
                 }
             }
 
