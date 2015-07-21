@@ -8,6 +8,7 @@
 namespace UserBundle\Entity;
 
 use Arianespace\PlexcelBundle\Security\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\Role;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\Role\Role;
 /**
  * User
  *
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="opus_users")
  * @ORM\Entity(repositoryClass="UserBundle\Entity\Repository\UserRepository")
  * //implements UserInterface de plexcel pour Plexcel
  */
@@ -34,8 +35,142 @@ class User implements UserInterface
     protected $password;
     protected $salt;
     private $sids;
-    private $email;
     protected $fullName;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="func_manager_id", type="bigint", nullable=true)
+     */
+    private $funcManagerId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="guid", type="string", length=64, nullable=true)
+     */
+    private $guid;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="responsable", type="smallint", nullable=true)
+     */
+    private $responsable = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=128, nullable=false)
+     */
+    private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="first_name", type="string", length=128, nullable=false)
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login", type="string", length=32, nullable=false)
+     */
+    private $login;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mail", type="string", length=128, nullable=false)
+     */
+    private $mail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="division", type="string", length=32, nullable=true)
+     */
+    private $division;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="department", type="string", length=32, nullable=true)
+     */
+    private $department;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="classification", type="string", length=32, nullable=true)
+     */
+    private $classification;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fonction", type="text", nullable=true)
+     */
+    private $fonction;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="entry_date", type="datetime", nullable=true)
+     */
+    private $entryDate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="bigint", nullable=false)
+     */
+    private $status;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+     * @var \OpusUsers
+     *
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="manager_id", referencedColumnName="id")
+     * })
+     */
+    private $manager;
+
+    /**
+     * @var \OpusJob
+     *
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusJob")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="job_id", referencedColumnName="id")
+     * })
+     */
+    private $job;
+
+    /**
+     * @var \OpusJob
+     *
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusJob")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="job2_id", referencedColumnName="id")
+     * })
+     */
+    private $job2;
+
 
 
 
@@ -69,6 +204,12 @@ class User implements UserInterface
     private $assessedConditionsMeets;
 
 
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluateId", cascade={"persist"})
+     */
+    private $opusSheetsEvaluator;
+
+
 
 
     public function __construct()
@@ -80,8 +221,11 @@ class User implements UserInterface
         $this->assessedProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessorConditionsMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessedConditionseetss = new \Doctrine\Common\Collections\ArrayCollection();
+
         $this->roles = array('ROLE_USER', 'ROLE_ADMIN');
         $this->sids  = array();
+
+        $this->opusSheetsEvaluator = new ArrayCollection();
     }
 
     public function __toString()
@@ -434,4 +578,451 @@ class User implements UserInterface
     }
 
 
+
+    /**
+     * Set funcManagerId
+     *
+     * @param integer $funcManagerId
+     * @return User
+     */
+    public function setFuncManagerId($funcManagerId)
+    {
+        $this->funcManagerId = $funcManagerId;
+
+        return $this;
+    }
+
+    /**
+     * Get funcManagerId
+     *
+     * @return integer 
+     */
+    public function getFuncManagerId()
+    {
+        return $this->funcManagerId;
+    }
+
+    /**
+     * Set guid
+     *
+     * @param string $guid
+     * @return User
+     */
+    public function setGuid($guid)
+    {
+        $this->guid = $guid;
+
+        return $this;
+    }
+
+    /**
+     * Get guid
+     *
+     * @return string 
+     */
+    public function getGuid()
+    {
+        return $this->guid;
+    }
+
+    /**
+     * Set responsable
+     *
+     * @param integer $responsable
+     * @return User
+     */
+    public function setResponsable($responsable)
+    {
+        $this->responsable = $responsable;
+
+        return $this;
+    }
+
+    /**
+     * Get responsable
+     *
+     * @return integer 
+     */
+    public function getResponsable()
+    {
+        return $this->responsable;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string 
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string 
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set login
+     *
+     * @param string $login
+     * @return User
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    /**
+     * Get login
+     *
+     * @return string 
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     * @return User
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string 
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
+
+    /**
+     * Set division
+     *
+     * @param string $division
+     * @return User
+     */
+    public function setDivision($division)
+    {
+        $this->division = $division;
+
+        return $this;
+    }
+
+    /**
+     * Get division
+     *
+     * @return string 
+     */
+    public function getDivision()
+    {
+        return $this->division;
+    }
+
+    /**
+     * Set department
+     *
+     * @param string $department
+     * @return User
+     */
+    public function setDepartment($department)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department
+     *
+     * @return string 
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Set classification
+     *
+     * @param string $classification
+     * @return User
+     */
+    public function setClassification($classification)
+    {
+        $this->classification = $classification;
+
+        return $this;
+    }
+
+    /**
+     * Get classification
+     *
+     * @return string 
+     */
+    public function getClassification()
+    {
+        return $this->classification;
+    }
+
+    /**
+     * Set fonction
+     *
+     * @param string $fonction
+     * @return User
+     */
+    public function setFonction($fonction)
+    {
+        $this->fonction = $fonction;
+
+        return $this;
+    }
+
+    /**
+     * Get fonction
+     *
+     * @return string 
+     */
+    public function getFonction()
+    {
+        return $this->fonction;
+    }
+
+    /**
+     * Set entryDate
+     *
+     * @param \DateTime $entryDate
+     * @return User
+     */
+    public function setEntryDate($entryDate)
+    {
+        $this->entryDate = $entryDate;
+
+        return $this;
+    }
+
+    /**
+     * Get entryDate
+     *
+     * @return \DateTime 
+     */
+    public function getEntryDate()
+    {
+        return $this->entryDate;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return User
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set manager
+     *
+     * @param \UserBundle\Entity\User $manager
+     * @return User
+     */
+    public function setManager(\UserBundle\Entity\User $manager = null)
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * Get manager
+     *
+     * @return \UserBundle\Entity\User 
+     */
+    public function getManager()
+    {
+        return $this->manager;
+    }
+
+    /**
+     * Set job
+     *
+     * @param \GeneratorBundle\Entity\OpusJob $job
+     * @return User
+     */
+    public function setJob(\GeneratorBundle\Entity\OpusJob $job = null)
+    {
+        $this->job = $job;
+
+        return $this;
+    }
+
+    /**
+     * Get job
+     *
+     * @return \GeneratorBundle\Entity\OpusJob 
+     */
+    public function getJob()
+    {
+        return $this->job;
+    }
+
+    /**
+     * Set job2
+     *
+     * @param \GeneratorBundle\Entity\OpusJob $job2
+     * @return User
+     */
+    public function setJob2(\GeneratorBundle\Entity\OpusJob $job2 = null)
+    {
+        $this->job2 = $job2;
+
+        return $this;
+    }
+
+    /**
+     * Get job2
+     *
+     * @return \GeneratorBundle\Entity\OpusJob 
+     */
+    public function getJob2()
+    {
+        return $this->job2;
+    }
+
+    /**
+     * Add opusSheetsEvaluator
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluator
+     * @return User
+     */
+    public function addOpusSheetsEvaluator(\GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluator)
+    {
+        $this->opusSheetsEvaluator[] = $opusSheetsEvaluator;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusSheetsEvaluator
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluator
+     */
+    public function removeOpusSheetsEvaluator(\GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluator)
+    {
+        $this->opusSheetsEvaluator->removeElement($opusSheetsEvaluator);
+    }
+
+    /**
+     * Get opusSheetsEvaluator
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOpusSheetsEvaluator()
+    {
+        return $this->opusSheetsEvaluator;
+    }
 }

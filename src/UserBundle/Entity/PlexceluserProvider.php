@@ -35,7 +35,7 @@ class PlexcelUserProvider implements UserProviderInterface
         $user    = new User();
         $user->setUsername($username);
         $user->setFullName($account["givenName"].' '.$account["sn"]);
-        $user->setEmail($account["mail"]);
+        $user->setMail($account["mail"]);
 
 
 

@@ -165,6 +165,7 @@ doctrine:
                 connection: generator
                 mappings:
                     GeneratorBundle: ~
+                    UserBundle: ~
 
 
 

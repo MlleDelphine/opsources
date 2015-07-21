@@ -22,31 +22,32 @@ class OpusSheet
      */
     private $id;
 
+
     /**
-     * @var integer
      *
-     * @ORM\Column(name="evaluator_id", type="bigint", nullable=true)
+     * @ORM\JoinColumn(name="evaluator_id", referencedColumnName="id")
+     *
      */
     private $evaluatorId;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="superior_id", type="bigint", nullable=true)
+     * @ORM\JoinColumn(name="superior_id", referencedColumnName="id")
+     *
      */
     private $superiorId;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="director_id", type="bigint", nullable=true)
+     * @ORM\JoinColumn(name="superior_id", referencedColumnName="id")
+     *
      */
     private $directorId;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="responsable_id", type="bigint", nullable=true)
+     * @ORM\JoinColumn(name="responsable_id", referencedColumnName="id")
+     *
      */
     private $responsableId;
 
@@ -74,7 +75,7 @@ class OpusSheet
     /**
      * @var \OpusJob
      *
-     * @ORM\ManyToOne(targetEntity="OpusJob")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusJob")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="job2_id", referencedColumnName="id")
      * })
@@ -84,7 +85,7 @@ class OpusSheet
     /**
      * @var \OpusJob
      *
-     * @ORM\ManyToOne(targetEntity="OpusJob")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusJob")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="job1_id", referencedColumnName="id")
      * })
@@ -94,7 +95,7 @@ class OpusSheet
     /**
      * @var \OpusInfo
      *
-     * @ORM\ManyToOne(targetEntity="OpusInfo")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusInfo")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="info_id", referencedColumnName="id")
      * })
@@ -104,7 +105,7 @@ class OpusSheet
     /**
      * @var \OpusUsers
      *
-     * @ORM\ManyToOne(targetEntity="OpusUsers")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="opusSheetsEvaluate", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="evaluate_id", referencedColumnName="id")
      * })
@@ -287,10 +288,10 @@ class OpusSheet
     /**
      * Set job2
      *
-     * @param \OldOpusBundle\Entity\OpusJob $job2
+     * @param \GeneratorBundle\Entity\OpusJob $job2
      * @return OpusSheet
      */
-    public function setJob2(\OldOpusBundle\Entity\OpusJob $job2 = null)
+    public function setJob2(\GeneratorBundle\Entity\OpusJob $job2 = null)
     {
         $this->job2 = $job2;
 
@@ -300,7 +301,7 @@ class OpusSheet
     /**
      * Get job2
      *
-     * @return \OldOpusBundle\Entity\OpusJob 
+     * @return \GeneratorBundle\Entity\OpusJob 
      */
     public function getJob2()
     {
@@ -310,10 +311,10 @@ class OpusSheet
     /**
      * Set job1
      *
-     * @param \OldOpusBundle\Entity\OpusJob $job1
+     * @param \GeneratorBundle\Entity\OpusJob $job1
      * @return OpusSheet
      */
-    public function setJob1(\OldOpusBundle\Entity\OpusJob $job1 = null)
+    public function setJob1(\GeneratorBundle\Entity\OpusJob $job1 = null)
     {
         $this->job1 = $job1;
 
@@ -323,7 +324,7 @@ class OpusSheet
     /**
      * Get job1
      *
-     * @return \OldOpusBundle\Entity\OpusJob 
+     * @return \GeneratorBundle\Entity\OpusJob 
      */
     public function getJob1()
     {
@@ -333,10 +334,10 @@ class OpusSheet
     /**
      * Set info
      *
-     * @param \OldOpusBundle\Entity\OpusInfo $info
+     * @param \GeneratorBundle\Entity\OpusInfo $info
      * @return OpusSheet
      */
-    public function setInfo(\OldOpusBundle\Entity\OpusInfo $info = null)
+    public function setInfo(\GeneratorBundle\Entity\OpusInfo $info = null)
     {
         $this->info = $info;
 
@@ -346,7 +347,7 @@ class OpusSheet
     /**
      * Get info
      *
-     * @return \OldOpusBundle\Entity\OpusInfo 
+     * @return \GeneratorBundle\Entity\OpusInfo 
      */
     public function getInfo()
     {
@@ -356,10 +357,10 @@ class OpusSheet
     /**
      * Set evaluate
      *
-     * @param \OldOpusBundle\Entity\OpusUsers $evaluate
+     * @param \UserBundle\Entity\OpusUsers $evaluate
      * @return OpusSheet
      */
-    public function setEvaluate(\OldOpusBundle\Entity\OpusUsers $evaluate = null)
+    public function setEvaluate(\UserBundle\Entity\User $evaluate = null)
     {
         $this->evaluate = $evaluate;
 
@@ -369,7 +370,7 @@ class OpusSheet
     /**
      * Get evaluate
      *
-     * @return \OldOpusBundle\Entity\OpusUsers 
+     * @return \UserBundle\Entity\User
      */
     public function getEvaluate()
     {
