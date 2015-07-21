@@ -26,8 +26,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository("UserBundle:User")->findAll();
 
-        return array();
+        return array('users'=> $users);
     }
 
     /**

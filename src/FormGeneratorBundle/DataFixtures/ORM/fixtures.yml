@@ -40,6 +40,48 @@ FormGeneratorBundle\Entity\Status:
         name: "Validée définitivement par le manager"
         code: "closed"
 
+FormGeneratorBundle\Entity\OpusStatusSheet:
+    status0:
+        label: "Supprimée"
+        intCode: -1
+        strCode: "supprimee"
+    status1:
+        label: "Générée"
+        intCode: 1
+        strCode: "generee"
+    status2:
+        label: "En création"
+        intCode: 2
+        strCode: "creation"
+    status3:
+        label: "Attente de validation évalué"
+        intCode: 3
+        strCode: "valid_evalue"
+    status4:
+        label: "Attente de validation évaluateur"
+        intCode: 4
+        strCode: "valid_evaluator"
+    status5:
+        label: "Attente de validation second évaluateur"
+        intCode: 5
+        strCode: "valid_second_evaluator"
+    status6:
+        label: "Attente de validtion du directeur"
+        intCode: 6
+        strCode: "valid_director"
+    status7:
+        label: "Attente de validation RH"
+        intCode: 7
+        strCode: "valid_RH"
+    status8:
+        label: "Clôturée"
+        intCode: 8
+        strCode: "close"
+    status9:
+        label: "Clôturée (non finie)"
+        intCode: 9
+        strCode: "close_finish"
+
 FormGeneratorBundle\Entity\Condition:
     workCond0:
         name: "Sa charge de travail"

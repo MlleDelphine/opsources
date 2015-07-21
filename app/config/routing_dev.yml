@@ -20,3 +20,9 @@ _main:
 _assetic:
     resource: .
     type:     assetic
+
+sso:
+    resource: @ArianespacePlexcelBundle/Resources/config/routing.yml
+
+login:
+    resource: @UserBundle/Resources/config/routing.yml

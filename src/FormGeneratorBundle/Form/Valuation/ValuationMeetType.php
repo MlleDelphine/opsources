@@ -127,7 +127,7 @@ class ValuationMeetType extends AbstractType{
                 }
                 $attr['data-tab'] = "tab_2";
                 $form->add('skills', new CustomCollectionFieldType(3), array(
-                    'type' => new SkillType(),
+                    'type' => new SkillType($access),
                     'allow_add' => true,
                     'allow_delete' => false,
                     'by_reference' => false,

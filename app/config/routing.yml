@@ -1,3 +1,8 @@
+old_opus:
+    resource: "@OldOpusBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 formgenerator:
     resource: "@FormGeneratorBundle/Controller/"
     type:     annotation
@@ -20,3 +25,9 @@ _sonata_admin:
 
 plexcel_bundle:
     resource: "@ArianespacePlexcelBundle/Resources/config/routing.yml"
+
+sso:
+    resource: "@ArianespacePlexcelBundle/Resources/config/routing.yml"
+
+login:
+    resource: "@UserBundle/Resources/config/routing.yml"

@@ -53,7 +53,8 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [UserBundle, FOSUserBundle, FormGeneratorBundle, AppBundle, ArianespaceThemeBundle]
+#    bundles:        [UserBundle, FOSUserBundle, FormGeneratorBundle, AppBundle, ArianespaceThemeBundle]
+    bundles: [UserBundle, GeneratorBundle, FOSUserBundle, FormGeneratorBundle, AppBundle, ArianespaceThemeBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -110,13 +111,32 @@ braincrafted_bootstrap:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_pgsql #pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
+        default_connection:   default
+        connections:
+            default:
+                driver:   pdo_pgsql #pdo_mysql
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+            old:
+                driver:   pdo_pgsql #pdo_mysql
+                host:     "%database_host_old%"
+                port:     "%database_port_old%"
+                dbname:   "%database_name_old%"
+                user:     "%database_user_old%"
+                password: "%database_password_old%"
+                charset:  UTF8
+            generator:
+                driver:   pdo_pgsql #pdo_mysql
+                host:     "%database_host_3%"
+                port:     "%database_port_3%"
+                dbname:   "%database_name_3%"
+                user:     "%database_user_3%"
+                password: "%database_password_3%"
+                charset:  UTF8
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -125,32 +145,27 @@ doctrine:
         #     path:     "%database_path%"
 
     orm:
+        default_entity_manager:   default
         auto_generate_proxy_classes: "%kernel.debug%"
         #naming_strategy: doctrine.orm.naming_strategy.underscore
         #auto_mapping: true
         entity_managers:
             default:
+                connection:       default
                 mappings:
                     FormGeneratorBundle: ~
                     UserBundle: ~
                     FOSUserBundle: ~
                     ArianespacePlexcelBundle: ~
-#                    translatable:
-#                        type: annotation
-#                        alias: Gedmo
-#                        prefix: Gedmo\Translatable\Entity
-#                                # make sure vendor library location is correct
-#                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
-#                    loggable:
-#                        type: annotation
-#                        alias: Gedmo
-#                        prefix: Gedmo\Loggable\Entity
-#                                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
-#                    tree:
-#                        type: annotation
-#                        alias: Gedmo
-#                        prefix: Gedmo\Tree\Entity
-#                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+            old:
+                connection: old
+                mappings:
+                    OldOpusBundle: ~
+            generator:
+                connection: generator
+                mappings:
+                    GeneratorBundle: ~
+
 
 
 # Swiftmailer Configuration
@@ -182,3 +197,20 @@ genemu_form:
 #            minimumInputLength: 0
 
 
+arianespace_plexcel:
+    enable:               true
+    autologin:            false
+    local:                true
+    create:               false
+    application:
+#        name:                 "%application.name%"
+#        version:              "%application.version%"
+#        description:          "%application.description%"
+    auto_add_domain:     ad.arianespace.fr
+    autologin_redirect_route:  homepage
+    check_plexcel_login:  true
+    check_plexcel_redirect_route:  homepage
+    authorized_cn:
+        'CN=opus_appraisees_pilot,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr': 'ROLE_USER'
+    user_manager:         user_manager
+    file:                 "%kernel.root_dir%/../plexcel/plexcel.php"
