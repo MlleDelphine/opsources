@@ -1,13 +1,12 @@
 <?php
 
 namespace OldOpusBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * OpusAttribute
  *
- * @ORM\Table(name="opus_attribute", indexes={@ORM\Index(name="opus_attribute_collection_id", columns={"collection_id"}), @ORM\Index(name="opus_attribute_sheet_id", columns={"sheet_id"})})
+ * @ORM\Table(name="opus_attribute_old", indexes={@ORM\Index(name="opus_attribute_collection_id", columns={"collection_id"}), @ORM\Index(name="opus_attribute_sheet_id", columns={"sheet_id"})})
  * @ORM\Entity
  */
 class OpusAttribute

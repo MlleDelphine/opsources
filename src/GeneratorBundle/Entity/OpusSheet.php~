@@ -3,7 +3,6 @@
 namespace GeneratorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * OpusSheet
@@ -85,10 +84,24 @@ class OpusSheet
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetStatus", inversedBy="opusSheets", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="status", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="status", referencedColumnName="id", nullable=false)
      * })
      */
     private $status;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @var \OpusJob
@@ -120,38 +133,11 @@ class OpusSheet
      */
     private $info;
 
-    /**
-     * @var \DateTime
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusAttribute", mappedBy="sheet", cascade={"persist"})
-     */
-
-    private $attributes;
-
-    /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusCollection", mappedBy="sheet", cascade={"persist"})
-     */
-
-    private $collections;
-
-
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -174,7 +160,7 @@ class OpusSheet
     /**
      * Get evaluator
      *
-     * @return integer
+     * @return integer 
      */
     public function getEvaluator()
     {
@@ -197,7 +183,7 @@ class OpusSheet
     /**
      * Get superior
      *
-     * @return integer
+     * @return integer 
      */
     public function getSuperior()
     {
@@ -220,7 +206,7 @@ class OpusSheet
     /**
      * Get director
      *
-     * @return integer
+     * @return integer 
      */
     public function getDirector()
     {
@@ -243,13 +229,13 @@ class OpusSheet
     /**
      * Get responsable
      *
-     * @return integer
+     * @return integer 
      */
     public function getResponsable()
     {
         return $this->responsable;
     }
-
+    
 
     /**
      * Set createdAt
@@ -267,7 +253,7 @@ class OpusSheet
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getCreatedAt()
     {
@@ -290,7 +276,7 @@ class OpusSheet
     /**
      * Get updatedAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getUpdatedAt()
     {
@@ -313,7 +299,7 @@ class OpusSheet
     /**
      * Get job2
      *
-     * @return \GeneratorBundle\Entity\OpusJob
+     * @return \GeneratorBundle\Entity\OpusJob 
      */
     public function getJob2()
     {
@@ -336,7 +322,7 @@ class OpusSheet
     /**
      * Get job1
      *
-     * @return \GeneratorBundle\Entity\OpusJob
+     * @return \GeneratorBundle\Entity\OpusJob 
      */
     public function getJob1()
     {
@@ -359,7 +345,7 @@ class OpusSheet
     /**
      * Get info
      *
-     * @return \GeneratorBundle\Entity\OpusInfo
+     * @return \GeneratorBundle\Entity\OpusInfo 
      */
     public function getInfo()
     {
@@ -387,101 +373,5 @@ class OpusSheet
     public function getEvaluate()
     {
         return $this->evaluate;
-    }
-
-    /**
-     * Set status
-     *
-     * @param \GeneratorBundle\Entity\OpusSheetStatus $status
-     * @return OpusSheet
-     */
-    public function setStatus(\GeneratorBundle\Entity\OpusSheetStatus $status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return \GeneratorBundle\Entity\OpusSheetStatus
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add attributes
-     *
-     * @param \GeneratorBundle\Entity\OpusAttribute $attributes
-     * @return OpusSheet
-     */
-    public function addAttribute(\GeneratorBundle\Entity\OpusAttribute $attributes)
-    {
-        $this->attributes[] = $attributes;
-
-        return $this;
-    }
-
-    /**
-     * Remove attributes
-     *
-     * @param \GeneratorBundle\Entity\OpusAttribute $attributes
-     */
-    public function removeAttribute(\GeneratorBundle\Entity\OpusAttribute $attributes)
-    {
-        $this->attributes->removeElement($attributes);
-    }
-
-    /**
-     * Get attributes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * Add collections
-     *
-     * @param \GeneratorBundle\Entity\OpusCollection $collections
-     * @return OpusSheet
-     */
-    public function addCollection(\GeneratorBundle\Entity\OpusCollection $collections)
-    {
-        $this->collections[] = $collections;
-
-        return $this;
-    }
-
-    /**
-     * Remove collections
-     *
-     * @param \GeneratorBundle\Entity\OpusCollection $collections
-     */
-    public function removeCollection(\GeneratorBundle\Entity\OpusCollection $collections)
-    {
-        $this->collections->removeElement($collections);
-    }
-
-    /**
-     * Get collections
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCollections()
-    {
-        return $this->collections;
     }
 }

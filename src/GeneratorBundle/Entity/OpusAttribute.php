@@ -3,6 +3,7 @@
 namespace GeneratorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * OpusAttribute
@@ -52,14 +53,14 @@ class OpusAttribute
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -74,7 +75,7 @@ class OpusAttribute
     /**
      * @var \OpusSheet
      *
-     * @ORM\ManyToOne(targetEntity="OpusSheet")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheet")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="sheet_id", referencedColumnName="id")
      * })
@@ -84,7 +85,7 @@ class OpusAttribute
     /**
      * @var \OpusCollection
      *
-     * @ORM\ManyToOne(targetEntity="OpusCollection")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusCollection")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="collection_id", referencedColumnName="id")
      * })

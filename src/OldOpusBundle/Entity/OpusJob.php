@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OpusJob
  *
- * @ORM\Table(name="opus_job")
+ * @ORM\Table(name="opus_job_old")
  * @ORM\Entity
  */
 class OpusJob

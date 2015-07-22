@@ -3,6 +3,7 @@
 namespace GeneratorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * OpusInfo
@@ -59,24 +60,41 @@ class OpusInfo
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @var \OpusSheetType
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetType")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * })
+     */
+
+    private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="conf_file", type="string", length=255, nullable=true)
+     */
+    private $confFile;
 
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -99,7 +117,7 @@ class OpusInfo
     /**
      * Get year
      *
-     * @return integer 
+     * @return integer
      */
     public function getYear()
     {
@@ -122,7 +140,7 @@ class OpusInfo
     /**
      * Get template
      *
-     * @return string 
+     * @return string
      */
     public function getTemplate()
     {
@@ -145,7 +163,7 @@ class OpusInfo
     /**
      * Get mailDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getMailDate()
     {
@@ -168,7 +186,7 @@ class OpusInfo
     /**
      * Get limitDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLimitDate()
     {
@@ -191,7 +209,7 @@ class OpusInfo
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -214,7 +232,7 @@ class OpusInfo
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -237,10 +255,56 @@ class OpusInfo
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set confFile
+     *
+     * @param string $confFile
+     * @return OpusInfo
+     */
+    public function setConfFile($confFile)
+    {
+        $this->confFile = $confFile;
+
+        return $this;
+    }
+
+    /**
+     * Get confFile
+     *
+     * @return string 
+     */
+    public function getConfFile()
+    {
+        return $this->confFile;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetType $type
+     * @return OpusInfo
+     */
+    public function setType(\GeneratorBundle\Entity\OpusSheetType $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \GeneratorBundle\Entity\OpusSheetType 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

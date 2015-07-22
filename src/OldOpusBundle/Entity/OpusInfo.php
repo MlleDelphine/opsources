@@ -1,13 +1,13 @@
 <?php
 
-namespace FormGeneratorBundle\Entity;
+namespace OldOpusBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * OpusInfo
  *
- * @ORM\Table(name="opus_info")
+ * @ORM\Table(name="opus_info_old")
  * @ORM\Entity
  */
 class OpusInfo

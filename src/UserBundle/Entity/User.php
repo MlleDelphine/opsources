@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\Role;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * User
@@ -129,14 +130,14 @@ class User implements UserInterface
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -173,35 +174,35 @@ class User implements UserInterface
 
 
 
-
-    /**
-     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationMeet", mappedBy="assessor", cascade={"persist"})
-     */
-    private $assessorValuationMeets;
-
-    /**
-     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationMeet", mappedBy="assessed", cascade={"persist"})
-     */
-    private $assessedValuationMeets;
-
-    /**
-     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ProfessionalMeet", mappedBy="assessor", cascade={"persist"})
-     */
-    private $assessorProfessionalMeets;
-
-    /**
-     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ProfessionalMeet", mappedBy="assessed", cascade={"persist"})
-     */
-    private $assessedProfessionalMeets;
-    /**
-     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ConditionsMeet", mappedBy="assessor", cascade={"persist"})
-     */
-    private $assessorConditionsMeets;
-
-    /**
-     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ConditionsMeet", mappedBy="assessed", cascade={"persist"})
-     */
-    private $assessedConditionsMeets;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationMeet", mappedBy="assessor", cascade={"persist"})
+//     */
+//    private $assessorValuationMeets;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ValuationMeet", mappedBy="assessed", cascade={"persist"})
+//     */
+//    private $assessedValuationMeets;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ProfessionalMeet", mappedBy="assessor", cascade={"persist"})
+//     */
+//    private $assessorProfessionalMeets;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ProfessionalMeet", mappedBy="assessed", cascade={"persist"})
+//     */
+//    private $assessedProfessionalMeets;
+//    /**
+//     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ConditionsMeet", mappedBy="assessor", cascade={"persist"})
+//     */
+//    private $assessorConditionsMeets;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity="FormGeneratorBundle\Entity\ConditionsMeet", mappedBy="assessed", cascade={"persist"})
+//     */
+//    private $assessedConditionsMeets;
 
 
     /**
@@ -209,12 +210,32 @@ class User implements UserInterface
      */
     private $opusSheetsEvaluator;
 
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluate", cascade={"persist"})
+     */
+    private $opusSheetsEvaluate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="superior", cascade={"persist"})
+     */
+    private $opusSheetsSuperior;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="director", cascade={"persist"})
+     */
+    private $opusSheetsDirector;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="responsable", cascade={"persist"})
+     */
+    private $opusSheetsResponsable;
+
 
 
 
     public function __construct()
     {
-     //   parent::__construct();
+        //   parent::__construct();
         $this->assessorValuationMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessedValuationMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessorProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
@@ -248,203 +269,203 @@ class User implements UserInterface
         return $this->id;
     }
 
-
-    /**
-     * Add assessorValuationMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets
-     * @return User
-     */
-    public function addAssessorValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets)
-    {
-        $this->assessorValuationMeets[] = $assessorValuationMeets;
-
-        return $this;
-    }
-
-    /**
-     * Remove assessorValuationMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets
-     */
-    public function removeAssessorValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets)
-    {
-        $this->assessorValuationMeets->removeElement($assessorValuationMeets);
-    }
-
-    /**
-     * Get assessorValuationMeets
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAssessorValuationMeets()
-    {
-        return $this->assessorValuationMeets;
-    }
-
-    /**
-     * Add assessedValuationMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets
-     * @return User
-     */
-    public function addAssessedValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets)
-    {
-        $this->assessedValuationMeets[] = $assessedValuationMeets;
-
-        return $this;
-    }
-
-    /**
-     * Remove assessedValuationMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets
-     */
-    public function removeAssessedValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets)
-    {
-        $this->assessedValuationMeets->removeElement($assessedValuationMeets);
-    }
-
-    /**
-     * Get assessedValuationMeets
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAssessedValuationMeets()
-    {
-        return $this->assessedValuationMeets;
-    }
-
-    /**
-     * Add assessorProfessionalMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets
-     * @return User
-     */
-    public function addAssessorProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets)
-    {
-        $this->assessorProfessionalMeets[] = $assessorProfessionalMeets;
-
-        return $this;
-    }
-
-    /**
-     * Remove assessorProfessionalMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets
-     */
-    public function removeAssessorProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets)
-    {
-        $this->assessorProfessionalMeets->removeElement($assessorProfessionalMeets);
-    }
-
-    /**
-     * Get assessorProfessionalMeets
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAssessorProfessionalMeets()
-    {
-        return $this->assessorProfessionalMeets;
-    }
-
-    /**
-     * Add assessedProfessionalMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets
-     * @return User
-     */
-    public function addAssessedProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets)
-    {
-        $this->assessedProfessionalMeets[] = $assessedProfessionalMeets;
-
-        return $this;
-    }
-
-    /**
-     * Remove assessedProfessionalMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets
-     */
-    public function removeAssessedProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets)
-    {
-        $this->assessedProfessionalMeets->removeElement($assessedProfessionalMeets);
-    }
-
-    /**
-     * Get assessedProfessionalMeets
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAssessedProfessionalMeets()
-    {
-        return $this->assessedProfessionalMeets;
-    }
-    /**
-     * Add assessorConditionsMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets
-     * @return User
-     */
-    public function addAssessorConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets)
-    {
-        $this->assessorConditionsMeets[] = $assessorConditionsMeets;
-
-        return $this;
-    }
-
-    /**
-     * Remove assessorConditionsMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets
-     */
-    public function removeAssessorConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets)
-    {
-        $this->assessorConditionsMeets->removeElement($assessorConditionsMeets);
-    }
-
-    /**
-     * Get assessorConditionsMeets
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAssessorConditionsMeets()
-    {
-        return $this->assessorConditionsMeets;
-    }
-
-    /**
-     * Add assessedConditionsMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets
-     * @return User
-     */
-    public function addAssessedConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets)
-    {
-        $this->assessedConditionsMeets[] = $assessedConditionsMeets;
-
-        return $this;
-    }
-
-    /**
-     * Remove assessedConditionsMeets
-     *
-     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets
-     */
-    public function removeAssessedConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets)
-    {
-        $this->assessedConditionsMeets->removeElement($assessedConditionsMeets);
-    }
-
-    /**
-     * Get assessedConditionsMeets
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAssessedConditionsMeets()
-    {
-        return $this->assessedConditionsMeets;
-    }
+//
+//    /**
+//     * Add assessorValuationMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets
+//     * @return User
+//     */
+//    public function addAssessorValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets)
+//    {
+//        $this->assessorValuationMeets[] = $assessorValuationMeets;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove assessorValuationMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets
+//     */
+//    public function removeAssessorValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessorValuationMeets)
+//    {
+//        $this->assessorValuationMeets->removeElement($assessorValuationMeets);
+//    }
+//
+//    /**
+//     * Get assessorValuationMeets
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getAssessorValuationMeets()
+//    {
+//        return $this->assessorValuationMeets;
+//    }
+//
+//    /**
+//     * Add assessedValuationMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets
+//     * @return User
+//     */
+//    public function addAssessedValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets)
+//    {
+//        $this->assessedValuationMeets[] = $assessedValuationMeets;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove assessedValuationMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets
+//     */
+//    public function removeAssessedValuationMeet(\FormGeneratorBundle\Entity\ValuationMeet $assessedValuationMeets)
+//    {
+//        $this->assessedValuationMeets->removeElement($assessedValuationMeets);
+//    }
+//
+//    /**
+//     * Get assessedValuationMeets
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getAssessedValuationMeets()
+//    {
+//        return $this->assessedValuationMeets;
+//    }
+//
+//    /**
+//     * Add assessorProfessionalMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets
+//     * @return User
+//     */
+//    public function addAssessorProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets)
+//    {
+//        $this->assessorProfessionalMeets[] = $assessorProfessionalMeets;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove assessorProfessionalMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets
+//     */
+//    public function removeAssessorProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessorProfessionalMeets)
+//    {
+//        $this->assessorProfessionalMeets->removeElement($assessorProfessionalMeets);
+//    }
+//
+//    /**
+//     * Get assessorProfessionalMeets
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getAssessorProfessionalMeets()
+//    {
+//        return $this->assessorProfessionalMeets;
+//    }
+//
+//    /**
+//     * Add assessedProfessionalMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets
+//     * @return User
+//     */
+//    public function addAssessedProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets)
+//    {
+//        $this->assessedProfessionalMeets[] = $assessedProfessionalMeets;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove assessedProfessionalMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets
+//     */
+//    public function removeAssessedProfessionalMeet(\FormGeneratorBundle\Entity\ProfessionalMeet $assessedProfessionalMeets)
+//    {
+//        $this->assessedProfessionalMeets->removeElement($assessedProfessionalMeets);
+//    }
+//
+//    /**
+//     * Get assessedProfessionalMeets
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getAssessedProfessionalMeets()
+//    {
+//        return $this->assessedProfessionalMeets;
+//    }
+//    /**
+//     * Add assessorConditionsMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets
+//     * @return User
+//     */
+//    public function addAssessorConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets)
+//    {
+//        $this->assessorConditionsMeets[] = $assessorConditionsMeets;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove assessorConditionsMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets
+//     */
+//    public function removeAssessorConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessorConditionsMeets)
+//    {
+//        $this->assessorConditionsMeets->removeElement($assessorConditionsMeets);
+//    }
+//
+//    /**
+//     * Get assessorConditionsMeets
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getAssessorConditionsMeets()
+//    {
+//        return $this->assessorConditionsMeets;
+//    }
+//
+//    /**
+//     * Add assessedConditionsMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets
+//     * @return User
+//     */
+//    public function addAssessedConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets)
+//    {
+//        $this->assessedConditionsMeets[] = $assessedConditionsMeets;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove assessedConditionsMeets
+//     *
+//     * @param \FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets
+//     */
+//    public function removeAssessedConditionsMeet(\FormGeneratorBundle\Entity\ConditionsMeet $assessedConditionsMeets)
+//    {
+//        $this->assessedConditionsMeets->removeElement($assessedConditionsMeets);
+//    }
+//
+//    /**
+//     * Get assessedConditionsMeets
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getAssessedConditionsMeets()
+//    {
+//        return $this->assessedConditionsMeets;
+//    }
 
 
     public function getGroups()
@@ -595,7 +616,7 @@ class User implements UserInterface
     /**
      * Get funcManagerId
      *
-     * @return integer 
+     * @return integer
      */
     public function getFuncManagerId()
     {
@@ -618,7 +639,7 @@ class User implements UserInterface
     /**
      * Get guid
      *
-     * @return string 
+     * @return string
      */
     public function getGuid()
     {
@@ -641,7 +662,7 @@ class User implements UserInterface
     /**
      * Get responsable
      *
-     * @return integer 
+     * @return integer
      */
     public function getResponsable()
     {
@@ -664,7 +685,7 @@ class User implements UserInterface
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -687,7 +708,7 @@ class User implements UserInterface
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -710,7 +731,7 @@ class User implements UserInterface
     /**
      * Get login
      *
-     * @return string 
+     * @return string
      */
     public function getLogin()
     {
@@ -733,7 +754,7 @@ class User implements UserInterface
     /**
      * Get mail
      *
-     * @return string 
+     * @return string
      */
     public function getMail()
     {
@@ -756,7 +777,7 @@ class User implements UserInterface
     /**
      * Get division
      *
-     * @return string 
+     * @return string
      */
     public function getDivision()
     {
@@ -779,7 +800,7 @@ class User implements UserInterface
     /**
      * Get department
      *
-     * @return string 
+     * @return string
      */
     public function getDepartment()
     {
@@ -802,7 +823,7 @@ class User implements UserInterface
     /**
      * Get classification
      *
-     * @return string 
+     * @return string
      */
     public function getClassification()
     {
@@ -825,7 +846,7 @@ class User implements UserInterface
     /**
      * Get fonction
      *
-     * @return string 
+     * @return string
      */
     public function getFonction()
     {
@@ -848,7 +869,7 @@ class User implements UserInterface
     /**
      * Get entryDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEntryDate()
     {
@@ -871,7 +892,7 @@ class User implements UserInterface
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -894,7 +915,7 @@ class User implements UserInterface
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -917,7 +938,7 @@ class User implements UserInterface
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -940,7 +961,7 @@ class User implements UserInterface
     /**
      * Get manager
      *
-     * @return \UserBundle\Entity\User 
+     * @return \UserBundle\Entity\User
      */
     public function getManager()
     {
@@ -963,7 +984,7 @@ class User implements UserInterface
     /**
      * Get job
      *
-     * @return \GeneratorBundle\Entity\OpusJob 
+     * @return \GeneratorBundle\Entity\OpusJob
      */
     public function getJob()
     {
@@ -986,7 +1007,7 @@ class User implements UserInterface
     /**
      * Get job2
      *
-     * @return \GeneratorBundle\Entity\OpusJob 
+     * @return \GeneratorBundle\Entity\OpusJob
      */
     public function getJob2()
     {
@@ -1019,10 +1040,142 @@ class User implements UserInterface
     /**
      * Get opusSheetsEvaluator
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getOpusSheetsEvaluator()
     {
         return $this->opusSheetsEvaluator;
+    }
+
+    /**
+     * Add opusSheetsEvaluate
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluate
+     * @return User
+     */
+    public function addOpusSheetsEvaluate(\GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluate)
+    {
+        $this->opusSheetsEvaluate[] = $opusSheetsEvaluate;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusSheetsEvaluate
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluate
+     */
+    public function removeOpusSheetsEvaluate(\GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluate)
+    {
+        $this->opusSheetsEvaluate->removeElement($opusSheetsEvaluate);
+    }
+
+    /**
+     * Get opusSheetsEvaluate
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOpusSheetsEvaluate()
+    {
+        return $this->opusSheetsEvaluate;
+    }
+
+    /**
+     * Add opusSheetsSuperior
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsSuperior
+     * @return User
+     */
+    public function addOpusSheetsSuperior(\GeneratorBundle\Entity\OpusSheet $opusSheetsSuperior)
+    {
+        $this->opusSheetsSuperior[] = $opusSheetsSuperior;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusSheetsSuperior
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsSuperior
+     */
+    public function removeOpusSheetsSuperior(\GeneratorBundle\Entity\OpusSheet $opusSheetsSuperior)
+    {
+        $this->opusSheetsSuperior->removeElement($opusSheetsSuperior);
+    }
+
+    /**
+     * Get opusSheetsSuperior
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOpusSheetsSuperior()
+    {
+        return $this->opusSheetsSuperior;
+    }
+
+    /**
+     * Add opusSheetsDirector
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsDirector
+     * @return User
+     */
+    public function addOpusSheetsDirector(\GeneratorBundle\Entity\OpusSheet $opusSheetsDirector)
+    {
+        $this->opusSheetsDirector[] = $opusSheetsDirector;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusSheetsDirector
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsDirector
+     */
+    public function removeOpusSheetsDirector(\GeneratorBundle\Entity\OpusSheet $opusSheetsDirector)
+    {
+        $this->opusSheetsDirector->removeElement($opusSheetsDirector);
+    }
+
+    /**
+     * Get opusSheetsDirector
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOpusSheetsDirector()
+    {
+        return $this->opusSheetsDirector;
+    }
+
+    /**
+     * Add opusSheetsResponsable
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsResponsable
+     * @return User
+     */
+    public function addOpusSheetsResponsable(\GeneratorBundle\Entity\OpusSheet $opusSheetsResponsable)
+    {
+        $this->opusSheetsResponsable[] = $opusSheetsResponsable;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusSheetsResponsable
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsResponsable
+     */
+    public function removeOpusSheetsResponsable(\GeneratorBundle\Entity\OpusSheet $opusSheetsResponsable)
+    {
+        $this->opusSheetsResponsable->removeElement($opusSheetsResponsable);
+    }
+
+    /**
+     * Get opusSheetsResponsable
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOpusSheetsResponsable()
+    {
+        return $this->opusSheetsResponsable;
     }
 }

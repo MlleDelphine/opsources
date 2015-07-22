@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OpusCollection
  *
- * @ORM\Table(name="opus_collection", indexes={@ORM\Index(name="opus_collection_sheet_id", columns={"sheet_id"}), @ORM\Index(name="opus_collection_info_id", columns={"info_id"}), @ORM\Index(name="opus_collection_users_id", columns={"users_id"})})
+ * @ORM\Table(name="opus_collection_old", indexes={@ORM\Index(name="opus_collection_sheet_id", columns={"sheet_id"}), @ORM\Index(name="opus_collection_info_id", columns={"info_id"}), @ORM\Index(name="opus_collection_users_id", columns={"users_id"})})
  * @ORM\Entity
  */
 class OpusCollection
@@ -37,7 +37,7 @@ class OpusCollection
     private $infoId;
 
     /**
-     * @var string
+     * @var string : nom du champs dans fichier de conf ~name du form HTLM
      *
      * @ORM\Column(name="type", type="string", length=64, nullable=false)
      */

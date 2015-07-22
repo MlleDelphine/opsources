@@ -3,6 +3,7 @@
 namespace GeneratorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * OpusJob
@@ -25,7 +26,7 @@ class OpusJob
     /**
      * @var string
      *
-     * @ORM\Column(name="label", type="text", nullable=false)
+     * @ORM\Column(name="label", type="text", nullable=false, length=768)
      */
     private $label;
 
@@ -37,15 +38,25 @@ class OpusJob
     private $status;
 
     /**
+     * @ORM\OneToMany(targetEntity="UserBundle\Entity\User", mappedBy="job", cascade={"persist"})
+     */
+    private $jobFirst;
+
+    /**
+     * @ORM\OneToMany(targetEntity="UserBundle\Entity\User", mappedBy="job2", cascade={"persist"})
+     */
+    private $jobSecond;
+
+    /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -152,5 +163,79 @@ class OpusJob
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->jobFirst = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->jobSecond = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add jobFirst
+     *
+     * @param \UserBundle\Entity\User $jobFirst
+     * @return OpusJob
+     */
+    public function addJobFirst(\UserBundle\Entity\User $jobFirst)
+    {
+        $this->jobFirst[] = $jobFirst;
+
+        return $this;
+    }
+
+    /**
+     * Remove jobFirst
+     *
+     * @param \UserBundle\Entity\User $jobFirst
+     */
+    public function removeJobFirst(\UserBundle\Entity\User $jobFirst)
+    {
+        $this->jobFirst->removeElement($jobFirst);
+    }
+
+    /**
+     * Get jobFirst
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getJobFirst()
+    {
+        return $this->jobFirst;
+    }
+
+    /**
+     * Add jobSecond
+     *
+     * @param \UserBundle\Entity\User $jobSecond
+     * @return OpusJob
+     */
+    public function addJobSecond(\UserBundle\Entity\User $jobSecond)
+    {
+        $this->jobSecond[] = $jobSecond;
+
+        return $this;
+    }
+
+    /**
+     * Remove jobSecond
+     *
+     * @param \UserBundle\Entity\User $jobSecond
+     */
+    public function removeJobSecond(\UserBundle\Entity\User $jobSecond)
+    {
+        $this->jobSecond->removeElement($jobSecond);
+    }
+
+    /**
+     * Get jobSecond
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getJobSecond()
+    {
+        return $this->jobSecond;
     }
 }

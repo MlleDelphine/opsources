@@ -3,11 +3,12 @@
 namespace GeneratorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * OpusCollection
  *
- * @ORM\Table(name="opus_collection", indexes={@ORM\Index(name="opus_collection_sheet_id", columns={"sheet_id"}), @ORM\Index(name="opus_collection_info_id", columns={"info_id"}), @ORM\Index(name="opus_collection_users_id", columns={"users_id"})})
+ * @ORM\Table(name="opus_collection", indexes={@ORM\Index(name="opus_collection_sheet_id", columns={"sheet_id"}), @ORM\Index(name="opus_collection_users_id", columns={"users_id"})})
  * @ORM\Entity
  */
 class OpusCollection
@@ -30,13 +31,6 @@ class OpusCollection
     private $usersId;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="info_id", type="bigint", nullable=true)
-     */
-    private $infoId;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=64, nullable=false)
@@ -52,14 +46,14 @@ class OpusCollection
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -67,7 +61,7 @@ class OpusCollection
     /**
      * @var \OpusSheet
      *
-     * @ORM\ManyToOne(targetEntity="OpusSheet")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheet")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="sheet_id", referencedColumnName="id")
      * })

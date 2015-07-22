@@ -1,46 +1,46 @@
-FormGeneratorBundle\Entity\Capacity:
-    capacity0:
-        name: "Collaboration avec l’équipe (entraide, échange, reporting…)"
-    capacity1:
-        name: "Motivation"
-    capacity2:
-        name: "Fiabilité et qualité du travail fourni"
-    capacity3:
-        name: "Respect des engagements"
-    capacity4:
-        name: "Sens du service client (interne & externe)"
-    capacity5:
-        name: "Esprit d’initiative - attitude constructive/positive"
-    capacity6:
-        name: "Capacité d’adaptation"
-
-FormGeneratorBundle\Entity\SkillState:
-    state0:
-        name: "A améliorer"
-    state1:
-        name: "A maintenir"
-
-FormGeneratorBundle\Entity\Status:
-    status0:
-        name: "En cours d'édition par le manager"
-        code: "pending_m"
-    status1:
-        name: "Validée par le manager"
-        code: "validated_m"
-    status2:
-        name: "Refusée par l'évalué"
-        code: "refused_e"
-    status3:
-        name: "Acceptée par l'évalué"
-        code: "validated_e"
-    status4:
-        name: "Refusée par le manager"
-        code: "refused_m"
-    status5:
-        name: "Validée définitivement par le manager"
-        code: "closed"
-
-FormGeneratorBundle\Entity\OpusStatusSheet:
+#FormGeneratorBundle\Entity\Capacity:
+#    capacity0:
+#        name: "Collaboration avec l’équipe (entraide, échange, reporting…)"
+#    capacity1:
+#        name: "Motivation"
+#    capacity2:
+#        name: "Fiabilité et qualité du travail fourni"
+#    capacity3:
+#        name: "Respect des engagements"
+#    capacity4:
+#        name: "Sens du service client (interne & externe)"
+#    capacity5:
+#        name: "Esprit d’initiative - attitude constructive/positive"
+#    capacity6:
+#        name: "Capacité d’adaptation"
+#
+#FormGeneratorBundle\Entity\SkillState:
+#    state0:
+#        name: "A améliorer"
+#    state1:
+#        name: "A maintenir"
+#
+#FormGeneratorBundle\Entity\Status:
+#    status0:
+#        name: "En cours d'édition par le manager"
+#        code: "pending_m"
+#    status1:
+#        name: "Validée par le manager"
+#        code: "validated_m"
+#    status2:
+#        name: "Refusée par l'évalué"
+#        code: "refused_e"
+#    status3:
+#        name: "Acceptée par l'évalué"
+#        code: "validated_e"
+#    status4:
+#        name: "Refusée par le manager"
+#        code: "refused_m"
+#    status5:
+#        name: "Validée définitivement par le manager"
+#        code: "closed"
+#
+GeneratorBundle\Entity\OpusSheetStatus:
     status0:
         label: "Supprimée"
         intCode: -1
@@ -81,25 +81,43 @@ FormGeneratorBundle\Entity\OpusStatusSheet:
         label: "Clôturée (non finie)"
         intCode: 9
         strCode: "close_finish"
+#
+#FormGeneratorBundle\Entity\Condition:
+#    workCond0:
+#        name: "Sa charge de travail"
+#    workCond1:
+#        name: "L’amplitude de ses journées de travail"
+#    workCond2:
+#        name: "L’organisation et répartition de la charge de travail dans l’équipe/dans l’entreprise"
+#    workCond3:
+#        name: "L’articulation vie professionnelle/ vie privée"
+#    workCond4:
+#        name: "Sa rémunération"
+#    workCond5:
+#        name: "Ses conditions de travail"
+#    workCond6:
+#        name: "Ses relations avec l’équipe (soutien, entraide)"
+#    workCond7:
+#        name: "Ses relations avec ses clients/fournisseurs"
+#    workCond8:
+#        name: "Ses relations avec sa hiérarchie"
+#    workCond9:
+#        name: "La communication interne (dans l’équipe, dans l’entreprise)"
 
-FormGeneratorBundle\Entity\Condition:
-    workCond0:
-        name: "Sa charge de travail"
-    workCond1:
-        name: "L’amplitude de ses journées de travail"
-    workCond2:
-        name: "L’organisation et répartition de la charge de travail dans l’équipe/dans l’entreprise"
-    workCond3:
-        name: "L’articulation vie professionnelle/ vie privée"
-    workCond4:
-        name: "Sa rémunération"
-    workCond5:
-        name: "Ses conditions de travail"
-    workCond6:
-        name: "Ses relations avec l’équipe (soutien, entraide)"
-    workCond7:
-        name: "Ses relations avec ses clients/fournisseurs"
-    workCond8:
-        name: "Ses relations avec sa hiérarchie"
-    workCond9:
-        name: "La communication interne (dans l’équipe, dans l’entreprise)"
+GeneratorBundle\Entity\OpusSheetType:
+#    type:
+#        name: "entretien d'évaluation"
+#        strCode: "evaluation"
+#
+#    type1:
+#        name: "entretien professionnel"
+#        strCode: "professional"
+#
+#    type2:
+#        name: "entretien sur les conditions de travail"
+#        strCode: "work_conditions"
+#    type:
+#        name: "entretien unique"
+#        strCode: "unique"
+
+

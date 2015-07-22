@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OpusStatusSheet
  *
- * @ORM\Table(name="opus_status_sheet")
- * @ORM\Entity(repositoryClass="FormGeneratorBundle\Entity\Repository\OpusStatusSheetRepository")
+ * @ORM\Table(name="opus_sheet_status")
+ * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusSheetStatusRepository")
  */
-class OpusStatusSheet
+class OpusSheetStatus
 {
     /**
      * @var integer
@@ -41,6 +41,11 @@ class OpusStatusSheet
      * @ORM\Column(name="strCode", type="string", length=255)
      */
     private $strCode;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="status", cascade={"persist"})
+     */
+    private $opusSheets;
 
 
     /**
@@ -120,5 +125,45 @@ class OpusStatusSheet
     public function getStrCode()
     {
         return $this->strCode;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->opusSheets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add opusSheets
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheets
+     * @return OpusSheetStatus
+     */
+    public function addOpusSheet(\GeneratorBundle\Entity\OpusSheet $opusSheets)
+    {
+        $this->opusSheets[] = $opusSheets;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusSheets
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheets
+     */
+    public function removeOpusSheet(\GeneratorBundle\Entity\OpusSheet $opusSheets)
+    {
+        $this->opusSheets->removeElement($opusSheets);
+    }
+
+    /**
+     * Get opusSheets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOpusSheets()
+    {
+        return $this->opusSheets;
     }
 }
