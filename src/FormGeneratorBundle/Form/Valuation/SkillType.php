@@ -15,26 +15,90 @@ use Symfony\Component\OptionsResolver\OptionsResolver ;
 
 class SkillType extends AbstractType {
 
+    private $access = true;
+
+    public function __construct($access){
+        $this->access = $access;
+    }
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'textarea', array('label' => "Qualités personnelles", 'disabled' => true, 'required' => false, 'attr' => array('class' => 'textarea-resize none-sense')))
-            ->add('state', 'entity', array(
-                'class' => 'FormGeneratorBundle:SkillState',
-                'data_class' => 'FormGeneratorBundle\Entity\SkillState',
-                'property' => 'name',
-                'label' => 'Etat',
-                'multiple' => false,
-                'expanded' => true,
-                'required' => true,
-                'attr' => array('class' => 'icheck icheck-radio', 'data-radio' => 'iradio_square-blue'),
-                'label_attr' => array('class' => 'radio-inline')
-            ))
-            ->add('strongPoint', 'text', array('label' => "Point fort du salarié :", 'required' => false))
-            ->add('comments', 'textarea', array('label' => 'Commentaire(s)', 'attr' => array('class' => 'textarea-resize no-horizontal', 'required' => false)));
+        if($this->access) {
+            $builder->add(
+                'name',
+                'textarea',
+                array(
+                    'label' => "Qualités personnelles",
+                    'disabled' => true,
+                    'required' => false,
+                    'attr' => array('class' => 'textarea-resize none-sense')
+                )
+            )
+                ->add(
+                    'state',
+                    'entity',
+                    array(
+                        'class' => 'FormGeneratorBundle:SkillState',
+                        'data_class' => 'FormGeneratorBundle\Entity\SkillState',
+                        'property' => 'name',
+                        'label' => 'Etat',
+                        'multiple' => false,
+                        'expanded' => true,
+                        'required' => true,
+                        'attr' => array('class' => 'icheck icheck-radio', 'data-radio' => 'iradio_square-blue'),
+                        'label_attr' => array('class' => 'radio-inline')
+                    )
+                )
+                ->add('strongPoint', 'text', array('label' => "Point fort du salarié :", 'required' => false))
+                ->add(
+                    'comments',
+                    'textarea',
+                    array(
+                        'label' => 'Commentaire(s)',
+                        'attr' => array('class' => 'textarea-resize no-horizontal', 'required' => false)
+                    )
+                );
+
+        }
+        else{
+            $builder->add(
+                'name',
+                'textarea',
+                array(
+                    'label' => "Qualités personnelles",
+                    'disabled' => true,
+                    'required' => false,
+                    'attr' => array('class' => 'textarea-resize none-sense', 'readonly' => true)
+                )
+            )
+                ->add(
+                    'state',
+                    'entity',
+                    array(
+                        'class' => 'FormGeneratorBundle:SkillState',
+                        'data_class' => 'FormGeneratorBundle\Entity\SkillState',
+                        'property' => 'name',
+                        'label' => 'Etat',
+                        'multiple' => false,
+                        'expanded' => true,
+                        'required' => true,
+                        'attr' => array('class' => 'icheck icheck-radio disabled', 'data-radio' => 'iradio_square-blue'),
+                        'label_attr' => array('class' => 'radio-inline')
+                    )
+                )
+                ->add('strongPoint', 'text', array('label' => "Point fort du salarié :", 'required' => false, 'attr' => array('readonly' => true)))
+                ->add(
+                    'comments',
+                    'textarea',
+                    array(
+                        'label' => 'Commentaire(s)',
+                        'attr' => array('class' => 'textarea-resize no-horizontal', 'required' => false, 'readonly' => true)
+                    )
+                );
+        }
     }
 
 

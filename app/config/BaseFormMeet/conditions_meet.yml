@@ -3,9 +3,10 @@ id: "conditions_meet"
 fields:
     attr:
         - id: "emp_comm_conditions"
-          type: "genemu_tinymce"
+          type: "textarea"
           conf:
               label: "Commentaires du salarié – propositions d’amélioration  :"
               required: false
               attr:
-                  data-tab: 'tab_1'
+                  data-tab: "tab_3"
+                  data-access: "assessed"

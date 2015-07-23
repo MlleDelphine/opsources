@@ -19,11 +19,12 @@ use FormGeneratorBundle\Form\Type\CustomRadioType;
 class ProfessionalCollectionAttributeNewType extends AbstractType{
 
     protected $attributes;
-    protected $test;
+    protected $tab;
 
-    public function __construct ($attributes)
+    public function __construct ($attributes, $tab = null)
     {
         $this->attributes = $attributes;
+        $this->tab = $tab;
 
     }
 
@@ -48,15 +49,21 @@ class ProfessionalCollectionAttributeNewType extends AbstractType{
                             foreach ($allConf['conf'] as $name => $value) {
                                 $options[$name] = $value;
                             }
+                            //Seul le manager peut remplir certains champs
+                            if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
+                                $options['disabled'] = true;
+                                $options['attr']['readonly'] = true;
+                            }
                             $form->add(
                                 'value',
                                 $allConf['type'],
                                 $options
                             );
                         }
+                        $this->tab = $allConf['conf']['attr']['data-tab'];
                     }
-                    $form->add('name', 'hidden');
-                    $form->add('fieldType', 'hidden');
+                    $form->add('name', 'hidden',array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+                    $form->add('fieldType', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                 }
             });
     }

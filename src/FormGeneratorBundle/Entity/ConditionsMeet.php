@@ -208,6 +208,7 @@ class ConditionsMeet
     public function setStatus(\FormGeneratorBundle\Entity\Status $status = null)
     {
         $this->status = $status;
+        $status->addConditionsMeet($this);
 
         return $this;
     }
@@ -231,6 +232,7 @@ class ConditionsMeet
     public function setAssessor(\UserBundle\Entity\User $assessor = null)
     {
         $this->assessor = $assessor;
+        $assessor->addAssessorConditionsMeet($this);
 
         return $this;
     }
@@ -254,6 +256,7 @@ class ConditionsMeet
     public function setAssessed(\UserBundle\Entity\User $assessed = null)
     {
         $this->assessed = $assessed;
+        $assessed->addAssessedConditionsMeet($this);
 
         return $this;
     }

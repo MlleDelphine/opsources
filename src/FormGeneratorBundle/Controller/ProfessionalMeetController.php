@@ -66,6 +66,7 @@ class ProfessionalMeetController extends Controller{
                     $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' => "validated_m"));
                     $meet->setStatus($status);
                 }
+                $meet->setAssessor($this->getUser());
                 $em->persist($meet);
                 $em->flush();
             }
@@ -84,6 +85,9 @@ class ProfessionalMeetController extends Controller{
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('FormGeneratorBundle:ProfessionalMeet')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('This meet does not exist');
+        }
 
         if($this->get('app.accesscontrol_meet')->canAccess($entity)) {
             $uiTab = $this->get('app.customfields_parser')->parseYamlConf('professional_meet_ui');
@@ -135,17 +139,28 @@ class ProfessionalMeetController extends Controller{
                     $em = $this->getDoctrine()->getManager();
                     //Le manager édite
                     if ($this->getUser() === $meet->getAssessor()) {
-                        if ($form->get('save')->isClicked()) {
+                        if ($form->has('save') && $form->get('save')->isClicked()) {
                             $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
                                 array('code' => "pending_m")
                             );
                             $meet->setStatus($status);
-                        } elseif ($form->get('submit')->isClicked()) {
-                            $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
-                                array('code' => "validated_m")
+                        } elseif ( $form->has('submit') && $form->get('submit')->isClicked()) {
+                            //Si le manager valide à un autre moment que quand l'évalué a validé, décision simple
+                            //Sinon, statut : clos
+                            $userValidated = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                array('code' => "validated_e")
                             );
+                            if($meet->getStatus() != $userValidated) {
+                                $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                    array('code' => "validated_m")
+                                );
+                            }else{
+                                $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
+                                    array('code' => "closed")
+                                );
+                            }
                             $meet->setStatus($status);
-                        } elseif ($form->get('refused')->isClicked()) {
+                        } elseif ($form->has('refused') && $form->get('refused')->isClicked()) {
                             $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
                                 array('code' => "refused_m")
                             );
@@ -153,12 +168,13 @@ class ProfessionalMeetController extends Controller{
                         }
                     } // L'évalué édite
                     elseif ($this->getUser() == $meet->getAssessed()) {
-                        if ($form->get('submit')->isClicked()) {
+
+                        if ($form->has('submit') && $form->get('submit')->isClicked()) {
                             $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
                                 array('code' => "validated_e")
                             );
                             $meet->setStatus($status);
-                        } elseif ($form->get('refused')->isClicked()) {
+                        } elseif ($form->has('refused') && $form->get('refused')->isClicked()) {
                             $status = $em->getRepository('FormGeneratorBundle:Status')->findOneBy(
                                 array('code' => "refused_e")
                             );

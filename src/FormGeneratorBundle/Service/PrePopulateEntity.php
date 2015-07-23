@@ -29,6 +29,7 @@ use Symfony\Component\Form\FormFactory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 
 class PrePopulateEntity{
@@ -36,11 +37,13 @@ class PrePopulateEntity{
     private $formFactory;
     private $router;
     private $em;
+    private $security;
 
-    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em) {
+    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em, TokenStorage $security) {
         $this->formFactory = $formFactory;
         $this->router      = $router;
         $this->em          = $em;
+        $this->security = $security;
     }
 
     /**
@@ -357,7 +360,7 @@ class PrePopulateEntity{
     private function createValuationMeetCreateForm(ValuationMeet $entity, $attributes){
 
         $form = $this->formFactory->create(
-            new ValuationMeetType($attributes, $this->em),
+            new ValuationMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_valuationmeet'),
@@ -382,7 +385,7 @@ class PrePopulateEntity{
     private function createProfessionalMeetCreateForm(ProfessionalMeet $entity, $attributes){
 
         $form = $this->formFactory->create(
-            new ProfessionalMeetType($attributes, $this->em),
+            new ProfessionalMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_professionalmeet'),
@@ -407,7 +410,7 @@ class PrePopulateEntity{
     private function createConditionsMeetCreateForm(ConditionsMeet $entity, $attributes){
 
         $form = $this->formFactory->create(
-            new ConditionsMeetType($attributes, $this->em),
+            new ConditionsMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_conditionsmeet'),
@@ -432,7 +435,7 @@ class PrePopulateEntity{
     public function createValuationMeetEditForm(ValuationMeet $entity, $attributes)
     {
 
-        $form = $this->formFactory->create(new ValuationMeetType($attributes, $this->em), $entity, array(
+        $form = $this->formFactory->create(new ValuationMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_valuationmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 
@@ -453,7 +456,7 @@ class PrePopulateEntity{
     public function createProfessionalMeetEditForm(ProfessionalMeet $entity, $attributes)
     {
 
-        $form = $this->formFactory->create(new ProfessionalMeetType($attributes, $this->em), $entity, array(
+        $form = $this->formFactory->create(new ProfessionalMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_professionalnmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 
@@ -474,7 +477,7 @@ class PrePopulateEntity{
     public function createConditionsMeetEditForm(ConditionsMeet $entity, $attributes)
     {
 
-        $form = $this->formFactory->create(new ConditionsMeetType($attributes, $this->em), $entity, array(
+        $form = $this->formFactory->create(new ConditionsMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_conditionsmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 

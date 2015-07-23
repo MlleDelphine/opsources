@@ -25,3 +25,27 @@ monolog:
             level: debug
         console:
             type:  console
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: UserBundle\Entity\User
+
+arianespace_plexcel:
+    enable:               true #active plexcel (mettre en false pour le dev)
+    autologin:            true
+    local:                false
+    create:               false
+    application:
+        name:                 ArianEspace - Opus
+        version:              v2
+        description:
+    auto_add_domain:      ~
+    autologin_redirect_route:  homepage
+    check_plexcel_login:  false # true en dev et false en prod
+    check_plexcel_login_route:  ask_plexcel_authorization
+    check_plexcel_redirect_route:  homepage
+    authorized_cn:        []
+    user_manager:         ~
+    file:                 "%kernel.root_dir%/../plexcel/plexcel.php" #"%kernel.root_dir%/../vendor/arianespace/plexcel-bundle/Arianespace/PlexcelBundle/Plexcel.php" #~
+

@@ -1,3 +1,12 @@
 services:
     user.plexcelservice:
-        class: UserBundle\Service\UserPLexcelService
+        class: UserBundle\Service\UserPlexcelService
+    arianespace.user_provider:
+        class: UserBundle\Entity\UserProvider
+    user_manager:
+        class: UserBundle\Entity\UserManager
+        arguments: ["@doctrine.orm.entity_manager",null]
+
+    user_provider:
+        class: UserBundle\Entity\PlexcelUserProvider
+        arguments: ["@arianespace.plexcel"]
