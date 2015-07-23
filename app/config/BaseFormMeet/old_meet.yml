@@ -1,0 +1,401 @@
+name: "Ancien formulaires d'entretien"
+id: "old_meet"
+fields:
+    attr:
+        - id: "date_entretien"
+          type: "genemu_jquerydate"
+          conf:
+              label: "Date d'entretien :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+                  class: 'datepicker'
+              widget: 'single_text'
+              format: 'dd/MM/yyyy'
+        # Evaluate
+        - id: "save_evaluate_firstname"
+          type: "text"
+          conf:
+              label: "Nom du salarié :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "save_evaluate_lastname"
+          type: "text"
+          conf:
+              label: "Prénom du salarié :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "save_evaluate_login"
+          type: "text"
+          conf:
+              label: "Matricule du salarié :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "current_function"
+          type: "text"
+          conf:
+              label: "Fonction actuelle :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "nouveau_salarie"
+          type: "genemu_jquerydate"
+          conf:
+              label: "Date d'entrée à Arianespace :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+                  class: 'datepicker'
+              widget: 'single_text'
+              format: 'dd/MM/yyyy'
+        - id: "save_evaluate_classification"
+          type: "text"              # Qu'est ce que la classification ? int / text ?
+          conf:
+              label: "Classification :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+        - id: "seniority"
+          type: "int"
+          conf:
+              label: "Ancienneté dans le poste :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+
+
+        # Evaluator
+        - id: "save_evaluator_firstname"
+          type: "text"
+          conf:
+              label: "Nom de l'evaluateur :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "save_evaluator_lastname"
+          type: "text"
+          conf:
+              label: "Prénom de l'evaluateur :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "function_evaluator"
+          type: "text"
+          conf:
+              label: "Fonction de l'evaluateur :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "function_evaluator"
+          type: "text"
+          conf:
+              label: "Fonction de l'evaluateur :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+# Direction ou service
+        - id: "secondary_evaluator"
+          type: "text"
+          conf:
+              label: "Autre évaluateur :"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "comment_secondary_evaluator"
+          type: 'textarea'
+          conf:
+              label: Commentaires :"
+              required: false
+              attr:
+                  data-tab: "tab_3"
+        # Metier
+# Métier 1
+# Métier 2
+        # Collection campagn_function
+        # - id: "campagn_function"
+        #   type: "text"
+        #   conf:
+        #       label: "Fonction campagne :"
+        #       required: false
+        #       attr:
+        #           data-tab: "tab_1"
+        - id: "fiche_poste"
+          type: "file"
+          conf:
+              label: "Fiche du poste actuel : "
+              required: false
+              attr:
+                  data-tab: "tab_1"
+          format:
+                  - "pdf"
+                  - "docx"
+        - id: "evolution_poste"
+          type: "checkbox"
+          conf:
+              label: "La fiche de poste a-t-elle évoluer ?"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+              default: "true"
+# Evolution poste file
+        - id: "prise_poste"
+          type: "checkbox"
+          conf:
+              label: "Prise de poste en cours d'année :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+              default: "true"
+        - id: "poste_precedent"
+          type: "text"
+          conf:
+              label: "Si oui, poste précédent :"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+# Rappel ligne Hierarchique
+
+        # Nom / Prenom / Date evalué, evaluateur, visa DRH
+# Nom et prenom evalué
+        - id: "evaluate_validation_date"
+          type: "genemu_jquerydate"
+          conf:
+              label: "Le :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+                  class: 'datepicker'
+              widget: 'single_text'
+              format: 'dd/MM/yyyy'
+# Nom et prenom evaluateur
+        - id: "evaluator_validation_date"
+          type: "genemu_jquerydate"
+          conf:
+              label: "Le :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+                  class: 'datepicker'
+              widget: 'single_text'
+              format: 'dd/MM/yyyy'
+# Nom et prenom visa drh
+        - id: "director_validation_date"
+          type: "genemu_jquerydate"
+          conf:
+              label: "Le :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+                  class: 'datepicker'
+              widget: 'single_text'
+              format: 'dd/MM/yyyy'
+
+        # Bilan année
+# Evenement significatif ? bool
+# Quel evenement ?
+
+# Theme mission permanente ( collection )
+# Evaluation de l’atteinte des objectifs ( collection )
+# Evaluation globale du salarié sur les 12 mois passés ( collection )
+# Appréciation générale de la tenue du poste pour l’année écoulée
+
+        - id: "mobilite"
+          type: "checkbox"
+          conf:
+              label: "Le salarié est-il mobile géographiquement ?"
+              required: false
+              attr:
+                  data-tab: "tab_2"
+              default: "true"
+        - id: "site_mobilite"
+          type: "text"
+          conf:
+              label: "Si oui vers quel (s) site(s)  et à quelle échéance ?"
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "entretien_spe"
+          type: "checkbox"
+          conf:
+              label: "Le salarié souhaite-t-il un entretien spécifique pour discuter de son évolution professionnelle avec la DRH ? (Point carrière) : "
+              required: false
+              attr:
+                  data-tab: "tab_2"
+              default: "false"
+        - id: "avis_evaluateur"
+          type: "text"
+          conf:
+              label: "Avis de l’évaluateur sur ces objectifs de professionnalisation (atouts/ freins, possibilités,…): "
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "observation"
+          type: "text"
+          conf:
+              label: "Observations éventuelles du salarié à l’issue de l’entretien : "
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "observation_evaluation"
+          type: "text"
+          conf:
+              label: "Commentaires ou précisions du salarié : "
+              required: false
+              attr:
+                  data-tab: "tab_2"
+
+
+                  ##############
+                  ## Sais pas ##
+                  ##############
+
+        - id: "save_evaluator_department"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "save_evaluate_classification"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "theme_entretien_spe"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "save_evaluator_function"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "comment_secondary_evaluator"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "second_evaluator_validation_date"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "entretien_pro"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "campagn_function"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "observation_formation"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "save_evaluate_function"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "secondary_evaluator"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "superior_validation_date"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "responsable_validation_date"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "evaluator_pre_validation_date"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "remarque_new_objectif"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "satisfaction"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "close_date"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "discussion"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "souhait_salarie"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "save_evaluate_entrydate"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"
+        - id: "line_management"
+          type: "text"
+          conf:
+              label: ""
+              required: false
+              attr:
+                  data-tab: "tab_2"

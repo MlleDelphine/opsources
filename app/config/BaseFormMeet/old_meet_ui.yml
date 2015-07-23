@@ -1,0 +1,4 @@
+- id: 'tab_1'
+  name: 'Général'
+- id: 'tab_2'
+  name: "Le reste"
