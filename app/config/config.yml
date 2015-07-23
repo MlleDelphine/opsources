@@ -4,9 +4,10 @@ imports:
     - { resource: services.yml }
     - { resource: sonata.yml }
 #    - { resource: '@FormGeneratorBundle/Resources/config/services.yml' }
-#    - { resource: '@FormGeneratorBundle/Resources/config/admin.yml' }
+    - { resource: '@AppBundle/Resources/config/admin.yml' }
     - { resource: '@UserBundle/Resources/config/services.yml' }
     - { resource: '@AppBundle/Resources/config/services.yml' }
+    - { resource: '@GeneratorBundle/Resources/config/services.yml' }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration

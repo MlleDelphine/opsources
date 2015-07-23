@@ -85,7 +85,7 @@ class OpusSheet
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetStatus", inversedBy="opusSheets", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="status", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="status", referencedColumnName="intCode", nullable=true)
      * })
      */
     private $status;

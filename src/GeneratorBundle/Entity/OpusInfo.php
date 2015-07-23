@@ -89,6 +89,13 @@ class OpusInfo
      */
     private $confFile;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="conf_file_ui", type="string", length=255, nullable=true)
+     */
+    private $confFileUi;
+
 
 
     /**
@@ -306,5 +313,28 @@ class OpusInfo
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set confFileUi
+     *
+     * @param string $confFileUi
+     * @return OpusInfo
+     */
+    public function setConfFileUi($confFileUi)
+    {
+        $this->confFileUi = $confFileUi;
+
+        return $this;
+    }
+
+    /**
+     * Get confFileUi
+     *
+     * @return string 
+     */
+    public function getConfFileUi()
+    {
+        return $this->confFileUi;
     }
 }

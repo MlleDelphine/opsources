@@ -66,6 +66,9 @@ class PrePopulateEntity{
             if($allConf['type'] == 'collection'){
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
+                //Il faudra : pour chaque enfant créer un opus_attribute lié à la collection parente
+                //Il faudra : reboucler sur un tableau de valeur en fonction de l'id en conf et de label en bdd
+                // (ex : objectifs déjà défini) ->setValue() et prendre la position du i ->setValue($predefinedValues[$i])
                 for($i = 1; $i <= $number; $i ++){
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ValuationCollectionAttribute();
