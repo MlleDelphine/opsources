@@ -1,69 +1,35 @@
-Symfony Standard Edition
-========================
+Arianespace
+=========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+Dependances
+-----------
 
-What's inside?
---------------
+Sur le système doit être installé :
+    - npm
+    - bower
+    - extension ldap php
+    - plexcel
 
-The Symfony Standard Edition is configured with the following defaults:
+Déploiement
+-----------
 
-  * An AppBundle you can use to start coding;
+Commande de déploiement en etant connecté sur la preprod :
 
-  * Twig as the only configured template engine;
+    git pull
 
-  * Doctrine ORM/DBAL;
 
-  * Swiftmailer;
+Gestion des librairies javascript et css
+----------------------------------------
 
-  * Annotations enabled for everything.
+L'ensemble des bibliothèques externes (sauf exceptions futures) est géré à
+l'aide de bower.
 
-It comes pre-configured with the following bundles:
+L'installation de bower est réalisable simplement à l'aide de la commande :
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+    npm install bower -g
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+Les bibliothèques sont ensuite installable en ce placant dans la racine du
+projet et en lancant la commande :
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.7/book/installation.html
-[6]:  http://symfony.com/doc/2.7/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.7/book/doctrine.html
-[8]:  http://symfony.com/doc/2.7/book/templating.html
-[9]:  http://symfony.com/doc/2.7/book/security.html
-[10]: http://symfony.com/doc/2.7/cookbook/email.html
-[11]: http://symfony.com/doc/2.7/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.7/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.7/bundles/SensioGeneratorBundle/index.html
+    bower install
