@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * OpusInfo
  *
  * @ORM\Table(name="opus_info")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusInfoRepository")
  */
 class OpusInfo
 {

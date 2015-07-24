@@ -25,6 +25,10 @@ use FormGeneratorBundle\Entity\ConditionsAttribute;
 use FormGeneratorBundle\Entity\ConditionsCollectionAttribute;
 use FormGeneratorBundle\Form\Conditions\ConditionsMeetType;
 
+use GeneratorBundle\Entity\OpusAttribute;
+use GeneratorBundle\Entity\OpusCollection;
+use GeneratorBundle\Entity\OpusSheet;
+
 use Symfony\Component\Form\FormFactory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -83,7 +87,6 @@ class PrePopulateEntity{
 
             }
         }
-
         $capacities = $this->em->getRepository('FormGeneratorBundle:Capacity')->findAll();
         foreach ($capacities as $capacity) {
             $skill = new Skill();
@@ -91,10 +94,20 @@ class PrePopulateEntity{
             $entity->addSkill($skill);
         }
 
-
         return $this->createValuationMeetCreateForm($entity, $attributes);
 
     }
+
+    /**
+     * ValuationMeet
+     *
+     * Prédéfinit l'entité principale avec ses attributs/collection
+     * @param $entity
+     * @param $attributes
+     * @return mixed
+     */
+
+
 
     /**
      * ProfessionalMeet

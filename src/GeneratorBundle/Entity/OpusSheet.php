@@ -147,6 +147,15 @@ class OpusSheet
     private $collections;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->collections = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 
     /**
      * Get id
@@ -411,13 +420,6 @@ class OpusSheet
     {
         return $this->status;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add attributes
@@ -428,6 +430,7 @@ class OpusSheet
     public function addAttribute(\GeneratorBundle\Entity\OpusAttribute $attributes)
     {
         $this->attributes[] = $attributes;
+        $attributes->setSheet($this);
 
         return $this;
     }
@@ -461,6 +464,7 @@ class OpusSheet
     public function addCollection(\GeneratorBundle\Entity\OpusCollection $collections)
     {
         $this->collections[] = $collections;
+        $collections->setSheet($this);
 
         return $this;
     }

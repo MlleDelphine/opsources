@@ -5,7 +5,7 @@
  * Date: 03/06/2015
  * Time: 12:08
  */
-namespace GeneratorBundle\Form\Conditions;
+namespace GeneratorBundle\Form\Sheets;
 
 use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use FormGeneratorBundle\Form\Type\CustomRadioType;
@@ -45,50 +45,56 @@ class OpusSheetAttributeNewType extends AbstractType{
                         $data = $event->getData();
                         $options = array();
                         $confChild = false;
+                        $fieldName = "value";
                         foreach ($this->attributes as $allConf) {
-                            if ($allConf['id'] == $data->getName()) {
+                            if ($allConf['id'] == $data->getLabel()) {
+                                //Si on a un champ date  /time on stockera dans valueDate sinon dans value
+                                if($allConf['type'] == "date" || $allConf['type'] == "datetime" || $allConf['type'] == "time" || $allConf['type']== "birthday" || $allConf['type'] =="genemu_jquerydate" ){
+                                    $fieldName = "valueDate";
+                                }
+
                                 if($allConf['type'] == 'choice'){
                                     $allConf['type'] = new CustomRadioType();
                                 }
                                 foreach ($allConf['conf'] as $name => $value) {
                                     //Donc champ collection, spécifique, à créer en dehors
-                                    if($name == 'type'){
-                                        $confChild = $allConf['child'];
-                                        $label = $allConf['conf']['label'];
-                                    }
-                                    else{
+//                                    if($name == 'type'){
+//                                        $confChild = $allConf['child'];
+//                                        $label = $allConf['conf']['label'];
+//                                    }
+//                                    else{
                                         $options[$name] = $value;
-                                        $fieldName = "value";
-                                    }
+//                                        $fieldName = "value";
+//                                    }
                                 }
                                 $this->tab = $allConf['conf']['attr']['data-tab'];
 
                                 //Seul le manager peut remplir certains champs
-                                if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
+                                if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate'){
                                     $options['disabled'] = true;
                                     $options['attr']['readonly'] = true;
                                 }
 
-                                if(!$confChild) {
+//                                if(!$confChild) {
                                     $form->add(
                                         $fieldName,
                                         $allConf['type'],
                                         $options
                                     );
-                                }else{
-                                    $form->add(
-                                        'collectionAttributes',  new CustomCollectionType(count($confChild)), array(
-                                        'type' => new ConditionsCollectionAttributeNewType($confChild),
-                                        'allow_add' => true,
-                                        'allow_delete' => true,
-                                        'by_reference' => false,
-                                        'required' => false,
-                                        'label' => $label));
-                                }
+//                                }else{
+//                                    $form->add(
+//                                        'collectionAttributes',  new CustomCollectionType(count($confChild)), array(
+//                                        'type' => new ConditionsCollectionAttributeNewType($confChild),
+//                                        'allow_add' => true,
+//                                        'allow_delete' => true,
+//                                        'by_reference' => false,
+//                                        'required' => false,
+//                                        'label' => $label));
+//                                }
                             }
                         }
-                        $form->add('name', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
-                        $form->add('fieldType', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+                        $form->add('label', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+//                        $form->add('fieldType', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                     }
                 }
             });
@@ -100,7 +106,7 @@ class OpusSheetAttributeNewType extends AbstractType{
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FormGeneratorBundle\Entity\ConditionsAttribute'
+            'data_class' => 'GeneratorBundle\Entity\OpusAttribute'
         ));
     }
 
@@ -109,6 +115,6 @@ class OpusSheetAttributeNewType extends AbstractType{
      */
     public function getName()
     {
-        return 'formgenerator_conditions_attribute';
+        return 'generator_sheet_attribute';
     }
 }

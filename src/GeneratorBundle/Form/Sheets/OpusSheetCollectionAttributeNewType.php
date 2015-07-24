@@ -6,14 +6,16 @@
  * Time: 17:19
  */
 
-namespace GeneratorBundle\Form\Conditions;
+namespace GeneratorBundle\Form\Sheets;
 
+use GeneratorBundle\Form\Sheets\OpusSheetAttributeNewType;
+use GeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
 use Symfony\Component\Form\FormEvents;
 
-use FormGeneratorBundle\Form\Type\CustomRadioType;
+use GeneratorBundle\Form\Type\CustomRadioType;
 
 
 class OpusSheetCollectionAttributeNewType extends AbstractType{
@@ -36,35 +38,54 @@ class OpusSheetCollectionAttributeNewType extends AbstractType{
     {
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (\Symfony\Component\Form\FormEvent $event)  {
+            function (\Symfony\Component\Form\FormEvent $event) {
                 if (null != $event->getData()) {
                     $form = $event->getForm();
                     $data = $event->getData();
                     $options = array();
-                    foreach ($this->attributes as $allConf) {
-                        if($allConf['type'] == 'choice'){
-                            $allConf['type'] = new CustomRadioType();
-                        }
-                        if ($allConf['id'] == $data->getName()) {
-                            foreach ($allConf['conf'] as $name => $value) {
-                                $options[$name] = $value;
-                            }
-                            //Seul le manager peut remplir certains champs
-                            if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
-                                $options['disabled'] = true;
-                                $options['attr']['readonly'] = true;
-                            }
-                            $form->add(
-                                'value',
-                                $allConf['type'],
-                                $options
-                            );
-                        }
-                        $this->tab = $allConf['conf']['attr']['data-tab'];
+                    //collections : dans yml
+                    foreach ($this->attributes as $key => $allConf) {
+//                        if($allConf['type'] == 'choice'){
+//                            $allConf['type'] = new CustomRadioType();
+//                        }
+//                        if ($allConf['id'] == $data->getType()) {
+//                            foreach ($allConf['conf'] as $name => $value) {
+//                                $options[$name] = $value;
+//                            }
+//                            //Seul le manager peut remplir certains champs
+//                            if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate'){
+//                                $options['disabled'] = true;
+//                                $options['attr']['readonly'] = true;
+//                            }
+//                            $form->add(
+//                                'value',
+//                                $allConf['type'],
+//                                $options
+//                            );
+//                        }
+//                        $this->tab = $allConf['conf']['attr']['data-tab'];
                     }
-                    $form->add('name', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
-                    $form->add('fieldType', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+//                    dump($this->attributes);
+//                    die;
+                    $form->add('type', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+//                    $form->add('attributes', 'collection', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+                    $form->add(
+                        'attributes',
+                        new CustomCollectionAttributeType(),
+                        array(
+                            'type' => new OpusSheetAttributeNewType($this->attributes['child']),
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'by_reference' => false,
+                            'required' => false,
+                            'label' => ''
+                        )
+                    );
+
+
+
                 }
+
             });
     }
 
@@ -74,7 +95,7 @@ class OpusSheetCollectionAttributeNewType extends AbstractType{
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FormGeneratorBundle\Entity\ConditionsCollectionAttribute'
+            'data_class' => 'GeneratorBundle\Entity\OpusCollection'
         ));
     }
 
@@ -83,6 +104,6 @@ class OpusSheetCollectionAttributeNewType extends AbstractType{
      */
     public function getName()
     {
-        return 'formgenerator_conditions_collectionattribute';
+        return 'generator_sheet_collectionattribute';
     }
 }

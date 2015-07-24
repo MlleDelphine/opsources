@@ -9,7 +9,7 @@ fields:
               required: false
               attr:
                   data-tab: "tab_3"
-                  data-access: "assessed"
+                  data-access: "evaluate"
     collections:
         - id: "cond_workconditions"
           type: "collection"
@@ -22,6 +22,7 @@ fields:
               label: "Le salarié est-il satisfait de :"
               attr:
                   data-tab: "tab_2"
+                  data-access: "evaluator"
           child:
               - id: "cond_workconditions_name"
                 type: "textarea"
@@ -45,10 +46,10 @@ fields:
                     required: false
                     attr:
                         class: "textarea-resize no-horizontal"
+                        data-tab: "tab_2"
           number: 10
-              predefined_values:
-                  - id: "cond_workconditions_name"
-                    values: {"Sa charge de travail", "L’amplitude de ses journées de travail", "L’organisation et répartition de la charge de travail dans l’équipe/dans l’entreprise", "L’articulation vie professionnelle/ vie privée", "Sa rémunération", "Ses conditions de travail", "Ses relations avec l’équipe (soutien, entraide)", "Ses relations avec ses clients/fournisseurs", "Ses relations avec sa hiérarchie", "La communication interne (dans l’équipe, dans l’entreprise)" }
+          predefined_values:
+              cond_workconditions_name: [ "Sa charge de travail", "L’amplitude de ses journées de travail", "L’organisation et répartition de la charge de travail dans l’équipe/dans l’entreprise", "L’articulation vie professionnelle/ vie privée", "Sa rémunération", "Ses conditions de travail", "Ses relations avec l’équipe (soutien, entraide)", "Ses relations avec ses clients/fournisseurs", "Ses relations avec sa hiérarchie", "La communication interne (dans l’équipe, dans l’entreprise)" ]
 
 
 

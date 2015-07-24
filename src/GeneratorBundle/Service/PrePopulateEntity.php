@@ -25,6 +25,11 @@ use FormGeneratorBundle\Entity\ConditionsAttribute;
 use FormGeneratorBundle\Entity\ConditionsCollectionAttribute;
 use FormGeneratorBundle\Form\Conditions\ConditionsMeetType;
 
+use GeneratorBundle\Entity\OpusAttribute;
+use GeneratorBundle\Entity\OpusCollection;
+use GeneratorBundle\Entity\OpusSheet;
+
+use GeneratorBundle\Form\Sheets\OpusSheetType;
 use Symfony\Component\Form\FormFactory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -90,6 +95,42 @@ class PrePopulateEntity{
 
 
         return $this->createValuationMeetCreateForm($entity, $attributes);
+
+    }
+
+    public function populateOpusSheet(OpusSheet $sheet, $attributes){
+
+        foreach($attributes['attr'] as $allConf){
+            $attr = new OpusAttribute();
+            $attr->setLabel($allConf['id']);
+            $sheet->addAttribute($attr);
+        }
+
+        if(array_key_exists('collections', $attributes)) {
+            foreach ($attributes['collections'] as $collection) {
+                $number = $collection['number'];
+                for($i = 0; $i < $number; $i ++){
+                    $opusCollection = new OpusCollection();
+                    $opusCollection->setType($collection['id']);
+                    $opusCollection->setLocation($i+1);
+
+                    $sheet->addCollection($opusCollection);
+
+                    foreach ($collection['child'] as $child) {
+                        $opusAttribute = new OpusAttribute();
+                        $opusAttribute->setLabel($child['id']);
+
+                        if (array_key_exists($child['id'], $collection['predefined_values'])) {
+                            $opusAttribute->setValue($collection['predefined_values'][$child['id']][$i]);
+                        }
+                        $opusCollection->addAttribute($opusAttribute);
+
+                    }
+                }
+            }
+        }
+
+        return $this->createOpusSheetCreateForm($sheet, $attributes);
 
     }
 
@@ -374,6 +415,30 @@ class PrePopulateEntity{
     }
 
     /**
+     * OpusSheet création du formulaire de création
+     *
+     * @param OpusSheet $entity
+     * @param $attributes
+     * @return Form|\Symfony\Component\Form\FormInterface
+     */
+
+    private function createOpusSheetCreateForm(OpusSheet $entity, $attributes){
+
+        $form = $this->formFactory->create(
+            new OpusSheetType($attributes, $this->em, $this->security),
+            $entity,
+            array(
+                'action' => $this->router->generate('generator_homepage', array('codeText' => "trulutut")),
+                'method' => 'POST'
+            )
+        );
+        $form->add('save', 'submit', array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info')));
+        $form->add('submit', 'submit', array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success')));
+
+        return $form;
+    }
+
+    /**
      * ProfessionalMeet
      *
      * Retourne le formulaire de création construit de ConditionsMeet avec ses attributs/collections
@@ -422,7 +487,6 @@ class PrePopulateEntity{
 
         return $form;
     }
-
 
     /**
      * ValuationMeet

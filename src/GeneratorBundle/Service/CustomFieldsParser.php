@@ -31,7 +31,7 @@ class CustomFieldsParser
     public function parseYamlConf($name, $field = null){
 
         $yaml = new Parser();
-        $path = $this->kernel->getRootDir() . '/config/BaseFormMeet/'.$name.'.yml';
+        $path = $this->kernel->getRootDir() . '/config/BaseFormMeet/'.$name; //.'.yml';
         //il n'y aura probablement plus besoin de séparer l'extension
         try {
             if($field){

@@ -1,0 +1,74 @@
+{% extends 'AppBundle::layout.html.twig' %}
+    {% block body %}
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Création / Edition</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        {% set fields = null %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ name }}</h3>
+            </div>
+            <div class="panel-body tabbable-custom">
+                <ul class="nav nav-tabs">
+                    {% for tab in uiTab %}
+                        <li class="{% if loop.first %}active{% endif %}">
+                            <a href="#{{ tab.id }}" data-toggle="tab" aria-expanded="true">
+                                {{ tab.name}} </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {{  form_start(form, { 'attr': {'class': 'form-horizontal form-bordered'}}) }}
+                <div class="tab-content">
+                    {{ form_errors(form) }}
+                    {% for tab in uiTab %}
+                        <div id="{{ tab.id }}" class="tab-pane{% if loop.first %} active{% endif %}">
+                            {# Gestion champs directement liés à l'entité #}
+                            {% for child in form.children %}{# name, skills, attributes, submit#}
+                                {% if attribute(child.vars.attr, 'data-tab') is defined and attribute(child.vars.attr, 'data-tab') == tab.id %}
+
+                                    {{ form_label(child) }}
+                                    {{ form_widget(child) }}
+                                {% endif %}
+                            {% endfor %}
+
+                            {# Gestion champs dynamiques (attributes)#}
+                            {% for child in form.children.attributes %}
+                                {% for c in child %} {# collectionAttributes, fieldType, name#}
+                                    {% if attribute(c.vars.attr, 'data-tab') is defined and attribute(c.vars.attr, 'data-tab') == tab.id %}
+                                        {{ form_label(c) }}
+                                        {{ form_widget(c) }}
+                                    {% endif %}
+
+                                    {# Si un attribute est un collectionAttribute #}
+                                    {% if c.children is not empty %}
+                                        {% for cA in c.children %} {# cA : chaque ligne de collection #}
+                                            {% for cc in cA.children %}
+                                                {% if attribute(cc.vars.attr, 'data-tab') is defined and attribute(cc.vars.attr, 'data-tab') == tab.id %}
+                                                    {{ form_widget(c) }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {# end collectionAttribute #}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center" style="margin-top: 15px;">
+                    {% if(form.save is defined) %}
+                        {{ form_widget(form.save) }}
+                    {% elseif(form.refused is defined) %}
+                        {{ form_widget(form.refused) }}
+                    {% else %}
+                    {% endif %}
+                    {{ form_widget(form.submit) }}
+                </div>
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    {% endblock %}

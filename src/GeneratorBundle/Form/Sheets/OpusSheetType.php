@@ -5,12 +5,11 @@
  * Date: 03/06/2015
  * Time: 12:08
  */
-namespace GeneratorBundle\Form\Conditions;
+namespace GeneratorBundle\Form\Sheets;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use FormGeneratorBundle\Form\Conditions\OpusSheetAttributeNewType;
-use GeneratorBundle\Entity\WorkCondition;
+use GeneratorBundle\Form\Sheets\OpusSheetAttributeNewType;
 use UserBundle\Entity\Repository\UserRepository;
 use GeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use GeneratorBundle\Form\Type\CustomCollectionType;
@@ -48,7 +47,7 @@ class OpusSheetType extends AbstractType{
             function (\Symfony\Component\Form\FormEvent $event) use ($user) {
                 $meet = $event->getData();
                 $form = $event->getForm();
-                $validatedE = $this->em->getRepository('GeneratorBundle:Status')->findOneBy(array('code' =>"validated_e"));
+                $validatedE = $this->em->getRepository('GeneratorBundle:OpusSheetStatus')->findOneBy(array('strCode' =>"valid_evalue"));
                 if($meet->getEvaluator()){
                     $evaluator = $meet->getEvaluator();
                 }
@@ -167,6 +166,8 @@ class OpusSheetType extends AbstractType{
                     );
                 }
 
+                dump($this->attributes['collections']);
+                die;
                 //Nouveau champs de formulaire : collection d'attributs
                 if (!$event || null === $meet->getId()) {
                     $form->add(
