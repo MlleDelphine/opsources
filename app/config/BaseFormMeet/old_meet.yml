@@ -106,7 +106,7 @@ fields:
         - id: "comment_secondary_evaluator"
           type: 'textarea'
           conf:
-              label: Commentaires :"
+              label: "Commentaires :"
               required: false
               attr:
                   data-tab: "tab_1"
@@ -139,6 +139,7 @@ fields:
               required: true
               attr:
                   data-tab: "tab_1"
+              default: false
         - id: "fiche_poste"
           type: "file"
           conf:
@@ -153,7 +154,6 @@ fields:
                       - "xls"
                       - "xlsx"
 
-              default: "true"
 ## TAB 2
         - id: "mission"
           type: "collection"
@@ -162,7 +162,7 @@ fields:
               type: "to defined"
               allow_delete: true
               by_reference: false
-              required: false
+              required: true
               label: "Lister ci-dessus les principaux thèmes de la mission permanente et en évaluer leur réalisation :"
               attr:
                   data-tab: 'tab_2'
@@ -171,7 +171,7 @@ fields:
                     type: "text"
                     conf:
                         label: "Thèmes de la mission permanente"
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_2"
                   - id: "NPRD"
@@ -179,51 +179,17 @@ fields:
                     conf:
                         label: "Réalisé"
                         choices: { n: "N", p: "P", r: "R", d: "D" }
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_2"
                   - id: "commentaires"
                     type: "text"
                     conf:
                         label: "Commentaires"
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_2"
 
-        - id: "objectif"
-          type: "collection"
-          conf:
-              allow_add: true
-              type: "to defined"
-              allow_delete: true
-              by_reference: false
-              required: false
-              label: "Evaluation de l'atteinte des objectifs"
-              attr:
-                  data-tab: 'tab_2'
-          child:
-                  - id: "rappel"
-                    type: "text"
-                    conf:
-                        label: "Rappel des objectifs"
-                        required: false
-                        attr:
-                            data-tab: "tab_2"
-                  - id: "NPRD"
-                    type: "choice"
-                    conf:
-                        label: "Réalisé"
-                        choices: { n: "N", p: "P", r: "R", d: "D" }
-                        required: false
-                        attr:
-                            data-tab: "tab_2"
-                  - id: "commentaires"
-                    type: "text"
-                    conf:
-                        label: "Commentaires"
-                        required: false
-                        attr:
-                            data-tab: "tab_2"
 ## TAB 3
 
         - id: "objectif"
@@ -233,7 +199,7 @@ fields:
               type: "to defined"
               allow_delete: true
               by_reference: false
-              required: false
+              required: true
               label: "Evaluation de l'atteinte des objectifs"
               attr:
                   data-tab: 'tab_3'
@@ -242,7 +208,7 @@ fields:
                     type: "text"
                     conf:
                         label: "Rappel des objectifs"
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_3"
                   - id: "NPRD"
@@ -250,14 +216,14 @@ fields:
                     conf:
                         label: "Réalisé"
                         choices: { n: "N", p: "P", r: "R", d: "D" }
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_3"
                   - id: "commentaires"
                     type: "text"
                     conf:
                         label: "Commentaires"
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_3"
 
@@ -297,6 +263,9 @@ fields:
                         required: true
                         attr:
                             data-tab: "tab_4"
+          number: 5
+          predefined_values:
+              qualite: [ "Collaboration avec l'équipe (Entraide, échange, reporting ...)", "Motivation", "Fiabilité et qualité du travail fourni", "Attitude constructive / positive", "Capacité d'adaptation"]
         - id: "observation_evaluation"
           type: "textarea"
           conf:
@@ -308,11 +277,11 @@ fields:
         - id: "new_objectif"
           type: "collection"
           conf:
-              allow_add: true
+              allow_add: false
               type: "to defined"
               allow_delete: true
               by_reference: false
-              required: false
+              required: true
               label: "Déterminer les objectifs pour les 12 mois à venir par ordre d'importance (3 objectifs différents sont recommandés, 5 au maximum)."
               attr:
                   data-tab: 'tab_5'
@@ -321,23 +290,24 @@ fields:
                     type: "text"
                     conf:
                         label: "Objectifs fixés"
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_5"
                   - id: "mesure"
                     type: "text"
                     conf:
                         label: "Indicateurs de mesure"
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_5"
                   - id: "echeance"
                     type: "text"
                     conf:
                         label: "Echéances"
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_5"
+          number: 5
         - id: "remarque_new_objectif"
           type: "text"
           conf:
@@ -354,7 +324,7 @@ fields:
               type: "to defined"
               allow_delete: true
               by_reference: false
-              required: false
+              required: true
               label: "Compétences développées depuis le dernier entretien (hors formation professionnelle) :"
               attr:
                   data-tab: 'tab_6'
@@ -380,7 +350,7 @@ fields:
               type: "to defined"
               allow_delete: true
               by_reference: false
-              required: false
+              required: true
               label: "Quels sont les axes de progrès ?"
               attr:
                   data-tab: 'tab_6'
@@ -413,7 +383,7 @@ fields:
               type: "to defined"
               allow_delete: true
               by_reference: false
-              required: false
+              required: true
               label: "Plan de formation souhaité"
               attr:
                   data-tab: 'tab_6'
@@ -467,7 +437,7 @@ fields:
               type: "to defined"
               allow_delete: true
               by_reference: false
-              required: false
+              required: true
               label: "Compétences développées depuis le dernier entretien via la formation professionnelle :"
               attr:
                   data-tab: 'tab_6'
@@ -503,7 +473,7 @@ fields:
                     type: "text"
                     conf:
                         label: "Durée théorique"
-                        required: false
+                        required: true
                         attr:
                             data-tab: "tab_6"
                   - id: "heures"
@@ -548,24 +518,24 @@ fields:
           type: "text"
           conf:
               label: "Souhaits du salarié :"
-              required: false
+              required: true
               attr:
                   data-tab: "tab_7"
         - id: "avis_evaluateur"
           type: "text"
           conf:
               label: "Avis de l'évaluateur :"
-              required: false
+              required: true
               attr:
                   data-tab: "tab_7"
         - id: "mobilite"
           type: "checkbox"
           conf:
               label: "Le salarié est-il mobile géographiquement ?"
-              required: false
+              required: true
               attr:
                   data-tab: "tab_7"
-              default: "true"
+              default: false
         - id: "site_mobilite"
           type: "text"
           conf:
@@ -574,35 +544,37 @@ fields:
               attr:
                   data-tab: "tab_7"
         - id: "entretien_pro"
-          type: "text"
+          type: "checkbox"
           conf:
               label: "Le salarié souhaite-t-il un entretien spécifique pour discuter de son évolution professionnelle ? (Entretien professionnel)"
-              required: false
+              required: true
               attr:
                   data-tab: "tab_7"
+              default: false
 
 ## TAB 8
         - id: "satisfaction"
           type: "textarea"
           conf:
               label: "(Le salarié est-il satisfait du niveau de communication interne dans l’entreprise, échange d’informations, compréhension des objectifs de l’entreprise, ...)"
-              required: false
+              required: true
               attr:
                   data-tab: "tab_8"
         - id: "discussion"
           type: "text"
           conf:
               label: "(rémunération, organisation, conditions et charge de travail, articulation entre vie professionnelle et vie personnelle)"
-              required: false
+              required: true
               attr:
                   data-tab: "tab_8"
         - id: "entretien_spe"
           type: "checkbox"
           conf:
               label: "Le salarié souhaite-t-il un entretien spécifique sur un de ces thèmes avec la direction des RH ?"
-              required: false
+              required: true
               attr:
                   data-tab: "tab_8"
+              default: false
               default: "false"
         - id: "theme_entretien_spe"
           type: "text"
@@ -631,20 +603,22 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
         - id: "director_validation_date"
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 
@@ -652,10 +626,11 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 
@@ -663,10 +638,11 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 
@@ -674,10 +650,11 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 
@@ -685,10 +662,11 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 
@@ -696,10 +674,11 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 
@@ -707,10 +686,11 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 
@@ -719,10 +699,11 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 
@@ -731,10 +712,11 @@ fields:
           type: "genemu_jquerydate"
           conf:
               label: ""
-              required: true
+              required: false
               attr:
                   data-tab: 'tab_1'
                   class: 'datepicker'
+                  style: 'display:none;'
               widget: 'single_text'
               format: 'dd/MM/yyyy'
 

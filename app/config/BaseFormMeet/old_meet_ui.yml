@@ -1,4 +1,89 @@
 - id: 'tab_1'
-  name: 'Général'
+  name: "Général"
+  content:
+          - h1:
+              - text: "FICHE D'APPRECIATION"
+                class: ""
+                style:
+                      - text-transform: "uppercase"
+          - attribute: "date_entretien"
+          - table:
+                  - tr:
+                        - td:
+                              - h3:
+                                    - text: "Salarié evalué"
+                                      class: ""
+                                      style:
+                                            - text-transform: "uppercase"
+                        - td:
+                              - h3:
+                                    - text: "Evaluateur"
+                                      class: ""
+                                      style:
+                                            - text-transform: "uppercase"
+                  - tr:
+                      - td:
+                          - attribute: "save_evaluate_firstname"
+                      - td:
+                          - attribute: "save_evaluator_firstname"
+                  - tr:
+                      - td:
+                          - attribute: "save_evaluate_lastname"
+                      - td:
+                          - attribute: "save_evaluator_lastname"
+                  - tr:
+                      - td:
+                          - attribute: "save_evaluate_login"
+                      - td:
+                          - attribute: "function_evaluator"
+                  - tr:
+                      - td:
+                          - attribute: "current_function"
+                      - td:
+                          - attribute: "save_evaluator_department"
+                  - tr:
+                      - td:
+                          - attribute: "save_evaluate_classification"
+                      - td:
+                  - tr:
+                      - td:
+                          - attribute: "nouveau_salarie"
+                      - td:
+                          - attribute: "secondary_evaluator"
+                  - tr:
+                      - td:
+                          - attribute: "seniority"
+                      - td:
+                          - attribute: "comment_secondary_evaluator"
 - id: 'tab_2'
-  name: "Le reste"
+  name: "Mission"
+  content:
+          - h2: "YO"
+- id: 'tab_3'
+  name: "Objectif"
+  content:
+          - h2: "YO"
+- id: 'tab_4'
+  name: "Evaluation"
+  content:
+          - h2: "YO"
+- id: 'tab_5'
+  name: "Nouveaux objectifs"
+  content:
+          - h2: "YO"
+- id: 'tab_6'
+  name: "Compétences et Formations"
+  content:
+          - h2: "YO"
+- id: 'tab_7'
+  name: "Evolutions"
+  content:
+          - h2: "YO"
+- id: 'tab_8'
+  name: "Discution"
+  content:
+          - h2: "YO"
+- id: 'tab_9'
+  name: "Observation"
+  content:
+          - h2: "YO"
