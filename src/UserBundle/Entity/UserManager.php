@@ -13,7 +13,9 @@ use Arianespace\PlexcelBundle\Plexcel;
 use Arianespace\PlexcelBundle\Security\User\UserInterface;
 use Arianespace\PlexcelBundle\Security\User\UserManagerInterface;
 use Doctrine\ORM\EntityManager;
+use PhpSpec\Exception\Exception;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 
 class UserManager implements UserManagerInterface {
 
@@ -35,8 +37,18 @@ class UserManager implements UserManagerInterface {
      */
     public function createUser(Plexcel $plexcel)
     {
+        $plexcelAccount = $plexcel->getAccount();
         // TODO: Implement createUser() method.
-        $user = new User();
+//        dump($plexcelAccount);
+//        die;
+
+        $user    = new User();
+        $user->setUsername($plexcelAccount['sAMAccountName']);
+        $user->setlogin($plexcelAccount['sAMAccountName']);
+        $user->setFirstName($plexcelAccount["givenName"]);
+        $user->setLastName($plexcelAccount["sn"]);
+        $user->setFullName($plexcelAccount["givenName"].' '.$plexcelAccount["sn"]);
+        $user->setMail($plexcelAccount["mail"]);
 
         return $this->updateUser($user, $plexcel);
     }
@@ -55,9 +67,10 @@ class UserManager implements UserManagerInterface {
 
         $user = $this->fetchSids($user, $plexcel);
 
-//        $exists = $this->entityManager->getRepository("UserBundle:User")->findOnByUsername("test");
-//        dump('Ici');
+//        dump($user);
 //        die;
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
         return $user;
     }
@@ -87,8 +100,6 @@ class UserManager implements UserManagerInterface {
 
         $objs = \plexcel_search_objects($px, $params);
 
-        //var_dump($objs);
-        //die();
 
         if (!is_array($objs)) {
             throw new \Exception(sprintf('Cannot retrieve user informations for user %s', $user->getUsername()));
@@ -101,6 +112,8 @@ class UserManager implements UserManagerInterface {
             'attrs' => array('tokenGroups'),
         );
 
+//        dump($objs[0]);
+//        die;
         $user->addGroup($this->bin_to_str_sid($objs[0]['objectSid']));
 
         $objs = \plexcel_search_objects($px, $params);

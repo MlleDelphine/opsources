@@ -9,4 +9,4 @@ services:
 
     user_provider:
         class: UserBundle\Entity\PlexcelUserProvider
-        arguments: ["@arianespace.plexcel"]
+        arguments: ["@arianespace.plexcel", "@doctrine.orm.default_entity_manager", "@app.customfields_parser"]
