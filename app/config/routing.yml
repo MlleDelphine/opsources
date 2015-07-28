@@ -7,6 +7,10 @@ formgenerator:
     resource: "@FormGeneratorBundle/Controller/"
     type:     annotation
 
+generator:
+    resource: "@GeneratorBundle/Resources/config/routing.yml"
+
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

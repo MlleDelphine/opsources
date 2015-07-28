@@ -31,7 +31,7 @@ class OpusSheetStatus
     /**
      * @var integer
      *
-     * @ORM\Column(name="intCode", type="integer")
+     * @ORM\Column(name="intCode", type="integer", unique=true)
      */
     private $intCode;
 

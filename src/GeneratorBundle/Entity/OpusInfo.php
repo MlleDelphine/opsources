@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * OpusInfo
  *
  * @ORM\Table(name="opus_info")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusInfoRepository")
  */
 class OpusInfo
 {
@@ -74,7 +74,7 @@ class OpusInfo
 
     /**
      * @var \OpusSheetType
-     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetType")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetType", inversedBy="opusInfos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      * })
@@ -82,12 +82,16 @@ class OpusInfo
 
     private $type;
 
+
     /**
-     * @var string
-     *
-     * @ORM\Column(name="conf_file", type="string", length=255, nullable=true)
+     * @var \OpusSheetTemplate
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", inversedBy="opusInfos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * })
      */
-    private $confFile;
+
+    private $opusTemplate;
 
 
 
@@ -306,5 +310,51 @@ class OpusInfo
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set confFileUi
+     *
+     * @param string $confFileUi
+     * @return OpusInfo
+     */
+    public function setConfFileUi($confFileUi)
+    {
+        $this->confFileUi = $confFileUi;
+
+        return $this;
+    }
+
+    /**
+     * Get confFileUi
+     *
+     * @return string 
+     */
+    public function getConfFileUi()
+    {
+        return $this->confFileUi;
+    }
+
+    /**
+     * Set opusTemplate
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate
+     * @return OpusInfo
+     */
+    public function setOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate = null)
+    {
+        $this->opusTemplate = $opusTemplate;
+
+        return $this;
+    }
+
+    /**
+     * Get opusTemplate
+     *
+     * @return \GeneratorBundle\Entity\OpusSheetTemplate 
+     */
+    public function getOpusTemplate()
+    {
+        return $this->opusTemplate;
     }
 }

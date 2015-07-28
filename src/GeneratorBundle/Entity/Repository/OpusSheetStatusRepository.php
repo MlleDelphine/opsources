@@ -1,6 +1,6 @@
 <?php
 
-namespace FormGeneratorBundle\Entity\Repository;
+namespace GeneratorBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

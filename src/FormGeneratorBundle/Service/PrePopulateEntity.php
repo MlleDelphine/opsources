@@ -25,6 +25,10 @@ use FormGeneratorBundle\Entity\ConditionsAttribute;
 use FormGeneratorBundle\Entity\ConditionsCollectionAttribute;
 use FormGeneratorBundle\Form\Conditions\ConditionsMeetType;
 
+use GeneratorBundle\Entity\OpusAttribute;
+use GeneratorBundle\Entity\OpusCollection;
+use GeneratorBundle\Entity\OpusSheet;
+
 use Symfony\Component\Form\FormFactory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -66,6 +70,9 @@ class PrePopulateEntity{
             if($allConf['type'] == 'collection'){
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
+                //Il faudra : pour chaque enfant créer un opus_attribute lié à la collection parente
+                //Il faudra : reboucler sur un tableau de valeur en fonction de l'id en conf et de label en bdd
+                // (ex : objectifs déjà défini) ->setValue() et prendre la position du i ->setValue($predefinedValues[$i])
                 for($i = 1; $i <= $number; $i ++){
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ValuationCollectionAttribute();
@@ -80,7 +87,6 @@ class PrePopulateEntity{
 
             }
         }
-
         $capacities = $this->em->getRepository('FormGeneratorBundle:Capacity')->findAll();
         foreach ($capacities as $capacity) {
             $skill = new Skill();
@@ -88,10 +94,20 @@ class PrePopulateEntity{
             $entity->addSkill($skill);
         }
 
-
         return $this->createValuationMeetCreateForm($entity, $attributes);
 
     }
+
+    /**
+     * ValuationMeet
+     *
+     * Prédéfinit l'entité principale avec ses attributs/collection
+     * @param $entity
+     * @param $attributes
+     * @return mixed
+     */
+
+
 
     /**
      * ProfessionalMeet

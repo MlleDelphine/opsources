@@ -4,9 +4,10 @@ imports:
     - { resource: services.yml }
     - { resource: sonata.yml }
 #    - { resource: '@FormGeneratorBundle/Resources/config/services.yml' }
-#    - { resource: '@FormGeneratorBundle/Resources/config/admin.yml' }
+    - { resource: '@AppBundle/Resources/config/admin.yml' }
     - { resource: '@UserBundle/Resources/config/services.yml' }
     - { resource: '@AppBundle/Resources/config/services.yml' }
+    - { resource: '@GeneratorBundle/Resources/config/services.yml' }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -47,15 +48,13 @@ twig:
         "%kernel.root_dir%/../app/Resources/ArianespacePlexcelBundle/Resources/views": custom_plexcel
     form:
         resources:
-           - "FormGeneratorBundle:Form:form_fields.html.twig"
+           - "GeneratorBundle:Form:form_fields.html.twig"
 
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-#    bundles:        [UserBundle, FOSUserBundle, FormGeneratorBundle, AppBundle, ArianespaceThemeBundle]
-    bundles: [UserBundle, GeneratorBundle, FOSUserBundle, AppBundle, ArianespaceThemeBundle] #FormGeneratorBundle
-    #java: /usr/bin/java
+    bundles: [UserBundle, GeneratorBundle, FOSUserBundle, AppBundle, ArianespaceThemeBundle]
     filters:
         cssrewrite: ~
         less:
@@ -78,7 +77,7 @@ doctrine:
     dbal:
         default_connection:   default
         connections:
-            default:
+            generator:
                 driver:   pdo_pgsql #pdo_mysql
                 host:     "%database_host%"
                 port:     "%database_port%"
@@ -94,7 +93,7 @@ doctrine:
                 user:     "%database_user_old%"
                 password: "%database_password_old%"
                 charset:  UTF8
-            generator:
+            default:
                 driver:   pdo_pgsql #pdo_mysql
                 host:     "%database_host_3%"
                 port:     "%database_port_3%"
@@ -122,6 +121,7 @@ doctrine:
                     UserBundle: ~
                     FOSUserBundle: ~
                     ArianespacePlexcelBundle: ~
+                    GeneratorBundle: ~
             old:
                 connection: old
                 mappings:

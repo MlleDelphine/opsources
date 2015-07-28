@@ -40,7 +40,7 @@ class OpusSheetType
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusInfo", mappedBy="type", cascade={"persist"})
      */
 
-    private $opusSheets;
+    private $opusInfos;
 
     /**
      * @var \DateTime
@@ -55,6 +55,12 @@ class OpusSheetType
      * @ORM\Column(name="updated", type="datetime", nullable=true)
      */
     private $updated;
+
+    public function __toString()
+    {
+        return (string)$this->getName();
+    }
+
 
     /**
      * Get id
