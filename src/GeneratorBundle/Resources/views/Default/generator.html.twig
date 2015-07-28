@@ -28,7 +28,6 @@
                             {# Gestion champs directement liés à l'entité #}
                             {% for child in form.children %}{# name, skills, attributes, submit#}
                                 {% if attribute(child.vars.attr, 'data-tab') is defined and attribute(child.vars.attr, 'data-tab') == tab.id %}
-
                                     {{ form_label(child) }}
                                     {{ form_widget(child) }}
                                 {% endif %}
@@ -36,6 +35,28 @@
 
                             {# Gestion champs dynamiques (attributes)#}
                             {% for child in form.children.attributes %}
+                                {% for c in child %} {# collectionAttributes, fieldType, name#}
+                                    {% if attribute(c.vars.attr, 'data-tab') is defined and attribute(c.vars.attr, 'data-tab') == tab.id %}
+                                        {{ form_label(c) }}
+                                        {{ form_widget(c) }}
+                                    {% endif %}
+
+                                    {# Si un attribute est un collectionAttribute #}
+                                    {% if c.children is not empty %}
+                                        {% for cA in c.children %} {# cA : chaque ligne de collection #}
+                                            {% for cc in cA.children %}
+                                                {% if attribute(cc.vars.attr, 'data-tab') is defined and attribute(cc.vars.attr, 'data-tab') == tab.id %}
+                                                    {{ form_widget(c) }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {# end collectionAttribute #}
+                                {% endfor %}
+                            {% endfor %}
+
+                            {# Gestion champs dynamiques (collections)#}
+                            {% for child in form.children.collections %}
                                 {% for c in child %} {# collectionAttributes, fieldType, name#}
                                     {% if attribute(c.vars.attr, 'data-tab') is defined and attribute(c.vars.attr, 'data-tab') == tab.id %}
                                         {{ form_label(c) }}

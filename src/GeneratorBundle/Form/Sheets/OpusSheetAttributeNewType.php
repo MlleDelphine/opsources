@@ -8,7 +8,7 @@
 namespace GeneratorBundle\Form\Sheets;
 
 use FormGeneratorBundle\Form\Type\CustomCollectionAttributeType;
-use FormGeneratorBundle\Form\Type\CustomRadioType;
+use GeneratorBundle\Form\Type\CustomRadioType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
@@ -57,15 +57,7 @@ class OpusSheetAttributeNewType extends AbstractType{
                                     $allConf['type'] = new CustomRadioType();
                                 }
                                 foreach ($allConf['conf'] as $name => $value) {
-                                    //Donc champ collection, spécifique, à créer en dehors
-//                                    if($name == 'type'){
-//                                        $confChild = $allConf['child'];
-//                                        $label = $allConf['conf']['label'];
-//                                    }
-//                                    else{
-                                        $options[$name] = $value;
-//                                        $fieldName = "value";
-//                                    }
+                                    $options[$name] = $value;
                                 }
                                 $this->tab = $allConf['conf']['attr']['data-tab'];
 
@@ -75,26 +67,14 @@ class OpusSheetAttributeNewType extends AbstractType{
                                     $options['attr']['readonly'] = true;
                                 }
 
-//                                if(!$confChild) {
-                                    $form->add(
-                                        $fieldName,
-                                        $allConf['type'],
-                                        $options
-                                    );
-//                                }else{
-//                                    $form->add(
-//                                        'collectionAttributes',  new CustomCollectionType(count($confChild)), array(
-//                                        'type' => new ConditionsCollectionAttributeNewType($confChild),
-//                                        'allow_add' => true,
-//                                        'allow_delete' => true,
-//                                        'by_reference' => false,
-//                                        'required' => false,
-//                                        'label' => $label));
-//                                }
+                                $form->add(
+                                    $fieldName,
+                                    $allConf['type'],
+                                    $options
+                                );
                             }
                         }
                         $form->add('label', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
-//                        $form->add('fieldType', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                     }
                 }
             });

@@ -72,6 +72,8 @@ class OpusSheetType extends AbstractType{
                     $attr = array('data-tab' => "tab_1");
                 }
 
+
+
 //                $form->add('name', 'text', array(
 //                    'label' => 'Nom :',
 //                    'attr' => $attr))
@@ -91,6 +93,7 @@ class OpusSheetType extends AbstractType{
                         'required' => true,
                         'attr' => $attr)
                 );
+
                 if(!$meet->getEvaluate() || $access == true) {
                     //On affiche tous les users(sauf le connecté qui est le manager) = création
                     $form->add(
@@ -129,6 +132,7 @@ class OpusSheetType extends AbstractType{
                     );
 
                 }
+
                 $attr['data-tab'] = "tab_2";
                // unset($attr['disabled']);
 //                $form->add('workConditions', new CustomCollectionFieldType(3), array(
@@ -166,8 +170,6 @@ class OpusSheetType extends AbstractType{
                     );
                 }
 
-                dump($this->attributes['collections']);
-                die;
                 //Nouveau champs de formulaire : collection d'attributs
                 if (!$event || null === $meet->getId()) {
                     $form->add(
@@ -177,7 +179,7 @@ class OpusSheetType extends AbstractType{
                         'allow_delete' => true,
                         'by_reference' => false,
                         'required' => false,
-                        'label' => ''));
+                        'label' => false));
                 }
                 //Edition d'un formulaire existant
                 else{
@@ -192,6 +194,8 @@ class OpusSheetType extends AbstractType{
                         )
                     );
                 }
+
+
             }
         );
     }

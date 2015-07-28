@@ -71,7 +71,7 @@
     "phpunit/phpunit":                   "~4.1",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "doctrine/data-fixtures":  "dev-master",
-    "hautelook/alice-bundle":  "2.1.*@dev",
+    "hautelook/alice-bundle":  "*",
     "deployer/deployer": "~3.0"
   },
   "scripts": {

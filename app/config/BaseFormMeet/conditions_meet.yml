@@ -31,14 +31,17 @@ fields:
                     required: false
                     attr:
                         data-tab: "tab_2"
+                        readonly: true
               - id: "cond_workconditions_evaluation"
-                type: "CustomRadioType"
+                type: "choice"
                 conf:
                     label: "Note"
                     choices: { 1: "1", 2: "2", 3: "3", 4: "4", 0: "Pas d'avis"}
                     required: true
                     expanded: true
                     multiple: false
+                    attr:
+                        data-tab: "tab_2"
               - id: "cond_workconditions_comments"
                 type: "textarea"
                 conf:
