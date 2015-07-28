@@ -40,7 +40,7 @@ class OpusSheetType
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusInfo", mappedBy="type", cascade={"persist"})
      */
 
-    private $opusSheets;
+    private $opusInfos;
 
     /**
      * @var \DateTime

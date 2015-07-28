@@ -146,6 +146,16 @@ class OpusSheet
 
     private $collections;
 
+    /**
+     * @var \OpusSheetTemplate
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", inversedBy="opusSheets")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * })
+     */
+
+    private $opusTemplate;
+
 
     /**
      * Constructor
@@ -487,5 +497,28 @@ class OpusSheet
     public function getCollections()
     {
         return $this->collections;
+    }
+
+    /**
+     * Set opusTemplate
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate
+     * @return OpusSheet
+     */
+    public function setOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate = null)
+    {
+        $this->opusTemplate = $opusTemplate;
+
+        return $this;
+    }
+
+    /**
+     * Get opusTemplate
+     *
+     * @return \GeneratorBundle\Entity\OpusSheetTemplate 
+     */
+    public function getOpusTemplate()
+    {
+        return $this->opusTemplate;
     }
 }

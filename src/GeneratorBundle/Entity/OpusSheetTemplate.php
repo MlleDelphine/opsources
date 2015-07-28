@@ -28,11 +28,23 @@ class OpusSheetTemplate
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusInfo", mappedBy="opusTemplate", cascade={"persist"})
+     */
+
+    private $opusInfos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="opusTemplate", cascade={"persist"})
+     */
+
+    private $opusSheets;
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -55,10 +67,83 @@ class OpusSheetTemplate
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->opusInfos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add opusInfos
+     *
+     * @param \GeneratorBundle\Entity\OpusInfo $opusInfos
+     * @return OpusSheetTemplate
+     */
+    public function addOpusInfo(\GeneratorBundle\Entity\OpusInfo $opusInfos)
+    {
+        $this->opusInfos[] = $opusInfos;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusInfos
+     *
+     * @param \GeneratorBundle\Entity\OpusInfo $opusInfos
+     */
+    public function removeOpusInfo(\GeneratorBundle\Entity\OpusInfo $opusInfos)
+    {
+        $this->opusInfos->removeElement($opusInfos);
+    }
+
+    /**
+     * Get opusInfos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOpusInfos()
+    {
+        return $this->opusInfos;
+    }
+
+    /**
+     * Add opusSheets
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheets
+     * @return OpusSheetTemplate
+     */
+    public function addOpusSheet(\GeneratorBundle\Entity\OpusSheet $opusSheets)
+    {
+        $this->opusSheets[] = $opusSheets;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusSheets
+     *
+     * @param \GeneratorBundle\Entity\OpusSheet $opusSheets
+     */
+    public function removeOpusSheet(\GeneratorBundle\Entity\OpusSheet $opusSheets)
+    {
+        $this->opusSheets->removeElement($opusSheets);
+    }
+
+    /**
+     * Get opusSheets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOpusSheets()
+    {
+        return $this->opusSheets;
     }
 }
