@@ -37,10 +37,10 @@ class OpusSheetType
     private $strCode;
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusInfo", mappedBy="type", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", mappedBy="type", cascade={"persist"})
      */
 
-    private $opusSheets;
+    private $opusTemplates;
 
     /**
      * @var \DateTime
@@ -55,6 +55,12 @@ class OpusSheetType
      * @ORM\Column(name="updated", type="datetime", nullable=true)
      */
     private $updated;
+
+    public function __toString()
+    {
+        return (string)$this->getName();
+    }
+
 
     /**
      * Get id
@@ -168,10 +174,10 @@ class OpusSheetType
     /**
      * Add opusSheets
      *
-     * @param \GeneratorBundle\Entity\OpusInfo $opusSheets
+     * @param \GeneratorBundle\Entity\OpusCampaign $opusSheets
      * @return OpusSheetType
      */
-    public function addOpusSheet(\GeneratorBundle\Entity\OpusInfo $opusSheets)
+    public function addOpusSheet(\GeneratorBundle\Entity\OpusCampaign $opusSheets)
     {
         $this->opusSheets[] = $opusSheets;
 
@@ -181,9 +187,9 @@ class OpusSheetType
     /**
      * Remove opusSheets
      *
-     * @param \GeneratorBundle\Entity\OpusInfo $opusSheets
+     * @param \GeneratorBundle\Entity\OpusCampaign $opusSheets
      */
-    public function removeOpusSheet(\GeneratorBundle\Entity\OpusInfo $opusSheets)
+    public function removeOpusSheet(\GeneratorBundle\Entity\OpusCampaign $opusSheets)
     {
         $this->opusSheets->removeElement($opusSheets);
     }
@@ -196,5 +202,38 @@ class OpusSheetType
     public function getOpusSheets()
     {
         return $this->opusSheets;
+    }
+
+    /**
+     * Add opusTemplates
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetTemplates $opusTemplates
+     * @return OpusSheetType
+     */
+    public function addOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplates $opusTemplates)
+    {
+        $this->opusTemplates[] = $opusTemplates;
+
+        return $this;
+    }
+
+    /**
+     * Remove opusTemplates
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetTemplates $opusTemplates
+     */
+    public function removeOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplates $opusTemplates)
+    {
+        $this->opusTemplates->removeElement($opusTemplates);
+    }
+
+    /**
+     * Get opusTemplates
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOpusTemplates()
+    {
+        return $this->opusTemplates;
     }
 }

@@ -4,9 +4,10 @@ imports:
     - { resource: services.yml }
     - { resource: sonata.yml }
 #    - { resource: '@FormGeneratorBundle/Resources/config/services.yml' }
-#    - { resource: '@FormGeneratorBundle/Resources/config/admin.yml' }
+    - { resource: '@AppBundle/Resources/config/admin.yml' }
     - { resource: '@UserBundle/Resources/config/services.yml' }
     - { resource: '@AppBundle/Resources/config/services.yml' }
+    - { resource: '@GeneratorBundle/Resources/config/services.yml' }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -47,15 +48,13 @@ twig:
         "%kernel.root_dir%/../app/Resources/ArianespacePlexcelBundle/Resources/views": custom_plexcel
     form:
         resources:
-           - "FormGeneratorBundle:Form:form_fields.html.twig"
+           - "GeneratorBundle:Form:form_fields.html.twig"
 
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-#    bundles:        [UserBundle, FOSUserBundle, FormGeneratorBundle, AppBundle, ArianespaceThemeBundle]
-    bundles: [UserBundle, GeneratorBundle, FOSUserBundle, AppBundle, ArianespaceThemeBundle] #FormGeneratorBundle
-    #java: /usr/bin/java
+    bundles: [UserBundle, GeneratorBundle, FOSUserBundle, AppBundle, ArianespaceThemeBundle]
     filters:
         cssrewrite: ~
         less:
@@ -78,6 +77,22 @@ doctrine:
     dbal:
         default_connection:   default
         connections:
+#            generator:
+#                driver:   pdo_pgsql #pdo_mysql
+#                host:     "%database_host%"
+#                port:     "%database_port%"
+#                dbname:   "%database_name%"
+#                user:     "%database_user%"
+#                password: "%database_password%"
+#                charset:  UTF8
+#            old:
+#                driver:   pdo_pgsql #pdo_mysql
+#                host:     "%database_host_old%"
+#                port:     "%database_port_old%"
+#                dbname:   "%database_name_old%"
+#                user:     "%database_user_old%"
+#                password: "%database_password_old%"
+#                charset:  UTF8
             default:
                 driver:   pdo_pgsql #pdo_mysql
                 host:     "%database_host%"
@@ -86,22 +101,8 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
-            old:
-                driver:   pdo_pgsql #pdo_mysql
-                host:     "%database_host_old%"
-                port:     "%database_port_old%"
-                dbname:   "%database_name_old%"
-                user:     "%database_user_old%"
-                password: "%database_password_old%"
-                charset:  UTF8
-            generator:
-                driver:   pdo_pgsql #pdo_mysql
-                host:     "%database_host_3%"
-                port:     "%database_port_3%"
-                dbname:   "%database_name_3%"
-                user:     "%database_user_3%"
-                password: "%database_password_3%"
-                charset:  UTF8
+        types:
+            json: Sonata\Doctrine\Types\JsonType
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -112,8 +113,6 @@ doctrine:
     orm:
         default_entity_manager:   default
         auto_generate_proxy_classes: "%kernel.debug%"
-        #naming_strategy: doctrine.orm.naming_strategy.underscore
-        #auto_mapping: true
         entity_managers:
             default:
                 connection:       default
@@ -122,18 +121,23 @@ doctrine:
                     UserBundle: ~
                     FOSUserBundle: ~
                     ArianespacePlexcelBundle: ~
-            old:
-                connection: old
-                mappings:
-                    OldOpusBundle: ~
-            generator:
-                connection: generator
-                mappings:
                     GeneratorBundle: ~
-                    UserBundle: ~
-                    AppBundle: ~
-                    ArianespacePlexcelBundle: ~
-                    FormGeneratorBundle: ~
+                    SonataMediaBundle: ~
+                    MediaBundle: ~
+                    ApplicationSonataMediaBundle: ~
+#            old:
+#                connection: old
+#                mappings:
+#                    OldOpusBundle: ~
+#            generator:
+#                connection: generator
+#                mappings:
+#                    GeneratorBundle: ~
+#                    UserBundle: ~
+#                    AppBundle: ~
+#                    ArianespacePlexcelBundle: ~
+#                    FormGeneratorBundle: ~
+
 
 
 
@@ -170,7 +174,7 @@ arianespace_plexcel:
     enable:               true
     autologin:            false
     local:                true
-    create:               false
+    create:               true
     application:
 #        name:                 "%application.name%"
 #        version:              "%application.version%"

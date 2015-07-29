@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * OpusSheet
  *
- * @ORM\Table(name="opus_sheet", indexes={@ORM\Index(name="opus_sheet_info_id", columns={"info_id"}), @ORM\Index(name="opus_sheet_evaluate_id", columns={"evaluate_id"}), @ORM\Index(name="opus_sheet_job1_id", columns={"job1_id"}), @ORM\Index(name="opus_sheet_job2_id", columns={"job2_id"})})
+ * @ORM\Table(name="opus_sheet", indexes={@ORM\Index(name="opus_sheet_info_id", columns={"campaign_id"}), @ORM\Index(name="opus_sheet_evaluate_id", columns={"evaluate_id"}), @ORM\Index(name="opus_sheet_job1_id", columns={"job1_id"}), @ORM\Index(name="opus_sheet_job2_id", columns={"job2_id"})})
  * @ORM\Entity
  */
 class OpusSheet
@@ -85,7 +85,7 @@ class OpusSheet
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetStatus", inversedBy="opusSheets", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="status", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="status", referencedColumnName="intCode", nullable=true)
      * })
      */
     private $status;
@@ -111,14 +111,14 @@ class OpusSheet
     private $job1;
 
     /**
-     * @var \OpusInfo
+     * @var \OpusCampaign
      *
-     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusInfo")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusCampaign")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="info_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="campaign_id", referencedColumnName="id")
      * })
      */
-    private $info;
+    private $campaign;
 
     /**
      * @var \DateTime
@@ -146,6 +146,25 @@ class OpusSheet
 
     private $collections;
 
+    /**
+     * @var \OpusSheetTemplate
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", inversedBy="opusSheets")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * })
+     */
+
+    private $opusTemplate;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->collections = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -346,12 +365,12 @@ class OpusSheet
     /**
      * Set info
      *
-     * @param \GeneratorBundle\Entity\OpusInfo $info
+     * @param \GeneratorBundle\Entity\OpusCampaign $info
      * @return OpusSheet
      */
-    public function setInfo(\GeneratorBundle\Entity\OpusInfo $info = null)
+    public function setCampaign(\GeneratorBundle\Entity\OpusCampaign $campaign = null)
     {
-        $this->info = $info;
+        $this->campaign = $campaign;
 
         return $this;
     }
@@ -359,11 +378,11 @@ class OpusSheet
     /**
      * Get info
      *
-     * @return \GeneratorBundle\Entity\OpusInfo
+     * @return \GeneratorBundle\Entity\OpusCampaign
      */
-    public function getInfo()
+    public function getCampaign()
     {
-        return $this->info;
+        return $this->campaign;
     }
 
     /**
@@ -411,13 +430,6 @@ class OpusSheet
     {
         return $this->status;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add attributes
@@ -428,6 +440,7 @@ class OpusSheet
     public function addAttribute(\GeneratorBundle\Entity\OpusAttribute $attributes)
     {
         $this->attributes[] = $attributes;
+        $attributes->setSheet($this);
 
         return $this;
     }
@@ -461,6 +474,7 @@ class OpusSheet
     public function addCollection(\GeneratorBundle\Entity\OpusCollection $collections)
     {
         $this->collections[] = $collections;
+        $collections->setSheet($this);
 
         return $this;
     }
@@ -483,5 +497,28 @@ class OpusSheet
     public function getCollections()
     {
         return $this->collections;
+    }
+
+    /**
+     * Set opusTemplate
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate
+     * @return OpusSheet
+     */
+    public function setOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate = null)
+    {
+        $this->opusTemplate = $opusTemplate;
+
+        return $this;
+    }
+
+    /**
+     * Get opusTemplate
+     *
+     * @return \GeneratorBundle\Entity\OpusSheetTemplate 
+     */
+    public function getOpusTemplate()
+    {
+        return $this->opusTemplate;
     }
 }

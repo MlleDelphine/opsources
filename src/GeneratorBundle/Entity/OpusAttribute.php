@@ -268,10 +268,10 @@ class OpusAttribute
     /**
      * Set sheet
      *
-     * @param \OldOpusBundle\Entity\OpusSheet $sheet
+     * @param \GeneratorBundle\Entity\OpusSheet $sheet
      * @return OpusAttribute
      */
-    public function setSheet(\OldOpusBundle\Entity\OpusSheet $sheet = null)
+    public function setSheet(\GeneratorBundle\Entity\OpusSheet $sheet = null)
     {
         $this->sheet = $sheet;
 
@@ -281,7 +281,7 @@ class OpusAttribute
     /**
      * Get sheet
      *
-     * @return \OldOpusBundle\Entity\OpusSheet 
+     * @return \GeneratorBundle\Entity\OpusSheet 
      */
     public function getSheet()
     {
@@ -291,10 +291,10 @@ class OpusAttribute
     /**
      * Set collection
      *
-     * @param \OldOpusBundle\Entity\OpusCollection $collection
+     * @param \GeneratorBundle\Entity\OpusCollection $collection
      * @return OpusAttribute
      */
-    public function setCollection(\OldOpusBundle\Entity\OpusCollection $collection = null)
+    public function setCollection(\GeneratorBundle\Entity\OpusCollection $collection = null)
     {
         $this->collection = $collection;
 
@@ -304,7 +304,7 @@ class OpusAttribute
     /**
      * Get collection
      *
-     * @return \OldOpusBundle\Entity\OpusCollection 
+     * @return \GeneratorBundle\Entity\OpusCollection 
      */
     public function getCollection()
     {

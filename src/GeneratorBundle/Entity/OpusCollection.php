@@ -69,6 +69,20 @@ class OpusCollection
     private $sheet;
 
 
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusAttribute", mappedBy="collection", cascade={"persist"})
+     */
+    private $attributes;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 
     /**
      * Get id
@@ -221,10 +235,10 @@ class OpusCollection
     /**
      * Set sheet
      *
-     * @param \OldOpusBundle\Entity\OpusSheet $sheet
+     * @param \GeneratorBundle\Entity\OpusSheet $sheet
      * @return OpusCollection
      */
-    public function setSheet(\OldOpusBundle\Entity\OpusSheet $sheet = null)
+    public function setSheet(\GeneratorBundle\Entity\OpusSheet $sheet = null)
     {
         $this->sheet = $sheet;
 
@@ -234,10 +248,45 @@ class OpusCollection
     /**
      * Get sheet
      *
-     * @return \OldOpusBundle\Entity\OpusSheet 
+     * @return \GeneratorBundle\Entity\OpusSheet 
      */
     public function getSheet()
     {
         return $this->sheet;
+    }
+
+
+    /**
+     * Add attributes
+     *
+     * @param \GeneratorBundle\Entity\OpusAttribute $attributes
+     * @return OpusCollection
+     */
+    public function addAttribute(\GeneratorBundle\Entity\OpusAttribute $attributes)
+    {
+        $this->attributes[] = $attributes;
+        $attributes->setCollection($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove attributes
+     *
+     * @param \GeneratorBundle\Entity\OpusAttribute $attributes
+     */
+    public function removeAttribute(\GeneratorBundle\Entity\OpusAttribute $attributes)
+    {
+        $this->attributes->removeElement($attributes);
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 }
