@@ -42,11 +42,6 @@ class PlexcelUserProvider implements UserProviderInterface
         elseif(!$exist) {
             throw new UsernameNotFoundException();
         }
-//            $user    = new User();
-//            $user->setUsername($username);
-//            $user->setlogin($username);
-//            $user->setFullName($account["givenName"].' '.$account["sn"]);
-//            $user->setMail($account["mail"]);
 
         $user = $exist;
 
