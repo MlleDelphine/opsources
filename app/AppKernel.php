@@ -38,6 +38,8 @@ class AppKernel extends Kernel
             new Sonata\AdminBundle\SonataAdminBundle(),
             new OldOpusBundle\OldOpusBundle(),
             new GeneratorBundle\GeneratorBundle(),
+//            new Sonata\MediaBundle\SonataMediaBundle(),
+//            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

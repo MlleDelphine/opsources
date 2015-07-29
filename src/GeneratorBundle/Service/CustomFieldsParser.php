@@ -10,6 +10,7 @@ namespace GeneratorBundle\Service;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
+use UserBundle\Entity\User;
 
 class CustomFieldsParser
 {

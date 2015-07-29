@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * OpusSheetTemplate
  *
- * @ORM\Table()
+ * @ORM\Table(name="opus_sheet_template")
  * @ORM\Entity
  */
 class OpusSheetTemplate
@@ -39,6 +39,13 @@ class OpusSheetTemplate
      */
 
     private $opusSheets;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="bigint", nullable=true)
+     */
+    private $status = '0';
 
 
     /**
@@ -145,5 +152,28 @@ class OpusSheetTemplate
     public function getOpusSheets()
     {
         return $this->opusSheets;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return OpusSheetTemplate
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

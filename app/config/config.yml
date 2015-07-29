@@ -122,6 +122,7 @@ doctrine:
                     FOSUserBundle: ~
                     ArianespacePlexcelBundle: ~
                     GeneratorBundle: ~
+                  #  SonataMediaBundle: ~
             old:
                 connection: old
                 mappings:
@@ -134,6 +135,9 @@ doctrine:
                     AppBundle: ~
                     ArianespacePlexcelBundle: ~
                     FormGeneratorBundle: ~
+#    dbal:
+#        types:
+#            json: Sonata\Doctrine\Types\JsonType
 
 
 
@@ -170,7 +174,7 @@ arianespace_plexcel:
     enable:               true
     autologin:            false
     local:                true
-    create:               false
+    create:               true
     application:
 #        name:                 "%application.name%"
 #        version:              "%application.version%"

@@ -31,11 +31,40 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="roles", type="array", nullable=true)
+     */
     protected $roles;
-    protected $username;
-    protected $password;
-    protected $salt;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="sids", type="array", nullable=true)
+     */
     private $sids;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=32, nullable=true)
+     */
+    private $password;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=32, nullable=true)
+     */
+    private $salt;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="fullname", type="string", nullable=true)
+     */
     protected $fullName;
     /**
      * @var integer
@@ -78,6 +107,13 @@ class User implements UserInterface
      * @ORM\Column(name="login", type="string", length=32, nullable=false)
      */
     private $login;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=32, nullable=true)
+     */
+    private $username;
 
     /**
      * @var string
@@ -242,9 +278,12 @@ class User implements UserInterface
         $this->assessedProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessorConditionsMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessedConditionseetss = new \Doctrine\Common\Collections\ArrayCollection();
-
-        $this->roles = array('ROLE_USER', 'ROLE_ADMIN');
+        $roles = array('ROLE_USER', 'ROLE_ADMIN');
+//        $roles->add('ROLE_USER');
+//        $roles->add('ROLE_ADMIN');
+        $this->roles = $roles;
         $this->sids  = array();
+        $this->status = 0;
 
         $this->opusSheetsEvaluator = new ArrayCollection();
     }
@@ -1047,6 +1086,7 @@ class User implements UserInterface
         return $this->opusSheetsEvaluator;
     }
 
+
     /**
      * Add opusSheetsEvaluate
      *
@@ -1177,5 +1217,56 @@ class User implements UserInterface
     public function getOpusSheetsResponsable()
     {
         return $this->opusSheetsResponsable;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param string $roles
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+
+    /**
+     * Set pasword
+     *
+     * @param string $pasword
+     * @return User
+     */
+    public function setPasword($pasword)
+    {
+        $this->pasword = $pasword;
+
+        return $this;
+    }
+
+    /**
+     * Get pasword
+     *
+     * @return string 
+     */
+    public function getPasword()
+    {
+        return $this->pasword;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
     }
 }
