@@ -29,4 +29,13 @@ class DefaultController extends Controller
             'form'   => $form->createView(),
         ));
     }
+
+    public function pdfAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $SheetType = $em->getRepository("GeneratorBundle:OpusSheet")->findAll();
+        dump($SheetType);
+        die;
+    }
 }
