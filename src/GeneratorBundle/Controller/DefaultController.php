@@ -34,7 +34,8 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $SheetType = $em->getRepository("GeneratorBundle:OpusSheet")->findAll();
+        $SheetType = $em->getRepository("GeneratorBundle:OpusSheet")->find($id);
+        $ui = $this->get('app.customfields_parser')->parseYamlConf("old_meet");
         dump($SheetType);
         die;
     }
