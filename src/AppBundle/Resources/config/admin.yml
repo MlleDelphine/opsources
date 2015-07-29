@@ -2,7 +2,7 @@ services:
     sonata.admin.info:
         class: AppBundle\Admin\OpusInfoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Campagnes", label: "campagne" }
+            - { name: sonata.admin, manager_type: orm, group: "Campagnes", label: "Campagne" }
         arguments:
             - ~
             - GeneratorBundle\Entity\OpusInfo
@@ -18,7 +18,7 @@ services:
             - GeneratorBundle\Entity\OpusSheetType
             - ~
         calls:
-            - [ setTranslationDomain, [FormGeneratorBundle]]
+            - [ setTranslationDomain, [GeneratorBundle]]
 
     sonata.admin.sheet_status:
         class: AppBundle\Admin\OpusSheetStatusAdmin
@@ -29,7 +29,18 @@ services:
             - GeneratorBundle\Entity\OpusSheetStatus
             - ~
         calls:
-            - [ setTranslationDomain, [FormGeneratorBundle]]
+            - [ setTranslationDomain, [GeneratorBundle]]
+
+    sonata.admin.sheet_template:
+        class: AppBundle\Admin\OpusSheetTemplateAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Campagnes", label: "Modèle de fiche" }
+        arguments:
+            - ~
+            - GeneratorBundle\Entity\OpusSheetTemplate
+            - ~
+        calls:
+            - [ setTranslationDomain, [GeneratorBundle]]
 #
 #    sonata.admin.status:
 #        class: FormGeneratorBundle\Admin\StatusAdmin

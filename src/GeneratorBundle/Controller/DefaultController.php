@@ -9,7 +9,24 @@ class DefaultController extends Controller
 {
     public function indexAction($codeText)
     {
+
         $em = $this->getDoctrine()->getManager();
+
+        $opusSheet = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->findOneById(4);
+
+        dump($opusSheet->getConfFile());
+        die;
+
+        foreach ($opusSheet->getCollections() as $attr) {
+            foreach($attr->getAttributes() as $at){
+                dump($at);
+            }
+
+
+        }
+
+
+        die;
 
         $SheetType = $em->getRepository("GeneratorBundle:OpusSheetType")->findOneByStrCode($codeText);
         $campaign = $em->getRepository("GeneratorBundle:OpusInfo")->findLastInfoByType($SheetType);

@@ -53,8 +53,13 @@ fields:
           number: 10
           predefined_values:
               cond_workconditions_name: [ "Sa charge de travail", "L’amplitude de ses journées de travail", "L’organisation et répartition de la charge de travail dans l’équipe/dans l’entreprise", "L’articulation vie professionnelle/ vie privée", "Sa rémunération", "Ses conditions de travail", "Ses relations avec l’équipe (soutien, entraide)", "Ses relations avec ses clients/fournisseurs", "Ses relations avec sa hiérarchie", "La communication interne (dans l’équipe, dans l’entreprise)" ]
-
-
+tabs_ui:
+    - id: "tab_1"
+      name: "Général"
+    - id: "tab_2"
+      name: "Evaluation"
+    - id: "tab_3"
+      name: "Impression évalué"
 
 
 

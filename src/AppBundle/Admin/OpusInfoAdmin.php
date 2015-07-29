@@ -30,9 +30,13 @@ class OpusInfoAdmin extends Admin {
             ->add('type', 'entity', array('class' => 'GeneratorBundle:OpusSheetType',
                 'label' => 'Statut',
                 'property' => 'name'))
-            ->add('opusTemplate', 'entity')
-//            ->add('confFile', 'choice', array('label' => "Fichier de configuration", "choices" => $allConfFiles ))
-//            ->add('confFileUi', 'choice', array('label' => "Fichier de configuration UI", "choices" => $allConfFiles ))
+            ->add('opusTemplate', 'entity', array(
+                'class' => 'GeneratorBundle:OpusSheetTemplate',
+                'property' => 'name',
+                'label' => 'Template',
+                'multiple' => true,
+                'placeholder' => 'Sélectionner',
+                'required' => true))
         ;
     }
 
@@ -45,8 +49,6 @@ class OpusInfoAdmin extends Admin {
             ->add('limitDate', null, array('label' => 'Date limite') )
             ->add('status', null, array('label' => 'Statut'))
             ->add('type', null, array('label' => "Type d'entretien"))
-//            ->add('confFile', null, array('label' => "Fichier de configuration"))
-//            ->add('confFileUi', null, array('label' => "Fichier de configuration UI"))
 
         ;
     }
@@ -61,8 +63,6 @@ class OpusInfoAdmin extends Admin {
             ->add('limitDate', null, array('label' => 'Date limite'))
             ->add('status', null, array('label' => 'Statut'))
             ->add('type', null, array('label' => "Type d'entretien"))
-//            ->add('confFile', null, array('label' => "Fichier de configuration"))
-//            ->add('confFileUi', null, array('label' => "Fichier de configuration UI"))
         ;
     }
 }

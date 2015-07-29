@@ -1,0 +1,8 @@
+services:
+    formation.media.form.type.media:
+        class: "Formation\MediaBundle\Form\MediaType"
+        arguments:
+            - "@sonata.media.pool"
+            - "Formation\MediaBundle\Entity\Media"
+        tags:
+            - { name: "form.type",  alias: "formation_media_type" }

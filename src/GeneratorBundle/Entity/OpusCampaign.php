@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * OpusInfo
+ * OpusCampaign
  *
- * @ORM\Table(name="opus_info")
- * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusInfoRepository")
+ * @ORM\Table(name="opus_campaign")
+ * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusCampaignRepository")
  */
-class OpusInfo
+class OpusCampaign
 {
     /**
      * @var integer
@@ -74,7 +74,7 @@ class OpusInfo
 
     /**
      * @var \OpusSheetType
-     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetType", inversedBy="opusInfos")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetType", inversedBy="OpusCampaigns")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      * })
@@ -85,7 +85,7 @@ class OpusInfo
 
     /**
      * @var \OpusSheetTemplate
-     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", inversedBy="opusInfos")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", inversedBy="OpusCampaigns")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      * })
@@ -109,7 +109,7 @@ class OpusInfo
      * Set year
      *
      * @param integer $year
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setYear($year)
     {
@@ -132,7 +132,7 @@ class OpusInfo
      * Set template
      *
      * @param string $template
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setTemplate($template)
     {
@@ -155,7 +155,7 @@ class OpusInfo
      * Set mailDate
      *
      * @param \DateTime $mailDate
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setMailDate($mailDate)
     {
@@ -178,7 +178,7 @@ class OpusInfo
      * Set limitDate
      *
      * @param \DateTime $limitDate
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setLimitDate($limitDate)
     {
@@ -201,7 +201,7 @@ class OpusInfo
      * Set status
      *
      * @param integer $status
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setStatus($status)
     {
@@ -224,7 +224,7 @@ class OpusInfo
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setCreatedAt($createdAt)
     {
@@ -247,7 +247,7 @@ class OpusInfo
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -266,34 +266,12 @@ class OpusInfo
         return $this->updatedAt;
     }
 
-    /**
-     * Set confFile
-     *
-     * @param string $confFile
-     * @return OpusInfo
-     */
-    public function setConfFile($confFile)
-    {
-        $this->confFile = $confFile;
-
-        return $this;
-    }
-
-    /**
-     * Get confFile
-     *
-     * @return string 
-     */
-    public function getConfFile()
-    {
-        return $this->confFile;
-    }
 
     /**
      * Set type
      *
      * @param \GeneratorBundle\Entity\OpusSheetType $type
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setType(\GeneratorBundle\Entity\OpusSheetType $type = null)
     {
@@ -313,33 +291,10 @@ class OpusInfo
     }
 
     /**
-     * Set confFileUi
-     *
-     * @param string $confFileUi
-     * @return OpusInfo
-     */
-    public function setConfFileUi($confFileUi)
-    {
-        $this->confFileUi = $confFileUi;
-
-        return $this;
-    }
-
-    /**
-     * Get confFileUi
-     *
-     * @return string 
-     */
-    public function getConfFileUi()
-    {
-        return $this->confFileUi;
-    }
-
-    /**
      * Set opusTemplate
      *
      * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate
-     * @return OpusInfo
+     * @return OpusCampaign
      */
     public function setOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate = null)
     {

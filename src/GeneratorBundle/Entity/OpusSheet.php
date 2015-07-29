@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * OpusSheet
  *
- * @ORM\Table(name="opus_sheet", indexes={@ORM\Index(name="opus_sheet_info_id", columns={"info_id"}), @ORM\Index(name="opus_sheet_evaluate_id", columns={"evaluate_id"}), @ORM\Index(name="opus_sheet_job1_id", columns={"job1_id"}), @ORM\Index(name="opus_sheet_job2_id", columns={"job2_id"})})
+ * @ORM\Table(name="opus_sheet", indexes={@ORM\Index(name="opus_sheet_info_id", columns={"campaign_id"}), @ORM\Index(name="opus_sheet_evaluate_id", columns={"evaluate_id"}), @ORM\Index(name="opus_sheet_job1_id", columns={"job1_id"}), @ORM\Index(name="opus_sheet_job2_id", columns={"job2_id"})})
  * @ORM\Entity
  */
 class OpusSheet
@@ -111,14 +111,14 @@ class OpusSheet
     private $job1;
 
     /**
-     * @var \OpusInfo
+     * @var \OpusCampaign
      *
-     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusInfo")
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusCampaign")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="info_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="campaign_id", referencedColumnName="id")
      * })
      */
-    private $info;
+    private $campaign;
 
     /**
      * @var \DateTime
@@ -365,12 +365,12 @@ class OpusSheet
     /**
      * Set info
      *
-     * @param \GeneratorBundle\Entity\OpusInfo $info
+     * @param \GeneratorBundle\Entity\OpusCampaign $info
      * @return OpusSheet
      */
-    public function setInfo(\GeneratorBundle\Entity\OpusInfo $info = null)
+    public function setCampaign(\GeneratorBundle\Entity\OpusCampaign $campaign = null)
     {
-        $this->info = $info;
+        $this->campaign = $campaign;
 
         return $this;
     }
@@ -378,11 +378,11 @@ class OpusSheet
     /**
      * Get info
      *
-     * @return \GeneratorBundle\Entity\OpusInfo
+     * @return \GeneratorBundle\Entity\OpusCampaign
      */
-    public function getInfo()
+    public function getCampaign()
     {
-        return $this->info;
+        return $this->campaign;
     }
 
     /**

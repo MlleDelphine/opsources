@@ -29,10 +29,26 @@ class OpusSheetTemplate
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusInfo", mappedBy="opusTemplate", cascade={"persist"})
+     * @var \OpusSheetType
+     * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetType", inversedBy="opusTemplates")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * })
      */
 
-    private $opusInfos;
+    private $type;
+
+    /**
+     * @var \Media
+     * @ORM\OneToOne(targetEntity="MediaBundle\Entity\Media", inversedBy="template", cascade={"persist"})
+     */
+    private $confFile;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusCampaign", mappedBy="opusTemplate", cascade={"persist"})
+     */
+
+    private $campaigns;
 
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="opusTemplate", cascade={"persist"})
@@ -85,40 +101,40 @@ class OpusSheetTemplate
      */
     public function __construct()
     {
-        $this->opusInfos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->campaigns = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add opusInfos
+     * Add campaigns
      *
-     * @param \GeneratorBundle\Entity\OpusInfo $opusInfos
+     * @param \GeneratorBundle\Entity\OpusCampaign $campaigns
      * @return OpusSheetTemplate
      */
-    public function addOpusInfo(\GeneratorBundle\Entity\OpusInfo $opusInfos)
+    public function addCampaign(\GeneratorBundle\Entity\OpusCampaign $campaigns)
     {
-        $this->opusInfos[] = $opusInfos;
+        $this->campaigns[] = $campaigns;
 
         return $this;
     }
 
     /**
-     * Remove opusInfos
+     * Remove campaigns
      *
-     * @param \GeneratorBundle\Entity\OpusInfo $opusInfos
+     * @param \GeneratorBundle\Entity\opusCampaign $campaigns
      */
-    public function removeOpusInfo(\GeneratorBundle\Entity\OpusInfo $opusInfos)
+    public function removeCampaign(\GeneratorBundle\Entity\OpusCampaign $campaigns)
     {
-        $this->opusInfos->removeElement($opusInfos);
+        $this->campaigns->removeElement($campaigns);
     }
 
     /**
-     * Get opusInfos
+     * Get campaigns
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getOpusInfos()
+    public function getCampaigns()
     {
-        return $this->opusInfos;
+        return $this->campaigns;
     }
 
     /**
@@ -175,5 +191,52 @@ class OpusSheetTemplate
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetType $type
+     * @return OpusSheetTemplate
+     */
+    public function setType(\GeneratorBundle\Entity\OpusSheetType $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \GeneratorBundle\Entity\OpusSheetType 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+    
+
+    /**
+     * Set confFile
+     *
+     * @param \MediaBundle\Entity\Media $confFile
+     * @return OpusSheetTemplate
+     */
+    public function setConfFile(\MediaBundle\Entity\Media $confFile = null)
+    {
+        $this->confFile = $confFile;
+
+        return $this;
+    }
+
+    /**
+     * Get confFile
+     *
+     * @return \MediaBundle\Entity\Media 
+     */
+    public function getConfFile()
+    {
+        return $this->confFile;
     }
 }

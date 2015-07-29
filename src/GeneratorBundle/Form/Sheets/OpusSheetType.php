@@ -215,6 +215,6 @@ class OpusSheetType extends AbstractType{
      */
     public function getName()
     {
-        return 'formgenerator_valuation_meet';
+        return 'generator_sheet';
     }
 }
