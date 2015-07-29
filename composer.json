@@ -53,7 +53,8 @@
     "arianespace/plexcel-bundle": "dev-master",
     "sonata-project/doctrine-orm-admin-bundle": "2.3.2",
     "sonata-project/admin-bundle": "2.3.3",
-    "brown298/data-tables-bundle": "dev-master"
+    "brown298/data-tables-bundle": "dev-master",
+    "knplabs/knp-snappy-bundle": "*"
 
   },
   "require-dev": {
@@ -71,7 +72,7 @@
     "phpunit/phpunit":                   "~4.1",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "doctrine/data-fixtures":  "dev-master",
-    "hautelook/alice-bundle":  "0.1.*",
+    "hautelook/alice-bundle":  "*",
     "deployer/deployer": "~3.0"
   },
   "scripts": {

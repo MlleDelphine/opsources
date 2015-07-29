@@ -25,10 +25,15 @@ use FormGeneratorBundle\Entity\ConditionsAttribute;
 use FormGeneratorBundle\Entity\ConditionsCollectionAttribute;
 use FormGeneratorBundle\Form\Conditions\ConditionsMeetType;
 
+use GeneratorBundle\Entity\OpusAttribute;
+use GeneratorBundle\Entity\OpusCollection;
+use GeneratorBundle\Entity\OpusSheet;
+
 use Symfony\Component\Form\FormFactory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 
 class PrePopulateEntity{
@@ -36,11 +41,13 @@ class PrePopulateEntity{
     private $formFactory;
     private $router;
     private $em;
+    private $security;
 
-    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em) {
+    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em, TokenStorage $security) {
         $this->formFactory = $formFactory;
         $this->router      = $router;
         $this->em          = $em;
+        $this->security = $security;
     }
 
     /**
@@ -63,6 +70,9 @@ class PrePopulateEntity{
             if($allConf['type'] == 'collection'){
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
+                //Il faudra : pour chaque enfant créer un opus_attribute lié à la collection parente
+                //Il faudra : reboucler sur un tableau de valeur en fonction de l'id en conf et de label en bdd
+                // (ex : objectifs déjà défini) ->setValue() et prendre la position du i ->setValue($predefinedValues[$i])
                 for($i = 1; $i <= $number; $i ++){
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ValuationCollectionAttribute();
@@ -77,7 +87,6 @@ class PrePopulateEntity{
 
             }
         }
-
         $capacities = $this->em->getRepository('FormGeneratorBundle:Capacity')->findAll();
         foreach ($capacities as $capacity) {
             $skill = new Skill();
@@ -85,10 +94,20 @@ class PrePopulateEntity{
             $entity->addSkill($skill);
         }
 
-
         return $this->createValuationMeetCreateForm($entity, $attributes);
 
     }
+
+    /**
+     * ValuationMeet
+     *
+     * Prédéfinit l'entité principale avec ses attributs/collection
+     * @param $entity
+     * @param $attributes
+     * @return mixed
+     */
+
+
 
     /**
      * ProfessionalMeet
@@ -357,7 +376,7 @@ class PrePopulateEntity{
     private function createValuationMeetCreateForm(ValuationMeet $entity, $attributes){
 
         $form = $this->formFactory->create(
-            new ValuationMeetType($attributes, $this->em),
+            new ValuationMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_valuationmeet'),
@@ -382,7 +401,7 @@ class PrePopulateEntity{
     private function createProfessionalMeetCreateForm(ProfessionalMeet $entity, $attributes){
 
         $form = $this->formFactory->create(
-            new ProfessionalMeetType($attributes, $this->em),
+            new ProfessionalMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_professionalmeet'),
@@ -407,7 +426,7 @@ class PrePopulateEntity{
     private function createConditionsMeetCreateForm(ConditionsMeet $entity, $attributes){
 
         $form = $this->formFactory->create(
-            new ConditionsMeetType($attributes, $this->em),
+            new ConditionsMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_conditionsmeet'),
@@ -432,7 +451,7 @@ class PrePopulateEntity{
     public function createValuationMeetEditForm(ValuationMeet $entity, $attributes)
     {
 
-        $form = $this->formFactory->create(new ValuationMeetType($attributes, $this->em), $entity, array(
+        $form = $this->formFactory->create(new ValuationMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_valuationmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 
@@ -453,7 +472,7 @@ class PrePopulateEntity{
     public function createProfessionalMeetEditForm(ProfessionalMeet $entity, $attributes)
     {
 
-        $form = $this->formFactory->create(new ProfessionalMeetType($attributes, $this->em), $entity, array(
+        $form = $this->formFactory->create(new ProfessionalMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_professionalnmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 
@@ -474,7 +493,7 @@ class PrePopulateEntity{
     public function createConditionsMeetEditForm(ConditionsMeet $entity, $attributes)
     {
 
-        $form = $this->formFactory->create(new ConditionsMeetType($attributes, $this->em), $entity, array(
+        $form = $this->formFactory->create(new ConditionsMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_conditionsmeet', array('id' => $entity->getId())),
             'method' => 'PUT'));
 

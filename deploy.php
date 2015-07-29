@@ -26,7 +26,7 @@ server('ariane', 'ae-e-zw31.ad.arianespace.fr', 22)
     ->user('ext0758')
     ->password('Delphine')
     ->stage('ariane')
-    ->env('deploy_path', '/var/www/opus32')
+    ->env('deploy_path', '/var/www/opus31')
     ->env('branch','master');
 
 

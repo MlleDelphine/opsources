@@ -1,0 +1,25 @@
+{
+  "name": "opus",
+  "version": "0.1.0",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/Resources/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bower-tinymce-amd": "*",
+    "font-awesome": "4.3.0",
+    "select2": "~4.0.0",
+    "datetimepicker": "~2.4.3",
+    "jqueryui": "~1.11.4",
+    "datatables": "~1.10.7",
+    "startbootstrap-sb-admin-2": "*",
+    "icheck": "*",
+    "jquery.ui": "*",
+    "bootstrap": "*",
+    "datatables-plugins-bootstrap3": "*"  }
+}

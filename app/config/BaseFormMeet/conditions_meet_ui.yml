@@ -1,2 +1,6 @@
-- id: 'tab_1'
-  name: 'Général'
+- id: "tab_1"
+  name: "Général"
+- id: "tab_2"
+  name: "Evaluation"
+- id: "tab_3"
+  name: "Impression évalué"

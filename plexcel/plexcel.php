@@ -4,7 +4,7 @@
 // http://www.ioplex.com/
 // This software is private property and may not be used or distributed in
 // any form without explicit written permission from IOPLEX Software.
-
+//define('PLEXCEL_VERSION', '2.7.32');
 if (!extension_loaded('plexcel'))
 	die('Error: Plexcel PHP extension has not been loaded.');
 if (!defined('PLEXCEL_VERSION'))
@@ -88,6 +88,21 @@ function to_xml($node) {
 
 	return $html;
 }
+
+if (!function_exists('apache_request_headers')) {
+    function apache_request_headers() {
+        foreach($_SERVER as $key=>$value) {
+            if (substr($key,0,5)=="HTTP_") {
+                $key=str_replace(" ","-",ucwords(strtolower(str_replace("_"," ",substr($key,5)))));
+                $out[$key]=$value;
+            }else{
+                $out[$key]=$value;
+            }
+        }
+        return $out;
+    }
+}
+
 function plexcel_modify_by_post($px, $distinguishedName, $attrs)
 {
 	$defs = plexcel_get_attrdefs($px, $attrs);

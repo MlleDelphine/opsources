@@ -26,7 +26,6 @@ class AppKernel extends Kernel
 
             //Connexion
             new FOS\UserBundle\FOSUserBundle(),
-            // new FR3D\LdapBundle\FR3DLdapBundle(),
             new \UserBundle\UserBundle(),
             new \Arianespace\PlexcelBundle\ArianespacePlexcelBundle(),
             new \Arianespace\ThemeBundle\ArianespaceThemeBundle(),
@@ -36,6 +35,19 @@ class AppKernel extends Kernel
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
+            new OldOpusBundle\OldOpusBundle(),
+            new GeneratorBundle\GeneratorBundle(),
+
+            //SonataMedia
+            new Sonata\MediaBundle\SonataMediaBundle(),
+            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+            new Sonata\IntlBundle\SonataIntlBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
+
+            //media
+
+            new \MediaBundle\MediaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

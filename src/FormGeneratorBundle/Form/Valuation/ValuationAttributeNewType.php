@@ -14,17 +14,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver ;
 use Symfony\Component\Form\FormEvents;
 use FormGeneratorBundle\Form\Type\CustomCollectionType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class ValuationAttributeNewType extends AbstractType{
 
     protected $attributes;
+    protected $security;
     protected $tab;
 
-    public function __construct ($attributes, $tab = null)
+    public function __construct ($attributes, TokenStorage $security, $tab = null)
     {
         $this->attributes = $attributes;
+        $this->security = $security;
         $this->tab = $tab;
-
     }
 
     /**
@@ -47,6 +49,8 @@ class ValuationAttributeNewType extends AbstractType{
                         $confChild = false;
                         foreach ($this->attributes as $allConf) {
                             if ($allConf['id'] == $data->getName()) {
+
+
                                 if($allConf['type'] == 'choice'){
                                     $allConf['type'] = new CustomRadioType();
                                 }
@@ -63,6 +67,12 @@ class ValuationAttributeNewType extends AbstractType{
                                     }
                                     $this->tab = $allConf['conf']['attr']['data-tab'];
                                 }
+                                //Seul le manager peut remplir certains champs
+                                if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
+                                    $options['disabled'] = true;
+                                    $options['attr']['readonly'] = true;
+                                }
+
                                 if(!$confChild) {
                                     $form->add(
                                         $fieldName,

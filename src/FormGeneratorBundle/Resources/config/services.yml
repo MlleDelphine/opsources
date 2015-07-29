@@ -4,15 +4,9 @@ services:
         arguments: ['@kernel']
     app.prepopulate_entity:
         class:        FormGeneratorBundle\Service\PrePopulateEntity
-        arguments: ['@form.factory', '@router', '@doctrine.orm.default_entity_manager'] #['@service_container', '@form.factory', '@router']
+        arguments: ['@form.factory', '@router', '@doctrine.orm.default_entity_manager', '@security.token_storage'] #['@service_container', '@form.factory', '@router']
 
     app.accesscontrol_meet:
         class: FormGeneratorBundle\Service\AccessControlMeet
         arguments: ['@security.token_storage', '@doctrine.orm.default_entity_manager']
 
-#    app.voter.request:
-#        class: FormGeneratorBundle\Service\Voter\RequestVoter
-#        arguments:
-#            - ["@service_container"]
-#        tags:
-#            - { name: knp_menu.voter }

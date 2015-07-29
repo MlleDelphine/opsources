@@ -56,13 +56,19 @@ class ConditionsAttributeNewType extends AbstractType{
                                         $confChild = $allConf['child'];
                                         $label = $allConf['conf']['label'];
                                     }
-
                                     else{
                                         $options[$name] = $value;
-                                        $fieldName = 'value';
+                                        $fieldName = "value";
                                     }
-                                    $this->tab = $allConf['conf']['attr']['data-tab'];
                                 }
+                                $this->tab = $allConf['conf']['attr']['data-tab'];
+
+                                //Seul le manager peut remplir certains champs
+                                if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
+                                    $options['disabled'] = true;
+                                    $options['attr']['readonly'] = true;
+                                }
+
                                 if(!$confChild) {
                                     $form->add(
                                         $fieldName,
