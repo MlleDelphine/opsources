@@ -7,6 +7,8 @@
  */
 namespace GeneratorBundle\Service;
 
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -32,21 +34,42 @@ class CustomFieldsParser
     public function parseYamlConf($name, $field = null){
 
         $yaml = new Parser();
-        $path = $this->kernel->getRootDir() . '/config/BaseFormMeet/'.$name; //.'.yml';
+
+        $finder = new Finder();
+        $iterator = $finder->files()->name($name->getProviderReference())->in($this->kernel->getRootDir() .'/../web/uploads/media/default' );
+
+        foreach ($iterator as $file)
+        {
+            $template = $file->getRealpath();
+        }
+
         //il n'y aura probablement plus besoin de séparer l'extension
         try {
-            if($field){
-                $attributesParsed = $yaml->parse(file_get_contents($path));
-                $attributes = $attributesParsed[$field];
+            if($field && $field == "fields"){
+                $attributesParsed = $yaml->parse(file_get_contents($template));
+                $attributes = $attributesParsed[$field]['attr'];
+                $allAttributes = array();
+                foreach($attributes as $k => $attribute){
+                    if($attribute['type'] == "collection"){
+                        $allAttributes['collections'][$k] = $attribute;
+                    }
+                    else{
+                        $allAttributes['attr'][$k] = $attribute;
+                    }
+                }
+            }
+            elseif($field){
+                $attributesParsed = $yaml->parse(file_get_contents($template));
+                $allAttributes = $attributesParsed[$field];
             }
             else{
-                $attributes = $yaml->parse(file_get_contents($path));
+                $allAttributes = $yaml->parse(file_get_contents($template));
             }
 
         } catch (ParseException $e) {
             throw new ParseException("Unable to parse the YAML string: %s", $e->getMessage());
         }
-        return $attributes;
+        return $allAttributes;
     }
 
     /**

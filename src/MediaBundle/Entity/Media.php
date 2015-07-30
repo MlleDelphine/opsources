@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Media
  *
  * @ORM\Table("media_media")
- * @ORM\Entity(repositoryClass="Formation\MediaBundle\Entity\MediaRepository")
+ * @ORM\Entity(repositoryClass="MediaBundle\Entity\MediaRepository")
  */
 class Media extends BaseMedia
 {
@@ -33,7 +33,7 @@ class Media extends BaseMedia
     private $identification_name;
 
     /**
-     * @ORM\OneToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", mappedBy="confFile", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", mappedBy="confFile", cascade={"persist"})
      */
     private $template;
 

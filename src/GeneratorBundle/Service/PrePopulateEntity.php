@@ -108,7 +108,11 @@ class PrePopulateEntity{
 
         if(array_key_exists('collections', $attributes)) {
             foreach ($attributes['collections'] as $collection) {
-                $number = $collection['number'];
+                $number = 5;
+                if(array_key_exists('number', $collection)){
+                    $number = $collection['number'];
+                }
+
                 for($i = 0; $i < $number; $i ++){
                     $opusCollection = new OpusCollection();
                     $opusCollection->setType($collection['id']);
@@ -120,7 +124,7 @@ class PrePopulateEntity{
                         $opusAttribute = new OpusAttribute();
                         $opusAttribute->setLabel($child['id']);
 
-                        if (array_key_exists($child['id'], $collection['predefined_values'])) {
+                        if (array_key_exists("predefined_values", $collection) && array_key_exists($child['id'], $collection['predefined_values'])) {
                             $opusAttribute->setValue($collection['predefined_values'][$child['id']][$i]);
                         }
                         $opusCollection->addAttribute($opusAttribute);

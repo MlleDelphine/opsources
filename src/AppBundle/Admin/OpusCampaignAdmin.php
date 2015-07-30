@@ -14,7 +14,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class OpusInfoAdmin extends Admin {
+class OpusCampaignAdmin extends Admin {
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
@@ -28,13 +28,13 @@ class OpusInfoAdmin extends Admin {
             ->add('limitDate', 'date', array('label' => 'Date limite'))
             ->add('status', 'choice', array('label' => 'Statut', 'choices' => array(0 => "Désactivée", 1 => "Activée")))
             ->add('type', 'entity', array('class' => 'GeneratorBundle:OpusSheetType',
-                'label' => 'Statut',
+                'label' => "Type d'entretien",
                 'property' => 'name'))
             ->add('opusTemplate', 'entity', array(
                 'class' => 'GeneratorBundle:OpusSheetTemplate',
                 'property' => 'name',
                 'label' => 'Template',
-                'multiple' => true,
+                'multiple' => false,
                 'placeholder' => 'Sélectionner',
                 'required' => true))
         ;
