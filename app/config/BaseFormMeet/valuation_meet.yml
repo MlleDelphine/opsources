@@ -2,6 +2,20 @@ name: "Entretien d'appréciation"
 id: "valuation_meet"
 fields:
     attr:
+        - id: "valuation_bilan"
+          type: "checkbox"
+          conf:
+              label: "L’année a été marquée par un événement significatif (mutation, évolution importante des responsabilités,  absence de longue durée, …)"
+              required: true
+              attr:
+                  data-tab: "tab_2"
+        - id: "valuation_context"
+          type: "textarea"
+          conf:
+              label: "<i>Si oui, préciser l’événement et le contexte :</i>"
+              required: false
+              attr:
+                  data-tab: "tab_2"
         - id: "valuation_missions"
           type: collection
           conf:
@@ -10,9 +24,9 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: "Evaluation de la mission permanente"
+              label: "Evaluation de la mission permanente : listez ci-dessous les principaux thèmes de la mission permanente et en évaluer leur réalisation :"
               attr:
-                  data-tab: 'tab_3'
+                  data-tab: "tab_2"
           child:
               - id: "mission_theme"
                 type: "text"
@@ -20,7 +34,7 @@ fields:
                     label: "Thème de la mission permanente"
                     required: false
                     attr:
-                        data-tab: 'tab_3'
+                        data-tab: "tab_2"
               - id: "mission_state"
                 type: "choice"
                 conf:
@@ -30,14 +44,14 @@ fields:
                     expanded: true
                     multiple: false
                     attr:
-                        data-tab: 'tab_3'
+                        data-tab: "tab_2"
               - id: "mission_comment"
                 type: 'textarea'
                 conf:
                     label: "Commentaires "
                     required: false
                     attr:
-                        data-tab: 'tab_3'
+                        data-tab: "tab_2"
                         class: "textarea-resize no-horizontal form-control"
           number: 5
         - id: "valuation_goals"
@@ -50,7 +64,7 @@ fields:
               required: false
               label: "Evaluation de l’atteinte des objectifs  :"
               attr:
-                  data-tab: 'tab_2'
+                  data-tab: "tab_2"
           child:
               - id: "goal_text"
                 type: "text"
@@ -58,14 +72,14 @@ fields:
                     label: "Rappel des objectifs"
                     required: false
                     attr:
-                        data-tab: 'tab_2'
+                        data-tab: "tab_2"
               - id: "goal_metric"
                 type: "number"
                 conf:
                     label: "Indicateur de mesure"
                     required: false
                     attr:
-                        data-tab: 'tab_2'
+                        data-tab: "tab_2"
               - id: "goal_deadline"
                 type: "genemu_jquerydate"
                 conf:
@@ -73,7 +87,7 @@ fields:
                     required: false
                     attr:
                         class: 'datepicker'
-                        data-tab: 'tab_2'
+                        data-tab: "tab_2"
                     widget: 'single_text'
                     format: 'dd/MM/yyyy'
               - id: "goal_state"
@@ -85,14 +99,14 @@ fields:
                     expanded: true
                     multiple: false
                     attr:
-                        data-tab: 'tab_2'
+                        data-tab: "tab_2"
               - id: "goal_comment"
                 type: "textarea"
                 conf:
                     label: "Commentaire(s)"
                     required: false
                     attr:
-                        data-tab: 'tab_2'
+                        data-tab: "tab_2"
                         class: 'textarea-resize no-horizontal form-control'
           number: 5
         - id: "general_valuation"
@@ -101,7 +115,7 @@ fields:
               label: "Appréciation générale de la tenue du poste pour l’année écoulée :"
               required: false
               attr:
-                  data-tab: 'tab_1'
+                  data-tab: "tab_2"
         - id: "valuation_future_goals"
           type: collection
           conf:
@@ -110,9 +124,9 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: "Nouveaux objectifs  :"
+              label: "Nouveaux objectifs : déterminez les objectifs pour les 12 prochains mois par ordre d’importance (3 objectifs différents sont recommandés, 5 au maximum)."
               attr:
-                  data-tab: 'tab_2'
+                  data-tab: "tab_3"
           child:
               - id: "future_goal_text"
                 type: "text"
@@ -120,14 +134,14 @@ fields:
                     label: "Rappel des objectifs"
                     required: false
                     attr:
-                        data-tab: 'tab_2'
+                        data-tab: "tab_3"
               - id: "future_goal_metric"
                 type: "number"
                 conf:
                     label: "Indicateur de mesure"
                     required: false
                     attr:
-                        data-tab: 'tab_2'
+                        data-tab: "tab_3"
               - id: "future_goal_deadline"
                 type: "genemu_jquerydate"
                 conf:
@@ -135,7 +149,7 @@ fields:
                     required: false
                     attr:
                         class: 'datepicker'
-                        data-tab: 'tab_2'
+                        data-tab: "tab_3"
                     widget: 'single_text'
                     format: 'dd/MM/yyyy'
               - id: "future_goal_comment"
@@ -144,7 +158,7 @@ fields:
                     label: "Commentaires (risques, difficultés possibles, moyens nécessaires, priorités..)"
                     required: false
                     attr:
-                        data-tab: 'tab_2'
+                        data-tab: "tab_3"
                         class: 'textarea-resize no-horizontal form-control'
           number: 5
         - id: employee_obs
@@ -153,10 +167,13 @@ fields:
               label: "Observations éventuelles du salarié à l’issue de l’entretien (à remplir par le salarié)"
               required: false
               attr:
-                  data-tab: 'tab_4'
+                  data-tab: "tab_4"
+                  data-access: "assessed"
 
 
 
 
 
 
+pdf:
+tab_ui:

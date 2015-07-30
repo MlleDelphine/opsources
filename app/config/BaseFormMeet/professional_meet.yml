@@ -2,55 +2,6 @@ name: "Entretien professionel"
 id: "professional_meet"
 fields:
     attr:
-#        - id: "professional_temp"
-#          type: "choice"
-#          conf:
-#              label: "Date de l'entretien :"
-#              required: false
-#        - id: "professional_text"
-#          type: 'genemu_tinymce'
-#          conf:
-#              label: "<i>Si oui, préciser l’événement et le contexte :</i> "
-#              required: false
-#              attr:
-#                  class: "tab_1"
-#        - id: "professional_datetime"
-#          type: "datetime"
-#          conf:
-#              label: "Saisissez une date et une heure"
-#              required: false
-#              attr:
-#                  class: 'custom-time'
-#        - id: "professional_choice"
-#          type: "choice"
-#          conf:
-#              label: "Genre"
-#              required: true
-#              choices: { m: "Masculin", f: "Féminin" }
-#              expanded: true
-#              multiple: false
-#        - id: "professional_city"
-#          type: "entity"
-#          conf:
-#              label: "Sélectionnez une ville :"
-#              required: true
-#              class: "FormGeneratorBundle:City"
-#              data_class: "FormGeneratorBundle\Entity\City"
-#              property: "name"
-#              expanded: true
-#              multiple: false
-#              attr:
-#                  class: 'select-select2'
-#        - id: "professional_cities"
-#          type: "entity"
-#          conf:
-#              label: "Sélectionnez une/plusieurs ville :"
-#              required: false
-#              class: "FormGeneratorBundle:City"
-#              data_class: null
-#              choice_label: "name"
-#              expanded: true
-#              multiple: true
         - id: "professional_temp"
           type: collection
           conf:
@@ -75,64 +26,6 @@ fields:
                         data-tab: 'tab_1'
                         class: "col-md-2"
           number: 1
-#        - id: "professional_goals"
-#          type: collection
-#          conf:
-#              allow_add: true
-#              type: "to defined"
-#              allow_delete: true
-#              by_reference: false
-#              required: false
-#              label: "Saisissez des objectifs ci-dessous :"
-#          child:
-#              - id: "review_text"
-#                type: "text"
-#                conf:
-#                    label: "Rappel des objectifs"
-#                    required: false
-#              - id: "metric_int"
-#                type: "number"
-#                conf:
-#                    label: "Indicateur de mesure"
-#                    required: false
-#              - id: "professional_city2"
-#                type: "entity"
-#                conf:
-#                    label: "Sélectionnez une ville :"
-#                    required: false
-#                    class: "FormGeneratorBundle:City"
-#                    data_class: "FormGeneratorBundle\Entity\City"
-#                    choice_label: "name"
-#                    expanded: true
-#                    multiple: false
-#                    label_attr:
-#                        class: 'radio-inline'
-#              - id: "review_text2"
-#                type: "text"
-#                conf:
-#                    label: "Label 4"
-#                    required: false
-#              - id: "metric_int2"
-#                type: "number"
-#                conf:
-#                    label: "Label 5"
-#                    required: false
-#              - id: "professional_city22"
-#                type: "entity"
-#                conf:
-#                    label: "Label 6 :"
-#                    required: false
-#                    class: "FormGeneratorBundle:City"
-#                    data_class: "FormGeneratorBundle\Entity\City"
-#                    choice_label: "name"
-#                    expanded: true
-#                    multiple: false
-#              - id: "metric_int3"
-#                type: "number"
-#                conf:
-#                    label: "Label 7"
-#                    required: false
-#          number: 2
         - id: "professional_skills"
           type: collection
           conf:
@@ -141,7 +34,7 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: "Quels sont les points forts du salarié, sa valeur ajotuée dans l'équipe ?"
+              label: "Quels sont les points forts du salarié, sa valeur ajoutée dans l'équipe ?"
               attr:
                   data-tab: 'tab_2'
           child:
