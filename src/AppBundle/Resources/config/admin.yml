@@ -1,11 +1,11 @@
 services:
-    sonata.admin.info:
-        class: AppBundle\Admin\OpusInfoAdmin
+    sonata.admin.sheet_campaign:
+        class: AppBundle\Admin\OpusCampaignAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "Campagnes", label: "Campagne" }
         arguments:
             - ~
-            - GeneratorBundle\Entity\OpusInfo
+            - GeneratorBundle\Entity\OpusCampaign
             - ~
         calls:
             - [ setTranslationDomain, [GeneratorBundle], @app.customfields_parser]
