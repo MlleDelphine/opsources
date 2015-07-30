@@ -21,8 +21,13 @@ class OpusSheetTemplateAdmin extends Admin{
     {
         $formMapper
             ->add('name', 'text', array('label' => 'Intitulé'))
+            ->add('type', 'entity', array('class' => 'GeneratorBundle:OpusSheetType',
+                'label' => 'Statut',
+                'property' => 'name'))
             ->add('status', 'choice', array('label' => 'Statut', 'choices' => array(0 => "Désactivée", 1 => "Activée")))
-            ->add('confFile', 'sonata_media_type', array('provider' => "sonata.media.provider.file", "context" => "default"))
+            ->add('confFile', 'sonata_media_type', array('required' => false,
+                'provider' => "sonata.media.provider.file",
+                "context" => "default"))
 
         ;
     }
@@ -33,6 +38,7 @@ class OpusSheetTemplateAdmin extends Admin{
         $datagridMapper
             ->add('id')
             ->add('name', null, array('label' => "Intitulé"))
+            ->add('type', null, array('Label' => 'Type'))
             ->add('status', null, array('label' => 'Statut', 'choices' => array(0 => "Désactivé", 1 => "Activé")));
     }
 
@@ -42,6 +48,7 @@ class OpusSheetTemplateAdmin extends Admin{
         $listMapper
             ->add('id')
             ->addIdentifier('name', null, array('label' => "Intitulé"))
+            ->add('type', null, array('Label' => 'Type'))
             ->add('status', null, array('label' => "Statut"));
     }
 }

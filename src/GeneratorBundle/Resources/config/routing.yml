@@ -1,3 +1,7 @@
 generator_homepage:
     path:     /generate/{codeText}
     defaults: { _controller: GeneratorBundle:Default:index }
+
+generator_editsheet:
+    path:     /edit/sheet/{id}
+    defaults: { _controller: GeneratorBundle:Default:edit }

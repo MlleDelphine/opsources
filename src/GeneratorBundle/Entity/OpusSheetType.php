@@ -207,10 +207,10 @@ class OpusSheetType
     /**
      * Add opusTemplates
      *
-     * @param \GeneratorBundle\Entity\OpusSheetTemplates $opusTemplates
+     * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplates
      * @return OpusSheetType
      */
-    public function addOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplates $opusTemplates)
+    public function addOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplates)
     {
         $this->opusTemplates[] = $opusTemplates;
 
@@ -220,9 +220,9 @@ class OpusSheetType
     /**
      * Remove opusTemplates
      *
-     * @param \GeneratorBundle\Entity\OpusSheetTemplates $opusTemplates
+     * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplates
      */
-    public function removeOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplates $opusTemplates)
+    public function removeOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplates)
     {
         $this->opusTemplates->removeElement($opusTemplates);
     }

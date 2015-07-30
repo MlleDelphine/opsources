@@ -40,7 +40,7 @@ class OpusSheetTemplate
 
     /**
      * @var \Media
-     * @ORM\OneToOne(targetEntity="MediaBundle\Entity\Media", inversedBy="template", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MediaBundle\Entity\Media", inversedBy="template", cascade={"persist", "remove"})
      */
     private $confFile;
 
@@ -226,6 +226,7 @@ class OpusSheetTemplate
     public function setConfFile(\MediaBundle\Entity\Media $confFile = null)
     {
         $this->confFile = $confFile;
+        $confFile->setTemplate($this);
 
         return $this;
     }
