@@ -16,13 +16,12 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new FormGeneratorBundle\FormGeneratorBundle(),
             new AppBundle\AppBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Brown298\DataTablesBundle\Brown298DataTablesBundle(),
-
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
 
             //Connexion
             new FOS\UserBundle\FOSUserBundle(),
@@ -40,6 +39,7 @@ class AppKernel extends Kernel
             new GeneratorBundle\GeneratorBundle(),
 //            new Sonata\MediaBundle\SonataMediaBundle(),
 //            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

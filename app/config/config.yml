@@ -117,7 +117,6 @@ doctrine:
             default:
                 connection:       default
                 mappings:
-                    FormGeneratorBundle: ~
                     UserBundle: ~
                     FOSUserBundle: ~
                     ArianespacePlexcelBundle: ~
@@ -134,7 +133,6 @@ doctrine:
                     UserBundle: ~
                     AppBundle: ~
                     ArianespacePlexcelBundle: ~
-                    FormGeneratorBundle: ~
 #    dbal:
 #        types:
 #            json: Sonata\Doctrine\Types\JsonType
@@ -187,3 +185,12 @@ arianespace_plexcel:
         'CN=opus_appraisees_pilot,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr': 'ROLE_USER'
     user_manager:         user_manager
     file:                 "%kernel.root_dir%/../plexcel/plexcel.php"
+
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     %kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64
+        options:    []
+    image:
+        enabled:    false
+        options:    []
