@@ -4,6 +4,7 @@ namespace GeneratorBundle\Controller;
 
 use GeneratorBundle\Entity\OpusSheet;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -49,11 +50,21 @@ class DefaultController extends Controller
 
     public function pdfAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $text = $this->get('app.pdfparser')->getSheetToHtml($id);
+        /*return $this->render('GeneratorBundle:PDF:view.html.twig', array(
+            'html' => $text
+        ));*/
+        $html = $this->renderView('GeneratorBundle:PDF:view.html.twig', array(
+            'html' => $text
+        ));
 
-        $SheetType = $em->getRepository("GeneratorBundle:OpusSheet")->find($id);
-        $ui = $this->get('app.customfields_parser')->parseYamlConf("old_meet");
-        dump($SheetType);
-        die;
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename="file.pdf"'
+            )
+        );
     }
 }

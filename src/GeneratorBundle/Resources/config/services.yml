@@ -11,4 +11,4 @@ services:
         arguments: ['@security.token_storage', '@doctrine.orm.default_entity_manager'] #Delphine
     app.pdfparser:
         class: GeneratorBundle\Service\PdfParser
-        arguments: ['@doctrine.orm.default_entity_manager','@app.customfields_parser']
+        arguments: ['@doctrine.orm.default_entity_manager','@app.customfields_parser','@service_container']

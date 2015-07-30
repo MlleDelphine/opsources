@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c62349434881495a9bf01333e3f65868",
+    "hash": "5c563141bc50cfef3aa59d767d9b6625",
     "packages": [
         {
             "name": "arianespace/plexcel-bundle",
@@ -1141,12 +1141,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "98a8df191fb7fa6660093ac236903b5974c1bd39"
+                "reference": "8a2ead3c4ba159fbf170b3ba4b04098b869e723e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/98a8df191fb7fa6660093ac236903b5974c1bd39",
-                "reference": "98a8df191fb7fa6660093ac236903b5974c1bd39",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/8a2ead3c4ba159fbf170b3ba4b04098b869e723e",
+                "reference": "8a2ead3c4ba159fbf170b3ba4b04098b869e723e",
                 "shasum": ""
             },
             "require": {
@@ -1212,7 +1212,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2015-07-23 11:25:48"
+            "time": "2015-07-29 17:41:25"
         },
         {
             "name": "genemu/form-bundle",
@@ -4475,6 +4475,38 @@
             "time": "2014-10-12 19:18:40"
         },
         {
+            "name": "h4cc/wkhtmltopdf-amd64",
+            "version": "0.11.0-RC1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/h4cc/wkhtmltopdf-amd64.git",
+                "reference": "de1ed65ae2e50b9802cba61bd515fefc33b5a457"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/de1ed65ae2e50b9802cba61bd515fefc33b5a457",
+                "reference": "de1ed65ae2e50b9802cba61bd515fefc33b5a457",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/wkhtmltopdf-amd64"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Julius Beckmann",
+                    "email": "github@h4cc.de"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit)",
+            "homepage": "https://code.google.com/p/wkhtmltopdf/",
+            "time": "2013-09-06 12:54:18"
+        },
+        {
             "name": "hautelook/alice-bundle",
             "version": "0.2",
             "source": {
@@ -6531,7 +6563,8 @@
         "arianespace/plexcel-bundle": 20,
         "brown298/data-tables-bundle": 20,
         "behat/behat": 20,
-        "doctrine/data-fixtures": 20
+        "doctrine/data-fixtures": 20,
+        "h4cc/wkhtmltopdf-amd64": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
