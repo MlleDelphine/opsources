@@ -54,6 +54,7 @@ class OpusSheetType extends AbstractType{
                 else{
                     $evaluator = $user;
                 }
+
                 //Si évalué tout est désactivé sauf les siens
                 $access = true;
 
@@ -79,12 +80,11 @@ class OpusSheetType extends AbstractType{
                         },
                         'label' => 'Evaluateur',
                         'multiple' => false,
-                        'placeholder' => 'Sélectionner',
                         'required' => true,
                         'attr' => $attr)
                 );
 
-                if(!$meet->getEvaluate() || $access == true) {
+                if(!$meet->getEvaluate()) {
                     //On affiche tous les users(sauf le connecté qui est le manager) = création
                     $form->add(
                         'evaluate',
@@ -96,7 +96,6 @@ class OpusSheetType extends AbstractType{
                             },
                             'label' => 'Evalué',
                             'multiple' => false,
-                            'placeholder' => 'Sélectionner',
                             'required' => true,
                             'attr' => $attr
                         )
@@ -115,7 +114,6 @@ class OpusSheetType extends AbstractType{
                             },
                             'label' => 'Evalué',
                             'multiple' => false,
-                            'placeholder' => 'Sélectionner',
                             'required' => true,
                             'attr' => $attr
                         )

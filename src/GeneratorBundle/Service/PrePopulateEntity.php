@@ -445,7 +445,7 @@ class PrePopulateEntity{
             new OpusSheetType($attributes, $this->em, $this->security),
             $entity,
             array(
-                'action' => $this->router->generate('generator_homepage', array('codeText' => "trulutut")),
+                'action' => $this->router->generate('generator_createsheet'),
                 'method' => 'POST'
             )
         );
