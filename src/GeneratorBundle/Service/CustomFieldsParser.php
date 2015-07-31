@@ -42,10 +42,10 @@ class CustomFieldsParser
             $template = $file->getRealpath();
         }
 
-        //il n'y aura probablement plus besoin de séparer l'extension
+        $path = $this->kernel->getRootDir() . '/config/BaseFormMeet/old_meet2.yml';
         try {
             if($field && $field == "fields"){
-                $attributesParsed = $yaml->parse(file_get_contents($template));
+                $attributesParsed = $yaml->parse(file_get_contents($path)); // $template
                 $attributes = $attributesParsed[$field]['attr'];
                 $allAttributes = array();
                 foreach($attributes as $k => $attribute){

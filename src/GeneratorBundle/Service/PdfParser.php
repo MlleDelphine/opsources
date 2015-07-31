@@ -58,7 +58,7 @@ class PdfParser
                 $this->collection[$coll->getType()] = [];
             array_push($this->collection[$coll->getType()], $arr);
         }
-        $this->yml = $this->customFieldParser->parseYamlConf("old_meet.yml");
+        $this->yml = $this->customFieldParser->parseYamlConf($data->getOpusTemplate()->getConfFile());
         $this->ui = $this->yml['tabs_ui'];
         $this->fields = $this->yml['fields']["attr"];
     }

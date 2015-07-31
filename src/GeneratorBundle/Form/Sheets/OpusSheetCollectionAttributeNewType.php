@@ -46,21 +46,31 @@ class OpusSheetCollectionAttributeNewType extends AbstractType{
                     $options = array();
                     //collections : dans yml
                     foreach ($this->attributes as $key => $allConf) {
-                        $form->add(
-                            'attributes',
-                            new CustomCollectionType(count($allConf['child'])),
-                            array(
-                                'type' => new OpusSheetAttributeNewType($allConf['child'], $allConf['conf']['attr']['data-tab']),
-                                'allow_add' => true,
-                                'allow_delete' => true,
-                                'by_reference' => false,
-                                'required' => false,
-                                'label' => false,
-                                'attr' => array('data-tab' => $this->tab)
-                            )
-                        );
+                        if ($allConf['id'] == $data->getType()) {
+                            $form->add(
+                                'attributes',
+                                new CustomCollectionType(count($allConf['child'])),
+                                array(
+                                    'type' => new OpusSheetAttributeNewType(
+                                        $allConf['child'],
+                                        $allConf['conf']['attr']['data-tab']
+                                    ),
+                                    'allow_add' => true,
+                                    'allow_delete' => true,
+                                    'by_reference' => false,
+                                    'required' => false,
+                                    'label' => false,
+                                    'attr' => array('data-tab' => $this->tab)
+                                )
+                            );
+                            $form->add(
+                                'type',
+                                'hidden',
+                                array('label' => false, 'attr' => array('data-tab' => $this->tab))
+                            );
+                            $form->add('type', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
+                        }
                     }
-                    $form->add('type', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                 }
 
             });
