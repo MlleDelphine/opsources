@@ -29,7 +29,8 @@ class DefaultController extends Controller
         ));
     }
 
-    public function editAction($id){
+    public function editAction($id)
+    {
 
         $em = $this->getDoctrine()->getManager();
 
@@ -45,13 +46,15 @@ class DefaultController extends Controller
 
         $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
 
-        return $this->render('GeneratorBundle:Default:generator.html.twig', array(
-            'entity' => $opusSheet,
-            'name' => $name,
-            'uiTab' => $uiTab,
-            'form'   => $form->createView(),
-        ));
-
+        return $this->render(
+            'GeneratorBundle:Default:generator.html.twig',
+            array(
+                'entity' => $opusSheet,
+                'name' => $name,
+                'uiTab' => $uiTab,
+                'form' => $form->createView(),
+            )
+        );
     }
 
     public function pdfAction($id)
@@ -72,5 +75,6 @@ class DefaultController extends Controller
                 'Content-Disposition'   => 'attachment; filename="file.pdf"'
             )
         );
+
     }
 }

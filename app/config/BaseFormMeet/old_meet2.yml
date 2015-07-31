@@ -1,0 +1,950 @@
+name: "FICHE D'APPRECIATION"
+id: "old_meet"
+fields:
+    attr:
+        - id: "date_entretien"
+          type: "genemu_jquerydate"
+          conf:
+              label: "Date d'entretien :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+                  class: 'datepicker'
+              widget: 'single_text'
+              format: 'dd/MM/yyyy'
+        # Evaluate
+        - id: "save_evaluate_firstname"
+          type: "text"
+          ref: "evaluate.firstname"
+          conf:
+              label: "Nom du salarié :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "save_evaluate_lastname"
+          type: "text"
+          ref: "evaluate.lastname"
+          conf:
+              label: "Prénom du salarié :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "save_evaluate_login"
+          type: "text"
+          ref: "evaluate.login"
+          conf:
+              label: "Matricule du salarié :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "current_function"
+          type: "text"
+          ref: "evaluate.fonction"
+          conf:
+              label: "Fonction actuelle :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "save_evaluate_classification"
+          type: "text"
+          ref: "evaluate.classification"
+          conf:
+              label: "Classification :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+        - id: "nouveau_salarie"
+          type: "genemu_jquerydate"
+          conf:
+              label: "Date d'entrée à Arianespace :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+                  class: 'datepicker'
+              widget: 'single_text'
+              format: 'dd/MM/yyyy'
+        - id: "seniority"
+          type: "number"
+          conf:
+              label: "Ancienneté dans le poste :"
+              required: true
+              attr:
+                  data-tab: 'tab_1'
+
+        # Evaluator
+        - id: "save_evaluator_firstname"
+          type: "text"
+          ref: "evaluator.firstname"
+          conf:
+              label: "Nom de l'evaluateur :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "save_evaluator_lastname"
+          type: "text"
+          ref: "evaluator.lastname"
+          conf:
+              label: "Prénom de l'evaluateur :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "function_evaluator"
+          type: "text"
+          ref: "evaluator.fonction"
+          conf:
+              label: "Fonction de l'evaluateur :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "save_evaluator_department"
+          type: "text"
+          ref: "evaluator.department"
+          conf:
+              label: "Direction ou Service :"
+              required: true
+              attr:
+                  data-tab: "tab_1"
+        - id: "secondary_evaluator"
+          type: "text"
+          conf:
+              label: "Autre évaluateur :"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "comment_secondary_evaluator"
+          type: 'textarea'
+          conf:
+              label: "Commentaires :"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "campagn_function"
+          type: "text"
+          conf:
+              label: "Fonction campagne :"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "prise_poste"
+          type: "checkbox"
+          conf:
+              label: "Prise de poste en cours d'année :"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "poste_precedent"
+          type: "text"
+          conf:
+              label: "Si oui, poste précédent :"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "evolution_poste"
+          type: "checkbox"
+          conf:
+              label: "La fiche de poste a-t-elle evolué de façon significative ?"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "fiche_poste"
+          type: "file"
+          conf:
+              label: "Si oui, vous avez la possibilité de charger le fichier de la fiche de poste"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+                  format: "pdf, docx, doc, xls, xlsx"
+#
+## TAB 2
+        - id: "mission"
+          type: "collection"
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: true
+              label: "Lister ci-dessus les principaux thèmes de la mission permanente et en évaluer leur réalisation :"
+              attr:
+                  data-tab: 'tab_2'
+          child:
+              - id: "mission"
+                type: "textarea"
+                conf:
+                    label: "Thèmes de la mission permanente"
+                    required: true
+                    attr:
+                        data-tab: "tab_2"
+                        class: "textarea-resize no-horizontal"
+              - id: "NPRD"
+                type: "choice"
+                conf:
+                    label: "Réalisé"
+                    choices: { n: "N", p: "P", r: "R", d: "D" }
+                    required: true
+                    expanded: true
+                    multiple: false
+                    attr:
+                        data-tab: "tab_2"
+              - id: "commentaires"
+                type: "textarea"
+                conf:
+                    label: "Commentaires"
+                    required: true
+                    attr:
+                        class: "textarea-resize no-horizontal"
+                        data-tab: "tab_2"
+
+### TAB 3
+
+        - id: "objectif"
+          type: "collection"
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: true
+              label: "(Apprécier le niveau de réalisation)"
+              attr:
+                  data-tab: 'tab_3'
+          child:
+              - id: "rappel"
+                type: "textarea"
+                conf:
+                    label: "Rappel des objectifs"
+                    required: true
+                    attr:
+                        data-tab: "tab_3"
+              - id: "NPRD"
+                type: "choice"
+                conf:
+                    label: "Réalisé"
+                    choices: { n: "N", p: "P", r: "R", d: "D" }
+                    required: true
+                    expanded: true
+                    multiple: false
+                    attr:
+                        data-tab: "tab_3"
+              - id: "commentaires"
+                type: "textarea"
+                conf:
+                    label: "Commentaires"
+                    required: true
+                    attr:
+                        data-tab: "tab_3"
+                        class: "textarea-resize no-horizontal"
+### TAB 4
+#
+        - id: "evaluation"
+          type: "collection"
+          conf:
+              allow_add: false
+              type: "to defined"
+              allow_delete: false
+              by_reference: false
+              required: false
+              label: ""
+              attr:
+                  data-tab: 'tab_4'
+          child:
+                  - id: "qualite"
+                    type: "text"
+                    conf:
+                        label: "Qualités personnelles"
+                        required: true
+                        attr:
+                            data-tab: "tab_4"
+                            readonly: true
+                  - id: "eval"
+                    type: "choice"
+                    conf:
+                        label: " "
+                        choices: { 0: "A améliorer", 1: "A maintenir" }
+                        expanded: true
+                        multiple: false
+                        required: true
+                        attr:
+                            data-tab: "tab_4"
+                  - id: "commentaires"
+                    type: "text"
+                    conf:
+                        label: "Commentaires"
+                        required: true
+                        attr:
+                            data-tab: "tab_4"
+          number: 5
+          predefined_values:
+              qualite: [ "Collaboration avec l'équipe (Entraide, échange, reporting ...)", "Motivation", "Fiabilité et qualité du travail fourni", "Attitude constructive / positive", "Capacité d'adaptation"]
+
+        - id: "observation_evaluation"
+          type: "textarea"
+          conf:
+              label: "(Tenue du poste, évolution dans le poste, appréciation générale ...) "
+              required: false
+              attr:
+                  data-tab: "tab_9"
+## TAB 5
+        - id: "new_objectif"
+          type: "collection"
+          conf:
+              allow_add: false
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Déterminer les objectifs pour les 12 mois à venir par ordre d'importance (3 objectifs différents sont recommandés, 5 au maximum)."
+              attr:
+                  data-tab: 'tab_5'
+          child:
+                  - id: "objectif"
+                    type: "text"
+                    conf:
+                        label: "Objectifs fixés"
+                        required: false
+                        attr:
+                            data-tab: "tab_5"
+                  - id: "mesure"
+                    type: "text"
+                    conf:
+                        label: "Indicateurs de mesure"
+                        required: false
+                        attr:
+                            data-tab: "tab_5"
+                  - id: "echeance"
+                    type: "text"
+                    conf:
+                        label: "Echéances"
+                        required: false
+                        attr:
+                            data-tab: "tab_5"
+          number: 5
+
+        - id: "remarque_new_objectif"
+          type: "text"
+          conf:
+              label: "Remarques sur les nouveaux objectifs (Risques, difficultés, moyens nécessaires...)"
+              required: false
+              attr:
+                  data-tab: "tab_5"
+### TAB 6
+#        # Points forts du salarié
+#        - id: "competence_bis"
+#          type: "collection"
+#          conf:
+#              allow_add: true
+#              type: "to defined"
+#              allow_delete: true
+#              by_reference: false
+#              required: true
+#              label: "Compétences développées depuis le dernier entretien (hors formation professionnelle) :"
+#              attr:
+#                  data-tab: 'tab_6'
+#          child:
+#                  - id: "aptitude"
+#                    type: "text"
+#                    conf:
+#                        label: "Compétence (Aptitudes / Savoirs / Savoir Faire)"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "acquisition"
+#                    type: "text"
+#                    conf:
+#                        label: "Mode d'acquisition"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#        - id: "competence_dev"
+#          type: "collection"
+#          conf:
+#              allow_add: true
+#              type: "to defined"
+#              allow_delete: true
+#              by_reference: false
+#              required: true
+#              label: "Quels sont les axes de progrès ?"
+#              attr:
+#                  data-tab: 'tab_6'
+#          child:
+#                  - id: "competence"
+#                    type: "text"
+#                    conf:
+#                        label: "Compétence à développer"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "resultat"
+#                    type: "text"
+#                    conf:
+#                        label: "Résultat à atteindre"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "plan"
+#                    type: "text"
+#                    conf:
+#                        label: "Plan d'action"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#        - id: "formation_souhait"
+#          type: "collection"
+#          conf:
+#              allow_add: true
+#              type: "to defined"
+#              allow_delete: true
+#              by_reference: false
+#              required: true
+#              label: "Plan de formation souhaité"
+#              attr:
+#                  data-tab: 'tab_6'
+#          child:
+#                  - id: "formation_souhait_competence"
+#                    type: "text"
+#                    conf:
+#                        label: "Compétence à développer"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "formation_souhait_resultat"
+#                    type: "text"
+#                    conf:
+#                        label: "Résultat à atteindre"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "formation_souhait_stage"
+#                    type: "text"
+#                    conf:
+#                        label: "Stage envisagé"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "formation_souhait_organisme"
+#                    type: "text"
+#                    conf:
+#                        label: "Organisme (éventuel)"
+#                        required: false
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "formation_souhait_periode"
+#                    type: "text"
+#                    conf:
+#                        label: "Période souhaitée"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "formation_souhait_categorie"
+#                    type: "number"
+#                    conf:
+#                        label: "Catégorie 1 ou 2"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#        - id: "formation"
+#          type: "collection"
+#          conf:
+#              allow_add: true
+#              type: "to defined"
+#              allow_delete: true
+#              by_reference: false
+#              required: true
+#              label: "Compétences développées depuis le dernier entretien via la formation professionnelle :"
+#              attr:
+#                  data-tab: 'tab_6'
+#          child:
+#                  - id: "libelle"
+#                    type: "text"
+#                    conf:
+#                        label: "Libellé du stage"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "date_debut"
+#                    type: "genemu_jquerydate"
+#                    conf:
+#                        label: "Date de début"
+#                        required: true
+#                        attr:
+#                            data-tab: 'tab_6'
+#                            class: 'datepicker'
+#                        widget: 'single_text'
+#                        format: 'dd/MM/yyyy'
+#                  - id: "date_fin"
+#                    type: "genemu_jquerydate"
+#                    conf:
+#                        label: "Date de fin"
+#                        required: true
+#                        attr:
+#                            data-tab: 'tab_6'
+#                            class: 'datepicker'
+#                        widget: 'single_text'
+#                        format: 'dd/MM/yyyy'
+#                  - id: "duree"
+#                    type: "text"
+#                    conf:
+#                        label: "Durée théorique"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "heures"
+#                    type: "number"
+#                    conf:
+#                        label: "Heures réalisées"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "competence"
+#                    type: "text"
+#                    conf:
+#                        label: "Compétence(s) visée(s)"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "pratique"
+#                    type: "choice"
+#                    conf:
+#                        label: "La formation a-t-elle été mise en pratique (illustrer)"
+#                        choices: { true: "Oui", false: "Non" }
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "avis"
+#                    type: "text"
+#                    conf:
+#                        label: "Avis de l'évaluateur et de l'évalué sur la pertinence de cette formation"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#        - id: "observation_formation"
+#          type: "text"
+#          conf:
+#              label: "Observation :"
+#              required: false
+#              attr:
+#                  data-tab: "tab_6"
+#
+### TAB 7
+#        - id: "souhait_salarie"
+#          type: "text"
+#          conf:
+#              label: "Souhaits du salarié :"
+#              required: true
+#              attr:
+#                  data-tab: "tab_7"
+#        - id: "avis_evaluateur"
+#          type: "text"
+#          conf:
+#              label: "Avis de l'évaluateur :"
+#              required: true
+#              attr:
+#                  data-tab: "tab_7"
+#        - id: "mobilite"
+#          type: "checkbox"
+#          conf:
+#              label: "Le salarié est-il mobile géographiquement ?"
+#              required: false
+#              attr:
+#                  data-tab: "tab_7"
+#        - id: "site_mobilite"
+#          type: "text"
+#          conf:
+#              label: "Si oui vers quel (s) site(s)  et à quelle échéance ?"
+#              required: false
+#              attr:
+#                  data-tab: "tab_7"
+#        - id: "entretien_pro"
+#          type: "checkbox"
+#          conf:
+#              label: "Le salarié souhaite-t-il un entretien spécifique pour discuter de son évolution professionnelle ? (Entretien professionnel)"
+#              required: false
+#              attr:
+#                  data-tab: "tab_7"
+#
+### TAB 8
+#        - id: "satisfaction"
+#          type: "textarea"
+#          conf:
+#              label: "(Le salarié est-il satisfait du niveau de communication interne dans l’entreprise, échange d’informations, compréhension des objectifs de l’entreprise, ...)"
+#              required: true
+#              attr:
+#                  data-tab: "tab_8"
+#        - id: "discussion"
+#          type: "text"
+#          conf:
+#              label: "(rémunération, organisation, conditions et charge de travail, articulation entre vie professionnelle et vie personnelle)"
+#              required: true
+#              attr:
+#                  data-tab: "tab_8"
+#        - id: "entretien_spe"
+#          type: "checkbox"
+#          conf:
+#              label: "Le salarié souhaite-t-il un entretien spécifique sur un de ces thèmes avec la direction des RH ?"
+#              required: false
+#              attr:
+#                  data-tab: "tab_8"
+#        - id: "theme_entretien_spe"
+#          type: "text"
+#          conf:
+#              label: "Si oui, préciser le thème"
+#              required: false
+#              attr:
+#                  data-tab: "tab_8"
+#
+### TAB 9
+#        - id: "observation"
+#          type: "textarea"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: "tab_9"
+#
+#
+#
+#                  ##############
+#                  ##   Date   ##
+#                  ##############
+#
+#        - id: "evaluator_validation_date"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#        - id: "director_validation_date"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#        - id: "second_evaluator_validation_date"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#        - id: "evaluate_validation_date"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#        - id: "save_evaluate_function"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#        - id: "superior_validation_date"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#        - id: "responsable_validation_date"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#        - id: "evaluator_pre_validation_date"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#
+#        - id: "close_date"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#
+#        - id: "save_evaluate_entrydate"
+#          type: "genemu_jquerydate"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: 'tab_1'
+#                  class: 'datepicker'
+#                  style: 'display:none;'
+#              widget: 'single_text'
+#              format: 'dd/MM/yyyy'
+#
+#                  ###############
+#                  # Pas present #
+#                  ###############
+#
+#        - id: "line_management"
+#          type: "text"
+#          conf:
+#              label: ""
+#              required: false
+#              attr:
+#                  data-tab: "tab_2"
+#
+#                  ##############
+#                  ##Collection##
+#                  ##############
+#
+#        - id: "competence"
+#          type: "collection"
+#          conf:
+#              allow_add: true
+#              type: "to defined"
+#              allow_delete: true
+#              by_reference: false
+#              required: false
+#              label: ""
+#              attr:
+#                  data-tab: 'tab_6'
+#          child:
+#                  - id: "aptitude"
+#                    type: "text"
+#                    conf:
+#                        label: "Compétence"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "commentaire"
+#                    type: "text"
+#                    conf:
+#                        label: "Commentaire"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#
+#                  - id: "commentaires"
+#                    type: "text"
+#                    conf:
+#                        label: "Commentaires"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#
+#        - id: "formation_valid"
+#          type: "collection"
+#          conf:
+#              allow_add: true
+#              type: "to defined"
+#              allow_delete: true
+#              by_reference: false
+#              required: false
+#              label: ""
+#              attr:
+#                  data-tab: 'tab_6'
+#          child:
+#                  - id: "besoin"
+#                    type: "text"
+#                    conf:
+#                        label: ""
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "organisme"
+#                    type: "text"
+#                    conf:
+#                        label: "Commentaire"
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "stage"
+#                    type: "text"
+#                    conf:
+#                        label: ""
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "categorie"
+#                    type: "text"
+#                    conf:
+#                        label: ""
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "observation"
+#                    type: "text"
+#                    conf:
+#                        label: ""
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#                  - id: "periode"
+#                    type: "text"
+#                    conf:
+#                        label: ""
+#                        required: true
+#                        attr:
+#                            data-tab: "tab_6"
+#tabs_ui:
+#    - id: 'tab_1'
+#      name: "Général"
+#      content:
+#              - attribute: "date_entretien"
+#              - table:
+#                      - thead:
+#                            - tr:
+#                                  - td:
+#                                        - h3:
+#                                                text: "Salarié evalué"
+#                                                class: ""
+#                                                style:
+#                                                      text-transform: "uppercase"
+#
+#                                  - td:
+#                                        - h3:
+#                                                text: "Evaluateur"
+#                                                class: ""
+#                                                style:
+#                                                      text-transform: "uppercase"
+#                      - tbody:
+#                            - tr:
+#                                - td:
+#                                    - evaluate: "firstname"
+#                                - td:
+#                                    - evaluator: "firstname"
+#                            - tr:
+#                                - td:
+#                                    - evaluate: "lastname"
+#                                - td:
+#                                    - evaluator: "lastname"
+#                            - tr:
+#                                - td:
+#                                    - evaluate: "login"
+#                                - td:
+#                                    - evaluator: "fonction"
+#                            - tr:
+#                                - td:
+#                                    - evaluate: "fonction"
+#                                - td:
+#                                    - evaluator: "department"
+#                            - tr:
+#                                - td:
+#                                    - evaluate: "classification"
+#                                - td:
+#                            - tr:
+#                                - td:
+#                                    - attribute: "nouveau_salarie"
+#                                - td:
+#                                    - attribute: "secondary_evaluator"
+#                            - tr:
+#                                - td:
+#                                    - attribute: "seniority"
+#                                - td:
+#                                    - attribute: "comment_secondary_evaluator"
+#              - attribute: "campagn_function"
+#              - attribute: "prise_poste"
+#              - attribute: "poste_precedent"
+#              - attribute: "evolution_poste"
+#    - id: 'tab_2'
+#      name: "Mission"
+#      content:
+#              - h2: "I-1 Evaluation de la mission permanente"
+#              - collection: "mission"
+#    - id: 'tab_3'
+#      name: "Objectif"
+#      content:
+#              - h2: "I-2 Evaluation de l'atteinte des objectifs"
+#              - collection: "objectif"
+#    - id: 'tab_4'
+#      name: "Evaluation"
+#      content:
+#              - h2: "I-3 Evaluation globale du salarié sur les 12 mois passés"
+#              - collection: "evaluation"
+#              - attribute: "observation_evaluation"
+#    - id: 'tab_5'
+#      name: "Nouveaux objectifs"
+#      content:
+#              - h1: "II - Nouveaux objectifs"
+#              - collection: "new_objectif"
+#              - attribute: "remarque_new_objectif"
+#    - id: 'tab_6'
+#      name: "Compétences et Formations"
+#      content:
+#              - h1: "III - Revue des compétences"
+#              - collection: "competence_bis"
+#              - collection: "competence_dev"
+#              - collection: "formation_souhait"
+#              - h1 : "IV - Evaluation des formations suivies depuis le dernier entretien annuel :"
+#              - collection: "formation"
+#              - attribute: "observation_formation"
+#    - id: 'tab_7'
+#      name: "Evolutions"
+#      content:
+#              - h1: "V - Evolution de carrière à court et moyen terme"
+#              - attribute: "souhait_salarie"
+#              - attribute: "avis_evaluateur"
+#              - attribute: "mobilite"
+#              - attribute: "site_mobilite"
+#              - attribute: "entretien_pro"
+#    - id: 'tab_8'
+#      name: "Discution"
+#      content:
+#              - h1: "VI - Communication interne : niveau de satisfaction du salarié"
+#              - attribute: "satisfaction"
+#              - attribute: "discussion"
+#              - h1: "VII - Autres thèmes de discussion"
+#              - attribute: "entretien_spe"
+#              - attribute: "theme_entretien_spe"
+#    - id: 'tab_9'
+#      name: "Observation"
+#      content:
+#              - h3: "Observations éventuelles du salarié à l’issue de l’entretien :"
+#              - attribute: "observation"

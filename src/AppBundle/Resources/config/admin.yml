@@ -41,6 +41,7 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [GeneratorBundle]]
+
 #
 #    sonata.admin.status:
 #        class: FormGeneratorBundle\Admin\StatusAdmin

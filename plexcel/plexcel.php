@@ -4,7 +4,6 @@
 // http://www.ioplex.com/
 // This software is private property and may not be used or distributed in
 // any form without explicit written permission from IOPLEX Software.
-//define('PLEXCEL_VERSION', '2.7.32');
 if (!extension_loaded('plexcel'))
 	die('Error: Plexcel PHP extension has not been loaded.');
 if (!defined('PLEXCEL_VERSION'))

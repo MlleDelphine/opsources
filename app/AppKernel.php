@@ -16,12 +16,16 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new AppBundle\AppBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Brown298\DataTablesBundle\Brown298DataTablesBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            //Perso
+            new \GeneratorBundle\GeneratorBundle(),
+            new \Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
+            new \AppBundle\AppBundle(),
+            new \MediaBundle\MediaBundle(),
 
             //Connexion
             new FOS\UserBundle\FOSUserBundle(),
@@ -34,19 +38,11 @@ class AppKernel extends Kernel
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
-            new OldOpusBundle\OldOpusBundle(),
-            new GeneratorBundle\GeneratorBundle(),
 
-            //SonataMedia
+            //Sonata Media
             new Sonata\MediaBundle\SonataMediaBundle(),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-            new Sonata\IntlBundle\SonataIntlBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
-
-            //media
-
-            new \MediaBundle\MediaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

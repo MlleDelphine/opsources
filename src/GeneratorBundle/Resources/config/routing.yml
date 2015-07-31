@@ -5,3 +5,9 @@ generator_homepage:
 generator_editsheet:
     path:     /edit/sheet/{id}
     defaults: { _controller: GeneratorBundle:Default:edit }
+
+generator_pdf:
+    path: /pdf/{id}
+    defaults: { _controller: GeneratorBundle:Default:pdf }
+
+

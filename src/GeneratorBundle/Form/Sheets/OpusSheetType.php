@@ -72,16 +72,6 @@ class OpusSheetType extends AbstractType{
                     $attr = array('data-tab' => "tab_1");
                 }
 
-
-
-//                $form->add('name', 'text', array(
-//                    'label' => 'Nom :',
-//                    'attr' => $attr))
-//                    ->add('meetDate', 'genemu_jquerydate', array(
-//                        'label' => 'Date de l\'entretien  :',
-//                        'attr' => $attr,
-//                        'widget' => 'single_text'));
-
                 $form->add('evaluator', 'genemu_jqueryselect2_entity', array(
                         'class' => 'UserBundle:User',
                         'query_builder' => function (UserRepository $er) use ($evaluator) {
@@ -134,16 +124,6 @@ class OpusSheetType extends AbstractType{
                 }
 
                 $attr['data-tab'] = "tab_2";
-               // unset($attr['disabled']);
-//                $form->add('workConditions', new CustomCollectionFieldType(3), array(
-//                    'type' => new WorkConditionType($access),
-//                    'allow_add' => true,
-//                    'allow_delete' => false,
-//                    'by_reference' => false,
-//                    'required' => false,
-//                    'label' => false,
-//                    'attr' => $attr
-//                ));
 
                 //Nouveau champs de formulaire : attributs simples
                 if (!$event || null === $meet->getId()) {
@@ -171,31 +151,33 @@ class OpusSheetType extends AbstractType{
                 }
 
                 //Nouveau champs de formulaire : collection d'attributs
-                if (!$event || null === $meet->getId()) {
-                    $form->add(
-                        'collections', new CustomCollectionAttributeType(), array(
-                        'type' => new OpusSheetCollectionAttributeNewType($this->attributes['collections']),
-                        'allow_add' => true,
-                        'allow_delete' => true,
-                        'by_reference' => false,
-                        'required' => false,
-                        'label' => false));
-                }
-                //Edition d'un formulaire existant
-                else{
-                    $form->add(
-                        'collections',  new CustomCollectionAttributeType(), array(
-                            'type' => new OpusSheetCollectionAttributeEditType($this->attributes['attr'], $this->em, $this->security),
+                if(array_key_exists('collections', $this->attributes)){
+                    if (!$event || null === $meet->getId()) {
+                        $form->add(
+                            'collections', new CustomCollectionAttributeType(), array(
+                            'type' => new OpusSheetCollectionAttributeNewType($this->attributes['collections']),
                             'allow_add' => true,
-                            'allow_delete' => false,
+                            'allow_delete' => true,
                             'by_reference' => false,
                             'required' => false,
-                            'label' => false
-                        )
-                    );
+                            'label' => false));
+                    }
+                    //Edition d'un formulaire existant
+                    else{
+                        $form->add(
+                            'collections',  new CustomCollectionAttributeType(), array(
+                                'type' => new OpusSheetCollectionAttributeEditType($this->attributes['attr'], $this->em, $this->security),
+                                'allow_add' => true,
+                                'allow_delete' => false,
+                                'by_reference' => false,
+                                'required' => false,
+                                'label' => false
+                            )
+                        );
+                    }
+
+
                 }
-
-
             }
         );
     }
@@ -217,4 +199,6 @@ class OpusSheetType extends AbstractType{
     {
         return 'generator_sheet';
     }
+
+
 }
