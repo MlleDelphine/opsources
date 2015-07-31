@@ -290,7 +290,7 @@ class User implements UserInterface
 
     public function __toString()
     {
-        return (string)$this->getUsername();
+        return (string)$this->getFirstName().' '.$this->getLastName();
     }
 
     public function getDisplayName(){
