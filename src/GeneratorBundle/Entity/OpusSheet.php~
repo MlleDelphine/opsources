@@ -3,7 +3,10 @@
 namespace GeneratorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+<<<<<<< HEAD
 use Gedmo\Mapping\Annotation as Gedmo;
+=======
+>>>>>>> origin/polo_dev
 
 /**
  * OpusSheet
@@ -85,12 +88,33 @@ class OpusSheet
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetStatus", inversedBy="opusSheets", cascade={"persist"})
      * @ORM\JoinColumns({
+<<<<<<< HEAD
      *   @ORM\JoinColumn(name="status", referencedColumnName="intCode", nullable=true)
+=======
+     *   @ORM\JoinColumn(name="status", referencedColumnName="id", nullable=false)
+>>>>>>> origin/polo_dev
      * })
      */
     private $status;
 
     /**
+<<<<<<< HEAD
+=======
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+>>>>>>> origin/polo_dev
      * @var \OpusJob
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusJob")
@@ -120,6 +144,7 @@ class OpusSheet
      */
     private $info;
 
+<<<<<<< HEAD
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
@@ -166,11 +191,17 @@ class OpusSheet
         $this->collections = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+=======
+>>>>>>> origin/polo_dev
 
     /**
      * Get id
      *
+<<<<<<< HEAD
      * @return integer
+=======
+     * @return integer 
+>>>>>>> origin/polo_dev
      */
     public function getId()
     {
@@ -193,7 +224,11 @@ class OpusSheet
     /**
      * Get evaluator
      *
+<<<<<<< HEAD
      * @return integer
+=======
+     * @return integer 
+>>>>>>> origin/polo_dev
      */
     public function getEvaluator()
     {
@@ -216,7 +251,11 @@ class OpusSheet
     /**
      * Get superior
      *
+<<<<<<< HEAD
      * @return integer
+=======
+     * @return integer 
+>>>>>>> origin/polo_dev
      */
     public function getSuperior()
     {
@@ -239,7 +278,11 @@ class OpusSheet
     /**
      * Get director
      *
+<<<<<<< HEAD
      * @return integer
+=======
+     * @return integer 
+>>>>>>> origin/polo_dev
      */
     public function getDirector()
     {
@@ -262,13 +305,21 @@ class OpusSheet
     /**
      * Get responsable
      *
+<<<<<<< HEAD
      * @return integer
+=======
+     * @return integer 
+>>>>>>> origin/polo_dev
      */
     public function getResponsable()
     {
         return $this->responsable;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> origin/polo_dev
 
     /**
      * Set createdAt
@@ -286,7 +337,11 @@ class OpusSheet
     /**
      * Get createdAt
      *
+<<<<<<< HEAD
      * @return \DateTime
+=======
+     * @return \DateTime 
+>>>>>>> origin/polo_dev
      */
     public function getCreatedAt()
     {
@@ -309,7 +364,11 @@ class OpusSheet
     /**
      * Get updatedAt
      *
+<<<<<<< HEAD
      * @return \DateTime
+=======
+     * @return \DateTime 
+>>>>>>> origin/polo_dev
      */
     public function getUpdatedAt()
     {
@@ -332,7 +391,11 @@ class OpusSheet
     /**
      * Get job2
      *
+<<<<<<< HEAD
      * @return \GeneratorBundle\Entity\OpusJob
+=======
+     * @return \GeneratorBundle\Entity\OpusJob 
+>>>>>>> origin/polo_dev
      */
     public function getJob2()
     {
@@ -355,7 +418,11 @@ class OpusSheet
     /**
      * Get job1
      *
+<<<<<<< HEAD
      * @return \GeneratorBundle\Entity\OpusJob
+=======
+     * @return \GeneratorBundle\Entity\OpusJob 
+>>>>>>> origin/polo_dev
      */
     public function getJob1()
     {
@@ -378,7 +445,11 @@ class OpusSheet
     /**
      * Get info
      *
+<<<<<<< HEAD
      * @return \GeneratorBundle\Entity\OpusInfo
+=======
+     * @return \GeneratorBundle\Entity\OpusInfo 
+>>>>>>> origin/polo_dev
      */
     public function getInfo()
     {
@@ -407,6 +478,7 @@ class OpusSheet
     {
         return $this->evaluate;
     }
+<<<<<<< HEAD
 
     /**
      * Set status
@@ -498,4 +570,6 @@ class OpusSheet
     {
         return $this->collections;
     }
+=======
+>>>>>>> origin/polo_dev
 }

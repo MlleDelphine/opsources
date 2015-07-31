@@ -1,12 +1,12 @@
+generator:
+    resource: "@GeneratorBundle/Resources/config/routing.yml"
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
 opus_user:
     resource: "@UserBundle/Resources/config/routing.yml"
-
-generator:
-    resource: "@GeneratorBundle/Resources/config/routing.yml"
 
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
@@ -27,3 +27,18 @@ gallery:
 media:
     resource: '@SonataMediaBundle/Resources/config/routing/media.xml'
     prefix: /media
+
+sso:
+    resource: "@ArianespacePlexcelBundle/Resources/config/routing.yml"
+
+login:
+    resource: "@UserBundle/Resources/config/routing.yml"
+
+#gallery:
+#    resource: '@SonataMediaBundle/Resources/config/routing/gallery.xml'
+#    prefix: /media/gallery
+#
+#media:
+#    resource: '@SonataMediaBundle/Resources/config/routing/media.xml'
+#    prefix: /media
+

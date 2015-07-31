@@ -1,0 +1,18 @@
+services:
+    app.customfields_parser:
+        class:        GeneratorBundle\Service\CustomFieldsParser
+        arguments: ['@kernel']
+    app.prepopulate_entity:
+        class:        GeneratorBundle\Service\PrePopulateEntity
+        arguments: ['@form.factory', '@router', '@doctrine.orm.default_entity_manager', '@security.token_storage'] #['@service_container', '@form.factory', '@router']
+
+    app.accesscontrol_meet:
+        class: GeneratorBundle\Service\AccessControlMeet
+<<<<<<< HEAD
+        arguments: ['@security.token_storage', '@doctrine.orm.default_entity_manager'] #Delphine
+=======
+        arguments: ['@security.token_storage', '@doctrine.orm.default_entity_manager'] #Delphine
+    app.pdfparser:
+        class: GeneratorBundle\Service\PdfParser
+        arguments: ['@doctrine.orm.default_entity_manager','@app.customfields_parser','@service_container']
+>>>>>>> origin/polo_dev

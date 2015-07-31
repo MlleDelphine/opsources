@@ -28,7 +28,8 @@ class DefaultController extends Controller
         ));
     }
 
-    public function editAction($id){
+    public function editAction($id)
+    {
 
         $em = $this->getDoctrine()->getManager();
 
@@ -44,12 +45,35 @@ class DefaultController extends Controller
 
         $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
 
-        return $this->render('GeneratorBundle:Default:generator.html.twig', array(
-            'entity' => $opusSheet,
-            'name' => $name,
-            'uiTab' => $uiTab,
-            'form'   => $form->createView(),
+        return $this->render(
+            'GeneratorBundle:Default:generator.html.twig',
+            array(
+                'entity' => $opusSheet,
+                'name' => $name,
+                'uiTab' => $uiTab,
+                'form' => $form->createView(),
+            )
+        );
+    }
+
+    public function pdfAction($id)
+    {
+        $text = $this->get('app.pdfparser')->getSheetToHtml($id);
+        /*return $this->render('GeneratorBundle:PDF:view.html.twig', array(
+            'html' => $text
+        ));*/
+        $html = $this->renderView('GeneratorBundle:PDF:view.html.twig', array(
+            'html' => $text
         ));
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'attachment; filename="file.pdf"'
+            )
+        );
 
     }
 }

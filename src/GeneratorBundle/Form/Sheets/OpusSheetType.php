@@ -134,7 +134,7 @@ class OpusSheetType extends AbstractType{
                 }
 
                 $attr['data-tab'] = "tab_2";
-               // unset($attr['disabled']);
+                // unset($attr['disabled']);
 //                $form->add('workConditions', new CustomCollectionFieldType(3), array(
 //                    'type' => new WorkConditionType($access),
 //                    'allow_add' => true,
@@ -217,4 +217,6 @@ class OpusSheetType extends AbstractType{
     {
         return 'generator_sheet';
     }
+
+
 }

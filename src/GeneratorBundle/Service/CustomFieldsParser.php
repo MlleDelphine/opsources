@@ -34,7 +34,6 @@ class CustomFieldsParser
     public function parseYamlConf($name, $field = null){
 
         $yaml = new Parser();
-
         $finder = new Finder();
         $iterator = $finder->files()->name($name->getProviderReference())->in($this->kernel->getRootDir() .'/../web/uploads/media/default' );
 
@@ -70,6 +69,7 @@ class CustomFieldsParser
             throw new ParseException("Unable to parse the YAML string: %s", $e->getMessage());
         }
         return $allAttributes;
+
     }
 
     /**

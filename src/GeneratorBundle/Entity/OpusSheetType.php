@@ -42,6 +42,7 @@ class OpusSheetType
 
     private $opusTemplates;
 
+
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
@@ -171,38 +172,6 @@ class OpusSheetType
         $this->opusSheets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add opusSheets
-     *
-     * @param \GeneratorBundle\Entity\OpusCampaign $opusSheets
-     * @return OpusSheetType
-     */
-    public function addOpusSheet(\GeneratorBundle\Entity\OpusCampaign $opusSheets)
-    {
-        $this->opusSheets[] = $opusSheets;
-
-        return $this;
-    }
-
-    /**
-     * Remove opusSheets
-     *
-     * @param \GeneratorBundle\Entity\OpusCampaign $opusSheets
-     */
-    public function removeOpusSheet(\GeneratorBundle\Entity\OpusCampaign $opusSheets)
-    {
-        $this->opusSheets->removeElement($opusSheets);
-    }
-
-    /**
-     * Get opusSheets
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOpusSheets()
-    {
-        return $this->opusSheets;
-    }
 
     /**
      * Add opusTemplates
@@ -236,4 +205,5 @@ class OpusSheetType
     {
         return $this->opusTemplates;
     }
+
 }

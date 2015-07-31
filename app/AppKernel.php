@@ -20,13 +20,12 @@ class AppKernel extends Kernel
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Brown298\DataTablesBundle\Brown298DataTablesBundle(),
-
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             //Perso
             new \GeneratorBundle\GeneratorBundle(),
             new \Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
             new \AppBundle\AppBundle(),
             new \MediaBundle\MediaBundle(),
-
 
             //Connexion
             new FOS\UserBundle\FOSUserBundle(),

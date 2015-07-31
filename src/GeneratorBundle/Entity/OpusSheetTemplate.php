@@ -101,6 +101,7 @@ class OpusSheetTemplate
      */
     public function __construct()
     {
+
         $this->campaigns = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -240,4 +241,5 @@ class OpusSheetTemplate
     {
         return $this->confFile;
     }
+
 }

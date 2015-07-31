@@ -120,6 +120,7 @@ class OpusSheet
      */
     private $campaign;
 
+
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
@@ -363,7 +364,7 @@ class OpusSheet
     }
 
     /**
-     * Set info
+     * Set Campaign
      *
      * @param \GeneratorBundle\Entity\OpusCampaign $info
      * @return OpusSheet
@@ -371,12 +372,11 @@ class OpusSheet
     public function setCampaign(\GeneratorBundle\Entity\OpusCampaign $campaign = null)
     {
         $this->campaign = $campaign;
-
         return $this;
     }
 
     /**
-     * Get info
+     * Get Campaign
      *
      * @return \GeneratorBundle\Entity\OpusCampaign
      */

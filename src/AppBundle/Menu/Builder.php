@@ -54,13 +54,6 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'dropdown-menu dropdown-user');
 
-        /*
-        You probably want to show user specific information such as the username here. That's possible! Use any of the below methods to do this.
-
-        if($this->container->get('security.context')->isGranted(array('ROLE_ADMIN', 'ROLE_USER'))) {} // Check if the visitor has any authenticated roles
-        $username = $this->container->get('security.context')->getToken()->getUser()->getUsername(); // Get username of the current logged in user
-
-        */
         $menu->addChild('Déconnexion', array('route' => 'arianespace_plexcel_logout'))
             ->setAttribute('icon', 'glyphicon glyphicon-off' )
             ->setAttribute('class', '');
