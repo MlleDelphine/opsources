@@ -3,7 +3,6 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: sonata.yml }
-#    - { resource: '@FormGeneratorBundle/Resources/config/services.yml' }
     - { resource: '@AppBundle/Resources/config/admin.yml' }
     - { resource: '@UserBundle/Resources/config/services.yml' }
     - { resource: '@AppBundle/Resources/config/services.yml' }
@@ -77,22 +76,6 @@ doctrine:
     dbal:
         default_connection:   default
         connections:
-#            generator:
-#                driver:   pdo_pgsql #pdo_mysql
-#                host:     "%database_host%"
-#                port:     "%database_port%"
-#                dbname:   "%database_name%"
-#                user:     "%database_user%"
-#                password: "%database_password%"
-#                charset:  UTF8
-#            old:
-#                driver:   pdo_pgsql #pdo_mysql
-#                host:     "%database_host_old%"
-#                port:     "%database_port_old%"
-#                dbname:   "%database_name_old%"
-#                user:     "%database_user_old%"
-#                password: "%database_password_old%"
-#                charset:  UTF8
             default:
                 driver:   pdo_pgsql #pdo_mysql
                 host:     "%database_host%"
@@ -124,21 +107,6 @@ doctrine:
                     SonataMediaBundle: ~
                     MediaBundle: ~
                     ApplicationSonataMediaBundle: ~
-#            old:
-#                connection: old
-#                mappings:
-#                    OldOpusBundle: ~
-#            generator:
-#                connection: generator
-#                mappings:
-#                    GeneratorBundle: ~
-#                    UserBundle: ~
-#                    AppBundle: ~
-#                    ArianespacePlexcelBundle: ~
-#                    FormGeneratorBundle: ~
-
-
-
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -195,3 +163,4 @@ knp_snappy:
     image:
         enabled:    false
         options:    []
+

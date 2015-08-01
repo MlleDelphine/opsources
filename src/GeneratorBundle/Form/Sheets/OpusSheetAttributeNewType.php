@@ -47,10 +47,14 @@ class OpusSheetAttributeNewType extends AbstractType{
                         $confChild = false;
                         $fieldName = "value";
                         foreach ($this->attributes as $allConf) {
+                         //   dump($allConf);
                             if ($allConf['id'] == $data->getLabel()) {
                                 //Si on a un champ date  /time on stockera dans valueDate sinon dans value
                                 if($allConf['type'] == "date" || $allConf['type'] == "datetime" || $allConf['type'] == "time" || $allConf['type']== "birthday" || $allConf['type'] =="genemu_jquerydate" ){
                                     $fieldName = "valueDate";
+                                }
+                                elseif($allConf['type'] == "file"){
+                                    $fieldName = "valueData";
                                 }
 
                                 if($allConf['type'] == 'choice'){
@@ -72,9 +76,10 @@ class OpusSheetAttributeNewType extends AbstractType{
                                     $allConf['type'],
                                     $options
                                 );
+
+                                $form->add('label', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                             }
                         }
-                        $form->add('label', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                     }
                 }
             });

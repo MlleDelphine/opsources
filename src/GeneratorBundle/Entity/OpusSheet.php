@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * OpusSheet
  *
  * @ORM\Table(name="opus_sheet", indexes={@ORM\Index(name="opus_sheet_info_id", columns={"campaign_id"}), @ORM\Index(name="opus_sheet_evaluate_id", columns={"evaluate_id"}), @ORM\Index(name="opus_sheet_job1_id", columns={"job1_id"}), @ORM\Index(name="opus_sheet_job2_id", columns={"job2_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusSheetRepository")
  */
 class OpusSheet
 {
@@ -119,6 +119,7 @@ class OpusSheet
      * })
      */
     private $campaign;
+
 
     /**
      * @var \DateTime
@@ -363,7 +364,7 @@ class OpusSheet
     }
 
     /**
-     * Set info
+     * Set Campaign
      *
      * @param \GeneratorBundle\Entity\OpusCampaign $info
      * @return OpusSheet
@@ -371,12 +372,11 @@ class OpusSheet
     public function setCampaign(\GeneratorBundle\Entity\OpusCampaign $campaign = null)
     {
         $this->campaign = $campaign;
-
         return $this;
     }
 
     /**
-     * Get info
+     * Get Campaign
      *
      * @return \GeneratorBundle\Entity\OpusCampaign
      */
@@ -508,6 +508,7 @@ class OpusSheet
     public function setOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate = null)
     {
         $this->opusTemplate = $opusTemplate;
+        $opusTemplate->addOpusSheet($this);
 
         return $this;
     }

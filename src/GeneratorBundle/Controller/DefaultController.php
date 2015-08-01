@@ -29,7 +29,67 @@ class DefaultController extends Controller
         ));
     }
 
-    public function editAction($id){
+    /**
+     * On crée une fiche orpheline
+     */
+    public function newAction($idUser, $strCodeType)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+
+        $opusSheet = new OpusSheet();
+
+        $sheetType = $em->getRepository("GeneratorBundle:OpusSheetType")->findOneByStrCode($strCodeType);
+        $userEvaluate = $em->getRepository("UserBundle:User")->findOneById($idUser);
+//        dump($userEvaluate);
+//        die;
+
+        $opusSheet->setEvaluate($userEvaluate);
+        $campaignProcessing = $em->getRepository("GeneratorBundle:OpusCampaign")->findOneBy(array('status' => 1, "type" => $sheetType));
+
+        /**
+         * Si une campagne est en cours
+         */
+        if($campaignProcessing){
+
+            $template = $campaignProcessing->getOpusTemplate();
+            $opusSheetsNotClosed = $em->getRepository("GeneratorBundle:OpusSheet")->findSheetsNotClosedInCampaign($campaignProcessing, $userEvaluate);
+            //S'il n'y a pas de fiche en cours pour cet user dans cette campagne
+            if($opusSheetsNotClosed === null){
+                $opusSheet->setCampaign($campaignProcessing);
+                $opusSheet->setOpusTemplate($template);
+            }
+            else{
+                //Dernir template en date pour ce type
+                $template = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->findOneBy(array("type" => $sheetType, "status" => 1));
+                $opusSheet->setOpusTemplate($template);
+            }
+        }
+        else{
+            //Dernir template en date pour ce type
+            $template = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->findOneBy(array("type" => $sheetType, "status" => 1));
+            $opusSheet->setOpusTemplate($template);
+        }
+
+        $templateFile = $template->getConfFile();
+
+        $name = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'name');
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'tabs_ui');
+        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+
+        $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+
+        return $this->render('GeneratorBundle:Default:generator.html.twig', array(
+            'entity' => $opusSheet,
+            'name' => $name,
+            'uiTab' => $uiTab,
+            'form'   => $form->createView(),
+        ));
+    }
+
+
+    public function editAction($id)
+    {
 
         $em = $this->getDoctrine()->getManager();
 
@@ -45,13 +105,15 @@ class DefaultController extends Controller
 
         $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
 
-        return $this->render('GeneratorBundle:Default:generator.html.twig', array(
-            'entity' => $opusSheet,
-            'name' => $name,
-            'uiTab' => $uiTab,
-            'form'   => $form->createView(),
-        ));
-
+        return $this->render(
+            'GeneratorBundle:Default:generator.html.twig',
+            array(
+                'entity' => $opusSheet,
+                'name' => $name,
+                'uiTab' => $uiTab,
+                'form' => $form->createView(),
+            )
+        );
     }
 
     public function pdfAction($id)
@@ -72,5 +134,6 @@ class DefaultController extends Controller
                 'Content-Disposition'   => 'attachment; filename="file.pdf"'
             )
         );
+
     }
 }

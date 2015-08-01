@@ -26,8 +26,11 @@ class UserRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('u')
             ->where('u.id = :uid')
-            ->setParameter(':uid', $user->getId());
+            ->setParameter('uid', $user->getId());
 
+//        dump($qb->getQuery()->getFirstResult());
+//        dump($user);
+//        die;
         return $qb;
     }
 }
