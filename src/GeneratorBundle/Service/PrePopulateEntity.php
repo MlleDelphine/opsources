@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 12/06/2015
- * Time: 10:49
+ * Time: 10:49.
  */
 
 namespace GeneratorBundle\Service;
@@ -13,23 +14,18 @@ use FormGeneratorBundle\Entity\ProfessionalAttribute;
 use FormGeneratorBundle\Entity\ProfessionalCollectionAttribute;
 use FormGeneratorBundle\Entity\WorkCondition;
 use FormGeneratorBundle\Form\Professional\ProfessionalMeetType;
-
 use FormGeneratorBundle\Entity\ValuationMeet;
 use FormGeneratorBundle\Entity\Skill;
 use FormGeneratorBundle\Entity\ValuationAttribute;
 use FormGeneratorBundle\Entity\ValuationCollectionAttribute;
 use FormGeneratorBundle\Form\Valuation\ValuationMeetType;
-
 use FormGeneratorBundle\Entity\ConditionsMeet;
 use FormGeneratorBundle\Entity\ConditionsAttribute;
 use FormGeneratorBundle\Entity\ConditionsCollectionAttribute;
 use FormGeneratorBundle\Form\Conditions\ConditionsMeetType;
-
 use GeneratorBundle\Entity\OpusAttribute;
 use GeneratorBundle\Entity\OpusCollection;
 use GeneratorBundle\Entity\OpusSheet;
-
-
 use GeneratorBundle\Form\Sheets\OpusSheetType;
 use Symfony\Component\Form\FormFactory;
 use Doctrine\ORM\EntityManager;
@@ -37,45 +33,46 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-
-class PrePopulateEntity{
-
+class PrePopulateEntity
+{
     private $formFactory;
     private $router;
     private $em;
     private $security;
 
-    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em, TokenStorage $security) {
+    public function __construct(FormFactory $formFactory, Router $router, EntityManager $em, TokenStorage $security)
+    {
         $this->formFactory = $formFactory;
-        $this->router      = $router;
-        $this->em          = $em;
+        $this->router = $router;
+        $this->em = $em;
         $this->security = $security;
     }
 
     /**
-     * ValuationMeet
+     * ValuationMeet.
      *
      * Prédéfinit l'entité principale avec ses attributs/collection
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    public function populateValuationMeet($entity, $attributes){
-
-        foreach($attributes['attr'] as $allConf){
+    public function populateValuationMeet($entity, $attributes)
+    {
+        foreach ($attributes['attr'] as $allConf) {
             $attr = new ValuationAttribute();
             $attr->setName($allConf['id']);
             $attr->setFieldType($allConf['type']);
             $attr->setValue(null);
             $entity->addAttribute($attr);
-            if($allConf['type'] == 'collection'){
+            if ($allConf['type'] == 'collection') {
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
                 //Il faudra : pour chaque enfant créer un opus_attribute lié à la collection parente
                 //Il faudra : reboucler sur un tableau de valeur en fonction de l'id en conf et de label en bdd
                 // (ex : objectifs déjà défini) ->setValue() et prendre la position du i ->setValue($predefinedValues[$i])
-                for($i = 1; $i <= $number; $i ++){
+                for ($i = 1; $i <= $number; ++$i ) {
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ValuationCollectionAttribute();
                         $collAttr->setName($childConf['id']);
@@ -83,10 +80,8 @@ class PrePopulateEntity{
                         $collAttr->setValue(null);
 
                         $attr->addCollectionAttribute($collAttr);
-
                     }
                 }
-
             }
         }
         $capacities = $this->em->getRepository('FormGeneratorBundle:Capacity')->findAll();
@@ -97,28 +92,27 @@ class PrePopulateEntity{
         }
 
         return $this->createValuationMeetCreateForm($entity, $attributes);
-
     }
 
-    public function populateOpusSheet(OpusSheet $sheet, $attributes){
-
-        foreach($attributes['attr'] as $allConf){
+    public function populateOpusSheet(OpusSheet $sheet, $attributes)
+    {
+        foreach ($attributes['attr'] as $allConf) {
             $attr = new OpusAttribute();
             $attr->setLabel($allConf['id']);
             $sheet->addAttribute($attr);
         }
 
-        if(array_key_exists('collections', $attributes)) {
+        if (array_key_exists('collections', $attributes)) {
             foreach ($attributes['collections'] as $collection) {
                 $number = 5;
-                if(array_key_exists('number', $collection)){
+                if (array_key_exists('number', $collection)) {
                     $number = $collection['number'];
                 }
 
-                for($i = 0; $i < $number; $i ++){
+                for ($i = 0; $i < $number; ++$i ) {
                     $opusCollection = new OpusCollection();
                     $opusCollection->setType($collection['id']);
-                    $opusCollection->setLocation($i+1);
+                    $opusCollection->setLocation($i + 1);
 
                     $sheet->addCollection($opusCollection);
 
@@ -126,52 +120,51 @@ class PrePopulateEntity{
                         $opusAttribute = new OpusAttribute();
                         $opusAttribute->setLabel($child['id']);
 
-                        if (array_key_exists("predefined_values", $collection) && array_key_exists($child['id'], $collection['predefined_values'])) {
+                        if (array_key_exists('predefined_values', $collection) && array_key_exists($child['id'], $collection['predefined_values'])) {
                             $opusAttribute->setValue($collection['predefined_values'][$child['id']][$i]);
                         }
                         $opusCollection->addAttribute($opusAttribute);
-
                     }
                 }
             }
         }
 
         return $this->createOpusSheetCreateForm($sheet, $attributes);
-
     }
 
     /**
-     * ValuationMeet
+     * ValuationMeet.
      *
      * Prédéfinit l'entité principale avec ses attributs/collection
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-
 
     /**
-     * ProfessionalMeet
+     * ProfessionalMeet.
      *
      * Prédéfinit l'entité principale avec ses attributs/collection
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    public function populateProfessionalMeet($entity, $attributes){
-
-        foreach($attributes['attr'] as $allConf){
+    public function populateProfessionalMeet($entity, $attributes)
+    {
+        foreach ($attributes['attr'] as $allConf) {
             $attr = new ProfessionalAttribute();
             $attr->setName($allConf['id']);
             $attr->setFieldType($allConf['type']);
             $attr->setValue(null);
             $entity->addAttribute($attr);
-            if($allConf['type'] == 'collection'){
+            if ($allConf['type'] == 'collection') {
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
-                for($i = 1; $i <= $number; $i ++){
+                for ($i = 1; $i <= $number; ++$i ) {
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ProfessionalCollectionAttribute();
                         $collAttr->setName($childConf['id']);
@@ -179,38 +172,36 @@ class PrePopulateEntity{
                         $collAttr->setValue(null);
 
                         $attr->addCollectionAttribute($collAttr);
-
                     }
                 }
-
             }
         }
 
         return $this->createProfessionalMeetCreateForm($entity, $attributes);
-
     }
 
     /**
-     * ConditionsMeet
+     * ConditionsMeet.
      *
      * Prédéfinit l'entité principale avec ses attributs/collection
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    public function populateConditionsMeet($entity, $attributes){
-
-        foreach($attributes['attr'] as $allConf){
+    public function populateConditionsMeet($entity, $attributes)
+    {
+        foreach ($attributes['attr'] as $allConf) {
             $attr = new ConditionsAttribute();
             $attr->setName($allConf['id']);
             $attr->setFieldType($allConf['type']);
             $attr->setValue(null);
             $entity->addAttribute($attr);
-            if($allConf['type'] == 'collection'){
+            if ($allConf['type'] == 'collection') {
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
-                for($i = 1; $i <= $number; $i ++){
+                for ($i = 1; $i <= $number; ++$i ) {
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ConditionsCollectionAttribute();
                         $collAttr->setName($childConf['id']);
@@ -218,10 +209,8 @@ class PrePopulateEntity{
                         $collAttr->setValue(null);
 
                         $attr->addCollectionAttribute($collAttr);
-
                     }
                 }
-
             }
         }
 
@@ -233,19 +222,19 @@ class PrePopulateEntity{
         }
 
         return $this->createConditionsMeetCreateForm($entity, $attributes);
-
     }
 
     /**
      * ValuationMeet
-     * Prédéfinit l'entité principale avec ses attributs/collection
+     * Prédéfinit l'entité principale avec ses attributs/collection.
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    public function populateValuationMeetForEdit($entity, $attributes){
-
+    public function populateValuationMeetForEdit($entity, $attributes)
+    {
         $valuationAttr = $entity->getAttributes();
 
         $attrInConf = $this->associateKeyId($attributes['attr']);
@@ -254,26 +243,23 @@ class PrePopulateEntity{
 
         $attrToAdd = array();
 
-
         //Si le champ dans la conf n'est pas dans l'entité : on l'ajoute parmi les attributes à ajouter
         foreach ($attrInConf as $k => $attrConf) {
-
-            if(!in_array($attrConf, $attrInEntity)){
+            if (!in_array($attrConf, $attrInEntity)) {
                 $attrToAdd[] = $attributes['attr'][$k];
             }
         }
 
-
-        foreach($attrToAdd as $allConf){
+        foreach ($attrToAdd as $allConf) {
             $attr = new ValuationAttribute();
             $attr->setName($allConf['id']);
             $attr->setFieldType($allConf['type']);
             $attr->setValue(null);
             $entity->addAttribute($attr);
-            if($allConf['type'] == 'collection'){
+            if ($allConf['type'] == 'collection') {
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
-                for($i = 1; $i <= $number; $i ++){
+                for ($i = 1; $i <= $number; ++$i ) {
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ValuationCollectionAttribute();
                         $collAttr->setName($childConf['id']);
@@ -281,28 +267,26 @@ class PrePopulateEntity{
                         $collAttr->setValue(null);
 
                         $attr->addCollectionAttribute($collAttr);
-
                     }
                 }
-
             }
         }
 
         return $this->createValuationMeetEditForm($entity, $attributes);
-
     }
 
     /**
-     * ProfessionalMeet
+     * ProfessionalMeet.
      *
      * Prédéfinit l'entité principale avec ses attributs/collection
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    public function populateProfessionalMeetForEdit($entity, $attributes){
-
+    public function populateProfessionalMeetForEdit($entity, $attributes)
+    {
         $valuationAttr = $entity->getAttributes();
 
         $attrInConf = $this->associateKeyId($attributes['attr']);
@@ -311,26 +295,23 @@ class PrePopulateEntity{
 
         $attrToAdd = array();
 
-
         //Si le champ dans la conf n'est pas dans l'entité : on l'ajoute parmi les attributes à ajouter
         foreach ($attrInConf as $k => $attrConf) {
-
-            if(!in_array($attrConf, $attrInEntity)){
+            if (!in_array($attrConf, $attrInEntity)) {
                 $attrToAdd[] = $attributes['attr'][$k];
             }
         }
 
-
-        foreach($attrToAdd as $allConf){
+        foreach ($attrToAdd as $allConf) {
             $attr = new ProfessionalAttribute();
             $attr->setName($allConf['id']);
             $attr->setFieldType($allConf['type']);
             $attr->setValue(null);
             $entity->addAttribute($attr);
-            if($allConf['type'] == 'collection'){
+            if ($allConf['type'] == 'collection') {
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
-                for($i = 1; $i <= $number; $i ++){
+                for ($i = 1; $i <= $number; ++$i ) {
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ProfessionalCollectionAttribute();
                         $collAttr->setName($childConf['id']);
@@ -338,28 +319,26 @@ class PrePopulateEntity{
                         $collAttr->setValue(null);
 
                         $attr->addCollectionAttribute($collAttr);
-
                     }
                 }
-
             }
         }
 
         return $this->createValuationMeetEditForm($entity, $attributes);
-
     }
 
     /**
-     * ConditionsMeet
+     * ConditionsMeet.
      *
      * Prédéfinit l'entité principale avec ses attributs/collection
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    public function populateConditionsMeetForEdit($entity, $attributes){
-
+    public function populateConditionsMeetForEdit($entity, $attributes)
+    {
         $valuationAttr = $entity->getAttributes();
 
         $attrInConf = $this->associateKeyId($attributes['attr']);
@@ -368,26 +347,23 @@ class PrePopulateEntity{
 
         $attrToAdd = array();
 
-
         //Si le champ dans la conf n'est pas dans l'entité : on l'ajoute parmi les attributes à ajouter
         foreach ($attrInConf as $k => $attrConf) {
-
-            if(!in_array($attrConf, $attrInEntity)){
+            if (!in_array($attrConf, $attrInEntity)) {
                 $attrToAdd[] = $attributes['attr'][$k];
             }
         }
 
-
-        foreach($attrToAdd as $allConf){
+        foreach ($attrToAdd as $allConf) {
             $attr = new ConditionsAttribute();
             $attr->setName($allConf['id']);
             $attr->setFieldType($allConf['type']);
             $attr->setValue(null);
             $entity->addAttribute($attr);
-            if($allConf['type'] == 'collection'){
+            if ($allConf['type'] == 'collection') {
                 //On crée les CollectionAttributes
                 $number = $allConf['number'];
-                for($i = 1; $i <= $number; $i ++){
+                for ($i = 1; $i <= $number; ++$i ) {
                     foreach ($allConf['child'] as $childConf) {
                         $collAttr = new ConditionsCollectionAttribute();
                         $collAttr->setName($childConf['id']);
@@ -395,34 +371,32 @@ class PrePopulateEntity{
                         $collAttr->setValue(null);
 
                         $attr->addCollectionAttribute($collAttr);
-
                     }
                 }
-
             }
         }
 
         return $this->createConditionsMeetEditForm($entity, $attributes);
-
     }
 
     /**
-     * ValuationMeet
+     * ValuationMeet.
      *
      * Retourne le formulaire de création construit de ValuationMeet avec ses attributs/collections
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    private function createValuationMeetCreateForm(ValuationMeet $entity, $attributes){
-
+    private function createValuationMeetCreateForm(ValuationMeet $entity, $attributes)
+    {
         $form = $this->formFactory->create(
             new ValuationMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_valuationmeet'),
-                'method' => 'POST'
+                'method' => 'POST',
             )
         );
         $form->add('save', 'submit', array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info')));
@@ -432,21 +406,21 @@ class PrePopulateEntity{
     }
 
     /**
-     * OpusSheet création du formulaire de création
+     * OpusSheet création du formulaire de création.
      *
      * @param OpusSheet $entity
      * @param $attributes
+     *
      * @return Form|\Symfony\Component\Form\FormInterface
      */
-
-    private function createOpusSheetCreateForm(OpusSheet $entity, $attributes){
-
+    private function createOpusSheetCreateForm(OpusSheet $entity, $attributes)
+    {
         $form = $this->formFactory->create(
             new OpusSheetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('generator_createsheet'),
-                'method' => 'POST'
+                'method' => 'POST',
             )
         );
         $form->add('save', 'submit', array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info')));
@@ -456,22 +430,23 @@ class PrePopulateEntity{
     }
 
     /**
-     * ProfessionalMeet
+     * ProfessionalMeet.
      *
      * Retourne le formulaire de création construit de ConditionsMeet avec ses attributs/collections
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    private function createProfessionalMeetCreateForm(ProfessionalMeet $entity, $attributes){
-
+    private function createProfessionalMeetCreateForm(ProfessionalMeet $entity, $attributes)
+    {
         $form = $this->formFactory->create(
             new ProfessionalMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_professionalmeet'),
-                'method' => 'POST'
+                'method' => 'POST',
             )
         );
         $form->add('save', 'submit', array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info')));
@@ -481,22 +456,23 @@ class PrePopulateEntity{
     }
 
     /**
-     * ConditionsMeet
+     * ConditionsMeet.
      *
      * Retourne le formulaire de création construit de ConditionsMeet avec ses attributs/collections
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
-
-    private function createConditionsMeetCreateForm(ConditionsMeet $entity, $attributes){
-
+    private function createConditionsMeetCreateForm(ConditionsMeet $entity, $attributes)
+    {
         $form = $this->formFactory->create(
             new ConditionsMeetType($attributes, $this->em, $this->security),
             $entity,
             array(
                 'action' => $this->router->generate('create_conditionsmeet'),
-                'method' => 'POST'
+                'method' => 'POST',
             )
         );
         $form->add('save', 'submit', array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info')));
@@ -506,19 +482,20 @@ class PrePopulateEntity{
     }
 
     /**
-     * ValuationMeet
+     * ValuationMeet.
      *
      * Retourne le formulaire d'édition construit de ValuationMeet avec ses attributs/collections
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
     public function createValuationMeetEditForm(ValuationMeet $entity, $attributes)
     {
-
         $form = $this->formFactory->create(new ValuationMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_valuationmeet', array('id' => $entity->getId())),
-            'method' => 'PUT'));
+            'method' => 'PUT', ));
 
         $form->add('refused', 'submit', array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger')));
         $form->add('submit', 'submit', array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success')));
@@ -527,19 +504,20 @@ class PrePopulateEntity{
     }
 
     /**
-     * ProfessionalMeet
+     * ProfessionalMeet.
      *
      * Retourne le formulaire d'édition construit de ValuationMeet avec ses attributs/collections
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
     public function createProfessionalMeetEditForm(ProfessionalMeet $entity, $attributes)
     {
-
         $form = $this->formFactory->create(new ProfessionalMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_professionalnmeet', array('id' => $entity->getId())),
-            'method' => 'PUT'));
+            'method' => 'PUT', ));
 
         $form->add('refused', 'submit', array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger')));
         $form->add('submit', 'submit', array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success')));
@@ -548,26 +526,26 @@ class PrePopulateEntity{
     }
 
     /**
-     * ConditionsMeet
+     * ConditionsMeet.
      *
      * Retourne le formulaire d'édition construit de ConditionsMeet avec ses attributs/collections
+     *
      * @param $entity
      * @param $attributes
+     *
      * @return mixed
      */
     public function createConditionsMeetEditForm(ConditionsMeet $entity, $attributes)
     {
-
         $form = $this->formFactory->create(new ConditionsMeetType($attributes, $this->em, $this->security), $entity, array(
             'action' => $this->router->generate('update_conditionsmeet', array('id' => $entity->getId())),
-            'method' => 'PUT'));
+            'method' => 'PUT', ));
 
         $statusPending = $this->em->getRepository('FormGeneratorBundle:Status')->findOneBy(array('code' => 'pending_m'));
-        if($entity->getStatus() === $statusPending){
+        if ($entity->getStatus() === $statusPending) {
             //Si le manager l'a créé puis seulement enregistré il peut enregistrer à nouveau ou valider
             $form->add('save', 'submit', array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info')));
-        }
-        else{
+        } else {
             //Si le manager a eu le retour de l'utilisateur il peut valider ou invalider
             $form->add('refused', 'submit', array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger')));
         }
@@ -577,11 +555,14 @@ class PrePopulateEntity{
     }
 
     /**
-     * Associe la clé parent à l'id du champ du fichier de conf .yml
+     * Associe la clé parent à l'id du champ du fichier de conf .yml.
+     *
      * @param $array
+     *
      * @return array
      */
-    private function associateKeyId($array){
+    private function associateKeyId($array)
+    {
         $result = array();
         foreach ($array as $k => $v) {
             $result[$k] = $v['id'];
@@ -591,11 +572,14 @@ class PrePopulateEntity{
     }
 
     /**
-     * Associe la clé parent à l'id du champ du fichier de conf .yml
+     * Associe la clé parent à l'id du champ du fichier de conf .yml.
+     *
      * @param $array
+     *
      * @return array*
      */
-    private function existingNameField($attr){
+    private function existingNameField($attr)
+    {
         $result = array();
         foreach ($attr as $k => $v) {
             $result[$k] = $v->getName();

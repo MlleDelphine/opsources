@@ -1,20 +1,19 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 17/07/2015
- * Time: 17:02
+ * Time: 17:02.
  */
 
 namespace UserBundle\Entity;
-
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Arianespace\PlexcelBundle\Plexcel;
-use UserBundle\Entity\User;
 use GeneratorBundle\Service\CustomFieldsParser;
 
 class PlexcelUserProvider implements UserProviderInterface
@@ -34,12 +33,11 @@ class PlexcelUserProvider implements UserProviderInterface
     {
         $account = $this->plexcel->getAccount($username);
 
-        $exist = $this->entityManager->getRepository("UserBundle:User")->findOneBy(array("login" => $account['sAMAccountName']));
+        $exist = $this->entityManager->getRepository('UserBundle:User')->findOneBy(array('login' => $account['sAMAccountName']));
 
         if (!$account) {
             throw new UsernameNotFoundException();
-        }
-        elseif(!$exist) {
+        } elseif (!$exist) {
             throw new UsernameNotFoundException();
         }
 
@@ -57,6 +55,4 @@ class PlexcelUserProvider implements UserProviderInterface
     {
         return $class instanceof User;
     }
-
-
 }

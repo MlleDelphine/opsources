@@ -5,7 +5,7 @@ namespace GeneratorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * OpusSheetTemplate
+ * OpusSheetTemplate.
  *
  * @ORM\Table(name="opus_sheet_template")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class OpusSheetTemplate
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -35,7 +35,6 @@ class OpusSheetTemplate
      *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      * })
      */
-
     private $type;
 
     /**
@@ -47,27 +46,24 @@ class OpusSheetTemplate
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusCampaign", mappedBy="opusTemplate", cascade={"persist"})
      */
-
     private $campaigns;
 
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="opusTemplate", cascade={"persist"})
      */
-
     private $opusSheets;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="status", type="bigint", nullable=true)
      */
     private $status = '0';
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -75,9 +71,10 @@ class OpusSheetTemplate
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return OpusSheetTemplate
      */
     public function setName($name)
@@ -88,7 +85,7 @@ class OpusSheetTemplate
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -97,18 +94,18 @@ class OpusSheetTemplate
         return $this->name;
     }
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
-
         $this->campaigns = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add campaigns
+     * Add campaigns.
      *
      * @param \GeneratorBundle\Entity\OpusCampaign $campaigns
+     *
      * @return OpusSheetTemplate
      */
     public function addCampaign(\GeneratorBundle\Entity\OpusCampaign $campaigns)
@@ -119,7 +116,7 @@ class OpusSheetTemplate
     }
 
     /**
-     * Remove campaigns
+     * Remove campaigns.
      *
      * @param \GeneratorBundle\Entity\opusCampaign $campaigns
      */
@@ -129,7 +126,7 @@ class OpusSheetTemplate
     }
 
     /**
-     * Get campaigns
+     * Get campaigns.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -139,9 +136,10 @@ class OpusSheetTemplate
     }
 
     /**
-     * Add opusSheets
+     * Add opusSheets.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheets
+     *
      * @return OpusSheetTemplate
      */
     public function addOpusSheet(\GeneratorBundle\Entity\OpusSheet $opusSheets)
@@ -152,7 +150,7 @@ class OpusSheetTemplate
     }
 
     /**
-     * Remove opusSheets
+     * Remove opusSheets.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheets
      */
@@ -162,9 +160,9 @@ class OpusSheetTemplate
     }
 
     /**
-     * Get opusSheets
+     * Get opusSheets.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getOpusSheets()
     {
@@ -172,9 +170,10 @@ class OpusSheetTemplate
     }
 
     /**
-     * Set status
+     * Set status.
      *
-     * @param integer $status
+     * @param int $status
+     *
      * @return OpusSheetTemplate
      */
     public function setStatus($status)
@@ -185,9 +184,9 @@ class OpusSheetTemplate
     }
 
     /**
-     * Get status
+     * Get status.
      *
-     * @return integer 
+     * @return int
      */
     public function getStatus()
     {
@@ -195,9 +194,10 @@ class OpusSheetTemplate
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param \GeneratorBundle\Entity\OpusSheetType $type
+     *
      * @return OpusSheetTemplate
      */
     public function setType(\GeneratorBundle\Entity\OpusSheetType $type = null)
@@ -208,20 +208,20 @@ class OpusSheetTemplate
     }
 
     /**
-     * Get type
+     * Get type.
      *
-     * @return \GeneratorBundle\Entity\OpusSheetType 
+     * @return \GeneratorBundle\Entity\OpusSheetType
      */
     public function getType()
     {
         return $this->type;
     }
-    
 
     /**
-     * Set confFile
+     * Set confFile.
      *
      * @param \MediaBundle\Entity\Media $confFile
+     *
      * @return OpusSheetTemplate
      */
     public function setConfFile(\MediaBundle\Entity\Media $confFile = null)
@@ -233,13 +233,12 @@ class OpusSheetTemplate
     }
 
     /**
-     * Get confFile
+     * Get confFile.
      *
-     * @return \MediaBundle\Entity\Media 
+     * @return \MediaBundle\Entity\Media
      */
     public function getConfFile()
     {
         return $this->confFile;
     }
-
 }

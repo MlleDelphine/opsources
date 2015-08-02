@@ -1,21 +1,21 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 23/06/2015
- * Time: 14:31
+ * Time: 14:31.
  */
 
 namespace AppBundle\Admin;
-
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class OpusCampaignAdmin extends Admin {
-
+class OpusCampaignAdmin extends Admin
+{
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -26,17 +26,17 @@ class OpusCampaignAdmin extends Admin {
             ->add('year', 'text', array('label' => 'Année'))
             ->add('mailDate', 'date', array('label' => 'Mail date'))
             ->add('limitDate', 'date', array('label' => 'Date limite'))
-            ->add('status', 'choice', array('label' => 'Statut', 'choices' => array(0 => "Désactivée", 1 => "Activée")))
+            ->add('status', 'choice', array('label' => 'Statut', 'choices' => array(0 => 'Désactivée', 1 => 'Activée')))
             ->add('type', 'entity', array('class' => 'GeneratorBundle:OpusSheetType',
                 'label' => "Type d'entretien",
-                'property' => 'name'))
+                'property' => 'name', ))
             ->add('opusTemplate', 'entity', array(
                 'class' => 'GeneratorBundle:OpusSheetTemplate',
                 'property' => 'name',
                 'label' => 'Template',
                 'multiple' => false,
                 'placeholder' => 'Sélectionner',
-                'required' => true))
+                'required' => true, ))
         ;
     }
 
@@ -46,7 +46,7 @@ class OpusCampaignAdmin extends Admin {
         $datagridMapper
             ->add('year', null, array('label' => 'Année'))
             ->add('mailDate', null, array('label' => 'Mail date'))
-            ->add('limitDate', null, array('label' => 'Date limite') )
+            ->add('limitDate', null, array('label' => 'Date limite'))
             ->add('status', null, array('label' => 'Statut'))
             ->add('type', null, array('label' => "Type d'entretien"))
 

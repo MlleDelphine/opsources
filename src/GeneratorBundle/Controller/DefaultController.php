@@ -6,7 +6,6 @@ use GeneratorBundle\Entity\OpusSheet;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class DefaultController extends Controller
 {
     //On va passer l'ID d'une fiche pour l'éditer
@@ -25,12 +24,12 @@ class DefaultController extends Controller
             'entity' => $opusSheet,
             'name' => $name,
             'uiTab' => $uiTab,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
     /**
-     * On crée une fiche orpheline
+     * On crée une fiche orpheline.
      */
     public function newAction($idUser, $strCodeType)
     {
@@ -39,35 +38,32 @@ class DefaultController extends Controller
 
         $opusSheet = new OpusSheet();
 
-        $sheetType = $em->getRepository("GeneratorBundle:OpusSheetType")->findOneByStrCode($strCodeType);
-        $userEvaluate = $em->getRepository("UserBundle:User")->findOneById($idUser);
+        $sheetType = $em->getRepository('GeneratorBundle:OpusSheetType')->findOneByStrCode($strCodeType);
+        $userEvaluate = $em->getRepository('UserBundle:User')->findOneById($idUser);
 //        dump($userEvaluate);
 //        die;
 
         $opusSheet->setEvaluate($userEvaluate);
-        $campaignProcessing = $em->getRepository("GeneratorBundle:OpusCampaign")->findOneBy(array('status' => 1, "type" => $sheetType));
+        $campaignProcessing = $em->getRepository('GeneratorBundle:OpusCampaign')->findOneBy(array('status' => 1, 'type' => $sheetType));
 
-        /**
+        /*
          * Si une campagne est en cours
          */
-        if($campaignProcessing){
-
+        if ($campaignProcessing) {
             $template = $campaignProcessing->getOpusTemplate();
-            $opusSheetsNotClosed = $em->getRepository("GeneratorBundle:OpusSheet")->findSheetsNotClosedInCampaign($campaignProcessing, $userEvaluate);
+            $opusSheetsNotClosed = $em->getRepository('GeneratorBundle:OpusSheet')->findSheetsNotClosedInCampaign($campaignProcessing, $userEvaluate);
             //S'il n'y a pas de fiche en cours pour cet user dans cette campagne
-            if($opusSheetsNotClosed === null){
+            if ($opusSheetsNotClosed === null) {
                 $opusSheet->setCampaign($campaignProcessing);
                 $opusSheet->setOpusTemplate($template);
-            }
-            else{
+            } else {
                 //Dernir template en date pour ce type
-                $template = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->findOneBy(array("type" => $sheetType, "status" => 1));
+                $template = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findOneBy(array('type' => $sheetType, 'status' => 1));
                 $opusSheet->setOpusTemplate($template);
             }
-        }
-        else{
+        } else {
             //Dernir template en date pour ce type
-            $template = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->findOneBy(array("type" => $sheetType, "status" => 1));
+            $template = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findOneBy(array('type' => $sheetType, 'status' => 1));
             $opusSheet->setOpusTemplate($template);
         }
 
@@ -83,17 +79,15 @@ class DefaultController extends Controller
             'entity' => $opusSheet,
             'name' => $name,
             'uiTab' => $uiTab,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
-
     public function editAction($id)
     {
-
         $em = $this->getDoctrine()->getManager();
 
-        $opusSheet = $em->getRepository("GeneratorBundle:OpusSheet")->findOneById($id);
+        $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->findOneById($id);
         $opusTemplate = $opusSheet->getOpusTemplate();
         $template = $opusTemplate->getConfFile();
 
@@ -123,17 +117,16 @@ class DefaultController extends Controller
             'html' => $text
         ));*/
         $html = $this->renderView('GeneratorBundle:PDF:view.html.twig', array(
-            'html' => $text
+            'html' => $text,
         ));
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
             200,
             array(
-                'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'attachment; filename="file.pdf"'
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="file.pdf"',
             )
         );
-
     }
 }

@@ -1,6 +1,11 @@
 {
   "name": "opus",
   "version": "0.1.0",
+  "authors": [
+    { "name": "Delphine Graftieaux", "email": "delphine@zephyr-web.fr" },
+    { "name": "Paul Pasturel", "email": "paul@zephyr-web.fr" },
+    { "name": "Nicolas de Marqué Fromentin", "email": "ndm@zephyr-web.fr" }
+  ],
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -21,5 +26,10 @@
     "icheck": "*",
     "jquery.ui": "*",
     "bootstrap": "*",
-    "datatables-plugins-bootstrap3": "*"  }
+    "datatables-plugins-bootstrap3": "*"
+  },
+  "resolutions": {
+    "datatables": "~1.10.7",
+    "font-awesome": "4.3.0"
+  }
 }

@@ -21,9 +21,10 @@ class AppKernel extends Kernel
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Brown298\DataTablesBundle\Brown298DataTablesBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-            //Perso
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            
+            //Local
             new \GeneratorBundle\GeneratorBundle(),
-            new \Application\Sonata\MediaBundle\ApplicationSonataMediaBundle(),
             new \AppBundle\AppBundle(),
             new \MediaBundle\MediaBundle(),
 
@@ -41,7 +42,6 @@ class AppKernel extends Kernel
 
             //Sonata Media
             new Sonata\MediaBundle\SonataMediaBundle(),
-            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
         );
 
@@ -52,7 +52,6 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new Hautelook\AliceBundle\HautelookAliceBundle();
-//            $bundles[] = new Arianespace\PlexcelBundle\ArianespacePlexcelBundle();
         }
 
         return $bundles;

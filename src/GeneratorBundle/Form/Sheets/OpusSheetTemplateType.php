@@ -1,26 +1,26 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 29/07/2015
- * Time: 14:30
+ * Time: 14:30.
  */
 
 namespace GeneratorBundle\Form\Sheets;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 
-class OpusSheetTemplateType extends AbstractType {
-
+class OpusSheetTemplateType extends AbstractType
+{
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-//$builder->add()
+        //$builder->add()
     }
 
     /**
@@ -29,7 +29,7 @@ class OpusSheetTemplateType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'GeneratorBundle\Entity\OpusSheetTemplate'
+            'data_class' => 'GeneratorBundle\Entity\OpusSheetTemplate',
         ));
     }
 
@@ -40,5 +40,4 @@ class OpusSheetTemplateType extends AbstractType {
     {
         return 'generator_sheet_template';
     }
-
 }

@@ -1,21 +1,22 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 16/06/2015
- * Time: 11:03
+ * Time: 11:03.
  */
+
 namespace UserBundle\Entity;
 
 use Arianespace\PlexcelBundle\Security\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\Role;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * User
+ * User.
  *
  * @ORM\Table(name="opus_users")
  * @ORM\Entity(repositoryClass="UserBundle\Entity\Repository\UserRepository")
@@ -24,7 +25,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class User implements UserInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,13 +33,13 @@ class User implements UserInterface
      */
     protected $id;
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="roles", type="array", nullable=true)
      */
     protected $roles;
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sids", type="array", nullable=true)
      */
@@ -51,7 +52,6 @@ class User implements UserInterface
      */
     private $password;
 
-
     /**
      * @var string
      *
@@ -59,15 +59,14 @@ class User implements UserInterface
      */
     private $salt;
 
-
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="fullname", type="string", nullable=true)
      */
     protected $fullName;
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="func_manager_id", type="bigint", nullable=true)
      */
@@ -81,7 +80,7 @@ class User implements UserInterface
     private $guid;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="responsable", type="smallint", nullable=true)
      */
@@ -158,7 +157,7 @@ class User implements UserInterface
     private $entryDate;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="status", type="bigint", nullable=false)
      */
@@ -207,8 +206,6 @@ class User implements UserInterface
      * })
      */
     private $job2;
-
-
 
 //
 //    /**
@@ -266,9 +263,6 @@ class User implements UserInterface
      */
     private $opusSheetsResponsable;
 
-
-
-
     public function __construct()
     {
         //   parent::__construct();
@@ -282,7 +276,7 @@ class User implements UserInterface
 //        $roles->add('ROLE_USER');
 //        $roles->add('ROLE_ADMIN');
         $this->roles = $roles;
-        $this->sids  = array();
+        $this->sids = array();
         $this->status = 0;
 
         $this->opusSheetsEvaluator = new ArrayCollection();
@@ -290,18 +284,18 @@ class User implements UserInterface
 
     public function __toString()
     {
-        return (string)$this->getFirstName().' '.$this->getLastName();
+        return (string) $this->getFirstName().' '.$this->getLastName();
     }
 
-    public function getDisplayName(){
-
+    public function getDisplayName()
+    {
         return $this->getUsername();
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -561,7 +555,6 @@ class User implements UserInterface
         return $this;
     }
 
-
     /**
      * Returns the salt that was originally used to encode the password.
      *
@@ -584,7 +577,6 @@ class User implements UserInterface
     {
         // TODO: Implement getUsername() method.
         return $this->username;
-
     }
 
     /**
@@ -637,12 +629,11 @@ class User implements UserInterface
         return $this->fullName;
     }
 
-
-
     /**
-     * Set funcManagerId
+     * Set funcManagerId.
      *
-     * @param integer $funcManagerId
+     * @param int $funcManagerId
+     *
      * @return User
      */
     public function setFuncManagerId($funcManagerId)
@@ -653,9 +644,9 @@ class User implements UserInterface
     }
 
     /**
-     * Get funcManagerId
+     * Get funcManagerId.
      *
-     * @return integer
+     * @return int
      */
     public function getFuncManagerId()
     {
@@ -663,9 +654,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set guid
+     * Set guid.
      *
      * @param string $guid
+     *
      * @return User
      */
     public function setGuid($guid)
@@ -676,7 +668,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get guid
+     * Get guid.
      *
      * @return string
      */
@@ -686,9 +678,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set responsable
+     * Set responsable.
      *
-     * @param integer $responsable
+     * @param int $responsable
+     *
      * @return User
      */
     public function setResponsable($responsable)
@@ -699,9 +692,9 @@ class User implements UserInterface
     }
 
     /**
-     * Get responsable
+     * Get responsable.
      *
-     * @return integer
+     * @return int
      */
     public function getResponsable()
     {
@@ -709,9 +702,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set lastName
+     * Set lastName.
      *
      * @param string $lastName
+     *
      * @return User
      */
     public function setLastName($lastName)
@@ -722,7 +716,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get lastName
+     * Get lastName.
      *
      * @return string
      */
@@ -732,9 +726,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set firstName
+     * Set firstName.
      *
      * @param string $firstName
+     *
      * @return User
      */
     public function setFirstName($firstName)
@@ -745,7 +740,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get firstName
+     * Get firstName.
      *
      * @return string
      */
@@ -755,9 +750,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set login
+     * Set login.
      *
      * @param string $login
+     *
      * @return User
      */
     public function setLogin($login)
@@ -768,7 +764,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get login
+     * Get login.
      *
      * @return string
      */
@@ -778,9 +774,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set mail
+     * Set mail.
      *
      * @param string $mail
+     *
      * @return User
      */
     public function setMail($mail)
@@ -791,7 +788,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get mail
+     * Get mail.
      *
      * @return string
      */
@@ -801,9 +798,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set division
+     * Set division.
      *
      * @param string $division
+     *
      * @return User
      */
     public function setDivision($division)
@@ -814,7 +812,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get division
+     * Get division.
      *
      * @return string
      */
@@ -824,9 +822,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set department
+     * Set department.
      *
      * @param string $department
+     *
      * @return User
      */
     public function setDepartment($department)
@@ -837,7 +836,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get department
+     * Get department.
      *
      * @return string
      */
@@ -847,9 +846,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set classification
+     * Set classification.
      *
      * @param string $classification
+     *
      * @return User
      */
     public function setClassification($classification)
@@ -860,7 +860,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get classification
+     * Get classification.
      *
      * @return string
      */
@@ -870,9 +870,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set fonction
+     * Set fonction.
      *
      * @param string $fonction
+     *
      * @return User
      */
     public function setFonction($fonction)
@@ -883,7 +884,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get fonction
+     * Get fonction.
      *
      * @return string
      */
@@ -893,9 +894,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set entryDate
+     * Set entryDate.
      *
      * @param \DateTime $entryDate
+     *
      * @return User
      */
     public function setEntryDate($entryDate)
@@ -906,7 +908,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get entryDate
+     * Get entryDate.
      *
      * @return \DateTime
      */
@@ -916,9 +918,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set status
+     * Set status.
      *
-     * @param integer $status
+     * @param int $status
+     *
      * @return User
      */
     public function setStatus($status)
@@ -929,9 +932,9 @@ class User implements UserInterface
     }
 
     /**
-     * Get status
+     * Get status.
      *
-     * @return integer
+     * @return int
      */
     public function getStatus()
     {
@@ -939,9 +942,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return User
      */
     public function setCreatedAt($createdAt)
@@ -952,7 +956,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -962,9 +966,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return User
      */
     public function setUpdatedAt($updatedAt)
@@ -975,7 +980,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -985,9 +990,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set manager
+     * Set manager.
      *
      * @param \UserBundle\Entity\User $manager
+     *
      * @return User
      */
     public function setManager(\UserBundle\Entity\User $manager = null)
@@ -998,7 +1004,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get manager
+     * Get manager.
      *
      * @return \UserBundle\Entity\User
      */
@@ -1008,9 +1014,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set job
+     * Set job.
      *
      * @param \GeneratorBundle\Entity\OpusJob $job
+     *
      * @return User
      */
     public function setJob(\GeneratorBundle\Entity\OpusJob $job = null)
@@ -1021,7 +1028,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get job
+     * Get job.
      *
      * @return \GeneratorBundle\Entity\OpusJob
      */
@@ -1031,9 +1038,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set job2
+     * Set job2.
      *
      * @param \GeneratorBundle\Entity\OpusJob $job2
+     *
      * @return User
      */
     public function setJob2(\GeneratorBundle\Entity\OpusJob $job2 = null)
@@ -1044,7 +1052,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get job2
+     * Get job2.
      *
      * @return \GeneratorBundle\Entity\OpusJob
      */
@@ -1054,9 +1062,10 @@ class User implements UserInterface
     }
 
     /**
-     * Add opusSheetsEvaluator
+     * Add opusSheetsEvaluator.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluator
+     *
      * @return User
      */
     public function addOpusSheetsEvaluator(\GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluator)
@@ -1067,7 +1076,7 @@ class User implements UserInterface
     }
 
     /**
-     * Remove opusSheetsEvaluator
+     * Remove opusSheetsEvaluator.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluator
      */
@@ -1077,7 +1086,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get opusSheetsEvaluator
+     * Get opusSheetsEvaluator.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -1086,11 +1095,11 @@ class User implements UserInterface
         return $this->opusSheetsEvaluator;
     }
 
-
     /**
-     * Add opusSheetsEvaluate
+     * Add opusSheetsEvaluate.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluate
+     *
      * @return User
      */
     public function addOpusSheetsEvaluate(\GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluate)
@@ -1101,7 +1110,7 @@ class User implements UserInterface
     }
 
     /**
-     * Remove opusSheetsEvaluate
+     * Remove opusSheetsEvaluate.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsEvaluate
      */
@@ -1111,7 +1120,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get opusSheetsEvaluate
+     * Get opusSheetsEvaluate.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -1121,9 +1130,10 @@ class User implements UserInterface
     }
 
     /**
-     * Add opusSheetsSuperior
+     * Add opusSheetsSuperior.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsSuperior
+     *
      * @return User
      */
     public function addOpusSheetsSuperior(\GeneratorBundle\Entity\OpusSheet $opusSheetsSuperior)
@@ -1134,7 +1144,7 @@ class User implements UserInterface
     }
 
     /**
-     * Remove opusSheetsSuperior
+     * Remove opusSheetsSuperior.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsSuperior
      */
@@ -1144,7 +1154,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get opusSheetsSuperior
+     * Get opusSheetsSuperior.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -1154,9 +1164,10 @@ class User implements UserInterface
     }
 
     /**
-     * Add opusSheetsDirector
+     * Add opusSheetsDirector.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsDirector
+     *
      * @return User
      */
     public function addOpusSheetsDirector(\GeneratorBundle\Entity\OpusSheet $opusSheetsDirector)
@@ -1167,7 +1178,7 @@ class User implements UserInterface
     }
 
     /**
-     * Remove opusSheetsDirector
+     * Remove opusSheetsDirector.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsDirector
      */
@@ -1177,7 +1188,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get opusSheetsDirector
+     * Get opusSheetsDirector.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -1187,9 +1198,10 @@ class User implements UserInterface
     }
 
     /**
-     * Add opusSheetsResponsable
+     * Add opusSheetsResponsable.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsResponsable
+     *
      * @return User
      */
     public function addOpusSheetsResponsable(\GeneratorBundle\Entity\OpusSheet $opusSheetsResponsable)
@@ -1200,7 +1212,7 @@ class User implements UserInterface
     }
 
     /**
-     * Remove opusSheetsResponsable
+     * Remove opusSheetsResponsable.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheetsResponsable
      */
@@ -1210,7 +1222,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get opusSheetsResponsable
+     * Get opusSheetsResponsable.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -1220,24 +1232,24 @@ class User implements UserInterface
     }
 
     /**
-     * Set roles
+     * Set roles.
      *
      * @param string $roles
+     *
      * @return User
      */
     public function setRoles($roles)
     {
-
         $this->roles = $roles;
 
         return $this;
     }
 
-
     /**
-     * Set pasword
+     * Set pasword.
      *
      * @param string $pasword
+     *
      * @return User
      */
     public function setPasword($pasword)
@@ -1248,9 +1260,9 @@ class User implements UserInterface
     }
 
     /**
-     * Get pasword
+     * Get pasword.
      *
-     * @return string 
+     * @return string
      */
     public function getPasword()
     {
@@ -1258,9 +1270,10 @@ class User implements UserInterface
     }
 
     /**
-     * Set salt
+     * Set salt.
      *
      * @param string $salt
+     *
      * @return User
      */
     public function setSalt($salt)

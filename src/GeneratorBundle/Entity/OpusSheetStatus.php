@@ -5,7 +5,7 @@ namespace GeneratorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * OpusStatusSheet
+ * OpusStatusSheet.
  *
  * @ORM\Table(name="opus_sheet_status")
  * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusSheetStatusRepository")
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class OpusSheetStatus
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -29,7 +29,7 @@ class OpusSheetStatus
     private $label;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="intCode", type="integer", unique=true)
      */
@@ -47,11 +47,10 @@ class OpusSheetStatus
      */
     private $opusSheets;
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -59,9 +58,10 @@ class OpusSheetStatus
     }
 
     /**
-     * Set label
+     * Set label.
      *
      * @param string $label
+     *
      * @return OpusStatusSheet
      */
     public function setLabel($label)
@@ -72,9 +72,9 @@ class OpusSheetStatus
     }
 
     /**
-     * Get label
+     * Get label.
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {
@@ -82,9 +82,10 @@ class OpusSheetStatus
     }
 
     /**
-     * Set intCode
+     * Set intCode.
      *
-     * @param integer $intCode
+     * @param int $intCode
+     *
      * @return OpusStatusSheet
      */
     public function setIntCode($intCode)
@@ -95,9 +96,9 @@ class OpusSheetStatus
     }
 
     /**
-     * Get intCode
+     * Get intCode.
      *
-     * @return integer 
+     * @return int
      */
     public function getIntCode()
     {
@@ -105,9 +106,10 @@ class OpusSheetStatus
     }
 
     /**
-     * Set strCode
+     * Set strCode.
      *
      * @param string $strCode
+     *
      * @return OpusStatusSheet
      */
     public function setStrCode($strCode)
@@ -118,16 +120,16 @@ class OpusSheetStatus
     }
 
     /**
-     * Get strCode
+     * Get strCode.
      *
-     * @return string 
+     * @return string
      */
     public function getStrCode()
     {
         return $this->strCode;
     }
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -135,9 +137,10 @@ class OpusSheetStatus
     }
 
     /**
-     * Add opusSheets
+     * Add opusSheets.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheets
+     *
      * @return OpusSheetStatus
      */
     public function addOpusSheet(\GeneratorBundle\Entity\OpusSheet $opusSheets)
@@ -148,7 +151,7 @@ class OpusSheetStatus
     }
 
     /**
-     * Remove opusSheets
+     * Remove opusSheets.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $opusSheets
      */
@@ -158,9 +161,9 @@ class OpusSheetStatus
     }
 
     /**
-     * Get opusSheets
+     * Get opusSheets.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getOpusSheets()
     {

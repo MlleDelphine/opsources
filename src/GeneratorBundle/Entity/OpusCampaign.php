@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * OpusCampaign
+ * OpusCampaign.
  *
  * @ORM\Table(name="opus_campaign")
  * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusCampaignRepository")
@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class OpusCampaign
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
@@ -24,7 +24,7 @@ class OpusCampaign
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="year", type="bigint", nullable=false)
      */
@@ -52,7 +52,7 @@ class OpusCampaign
     private $limitDate;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="status", type="bigint", nullable=true)
      */
@@ -79,9 +79,7 @@ class OpusCampaign
      *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      * })
      */
-
     private $type;
-
 
     /**
      * @var \OpusSheetTemplate
@@ -90,15 +88,12 @@ class OpusCampaign
      *   @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      * })
      */
-
     private $opusTemplate;
 
-
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -106,9 +101,10 @@ class OpusCampaign
     }
 
     /**
-     * Set year
+     * Set year.
      *
-     * @param integer $year
+     * @param int $year
+     *
      * @return OpusCampaign
      */
     public function setYear($year)
@@ -119,9 +115,9 @@ class OpusCampaign
     }
 
     /**
-     * Get year
+     * Get year.
      *
-     * @return integer
+     * @return int
      */
     public function getYear()
     {
@@ -129,9 +125,10 @@ class OpusCampaign
     }
 
     /**
-     * Set template
+     * Set template.
      *
      * @param string $template
+     *
      * @return OpusCampaign
      */
     public function setTemplate($template)
@@ -142,7 +139,7 @@ class OpusCampaign
     }
 
     /**
-     * Get template
+     * Get template.
      *
      * @return string
      */
@@ -152,9 +149,10 @@ class OpusCampaign
     }
 
     /**
-     * Set mailDate
+     * Set mailDate.
      *
      * @param \DateTime $mailDate
+     *
      * @return OpusCampaign
      */
     public function setMailDate($mailDate)
@@ -165,7 +163,7 @@ class OpusCampaign
     }
 
     /**
-     * Get mailDate
+     * Get mailDate.
      *
      * @return \DateTime
      */
@@ -175,9 +173,10 @@ class OpusCampaign
     }
 
     /**
-     * Set limitDate
+     * Set limitDate.
      *
      * @param \DateTime $limitDate
+     *
      * @return OpusCampaign
      */
     public function setLimitDate($limitDate)
@@ -188,7 +187,7 @@ class OpusCampaign
     }
 
     /**
-     * Get limitDate
+     * Get limitDate.
      *
      * @return \DateTime
      */
@@ -198,9 +197,10 @@ class OpusCampaign
     }
 
     /**
-     * Set status
+     * Set status.
      *
-     * @param integer $status
+     * @param int $status
+     *
      * @return OpusCampaign
      */
     public function setStatus($status)
@@ -211,9 +211,9 @@ class OpusCampaign
     }
 
     /**
-     * Get status
+     * Get status.
      *
-     * @return integer
+     * @return int
      */
     public function getStatus()
     {
@@ -221,9 +221,10 @@ class OpusCampaign
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return OpusCampaign
      */
     public function setCreatedAt($createdAt)
@@ -234,7 +235,7 @@ class OpusCampaign
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -244,9 +245,10 @@ class OpusCampaign
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return OpusCampaign
      */
     public function setUpdatedAt($updatedAt)
@@ -257,7 +259,7 @@ class OpusCampaign
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -266,11 +268,11 @@ class OpusCampaign
         return $this->updatedAt;
     }
 
-
     /**
-     * Set type
+     * Set type.
      *
      * @param \GeneratorBundle\Entity\OpusSheetType $type
+     *
      * @return OpusCampaign
      */
     public function setType(\GeneratorBundle\Entity\OpusSheetType $type = null)
@@ -281,9 +283,9 @@ class OpusCampaign
     }
 
     /**
-     * Get type
+     * Get type.
      *
-     * @return \GeneratorBundle\Entity\OpusSheetType 
+     * @return \GeneratorBundle\Entity\OpusSheetType
      */
     public function getType()
     {
@@ -291,9 +293,10 @@ class OpusCampaign
     }
 
     /**
-     * Set opusTemplate
+     * Set opusTemplate.
      *
      * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate
+     *
      * @return OpusCampaign
      */
     public function setOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate = null)
@@ -304,9 +307,9 @@ class OpusCampaign
     }
 
     /**
-     * Get opusTemplate
+     * Get opusTemplate.
      *
-     * @return \GeneratorBundle\Entity\OpusSheetTemplate 
+     * @return \GeneratorBundle\Entity\OpusSheetTemplate
      */
     public function getOpusTemplate()
     {

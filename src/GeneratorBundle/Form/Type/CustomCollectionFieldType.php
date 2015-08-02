@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 23/06/2015
- * Time: 15:36
+ * Time: 15:36.
  */
 
 namespace GeneratorBundle\Form\Type;
@@ -13,13 +14,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomCollectionFieldType extends AbstractType{
-
-
+class CustomCollectionFieldType extends AbstractType
+{
     private $numberFields;
 
-    public function __construct($numberFields = null){
-
+    public function __construct($numberFields = null)
+    {
         $this->numberFields = $numberFields;
     }
 
@@ -28,23 +28,20 @@ class CustomCollectionFieldType extends AbstractType{
         $view->vars['numberFields'] = $this->numberFields;
     }
 
-    function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array()
         );
     }
 
-    public
-    function getParent()
+    public function getParent()
     {
         return 'collection';
     }
 
-    public
-    function getName()
+    public function getName()
     {
         return 'customCollectionField';
     }
-
 }

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 30/06/2015
- * Time: 09:54
+ * Time: 09:54.
  */
 
 namespace AppBundle\DataTables;
@@ -11,21 +12,16 @@ namespace AppBundle\DataTables;
 use Brown298\DataTablesBundle\MetaData as DataTable;
 use Brown298\DataTablesBundle\Model\DataTable\QueryBuilderDataTableInterface;
 use Brown298\DataTablesBundle\Test\DataTable\QueryBuilderDataTable;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Templating\EngineInterface;
 
 /**
- * Default controller
+ * Default controller.
  *
- * @package AppBundle\DataTables
  *
  * @DataTable\Table(id="conditionsMeetAssessedTable")
- *
- *
  */
-class ConditionsMeetAssessedTable extends QueryBuilderDataTable implements QueryBuilderDataTableInterface{
-
+class ConditionsMeetAssessedTable extends QueryBuilderDataTable implements QueryBuilderDataTableInterface
+{
     /**
      * @var datetime
      * @DataTable\Column(source="conditionsMeet.meetDate", name="Date",  class="text-center")
@@ -81,19 +77,15 @@ class ConditionsMeetAssessedTable extends QueryBuilderDataTable implements Query
      */
     public $action;
 
-
-
     /**
      * @var bool hydrate results to doctrine objects
      */
     public $hydrateObjects = true;
 
     /**
-     * getQueryBuilder
+     * getQueryBuilder.
      *
      * @param Request $request
-     *
-     * @return null
      */
     public function getQueryBuilder(Request $request = null)
     {
@@ -103,8 +95,7 @@ class ConditionsMeetAssessedTable extends QueryBuilderDataTable implements Query
         $qb = $conditionsMeetRepository->createQueryBuilder('conditionsMeet')
             ->leftJoin('conditionsMeet.assessed', 'aed')
             ->andWhere('aed.id = :assessedId')
-            ->setParameter("assessedId", $assessed->getId());
-
+            ->setParameter('assessedId', $assessed->getId());
 
         return $qb;
     }

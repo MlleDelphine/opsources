@@ -3,12 +3,13 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts:   [admin]
+            
 sonata_media:
     # if you don't use default namespace configuration
     class:
         media: MediaBundle\Entity\Media
-        gallery: Application\Sonata\MediaBundle\Entity\Gallery
-        gallery_has_media: Application\Sonata\MediaBundle\Entity\GalleryHasMedia
+        gallery: MediaBundle\Entity\Gallery
+        gallery_has_media: MediaBundle\Entity\GalleryHasMedia
     default_context: default
     db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr
     contexts:

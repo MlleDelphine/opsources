@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * OpusJob
+ * OpusJob.
  *
  * @ORM\Table(name="opus_job")
  * @ORM\Entity
@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class OpusJob
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
@@ -31,7 +31,7 @@ class OpusJob
     private $label;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="status", type="bigint", nullable=false)
      */
@@ -61,12 +61,10 @@ class OpusJob
      */
     private $updatedAt;
 
-
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -74,9 +72,10 @@ class OpusJob
     }
 
     /**
-     * Set label
+     * Set label.
      *
      * @param string $label
+     *
      * @return OpusJob
      */
     public function setLabel($label)
@@ -87,9 +86,9 @@ class OpusJob
     }
 
     /**
-     * Get label
+     * Get label.
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {
@@ -97,9 +96,10 @@ class OpusJob
     }
 
     /**
-     * Set status
+     * Set status.
      *
-     * @param integer $status
+     * @param int $status
+     *
      * @return OpusJob
      */
     public function setStatus($status)
@@ -110,9 +110,9 @@ class OpusJob
     }
 
     /**
-     * Get status
+     * Get status.
      *
-     * @return integer 
+     * @return int
      */
     public function getStatus()
     {
@@ -120,9 +120,10 @@ class OpusJob
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return OpusJob
      */
     public function setCreatedAt($createdAt)
@@ -133,9 +134,9 @@ class OpusJob
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -143,9 +144,10 @@ class OpusJob
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return OpusJob
      */
     public function setUpdatedAt($updatedAt)
@@ -156,16 +158,16 @@ class OpusJob
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -174,9 +176,10 @@ class OpusJob
     }
 
     /**
-     * Add jobFirst
+     * Add jobFirst.
      *
      * @param \UserBundle\Entity\User $jobFirst
+     *
      * @return OpusJob
      */
     public function addJobFirst(\UserBundle\Entity\User $jobFirst)
@@ -187,7 +190,7 @@ class OpusJob
     }
 
     /**
-     * Remove jobFirst
+     * Remove jobFirst.
      *
      * @param \UserBundle\Entity\User $jobFirst
      */
@@ -197,9 +200,9 @@ class OpusJob
     }
 
     /**
-     * Get jobFirst
+     * Get jobFirst.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getJobFirst()
     {
@@ -207,9 +210,10 @@ class OpusJob
     }
 
     /**
-     * Add jobSecond
+     * Add jobSecond.
      *
      * @param \UserBundle\Entity\User $jobSecond
+     *
      * @return OpusJob
      */
     public function addJobSecond(\UserBundle\Entity\User $jobSecond)
@@ -220,7 +224,7 @@ class OpusJob
     }
 
     /**
-     * Remove jobSecond
+     * Remove jobSecond.
      *
      * @param \UserBundle\Entity\User $jobSecond
      */
@@ -230,9 +234,9 @@ class OpusJob
     }
 
     /**
-     * Get jobSecond
+     * Get jobSecond.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getJobSecond()
     {

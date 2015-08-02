@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * OpusInfo
+ * OpusInfo.
  *
  * @ORM\Table(name="opus_info")
  * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusInfoRepository")
@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class OpusInfo
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
@@ -24,7 +24,7 @@ class OpusInfo
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="year", type="bigint", nullable=false)
      */
@@ -52,7 +52,7 @@ class OpusInfo
     private $limitDate;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="status", type="bigint", nullable=true)
      */
@@ -79,9 +79,7 @@ class OpusInfo
      *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      * })
      */
-
     private $type;
-
 
     /**
      * @var \OpusSheetTemplate
@@ -90,15 +88,12 @@ class OpusInfo
      *   @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      * })
      */
-
     private $opusTemplate;
 
-
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -106,9 +101,10 @@ class OpusInfo
     }
 
     /**
-     * Set year
+     * Set year.
      *
-     * @param integer $year
+     * @param int $year
+     *
      * @return OpusInfo
      */
     public function setYear($year)
@@ -119,9 +115,9 @@ class OpusInfo
     }
 
     /**
-     * Get year
+     * Get year.
      *
-     * @return integer
+     * @return int
      */
     public function getYear()
     {
@@ -129,9 +125,10 @@ class OpusInfo
     }
 
     /**
-     * Set template
+     * Set template.
      *
      * @param string $template
+     *
      * @return OpusInfo
      */
     public function setTemplate($template)
@@ -142,7 +139,7 @@ class OpusInfo
     }
 
     /**
-     * Get template
+     * Get template.
      *
      * @return string
      */
@@ -152,9 +149,10 @@ class OpusInfo
     }
 
     /**
-     * Set mailDate
+     * Set mailDate.
      *
      * @param \DateTime $mailDate
+     *
      * @return OpusInfo
      */
     public function setMailDate($mailDate)
@@ -165,7 +163,7 @@ class OpusInfo
     }
 
     /**
-     * Get mailDate
+     * Get mailDate.
      *
      * @return \DateTime
      */
@@ -175,9 +173,10 @@ class OpusInfo
     }
 
     /**
-     * Set limitDate
+     * Set limitDate.
      *
      * @param \DateTime $limitDate
+     *
      * @return OpusInfo
      */
     public function setLimitDate($limitDate)
@@ -188,7 +187,7 @@ class OpusInfo
     }
 
     /**
-     * Get limitDate
+     * Get limitDate.
      *
      * @return \DateTime
      */
@@ -198,9 +197,10 @@ class OpusInfo
     }
 
     /**
-     * Set status
+     * Set status.
      *
-     * @param integer $status
+     * @param int $status
+     *
      * @return OpusInfo
      */
     public function setStatus($status)
@@ -211,9 +211,9 @@ class OpusInfo
     }
 
     /**
-     * Get status
+     * Get status.
      *
-     * @return integer
+     * @return int
      */
     public function getStatus()
     {
@@ -221,9 +221,10 @@ class OpusInfo
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return OpusInfo
      */
     public function setCreatedAt($createdAt)
@@ -234,7 +235,7 @@ class OpusInfo
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -244,9 +245,10 @@ class OpusInfo
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return OpusInfo
      */
     public function setUpdatedAt($updatedAt)
@@ -257,7 +259,7 @@ class OpusInfo
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -267,9 +269,10 @@ class OpusInfo
     }
 
     /**
-     * Set confFile
+     * Set confFile.
      *
      * @param string $confFile
+     *
      * @return OpusInfo
      */
     public function setConfFile($confFile)
@@ -280,9 +283,9 @@ class OpusInfo
     }
 
     /**
-     * Get confFile
+     * Get confFile.
      *
-     * @return string 
+     * @return string
      */
     public function getConfFile()
     {
@@ -290,9 +293,10 @@ class OpusInfo
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param \GeneratorBundle\Entity\OpusSheetType $type
+     *
      * @return OpusInfo
      */
     public function setType(\GeneratorBundle\Entity\OpusSheetType $type = null)
@@ -303,9 +307,9 @@ class OpusInfo
     }
 
     /**
-     * Get type
+     * Get type.
      *
-     * @return \GeneratorBundle\Entity\OpusSheetType 
+     * @return \GeneratorBundle\Entity\OpusSheetType
      */
     public function getType()
     {
@@ -313,9 +317,10 @@ class OpusInfo
     }
 
     /**
-     * Set confFileUi
+     * Set confFileUi.
      *
      * @param string $confFileUi
+     *
      * @return OpusInfo
      */
     public function setConfFileUi($confFileUi)
@@ -326,9 +331,9 @@ class OpusInfo
     }
 
     /**
-     * Get confFileUi
+     * Get confFileUi.
      *
-     * @return string 
+     * @return string
      */
     public function getConfFileUi()
     {
@@ -336,9 +341,10 @@ class OpusInfo
     }
 
     /**
-     * Set opusTemplate
+     * Set opusTemplate.
      *
      * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate
+     *
      * @return OpusInfo
      */
     public function setOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate = null)
@@ -349,9 +355,9 @@ class OpusInfo
     }
 
     /**
-     * Get opusTemplate
+     * Get opusTemplate.
      *
-     * @return \GeneratorBundle\Entity\OpusSheetTemplate 
+     * @return \GeneratorBundle\Entity\OpusSheetTemplate
      */
     public function getOpusTemplate()
     {

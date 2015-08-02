@@ -1,33 +1,30 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 03/06/2015
- * Time: 12:08
+ * Time: 12:08.
  */
+
 namespace GeneratorBundle\Form\Sheets;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use GeneratorBundle\Form\Sheets\OpusSheetAttributeNewType;
 use UserBundle\Entity\Repository\UserRepository;
 use GeneratorBundle\Form\Type\CustomCollectionAttributeType;
-use GeneratorBundle\Form\Type\CustomCollectionType;
-use GeneratorBundle\Form\Type\CustomCollectionFieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver ;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-
-class OpusSheetType extends AbstractType{
-
+class OpusSheetType extends AbstractType
+{
     protected $attributes;
     protected $em;
     private $security;
 
-    public function __construct ($attributes, EntityManager $em, TokenStorage $security)
+    public function __construct($attributes, EntityManager $em, TokenStorage $security)
     {
         $this->attributes = $attributes;
         $this->em = $em;
@@ -35,11 +32,10 @@ class OpusSheetType extends AbstractType{
     }
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $user = $this->security->getToken()->getUser();
 
         $builder->addEventListener(
@@ -47,30 +43,26 @@ class OpusSheetType extends AbstractType{
             function (\Symfony\Component\Form\FormEvent $event) use ($user) {
                 $meet = $event->getData();
                 $form = $event->getForm();
-                $validatedE = $this->em->getRepository('GeneratorBundle:OpusSheetStatus')->findOneBy(array('strCode' =>"valid_evalue"));
-                if($meet->getEvaluator()){
+                $validatedE = $this->em->getRepository('GeneratorBundle:OpusSheetStatus')->findOneBy(array('strCode' => 'valid_evalue'));
+                if ($meet->getEvaluator()) {
                     $evaluator = $meet->getEvaluator();
-                }
-                else{
+                } else {
                     $evaluator = $user;
                 }
 
                 //Si évalué tout est désactivé sauf les siens
                 $access = true;
 
-                if($meet->getEvaluator() === $user && $meet->getStatus() ==  $validatedE){
+                if ($meet->getEvaluator() === $user && $meet->getStatus() ==  $validatedE) {
                     $attr = array('data-tab' => 'tab_1', 'readonly' => true);
                     $access = false;
-                }
-                elseif($meet->getEvaluate() === $user){
+                } elseif ($meet->getEvaluate() === $user) {
                     $attr = array('data-tab' => 'tab_1', 'readonly' => true);
                     $access = false;
-                }
-                elseif($meet->getEvaluator() === $user){
+                } elseif ($meet->getEvaluator() === $user) {
                     $attr = array('data-tab' => 'tab_1');
-                }
-                else{
-                    $attr = array('data-tab' => "tab_1");
+                } else {
+                    $attr = array('data-tab' => 'tab_1');
                 }
 
                 $form->add('evaluator', 'genemu_jqueryselect2_entity', array(
@@ -81,10 +73,10 @@ class OpusSheetType extends AbstractType{
                         'label' => 'Evaluateur',
                         'multiple' => false,
                         'required' => true,
-                        'attr' => $attr)
+                        'attr' => $attr, )
                 );
 
-                if(!$meet->getEvaluate()) {
+                if (!$meet->getEvaluate()) {
                     //On affiche tous les users(sauf le connecté qui est le manager) = création
                     $form->add(
                         'evaluate',
@@ -97,11 +89,10 @@ class OpusSheetType extends AbstractType{
                             'label' => 'Evalué',
                             'multiple' => false,
                             'required' => true,
-                            'attr' => $attr
+                            'attr' => $attr,
                         )
                     );
-                }
-                else{
+                } else {
                     $evaluate = $meet->getEvaluate();
                     //On laisse le connecté de la liste des évalués potentiels
                     $form->add(
@@ -115,13 +106,12 @@ class OpusSheetType extends AbstractType{
                             'label' => 'Evalué',
                             'multiple' => false,
                             'required' => true,
-                            'attr' => $attr
+                            'attr' => $attr,
                         )
                     );
-
                 }
 
-                $attr['data-tab'] = "tab_2";
+                $attr['data-tab'] = 'tab_2';
 
                 //Nouveau champs de formulaire : attributs simples
                 if (!$event || null === $meet->getId()) {
@@ -132,10 +122,10 @@ class OpusSheetType extends AbstractType{
                         'allow_delete' => true,
                         'by_reference' => false,
                         'required' => false,
-                        'label' => ''));
+                        'label' => '', ));
                 }
                 //Edition d'un formulaire existant
-                else{
+                else {
                     $form->add(
                         'attributes',  new CustomCollectionAttributeType(), array(
                             'type' => new OpusSheetAttributeEditType($this->attributes['attr'], $this->em, $this->security),
@@ -143,13 +133,13 @@ class OpusSheetType extends AbstractType{
                             'allow_delete' => false,
                             'by_reference' => false,
                             'required' => false,
-                            'label' => false
+                            'label' => false,
                         )
                     );
                 }
 
                 //Nouveau champs de formulaire : collection d'attributs
-                if(array_key_exists('collections', $this->attributes)){
+                if (array_key_exists('collections', $this->attributes)) {
                     if (!$event || null === $meet->getId()) {
                         $form->add(
                             'collections', new CustomCollectionAttributeType(), array(
@@ -158,10 +148,10 @@ class OpusSheetType extends AbstractType{
                             'allow_delete' => true,
                             'by_reference' => false,
                             'required' => false,
-                            'label' => false));
+                            'label' => false, ));
                     }
                     //Edition d'un formulaire existant
-                    else{
+                    else {
                         $form->add(
                             'collections',  new CustomCollectionAttributeType(), array(
                                 'type' => new OpusSheetCollectionAttributeEditType($this->attributes['attr'], $this->em, $this->security),
@@ -169,12 +159,10 @@ class OpusSheetType extends AbstractType{
                                 'allow_delete' => false,
                                 'by_reference' => false,
                                 'required' => false,
-                                'label' => false
+                                'label' => false,
                             )
                         );
                     }
-
-
                 }
             }
         );
@@ -186,7 +174,7 @@ class OpusSheetType extends AbstractType{
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'GeneratorBundle\Entity\OpusSheet'
+            'data_class' => 'GeneratorBundle\Entity\OpusSheet',
         ));
     }
 
@@ -197,6 +185,4 @@ class OpusSheetType extends AbstractType{
     {
         return 'generator_sheet';
     }
-
-
 }
