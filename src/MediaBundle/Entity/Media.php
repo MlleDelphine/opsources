@@ -23,11 +23,6 @@ class Media extends BaseMedia
     private $id;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    protected $galleryHasMedias;
-
-    /**
      *  @var string
      */
     private $identification_name;
@@ -86,7 +81,7 @@ class Media extends BaseMedia
      *
      * @return Media
      */
-    public function addGalleryHasMedia(\Application\Sonata\MediaBundle\Entity\GalleryHasMedia $galleryHasMedias)
+    public function addGalleryHasMedia(GalleryHasMedia $galleryHasMedias)
     {
         $this->galleryHasMedias[] = $galleryHasMedias;
 
@@ -98,19 +93,9 @@ class Media extends BaseMedia
      *
      * @param \Application\Sonata\MediaBundle\Entity\GalleryHasMedia $galleryHasMedias
      */
-    public function removeGalleryHasMedia(\Application\Sonata\MediaBundle\Entity\GalleryHasMedia $galleryHasMedias)
+    public function removeGalleryHasMedia(GalleryHasMedia $galleryHasMedias)
     {
         $this->galleryHasMedias->removeElement($galleryHasMedias);
-    }
-
-    /**
-     * Get galleryHasMedias.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGalleryHasMedias()
-    {
-        return $this->galleryHasMedias;
     }
 
     /**
