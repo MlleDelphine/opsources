@@ -106,7 +106,6 @@ doctrine:
                     GeneratorBundle: ~
                     SonataMediaBundle: ~
                     MediaBundle: ~
-                    ApplicationSonataMediaBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
