@@ -56,9 +56,13 @@
     </target>
 
     <target name="parameters" description="Copy parameters">
-        <exec executable="cp" failonerror="true">
-            <arg path="app/config/parameters.jenkins.yml" />
+        <exec executable="rm" failonerror="true">
             <arg path="app/config/parameters.yml" />
+        </exec>
+        <exec executable="ln" failonerror="true">
+            <arg value="-s" />
+            <arg path="${basedir}/../parameters.yml" />
+            <arg path="${basedir}/app/config/parameters.yml" />
         </exec>
     </target>
 
