@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 30/06/2015
- * Time: 09:54
+ * Time: 09:54.
  */
 
 namespace AppBundle\DataTables;
@@ -11,21 +12,16 @@ namespace AppBundle\DataTables;
 use Brown298\DataTablesBundle\MetaData as DataTable;
 use Brown298\DataTablesBundle\Model\DataTable\QueryBuilderDataTableInterface;
 use Brown298\DataTablesBundle\Test\DataTable\QueryBuilderDataTable;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Templating\EngineInterface;
 
 /**
- * Default controller
+ * Default controller.
  *
- * @package AppBundle\DataTables
  *
  * @DataTable\Table(id="professionalMeetAssessorTable")
- *
- *
  */
-class ProfessionalMeetAssessorTable extends QueryBuilderDataTable implements QueryBuilderDataTableInterface{
-
+class ProfessionalMeetAssessorTable extends QueryBuilderDataTable implements QueryBuilderDataTableInterface
+{
     /**
      * @var datetime
      * @DataTable\Column(source="professionalMeet.meetDate", name="Date",  class="text-center")
@@ -81,19 +77,15 @@ class ProfessionalMeetAssessorTable extends QueryBuilderDataTable implements Que
      */
     public $action;
 
-
-
     /**
      * @var bool hydrate results to doctrine objects
      */
     public $hydrateObjects = true;
 
     /**
-     * getQueryBuilder
+     * getQueryBuilder.
      *
      * @param Request $request
-     *
-     * @return null
      */
     public function getQueryBuilder(Request $request = null)
     {
@@ -102,8 +94,7 @@ class ProfessionalMeetAssessorTable extends QueryBuilderDataTable implements Que
         $qb = $professionalMeetRepository->createQueryBuilder('professionalMeet')
             ->leftJoin('professionalMeet.assessor', 'aor')
             ->andWhere('aor.id = :assessorId')
-            ->setParameter("assessorId", $assessor->getId());
-
+            ->setParameter('assessorId', $assessor->getId());
 
         return $qb;
     }

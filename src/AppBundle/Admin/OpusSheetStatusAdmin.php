@@ -1,21 +1,21 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 23/06/2015
- * Time: 14:31
+ * Time: 14:31.
  */
 
 namespace AppBundle\Admin;
-
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class OpusSheetStatusAdmin extends Admin {
-
+class OpusSheetStatusAdmin extends Admin
+{
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -31,10 +31,9 @@ class OpusSheetStatusAdmin extends Admin {
     {
         $datagridMapper
             ->add('id')
-            ->add('label', null, array('label' => "Intitulé"))
-            ->add('intCode', null, array('label' => "Code numéroté"))
-            ->add('strCode', null, array('label' => "Code texte"))
-
+            ->add('label', null, array('label' => 'Intitulé'))
+            ->add('intCode', null, array('label' => 'Code numéroté'))
+            ->add('strCode', null, array('label' => 'Code texte'))
 
         ;
     }
@@ -44,9 +43,9 @@ class OpusSheetStatusAdmin extends Admin {
     {
         $listMapper
             ->add('id')
-            ->addIdentifier('label', null, array('label' => "Intitulé"))
-            ->add('intCode', null, array('label' => "Code numéroté"))
-            ->add('strCode', null, array('label' => "Code texte"))
+            ->addIdentifier('label', null, array('label' => 'Intitulé'))
+            ->add('intCode', null, array('label' => 'Code numéroté'))
+            ->add('strCode', null, array('label' => 'Code texte'))
 
         ;
     }

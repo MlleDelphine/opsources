@@ -1,21 +1,21 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 23/06/2015
- * Time: 14:31
+ * Time: 14:31.
  */
 
 namespace AppBundle\Admin;
-
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class OpusSheetTypeAdmin extends Admin {
-
+class OpusSheetTypeAdmin extends Admin
+{
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -33,9 +33,8 @@ class OpusSheetTypeAdmin extends Admin {
     {
         $datagridMapper
             ->add('id')
-            ->add('name', null, array('label' => "Intitulé"))
-            ->add('strCode', null, array('label' => "Code"))
-           
+            ->add('name', null, array('label' => 'Intitulé'))
+            ->add('strCode', null, array('label' => 'Code'))
 
         ;
     }
@@ -45,9 +44,9 @@ class OpusSheetTypeAdmin extends Admin {
     {
         $listMapper
             ->add('id')
-            ->addIdentifier('name', null, array('label' => "Intitulé"))
-            ->add('strCode', null, array('label' => "Code texte"))
-           
+            ->addIdentifier('name', null, array('label' => 'Intitulé'))
+            ->add('strCode', null, array('label' => 'Code texte'))
+
         ;
     }
 }

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * OpusSheet
+ * OpusSheet.
  *
  * @ORM\Table(name="opus_sheet", indexes={@ORM\Index(name="opus_sheet_info_id", columns={"campaign_id"}), @ORM\Index(name="opus_sheet_evaluate_id", columns={"evaluate_id"}), @ORM\Index(name="opus_sheet_job1_id", columns={"job1_id"}), @ORM\Index(name="opus_sheet_job2_id", columns={"job2_id"})})
  * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusSheetRepository")
@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class OpusSheet
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
@@ -34,54 +34,41 @@ class OpusSheet
     private $evaluate;
 
     /**
-     *
      * @var \OpusUsers
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="opusSheetsEvaluator", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="evaluator_id", referencedColumnName="id", nullable=true)
      * })
-     *
-     *
      */
     private $evaluator;
 
     /**
-     *
-    @var \OpusUsers
-     *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="opusSheetsSuperior", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="superior_id", referencedColumnName="id", nullable=true)
      * })
-     *
      */
     private $superior;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="opusSheetsDirector", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="director_id", referencedColumnName="id", nullable=true)
      * })
-     *
-     *
      */
     private $director;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="opusSheetsDirector", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="responsable_id", referencedColumnName="id", nullable=true)
      * })
-     *
-     *
      */
     private $responsable;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetStatus", inversedBy="opusSheets", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -120,7 +107,6 @@ class OpusSheet
      */
     private $campaign;
 
-
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
@@ -138,13 +124,11 @@ class OpusSheet
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusAttribute", mappedBy="sheet", cascade={"persist"})
      */
-
     private $attributes;
 
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusCollection", mappedBy="sheet", cascade={"persist"})
      */
-
     private $collections;
 
     /**
@@ -154,12 +138,10 @@ class OpusSheet
      *   @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      * })
      */
-
     private $opusTemplate;
 
-
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -167,11 +149,10 @@ class OpusSheet
         $this->collections = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -179,9 +160,10 @@ class OpusSheet
     }
 
     /**
-     * Set evaluator
+     * Set evaluator.
      *
-     * @param integer $evaluator
+     * @param int $evaluator
+     *
      * @return OpusSheet
      */
     public function setEvaluator($evaluator)
@@ -192,9 +174,9 @@ class OpusSheet
     }
 
     /**
-     * Get evaluator
+     * Get evaluator.
      *
-     * @return integer
+     * @return int
      */
     public function getEvaluator()
     {
@@ -202,9 +184,10 @@ class OpusSheet
     }
 
     /**
-     * Set superior
+     * Set superior.
      *
-     * @param integer $superior
+     * @param int $superior
+     *
      * @return OpusSheet
      */
     public function setSuperior($superior)
@@ -215,9 +198,9 @@ class OpusSheet
     }
 
     /**
-     * Get superior
+     * Get superior.
      *
-     * @return integer
+     * @return int
      */
     public function getSuperior()
     {
@@ -225,9 +208,10 @@ class OpusSheet
     }
 
     /**
-     * Set director
+     * Set director.
      *
-     * @param integer $director
+     * @param int $director
+     *
      * @return OpusSheet
      */
     public function setDirector($director)
@@ -238,9 +222,9 @@ class OpusSheet
     }
 
     /**
-     * Get director
+     * Get director.
      *
-     * @return integer
+     * @return int
      */
     public function getDirector()
     {
@@ -248,9 +232,10 @@ class OpusSheet
     }
 
     /**
-     * Set responsable
+     * Set responsable.
      *
-     * @param integer $responsable
+     * @param int $responsable
+     *
      * @return OpusSheet
      */
     public function setResponsable($responsable)
@@ -261,20 +246,20 @@ class OpusSheet
     }
 
     /**
-     * Get responsable
+     * Get responsable.
      *
-     * @return integer
+     * @return int
      */
     public function getResponsable()
     {
         return $this->responsable;
     }
 
-
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return OpusSheet
      */
     public function setCreatedAt($createdAt)
@@ -285,7 +270,7 @@ class OpusSheet
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -295,9 +280,10 @@ class OpusSheet
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return OpusSheet
      */
     public function setUpdatedAt($updatedAt)
@@ -308,7 +294,7 @@ class OpusSheet
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -318,9 +304,10 @@ class OpusSheet
     }
 
     /**
-     * Set job2
+     * Set job2.
      *
      * @param \GeneratorBundle\Entity\OpusJob $job2
+     *
      * @return OpusSheet
      */
     public function setJob2(\GeneratorBundle\Entity\OpusJob $job2 = null)
@@ -331,7 +318,7 @@ class OpusSheet
     }
 
     /**
-     * Get job2
+     * Get job2.
      *
      * @return \GeneratorBundle\Entity\OpusJob
      */
@@ -341,9 +328,10 @@ class OpusSheet
     }
 
     /**
-     * Set job1
+     * Set job1.
      *
      * @param \GeneratorBundle\Entity\OpusJob $job1
+     *
      * @return OpusSheet
      */
     public function setJob1(\GeneratorBundle\Entity\OpusJob $job1 = null)
@@ -354,7 +342,7 @@ class OpusSheet
     }
 
     /**
-     * Get job1
+     * Get job1.
      *
      * @return \GeneratorBundle\Entity\OpusJob
      */
@@ -364,19 +352,21 @@ class OpusSheet
     }
 
     /**
-     * Set Campaign
+     * Set Campaign.
      *
      * @param \GeneratorBundle\Entity\OpusCampaign $info
+     *
      * @return OpusSheet
      */
     public function setCampaign(\GeneratorBundle\Entity\OpusCampaign $campaign = null)
     {
         $this->campaign = $campaign;
+
         return $this;
     }
 
     /**
-     * Get Campaign
+     * Get Campaign.
      *
      * @return \GeneratorBundle\Entity\OpusCampaign
      */
@@ -386,9 +376,10 @@ class OpusSheet
     }
 
     /**
-     * Set evaluate
+     * Set evaluate.
      *
      * @param \UserBundle\Entity\OpusUsers $evaluate
+     *
      * @return OpusSheet
      */
     public function setEvaluate(\UserBundle\Entity\User $evaluate = null)
@@ -399,7 +390,7 @@ class OpusSheet
     }
 
     /**
-     * Get evaluate
+     * Get evaluate.
      *
      * @return \UserBundle\Entity\User
      */
@@ -409,9 +400,10 @@ class OpusSheet
     }
 
     /**
-     * Set status
+     * Set status.
      *
      * @param \GeneratorBundle\Entity\OpusSheetStatus $status
+     *
      * @return OpusSheet
      */
     public function setStatus(\GeneratorBundle\Entity\OpusSheetStatus $status)
@@ -422,7 +414,7 @@ class OpusSheet
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return \GeneratorBundle\Entity\OpusSheetStatus
      */
@@ -432,9 +424,10 @@ class OpusSheet
     }
 
     /**
-     * Add attributes
+     * Add attributes.
      *
      * @param \GeneratorBundle\Entity\OpusAttribute $attributes
+     *
      * @return OpusSheet
      */
     public function addAttribute(\GeneratorBundle\Entity\OpusAttribute $attributes)
@@ -446,7 +439,7 @@ class OpusSheet
     }
 
     /**
-     * Remove attributes
+     * Remove attributes.
      *
      * @param \GeneratorBundle\Entity\OpusAttribute $attributes
      */
@@ -456,7 +449,7 @@ class OpusSheet
     }
 
     /**
-     * Get attributes
+     * Get attributes.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -466,9 +459,10 @@ class OpusSheet
     }
 
     /**
-     * Add collections
+     * Add collections.
      *
      * @param \GeneratorBundle\Entity\OpusCollection $collections
+     *
      * @return OpusSheet
      */
     public function addCollection(\GeneratorBundle\Entity\OpusCollection $collections)
@@ -480,7 +474,7 @@ class OpusSheet
     }
 
     /**
-     * Remove collections
+     * Remove collections.
      *
      * @param \GeneratorBundle\Entity\OpusCollection $collections
      */
@@ -490,7 +484,7 @@ class OpusSheet
     }
 
     /**
-     * Get collections
+     * Get collections.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -500,9 +494,10 @@ class OpusSheet
     }
 
     /**
-     * Set opusTemplate
+     * Set opusTemplate.
      *
      * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate
+     *
      * @return OpusSheet
      */
     public function setOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplate = null)
@@ -514,9 +509,9 @@ class OpusSheet
     }
 
     /**
-     * Get opusTemplate
+     * Get opusTemplate.
      *
-     * @return \GeneratorBundle\Entity\OpusSheetTemplate 
+     * @return \GeneratorBundle\Entity\OpusSheetTemplate
      */
     public function getOpusTemplate()
     {

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 11/06/2015
- * Time: 16:30
+ * Time: 16:30.
  */
 
 namespace FormGeneratorBundle\Form\Conditions;
@@ -11,19 +12,17 @@ namespace FormGeneratorBundle\Form\Conditions;
 use Symfony\Component\Form\AbstractType;
 use FormGeneratorBundle\Form\Type\CustomRadioType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver ;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-
-class ConditionsCollectionAttributeEditType extends AbstractType {
-
+class ConditionsCollectionAttributeEditType extends AbstractType
+{
     protected $attributes;
     protected $em;
     private $security;
 
-
-    public function __construct ($attributes, $em, TokenStorage $security)
+    public function __construct($attributes, $em, TokenStorage $security)
     {
         $this->attributes = $attributes;
         $this->em = $em;
@@ -32,7 +31,7 @@ class ConditionsCollectionAttributeEditType extends AbstractType {
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -56,14 +55,13 @@ class ConditionsCollectionAttributeEditType extends AbstractType {
                             $user = $this->security->getToken()->getUser();
                             $meet = $data->getConditionsMeet();
                             //Si évalué tout est désactivé sauf les siens
-                            if($meet->getAssessed() === $user){
+                            if ($meet->getAssessed() === $user) {
                                 $options['attr']['readonly'] = true;
-                                if($allConf['conf']['attr']['data-access'] == 'assessed'){
+                                if ($allConf['conf']['attr']['data-access'] == 'assessed') {
                                     unset($options['attr']['readonly']);
                                 }
-                            }
-                            elseif($meet->getAssessor() === $user){
-                                if(isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed'){
+                            } elseif ($meet->getAssessor() === $user) {
+                                if (isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'assessed') {
                                     $options['attr']['readonly'] == true;
                                 }
                             }
@@ -71,10 +69,9 @@ class ConditionsCollectionAttributeEditType extends AbstractType {
                             //On crée les champs
                             switch ($allConf['type']):
                                 case 'entity':
-                                    if($data->getValue() == null){
+                                    if ($data->getValue() == null) {
                                         $options['data'] = null;
-                                    }
-                                    elseif(is_array($data->getValue())){
+                                    } elseif (is_array($data->getValue())) {
                                         $class = $allConf['conf']['class'];
                                         $options['data'] = $this->em->getRepository($class)->findById($data->getValue());
                                         $form->add(
@@ -82,7 +79,7 @@ class ConditionsCollectionAttributeEditType extends AbstractType {
                                             $allConf['type'],
                                             $options
                                         );
-                                    }else{
+                                    } else {
                                         $class = $allConf['conf']['class'];
                                         $options['data'] = $this->em->getRepository($class)->find($data->getValue());
                                         $form->add(
@@ -91,22 +88,21 @@ class ConditionsCollectionAttributeEditType extends AbstractType {
                                             $options
                                         );
                                     }
-                                    break;
-                                case 'choice':
+                            break;
+                            case 'choice':
                                     $allConf['type'] = new CustomRadioType();
-                                    $form->add(
+                            $form->add(
                                         'value',
                                         $allConf['type'],
                                         $options
                                     );
-                                default:
+                            default:
                                     $form->add(
                                         'value',
                                         $allConf['type'],
                                         $options
                                     );
                             endswitch;
-
                         }
                     }
                     $form->add('name', 'hidden');
@@ -121,7 +117,7 @@ class ConditionsCollectionAttributeEditType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FormGeneratorBundle\Entity\ConditionsCollectionAttribute'
+            'data_class' => 'FormGeneratorBundle\Entity\ConditionsCollectionAttribute',
         ));
     }
 

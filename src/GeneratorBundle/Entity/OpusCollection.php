@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * OpusCollection
+ * OpusCollection.
  *
  * @ORM\Table(name="opus_collection", indexes={@ORM\Index(name="opus_collection_sheet_id", columns={"sheet_id"}), @ORM\Index(name="opus_collection_users_id", columns={"users_id"})})
  * @ORM\Entity
@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class OpusCollection
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
@@ -24,7 +24,7 @@ class OpusCollection
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="users_id", type="bigint", nullable=true)
      */
@@ -38,7 +38,7 @@ class OpusCollection
     private $type;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="location", type="bigint", nullable=true)
      */
@@ -68,26 +68,23 @@ class OpusCollection
      */
     private $sheet;
 
-
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusAttribute", mappedBy="collection", cascade={"persist"})
      */
     private $attributes;
 
-
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -95,9 +92,10 @@ class OpusCollection
     }
 
     /**
-     * Set usersId
+     * Set usersId.
      *
-     * @param integer $usersId
+     * @param int $usersId
+     *
      * @return OpusCollection
      */
     public function setUsersId($usersId)
@@ -108,9 +106,9 @@ class OpusCollection
     }
 
     /**
-     * Get usersId
+     * Get usersId.
      *
-     * @return integer 
+     * @return int
      */
     public function getUsersId()
     {
@@ -118,9 +116,10 @@ class OpusCollection
     }
 
     /**
-     * Set infoId
+     * Set infoId.
      *
-     * @param integer $infoId
+     * @param int $infoId
+     *
      * @return OpusCollection
      */
     public function setInfoId($infoId)
@@ -131,9 +130,9 @@ class OpusCollection
     }
 
     /**
-     * Get infoId
+     * Get infoId.
      *
-     * @return integer 
+     * @return int
      */
     public function getInfoId()
     {
@@ -141,9 +140,10 @@ class OpusCollection
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
+     *
      * @return OpusCollection
      */
     public function setType($type)
@@ -154,9 +154,9 @@ class OpusCollection
     }
 
     /**
-     * Get type
+     * Get type.
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -164,9 +164,10 @@ class OpusCollection
     }
 
     /**
-     * Set location
+     * Set location.
      *
-     * @param integer $location
+     * @param int $location
+     *
      * @return OpusCollection
      */
     public function setLocation($location)
@@ -177,9 +178,9 @@ class OpusCollection
     }
 
     /**
-     * Get location
+     * Get location.
      *
-     * @return integer 
+     * @return int
      */
     public function getLocation()
     {
@@ -187,9 +188,10 @@ class OpusCollection
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return OpusCollection
      */
     public function setCreatedAt($createdAt)
@@ -200,9 +202,9 @@ class OpusCollection
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -210,9 +212,10 @@ class OpusCollection
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return OpusCollection
      */
     public function setUpdatedAt($updatedAt)
@@ -223,9 +226,9 @@ class OpusCollection
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -233,9 +236,10 @@ class OpusCollection
     }
 
     /**
-     * Set sheet
+     * Set sheet.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $sheet
+     *
      * @return OpusCollection
      */
     public function setSheet(\GeneratorBundle\Entity\OpusSheet $sheet = null)
@@ -246,20 +250,20 @@ class OpusCollection
     }
 
     /**
-     * Get sheet
+     * Get sheet.
      *
-     * @return \GeneratorBundle\Entity\OpusSheet 
+     * @return \GeneratorBundle\Entity\OpusSheet
      */
     public function getSheet()
     {
         return $this->sheet;
     }
 
-
     /**
-     * Add attributes
+     * Add attributes.
      *
      * @param \GeneratorBundle\Entity\OpusAttribute $attributes
+     *
      * @return OpusCollection
      */
     public function addAttribute(\GeneratorBundle\Entity\OpusAttribute $attributes)
@@ -271,7 +275,7 @@ class OpusCollection
     }
 
     /**
-     * Remove attributes
+     * Remove attributes.
      *
      * @param \GeneratorBundle\Entity\OpusAttribute $attributes
      */
@@ -281,9 +285,9 @@ class OpusCollection
     }
 
     /**
-     * Get attributes
+     * Get attributes.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAttributes()
     {

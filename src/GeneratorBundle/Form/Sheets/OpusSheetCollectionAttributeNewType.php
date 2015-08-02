@@ -1,39 +1,35 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Delphine
  * Date: 10/06/2015
- * Time: 17:19
+ * Time: 17:19.
  */
 
 namespace GeneratorBundle\Form\Sheets;
 
-use GeneratorBundle\Form\Sheets\OpusSheetAttributeNewType;
-use GeneratorBundle\Form\Type\CustomCollectionAttributeType;
+
 use GeneratorBundle\Form\Type\CustomCollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver ;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvents;
 
-use GeneratorBundle\Form\Type\CustomRadioType;
-
-
-class OpusSheetCollectionAttributeNewType extends AbstractType{
-
+class OpusSheetCollectionAttributeNewType extends AbstractType
+{
     protected $attributes;
     protected $tab;
 
-    public function __construct ($attributes, $tab = null)
+    public function __construct($attributes, $tab = null)
     {
         $this->attributes = $attributes;
         $this->tab = $tab;
-
     }
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -60,7 +56,7 @@ class OpusSheetCollectionAttributeNewType extends AbstractType{
                                     'by_reference' => false,
                                     'required' => false,
                                     'label' => false,
-                                    'attr' => array('data-tab' => $this->tab)
+                                    'attr' => array('data-tab' => $this->tab),
                                 )
                             );
                             $form->add(
@@ -82,7 +78,7 @@ class OpusSheetCollectionAttributeNewType extends AbstractType{
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'GeneratorBundle\Entity\OpusCollection'
+            'data_class' => 'GeneratorBundle\Entity\OpusCollection',
         ));
     }
 

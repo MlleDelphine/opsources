@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * OpusAttribute
+ * OpusAttribute.
  *
  * @ORM\Table(name="opus_attribute", indexes={@ORM\Index(name="opus_attribute_collection_id", columns={"collection_id"}), @ORM\Index(name="opus_attribute_sheet_id", columns={"sheet_id"})})
  * @ORM\Entity
@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class OpusAttribute
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
@@ -92,12 +92,10 @@ class OpusAttribute
      */
     private $collection;
 
-
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -105,9 +103,10 @@ class OpusAttribute
     }
 
     /**
-     * Set label
+     * Set label.
      *
      * @param string $label
+     *
      * @return OpusAttribute
      */
     public function setLabel($label)
@@ -118,9 +117,9 @@ class OpusAttribute
     }
 
     /**
-     * Get label
+     * Get label.
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {
@@ -128,9 +127,10 @@ class OpusAttribute
     }
 
     /**
-     * Set value
+     * Set value.
      *
      * @param string $value
+     *
      * @return OpusAttribute
      */
     public function setValue($value)
@@ -141,9 +141,9 @@ class OpusAttribute
     }
 
     /**
-     * Get value
+     * Get value.
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {
@@ -151,9 +151,10 @@ class OpusAttribute
     }
 
     /**
-     * Set valueDate
+     * Set valueDate.
      *
      * @param \DateTime $valueDate
+     *
      * @return OpusAttribute
      */
     public function setValueDate($valueDate)
@@ -164,9 +165,9 @@ class OpusAttribute
     }
 
     /**
-     * Get valueDate
+     * Get valueDate.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getValueDate()
     {
@@ -174,9 +175,10 @@ class OpusAttribute
     }
 
     /**
-     * Set valueData
+     * Set valueData.
      *
      * @param string $valueData
+     *
      * @return OpusAttribute
      */
     public function setValueData($valueData)
@@ -187,9 +189,9 @@ class OpusAttribute
     }
 
     /**
-     * Get valueData
+     * Get valueData.
      *
-     * @return string 
+     * @return string
      */
     public function getValueData()
     {
@@ -197,9 +199,10 @@ class OpusAttribute
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return OpusAttribute
      */
     public function setCreatedAt($createdAt)
@@ -210,9 +213,9 @@ class OpusAttribute
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -220,9 +223,10 @@ class OpusAttribute
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return OpusAttribute
      */
     public function setUpdatedAt($updatedAt)
@@ -233,9 +237,9 @@ class OpusAttribute
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -243,9 +247,10 @@ class OpusAttribute
     }
 
     /**
-     * Set valueBase64
+     * Set valueBase64.
      *
      * @param string $valueBase64
+     *
      * @return OpusAttribute
      */
     public function setValueBase64($valueBase64)
@@ -256,9 +261,9 @@ class OpusAttribute
     }
 
     /**
-     * Get valueBase64
+     * Get valueBase64.
      *
-     * @return string 
+     * @return string
      */
     public function getValueBase64()
     {
@@ -266,9 +271,10 @@ class OpusAttribute
     }
 
     /**
-     * Set sheet
+     * Set sheet.
      *
      * @param \GeneratorBundle\Entity\OpusSheet $sheet
+     *
      * @return OpusAttribute
      */
     public function setSheet(\GeneratorBundle\Entity\OpusSheet $sheet = null)
@@ -279,9 +285,9 @@ class OpusAttribute
     }
 
     /**
-     * Get sheet
+     * Get sheet.
      *
-     * @return \GeneratorBundle\Entity\OpusSheet 
+     * @return \GeneratorBundle\Entity\OpusSheet
      */
     public function getSheet()
     {
@@ -289,9 +295,10 @@ class OpusAttribute
     }
 
     /**
-     * Set collection
+     * Set collection.
      *
      * @param \GeneratorBundle\Entity\OpusCollection $collection
+     *
      * @return OpusAttribute
      */
     public function setCollection(\GeneratorBundle\Entity\OpusCollection $collection = null)
@@ -302,9 +309,9 @@ class OpusAttribute
     }
 
     /**
-     * Get collection
+     * Get collection.
      *
-     * @return \GeneratorBundle\Entity\OpusCollection 
+     * @return \GeneratorBundle\Entity\OpusCollection
      */
     public function getCollection()
     {

@@ -5,7 +5,7 @@ namespace GeneratorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * OpusLog
+ * OpusLog.
  *
  * @ORM\Table(name="opus_log")
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class OpusLog
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
@@ -23,7 +23,7 @@ class OpusLog
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="users_id", type="bigint", nullable=true)
      */
@@ -50,12 +50,10 @@ class OpusLog
      */
     private $updatedAt;
 
-
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -63,9 +61,10 @@ class OpusLog
     }
 
     /**
-     * Set usersId
+     * Set usersId.
      *
-     * @param integer $usersId
+     * @param int $usersId
+     *
      * @return OpusLog
      */
     public function setUsersId($usersId)
@@ -76,9 +75,9 @@ class OpusLog
     }
 
     /**
-     * Get usersId
+     * Get usersId.
      *
-     * @return integer 
+     * @return int
      */
     public function getUsersId()
     {
@@ -86,9 +85,10 @@ class OpusLog
     }
 
     /**
-     * Set value
+     * Set value.
      *
      * @param string $value
+     *
      * @return OpusLog
      */
     public function setValue($value)
@@ -99,9 +99,9 @@ class OpusLog
     }
 
     /**
-     * Get value
+     * Get value.
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {
@@ -109,9 +109,10 @@ class OpusLog
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return OpusLog
      */
     public function setCreatedAt($createdAt)
@@ -122,9 +123,9 @@ class OpusLog
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -132,9 +133,10 @@ class OpusLog
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return OpusLog
      */
     public function setUpdatedAt($updatedAt)
@@ -145,9 +147,9 @@ class OpusLog
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

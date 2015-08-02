@@ -6,7 +6,7 @@ use Sonata\MediaBundle\Entity\BaseMedia as BaseMedia;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Media
+ * Media.
  *
  * @ORM\Table("media_media")
  * @ORM\Entity(repositoryClass="MediaBundle\Entity\MediaRepository")
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Media extends BaseMedia
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
@@ -38,9 +38,9 @@ class Media extends BaseMedia
     private $template;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -48,9 +48,10 @@ class Media extends BaseMedia
     }
 
     /**
-     * Set identification_name
+     * Set identification_name.
      *
      * @param string $identificationName
+     *
      * @return Media
      */
     public function setIdentificationName($identificationName)
@@ -61,7 +62,7 @@ class Media extends BaseMedia
     }
 
     /**
-     * Get identification_name
+     * Get identification_name.
      *
      * @return string
      */
@@ -71,18 +72,18 @@ class Media extends BaseMedia
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->galleryHasMedias = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
-     * Add galleryHasMedias
+     * Add galleryHasMedias.
      *
      * @param \Application\Sonata\MediaBundle\Entity\GalleryHasMedia $galleryHasMedias
+     *
      * @return Media
      */
     public function addGalleryHasMedia(\Application\Sonata\MediaBundle\Entity\GalleryHasMedia $galleryHasMedias)
@@ -93,7 +94,7 @@ class Media extends BaseMedia
     }
 
     /**
-     * Remove galleryHasMedias
+     * Remove galleryHasMedias.
      *
      * @param \Application\Sonata\MediaBundle\Entity\GalleryHasMedia $galleryHasMedias
      */
@@ -103,21 +104,20 @@ class Media extends BaseMedia
     }
 
     /**
-     * Get galleryHasMedias
+     * Get galleryHasMedias.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getGalleryHasMedias()
     {
         return $this->galleryHasMedias;
     }
 
-
-
     /**
-     * Set template
+     * Set template.
      *
      * @param \GeneratorBundle\Entity\OpusSheetTemplate $template
+     *
      * @return Media
      */
     public function setTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $template = null)
@@ -128,9 +128,9 @@ class Media extends BaseMedia
     }
 
     /**
-     * Get template
+     * Get template.
      *
-     * @return \GeneratorBundle\Entity\OpusSheetTemplate 
+     * @return \GeneratorBundle\Entity\OpusSheetTemplate
      */
     public function getTemplate()
     {

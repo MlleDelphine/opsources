@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * OpusSheetType
+ * OpusSheetType.
  *
  * @ORM\Table(name="opus_sheet_type")
  * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusSheetTypeRepository")
@@ -14,7 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class OpusSheetType
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -39,9 +39,7 @@ class OpusSheetType
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", mappedBy="type", cascade={"persist"})
      */
-
     private $opusTemplates;
-
 
     /**
      * @var \DateTime
@@ -59,14 +57,13 @@ class OpusSheetType
 
     public function __toString()
     {
-        return (string)$this->getName();
+        return (string) $this->getName();
     }
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -74,9 +71,10 @@ class OpusSheetType
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return OpusSheetType
      */
     public function setName($name)
@@ -87,9 +85,9 @@ class OpusSheetType
     }
 
     /**
-     * Get name
+     * Get name.
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -97,9 +95,10 @@ class OpusSheetType
     }
 
     /**
-     * Set created
+     * Set created.
      *
      * @param \DateTime $created
+     *
      * @return OpusSheetType
      */
     public function setCreated($created)
@@ -110,9 +109,9 @@ class OpusSheetType
     }
 
     /**
-     * Get created
+     * Get created.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -120,9 +119,10 @@ class OpusSheetType
     }
 
     /**
-     * Set updated
+     * Set updated.
      *
      * @param \DateTime $updated
+     *
      * @return OpusSheetType
      */
     public function setUpdated($updated)
@@ -133,9 +133,9 @@ class OpusSheetType
     }
 
     /**
-     * Get updated
+     * Get updated.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -143,9 +143,10 @@ class OpusSheetType
     }
 
     /**
-     * Set strCode
+     * Set strCode.
      *
      * @param string $strCode
+     *
      * @return OpusSheetType
      */
     public function setStrCode($strCode)
@@ -156,27 +157,27 @@ class OpusSheetType
     }
 
     /**
-     * Get strCode
+     * Get strCode.
      *
-     * @return string 
+     * @return string
      */
     public function getStrCode()
     {
         return $this->strCode;
     }
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->opusSheets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
-     * Add opusTemplates
+     * Add opusTemplates.
      *
      * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplates
+     *
      * @return OpusSheetType
      */
     public function addOpusTemplate(\GeneratorBundle\Entity\OpusSheetTemplate $opusTemplates)
@@ -187,7 +188,7 @@ class OpusSheetType
     }
 
     /**
-     * Remove opusTemplates
+     * Remove opusTemplates.
      *
      * @param \GeneratorBundle\Entity\OpusSheetTemplate $opusTemplates
      */
@@ -197,13 +198,12 @@ class OpusSheetType
     }
 
     /**
-     * Get opusTemplates
+     * Get opusTemplates.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getOpusTemplates()
     {
         return $this->opusTemplates;
     }
-
 }
