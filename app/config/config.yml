@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: extra.yml }
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: sonata.yml }
@@ -69,8 +70,6 @@ assetic:
             inputs:
                 - %kernel.root_dir%/../web/vendor/datatables/media/js/jquery.dataTables.min.js
 
-braincrafted_bootstrap:
-    less_filter: less
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -115,51 +114,4 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-genemu_form:
-    tinymce:
-        enabled: true
-        theme: modern
-        configs:
-            entity_encoding: raw
-            plugins : 'advlist autolink link image lists charmap print preview'
-
-    date: ~
-    image: ~
-    select2: ~
-    autocomplete: ~
-    date: ~
-#        enabled: true
-#        configs:
-#            placeholder: Sélectionner
-#            width: off
-#            allowClear: false
-#            minimumInputLength: 0
-
-
-arianespace_plexcel:
-    enable:               true
-    autologin:            false
-    local:                true
-    create:               true
-    application:
-#        name:                 "%application.name%"
-#        version:              "%application.version%"
-#        description:          "%application.description%"
-    auto_add_domain:     ad.arianespace.fr
-    autologin_redirect_route:  homepage
-    check_plexcel_login:  true
-    check_plexcel_redirect_route:  homepage
-    authorized_cn:
-        'CN=opus_appraisees_pilot,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr': 'ROLE_USER'
-    user_manager:         user_manager
-    file:                 "%kernel.root_dir%/../plexcel/plexcel.php"
-
-knp_snappy:
-    pdf:
-        enabled:    true
-        binary:     %kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64
-        options:    []
-    image:
-        enabled:    false
-        options:    []
 
