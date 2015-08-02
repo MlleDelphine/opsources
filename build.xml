@@ -47,11 +47,11 @@
         <mkdir dir="${basedir}/build/pdepend"/>
         <mkdir dir="${basedir}/build/phpdox"/>
         <property name="prepare.done" value="true"/>
-        <mkdir dir="${workspace}/app/cache"/>
+        <mkdir dir="${basedir}/app/cache"/>
         <exec executable="chmod" failonerror="true">
             <arg value="-R" /> 
             <arg value="777" /> 
-            <arg value="${workspace}/app/cache" /> 
+            <arg value="${basedir}/app/cache" /> 
         </exec>
     </target>
 
