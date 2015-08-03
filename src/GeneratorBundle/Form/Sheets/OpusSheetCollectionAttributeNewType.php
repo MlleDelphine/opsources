@@ -64,7 +64,6 @@ class OpusSheetCollectionAttributeNewType extends AbstractType
                                 'hidden',
                                 array('label' => false, 'attr' => array('data-tab' => $this->tab))
                             );
-                            $form->add('type', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                         }
                     }
                 }

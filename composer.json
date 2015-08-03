@@ -67,7 +67,6 @@
     "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
     "doctrine/migrations": "^1.0",
     "doctrine/doctrine-migrations-bundle": "1.0.*"
-
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^2.2",      

@@ -113,6 +113,9 @@ class OpusSheetType extends AbstractType
 
                 $attr['data-tab'] = 'tab_2';
 
+
+
+
                 //Nouveau champs de formulaire : attributs simples
                 if (!$event || null === $meet->getId()) {
                     $form->add(
@@ -128,7 +131,7 @@ class OpusSheetType extends AbstractType
                 else {
                     $form->add(
                         'attributes',  new CustomCollectionAttributeType(), array(
-                            'type' => new OpusSheetAttributeEditType($this->attributes['attr'], $this->em, $this->security),
+                            'type' => new OpusSheetAttributeNewType($this->attributes['attr']),
                             'allow_add' => true,
                             'allow_delete' => false,
                             'by_reference' => false,
@@ -154,7 +157,7 @@ class OpusSheetType extends AbstractType
                     else {
                         $form->add(
                             'collections',  new CustomCollectionAttributeType(), array(
-                                'type' => new OpusSheetCollectionAttributeEditType($this->attributes['attr'], $this->em, $this->security),
+                                'type' => new OpusSheetCollectionAttributeNewType($this->attributes['collections']),
                                 'allow_add' => true,
                                 'allow_delete' => false,
                                 'by_reference' => false,

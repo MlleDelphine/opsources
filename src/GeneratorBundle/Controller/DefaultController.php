@@ -3,8 +3,11 @@
 namespace GeneratorBundle\Controller;
 
 use GeneratorBundle\Entity\OpusSheet;
+use GeneratorBundle\Entity\OpusSheetType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use UserBundle\Entity\User;
 
 class DefaultController extends Controller
 {
@@ -29,7 +32,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * On crée une fiche orpheline.
+     * On crée une fiche orpheline, hors précréation grâce à une campagne
      */
     public function newAction($idUser, $strCodeType)
     {
@@ -40,34 +43,17 @@ class DefaultController extends Controller
 
         $sheetType = $em->getRepository('GeneratorBundle:OpusSheetType')->findOneByStrCode($strCodeType);
         $userEvaluate = $em->getRepository('UserBundle:User')->findOneById($idUser);
-//        dump($userEvaluate);
-//        die;
+        $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
 
         $opusSheet->setEvaluate($userEvaluate);
-        $campaignProcessing = $em->getRepository('GeneratorBundle:OpusCampaign')->findOneBy(array('status' => 1, 'type' => $sheetType));
+        $opusSheet->setStatus($generatedStatus);
 
-        /*
-         * Si une campagne est en cours
-         */
-        if ($campaignProcessing) {
-            $template = $campaignProcessing->getOpusTemplate();
-            $opusSheetsNotClosed = $em->getRepository('GeneratorBundle:OpusSheet')->findSheetsNotClosedInCampaign($campaignProcessing, $userEvaluate);
-            //S'il n'y a pas de fiche en cours pour cet user dans cette campagne
-            if ($opusSheetsNotClosed === null) {
-                $opusSheet->setCampaign($campaignProcessing);
-                $opusSheet->setOpusTemplate($template);
-            } else {
-                //Dernir template en date pour ce type
-                $template = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findOneBy(array('type' => $sheetType, 'status' => 1));
-                $opusSheet->setOpusTemplate($template);
-            }
-        } else {
-            //Dernir template en date pour ce type
-            $template = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findOneBy(array('type' => $sheetType, 'status' => 1));
-            $opusSheet->setOpusTemplate($template);
-        }
+        $opusSheet = $this->setCampaignAndTemplate($opusSheet, $sheetType, $userEvaluate);
 
-        $templateFile = $template->getConfFile();
+        $em->persist($opusSheet);
+        $em->flush();
+
+        $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
 
         $name = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'name');
         $uiTab = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'tabs_ui');
@@ -83,6 +69,69 @@ class DefaultController extends Controller
         ));
     }
 
+    /**
+     * On crée, en BdD, une fiche créée manuellement
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->find($id);
+        $actualStatus = $opusSheet->getStatus();
+
+        //Availables status
+        $generatedStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+        $creationStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
+        $vEvaluatedStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('valid_evaluated');
+        $vEvaluatorStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('valid_evaluator');
+        $vSecEvaluatorStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('valid_second_evaluator');
+
+        $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
+
+        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+        $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+
+                //Si c'était en génération ou en création
+                if($actualStatus == $generatedStatus || $actualStatus == $creationStatus){
+                    if($form->get('save')->isClicked()){
+                        $opusSheet->setStatus($generatedStatus);
+                    }
+                    elseif($form->get('validate')->isClicked()){
+                        $opusSheet->setStatus($creationStatus);
+                    }
+                }
+                //Si c'était à l'évalué de choisir
+                elseif($actualStatus == $vEvaluatedStatus){
+                    if($form->get('invalidate')->isClicked()){
+                        $opusSheet->setStatus($vEvaluatorStatus);
+                    }
+                    elseif($form->get('validate')->isClicked()){
+                        $opusSheet->setStatus($vEvaluatorStatus);
+                    }
+                }
+                elseif($actualStatus == $vEvaluatorStatus){
+                    if($form->get('invalidate')->isClicked()){
+                        $opusSheet->setStatus($vEvaluatedStatus);
+                    }
+                    elseif($form->get('validate')->isClicked()){
+                        $opusSheet->setStatus($vSecEvaluatorStatus);
+                    }
+                }
+                else{
+
+                }
+
+                $em->persist($opusSheet);
+                $em->flush();
+            }
+        }
+        return $this->forward('GeneratorBundle:Default:edit', array('id' => $opusSheet->getId()));
+    }
+
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -95,9 +144,11 @@ class DefaultController extends Controller
         $uiTab = $this->get('app.customfields_parser')->parseYamlConf($template, 'tabs_ui');
         $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($template, 'fields');
 
-        $opusSheet = new OpusSheet();
+        $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm($opusSheet, $allAttributes);
+        if (!$opusSheet) {
+            throw $this->createNotFoundException('Unable to find Formation entity.');
+        }
 
-        $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
 
         return $this->render(
             'GeneratorBundle:Default:generator.html.twig',
@@ -128,5 +179,35 @@ class DefaultController extends Controller
                 'Content-Disposition' => 'attachment; filename="file.pdf"',
             )
         );
+    }
+
+    protected function setCampaignAndTemplate(OpusSheet $opusSheet, OpusSheetType $sheetType, User $userEvaluate){
+
+        $em = $this->getDoctrine()->getManager();
+        $campaignProcessing = $em->getRepository('GeneratorBundle:OpusCampaign')->findOneBy(array('status' => 1, 'type' => $sheetType));
+
+        /*
+         * Si une campagne est en cours
+         */
+        if ($campaignProcessing) {
+            $template = $campaignProcessing->getOpusTemplate();
+            $opusSheetsNotClosed = $em->getRepository('GeneratorBundle:OpusSheet')->findSheetsNotClosedInCampaign($campaignProcessing, $userEvaluate);
+            //S'il n'y a pas de fiche en cours pour cet user dans cette campagne
+            if ($opusSheetsNotClosed === null) {
+                $opusSheet->setCampaign($campaignProcessing);
+                $opusSheet->setOpusTemplate($template);
+            } else {
+                //Dernir template en date pour ce type
+                $template = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findOneBy(array('type' => $sheetType, 'status' => 1));
+                $opusSheet->setOpusTemplate($template);
+            }
+        } else {
+            //Dernir template en date pour ce type
+            $template = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findOneBy(array('type' => $sheetType, 'status' => 1));
+            $opusSheet->setOpusTemplate($template);
+        }
+
+        return $opusSheet;
+
     }
 }
