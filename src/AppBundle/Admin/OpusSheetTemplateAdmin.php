@@ -27,9 +27,7 @@ class OpusSheetTemplateAdmin extends Admin
             ->add('status', 'choice', array('label' => 'Statut', 'choices' => array(0 => 'Désactivée', 1 => 'Activée')))
             ->add('confFile', 'sonata_media_type', array('required' => false,
                 'provider' => 'sonata.media.provider.file',
-                'context' => 'default', ))
-
-        ;
+                'context' => 'default' ));
     }
 
     // Fields to be shown on filter forms

@@ -39,7 +39,8 @@ class OpusSheetTemplate
 
     /**
      * @var \Media
-     * @ORM\OneToOne(targetEntity="MediaBundle\Entity\Media", inversedBy="template", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="MediaBundle\Entity\Media", inversedBy="template", cascade={"persist", "remove"}))
+     *
      */
     private $confFile;
 
@@ -241,4 +242,12 @@ class OpusSheetTemplate
     {
         return $this->confFile;
     }
+
+//    public function postPersist($image) {
+//        $this->updateFilename($image);
+//    }
+//
+//    public function postUpdate($image) {
+//        $this->updateFilename($image);
+//    }
 }

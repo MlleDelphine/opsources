@@ -43,6 +43,10 @@ class OpusSheetCollectionAttributeNewType extends AbstractType
                     //collections : dans yml
                     foreach ($this->attributes as $key => $allConf) {
                         if ($allConf['id'] == $data->getType()) {
+                            if($allConf['id'] == "cond_workconditions_evaluation"){
+                                dump('Sisi');
+                                die;
+                            }
                             $form->add(
                                 'attributes',
                                 new CustomCollectionType(count($allConf['child'])),
@@ -59,13 +63,15 @@ class OpusSheetCollectionAttributeNewType extends AbstractType
                                     'attr' => array('data-tab' => $this->tab),
                                 )
                             );
-                            $form->add(
-                                'type',
-                                'hidden',
-                                array('label' => false, 'attr' => array('data-tab' => $this->tab))
-                            );
+
                         }
                     }
+
+//                    $form->add(
+//                        'type',
+//                        'text',
+//                        array('label' => false, 'attr' => array('data-tab' => $allConf['conf']['attr']['data-tab']))
+//                    );
                 }
 
             });

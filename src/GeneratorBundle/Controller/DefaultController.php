@@ -52,6 +52,7 @@ class DefaultController extends Controller
         $opusSheet = $this->setCampaignAndTemplate($opusSheet, $sheetType, $userEvaluate);
 
         $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
+
         $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
 
         //On persist dans populateOpusSheet
@@ -73,30 +74,39 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->findOneById($id);
+        if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
 
-        if (!$opusSheet) {
-            throw $this->createNotFoundException('Unable to find OpusSheet entity.');
+            if (!$opusSheet) {
+                throw $this->createNotFoundException('Unable to find OpusSheet entity.');
+            }
+
+            $opusTemplate = $opusSheet->getOpusTemplate();
+            $template = $opusTemplate->getConfFile();
+
+            $name = $this->get('app.customfields_parser')->parseYamlConf($template, 'name');
+            //$name = "test";
+
+            $uiTab = $this->get('app.customfields_parser')->parseYamlConf($template, 'tabs_ui');
+            $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($template, 'fields');
+
+            $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm($opusSheet, $allAttributes, true);
+//
+//            dump('Finish !');
+//            die;
+            return $this->render(
+                'GeneratorBundle:Default:generator.html.twig',
+                array(
+                    'entity' => $opusSheet,
+                    'name' => $name,
+                    'uiTab' => $uiTab,
+                    'form' => $form->createView(),
+                )
+            );
         }
 
-        $opusTemplate = $opusSheet->getOpusTemplate();
-        $template = $opusTemplate->getConfFile();
-
-        $name = $this->get('app.customfields_parser')->parseYamlConf($template, 'name');
-        $uiTab = $this->get('app.customfields_parser')->parseYamlConf($template, 'tabs_ui');
-        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($template, 'fields');
-
-        $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm($opusSheet, $allAttributes);
+        return $this->redirect($this->generateUrl('homepage'));
 
 
-        return $this->render(
-            'GeneratorBundle:Default:generator.html.twig',
-            array(
-                'entity' => $opusSheet,
-                'name' => $name,
-                'uiTab' => $uiTab,
-                'form' => $form->createView(),
-            )
-        );
     }
 
     /**
@@ -106,60 +116,64 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->find($id);
-        $actualStatus = $opusSheet->getStatus();
+        if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
+            $actualStatus = $opusSheet->getStatus();
 
-        //Availables status
-        $generatedStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
-        $creationStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
-        $vEvaluatedStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('valid_evaluated');
-        $vEvaluatorStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('valid_evaluator');
-        $vSecEvaluatorStatus =  $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('valid_second_evaluator');
+            //Availables status
+            $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+            $creationStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
+            $vEvaluatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_evaluated'
+            );
+            $vEvaluatorStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_evaluator'
+            );
+            $vSecEvaluatorStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_second_evaluator'
+            );
 
-        $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
+            $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
 
-        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
-        $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+            $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+            $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes, true);
 
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
+            if ($request->isMethod('POST')) {
+                $form->handleRequest($request);
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
 
-                //Si c'était en génération ou en création
-                if($actualStatus == $generatedStatus || $actualStatus == $creationStatus){
-                    if($form->get('save')->isClicked()){
-                        $opusSheet->setStatus($generatedStatus);
+                    //Si c'était en génération ou en création
+                    if ($actualStatus == $generatedStatus || $actualStatus == $creationStatus) {
+                        if ($form->get('save')->isClicked()) {
+                            $opusSheet->setStatus($generatedStatus);
+                        } elseif ($form->get('validate')->isClicked()) {
+                            $opusSheet->setStatus($creationStatus);
+                        }
+                    } //Si c'était à l'évalué de choisir
+                    elseif ($actualStatus == $vEvaluatedStatus) {
+                        if ($form->get('invalidate')->isClicked()) {
+                            $opusSheet->setStatus($vEvaluatorStatus);
+                        } elseif ($form->get('validate')->isClicked()) {
+                            $opusSheet->setStatus($vEvaluatorStatus);
+                        }
+                    } elseif ($actualStatus == $vEvaluatorStatus) {
+                        if ($form->get('invalidate')->isClicked()) {
+                            $opusSheet->setStatus($vEvaluatedStatus);
+                        } elseif ($form->get('validate')->isClicked()) {
+                            $opusSheet->setStatus($vSecEvaluatorStatus);
+                        }
+                    } else {
+
                     }
-                    elseif($form->get('validate')->isClicked()){
-                        $opusSheet->setStatus($creationStatus);
-                    }
+                    $em->persist($opusSheet);
+                    $em->flush();
                 }
-                //Si c'était à l'évalué de choisir
-                elseif($actualStatus == $vEvaluatedStatus){
-                    if($form->get('invalidate')->isClicked()){
-                        $opusSheet->setStatus($vEvaluatorStatus);
-                    }
-                    elseif($form->get('validate')->isClicked()){
-                        $opusSheet->setStatus($vEvaluatorStatus);
-                    }
-                }
-                elseif($actualStatus == $vEvaluatorStatus){
-                    if($form->get('invalidate')->isClicked()){
-                        $opusSheet->setStatus($vEvaluatedStatus);
-                    }
-                    elseif($form->get('validate')->isClicked()){
-                        $opusSheet->setStatus($vSecEvaluatorStatus);
-                    }
-                }
-                else{
-
-                }
-
-                $em->persist($opusSheet);
-                $em->flush();
             }
+
+            return $this->redirect($this->generateUrl('generator_editsheet', array('id' => $opusSheet->getId())));
         }
-        return $this->forward('GeneratorBundle:Default:edit', array('id' => $opusSheet->getId()));
+
+        return $this->redirect($this->generateUrl('homepage'));
     }
 
 
