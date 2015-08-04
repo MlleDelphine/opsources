@@ -46,27 +46,57 @@ class DefaultController extends Controller
         $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
 
         $opusSheet->setEvaluate($userEvaluate);
+        $opusSheet->setEvaluator($userLogged);
         $opusSheet->setStatus($generatedStatus);
 
         $opusSheet = $this->setCampaignAndTemplate($opusSheet, $sheetType, $userEvaluate);
 
-        $em->persist($opusSheet);
-        $em->flush();
-
         $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
-
-        $name = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'name');
-        $uiTab = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'tabs_ui');
         $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
 
+        //On persist dans populateOpusSheet
         $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
 
-        return $this->render('GeneratorBundle:Default:generator.html.twig', array(
-            'entity' => $opusSheet,
-            'name' => $name,
-            'uiTab' => $uiTab,
-            'form' => $form->createView(),
-        ));
+        return $this->redirect($this->generateUrl('generator_editsheet', array('id' => $opusSheet->getId())));
+
+    }
+
+    /**
+     * Affichage du formulaire d'édition
+     *
+     * @param $id
+     * @return Response
+     */
+
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->findOneById($id);
+
+        if (!$opusSheet) {
+            throw $this->createNotFoundException('Unable to find OpusSheet entity.');
+        }
+
+        $opusTemplate = $opusSheet->getOpusTemplate();
+        $template = $opusTemplate->getConfFile();
+
+        $name = $this->get('app.customfields_parser')->parseYamlConf($template, 'name');
+        $uiTab = $this->get('app.customfields_parser')->parseYamlConf($template, 'tabs_ui');
+        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($template, 'fields');
+
+        $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm($opusSheet, $allAttributes);
+
+
+        return $this->render(
+            'GeneratorBundle:Default:generator.html.twig',
+            array(
+                'entity' => $opusSheet,
+                'name' => $name,
+                'uiTab' => $uiTab,
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
@@ -132,34 +162,6 @@ class DefaultController extends Controller
         return $this->forward('GeneratorBundle:Default:edit', array('id' => $opusSheet->getId()));
     }
 
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->findOneById($id);
-        $opusTemplate = $opusSheet->getOpusTemplate();
-        $template = $opusTemplate->getConfFile();
-
-        $name = $this->get('app.customfields_parser')->parseYamlConf($template, 'name');
-        $uiTab = $this->get('app.customfields_parser')->parseYamlConf($template, 'tabs_ui');
-        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($template, 'fields');
-
-        $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm($opusSheet, $allAttributes);
-        if (!$opusSheet) {
-            throw $this->createNotFoundException('Unable to find Formation entity.');
-        }
-
-
-        return $this->render(
-            'GeneratorBundle:Default:generator.html.twig',
-            array(
-                'entity' => $opusSheet,
-                'name' => $name,
-                'uiTab' => $uiTab,
-                'form' => $form->createView(),
-            )
-        );
-    }
 
     public function pdfAction($id)
     {

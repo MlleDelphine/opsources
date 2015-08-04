@@ -39,11 +39,10 @@ class OpusSheetAttributeNewType extends AbstractType
             function (\Symfony\Component\Form\FormEvent $event) use ($formFactory) {
                 if (null != $event->getData()) {
                     $valAttributeEntity = $event->getData();
-                    if (!$event || null === $valAttributeEntity->getId()) {
+//                    if (!$event || null === $valAttributeEntity->getId()) {
                         $form = $event->getForm();
                         $data = $event->getData();
                         $options = array();
-                        $confChild = false;
                         $fieldName = 'value';
                         foreach ($this->attributes as $allConf) {
                             //   dump($allConf);
@@ -78,7 +77,8 @@ class OpusSheetAttributeNewType extends AbstractType
                                 $form->add('label', 'hidden', array('label' => false, 'attr' => array('data-tab' => $this->tab)));
                             }
                         }
-                    }
+//                    }
+//
                 }
             });
     }

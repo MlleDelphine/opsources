@@ -62,26 +62,30 @@ class PrePopulateEntity
                 if (array_key_exists('number', $collection)) {
                     $number = $collection['number'];
                 }
-
                 for ($i = 0; $i < $number; ++$i ) {
                     $opusCollection = new OpusCollection();
                     $opusCollection->setType($collection['id']);
                     $opusCollection->setLocation($i + 1);
 
                     $sheet->addCollection($opusCollection);
-
-                    foreach ($collection['child'] as $child) {
+                    //On reverse car doctrine persist à l'envers : règle le souci des collections dans le mauvais ordre + des attributs des collections
+                    foreach (array_reverse($collection['child']) as $child) {
                         $opusAttribute = new OpusAttribute();
                         $opusAttribute->setLabel($child['id']);
-
-                        if (array_key_exists('predefined_values', $collection) && array_key_exists($child['id'], $collection['predefined_values'])) {
-                            $opusAttribute->setValue($collection['predefined_values'][$child['id']][$i]);
+                        if (array_key_exists('predefined_values', $collection)){
+                            if(array_key_exists($child['id'], $collection['predefined_values'])) {
+                                $reversePredefined = array_reverse($collection['predefined_values'][$child['id']]);
+                                $opusAttribute->setValue($reversePredefined[$i]);
+                            }
                         }
                         $opusCollection->addAttribute($opusAttribute);
                     }
                 }
             }
         }
+
+        $this->em->persist($sheet);
+        $this->em->flush();
 
         return $this->createOpusSheetCreateForm($sheet, $attributes);
     }
