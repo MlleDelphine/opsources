@@ -84,15 +84,12 @@ class DefaultController extends Controller
             $template = $opusTemplate->getConfFile();
 
             $name = $this->get('app.customfields_parser')->parseYamlConf($template, 'name');
-            //$name = "test";
 
             $uiTab = $this->get('app.customfields_parser')->parseYamlConf($template, 'tabs_ui');
             $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($template, 'fields');
 
             $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm($opusSheet, $allAttributes, true);
-//
-//            dump('Finish !');
-//            die;
+
             return $this->render(
                 'GeneratorBundle:Default:generator.html.twig',
                 array(

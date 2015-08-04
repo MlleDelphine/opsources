@@ -62,7 +62,7 @@ class OpusSheetType extends AbstractType
                 } elseif ($meet->getEvaluator() === $user) {
                     $attr = array('data-tab' => 'tab_1');
                 } else {
-                    $attr = array('data-tab' => 'tab_1');
+                    $attr = array('data-tab' => 'tab_1', 'readonly' => true);
                 }
 
                 $form->add('evaluator', 'genemu_jqueryselect2_entity', array(
