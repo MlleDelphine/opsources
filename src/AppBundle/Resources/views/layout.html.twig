@@ -12,6 +12,11 @@
         <link rel="stylesheet" href="{{ asset('vendor/jqueryui/themes/overcast/jquery-ui.min.css')}}">
         {{ form_stylesheet(form) }}
     {% endif %}
+    {% stylesheets
+        '@AppBundle/Resources/public/css/style.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
 {% endblock %}
 {% block mainmenu %}
     {{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}
@@ -20,6 +25,7 @@
     {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+
     {% if form is defined %}
         <script src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
         <script src="{{ asset('vendor/jqueryui/jquery-ui.min.js') }}"></script>
@@ -79,9 +85,13 @@
                 });
                 //On désactive les select2 s'ils ont readonly = 1
 
+
+
+
             });
         </script>
 
         {{ form_javascript(form) }}
     {% endif %}
+
 {% endblock %}

@@ -239,7 +239,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluateId", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluator", cascade={"persist"})
      */
     private $opusSheetsEvaluator;
 

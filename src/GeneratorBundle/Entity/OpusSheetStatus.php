@@ -16,7 +16,6 @@ class OpusSheetStatus
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -30,7 +29,7 @@ class OpusSheetStatus
 
     /**
      * @var int
-     *
+     * @ORM\Id
      * @ORM\Column(name="intCode", type="integer", unique=true)
      */
     private $intCode;
