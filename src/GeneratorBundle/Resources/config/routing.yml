@@ -1,5 +1,5 @@
 generator_homepage:
-    path:     /generate/{codeText}
+    path:     /test
     defaults: { _controller: GeneratorBundle:Default:index }
 
 generator_newsheet:

@@ -10,3 +10,7 @@ services:
     user_provider:
         class: UserBundle\Entity\PlexcelUserProvider
         arguments: ["@arianespace.plexcel", "@doctrine.orm.default_entity_manager", "@app.customfields_parser"]
+
+    ldap_service:
+        class: UserBundle\Service\LdapService
+        arguments: ["@service_container"]

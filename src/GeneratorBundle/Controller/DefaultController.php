@@ -13,22 +13,34 @@ class DefaultController extends Controller
 {
     //On va passer l'ID d'une fiche pour l'éditer
 
-    public function indexAction($codeText)
+    public function indexAction()
     {
-        $uiTab = $this->get('app.customfields_parser')->parseYamlConf($campaign->getConfFileUi());
-        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($campaign->getConfFile(), 'fields');
-        $name = $this->get('app.customfields_parser')->parseYamlConf($campaign->getConfFile(), 'name');
+        $em = $this->getDoctrine()->getManager();
+        $ldap_config = $this->container->getParameter('ldap');
+        $members = $this->get('ldap_service')->getMembers($ldap_config['admins']);
+        foreach ($members as $member)
+        {
+            $infos = $this->get('ldap_service')->getAccountInformation($member);
+            dump($infos);
 
-        $opusSheet = new OpusSheet();
+            $tmp[] = USERSTable::getUserByLogin($infos['samaccountname']);
+        }
 
-        $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
-
-        return $this->render('GeneratorBundle:Default:generator.html.twig', array(
-            'entity' => $opusSheet,
-            'name' => $name,
-            'uiTab' => $uiTab,
-            'form' => $form->createView(),
-        ));
+        dump('fin');
+        die;
+//        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($campaign->getConfFile(), 'fields');
+//        $name = $this->get('app.customfields_parser')->parseYamlConf($campaign->getConfFile(), 'name');
+//
+//        $opusSheet = new OpusSheet();
+//
+//        $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+//
+//        return $this->render('GeneratorBundle:Default:generator.html.twig', array(
+//            'entity' => $opusSheet,
+//            'name' => $name,
+//            'uiTab' => $uiTab,
+//            'form' => $form->createView(),
+//        ));
     }
 
     /**
