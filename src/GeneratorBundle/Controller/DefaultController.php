@@ -46,7 +46,7 @@ class DefaultController extends Controller
     /**
      * On crée une fiche orpheline, hors précréation grâce à une campagne
      */
-    public function newAction($idUser, $strCodeType)
+    public function newAction($idUser, $strCodeType, $ajaxCall = false)
     {
         $em = $this->getDoctrine()->getManager();
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
@@ -70,7 +70,11 @@ class DefaultController extends Controller
         //On persist dans populateOpusSheet
         $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
 
-        return $this->redirect($this->generateUrl('generator_editsheet', array('id' => $opusSheet->getId())));
+        if(!$ajaxCall){
+            return $this->redirect($this->generateUrl('generator_editsheet', array('id' => $opusSheet->getId())));
+        }
+
+        return new Response('Success');
 
     }
 
