@@ -3,11 +3,13 @@
 namespace UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function updateAction()
     {
-        return $this->render('UserBundle:Default:index.html.twig', array('name' => $name));
+        $this->container->get("ldap_user_service")->updateAll();
+        die;
     }
 }

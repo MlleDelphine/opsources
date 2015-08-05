@@ -124,21 +124,21 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="division", type="string", length=32, nullable=true)
+     * @ORM\Column(name="division", type="string", length=255, nullable=true)
      */
     private $division;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="department", type="string", length=32, nullable=true)
+     * @ORM\Column(name="department", type="string", length=255, nullable=true)
      */
     private $department;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="classification", type="string", length=32, nullable=true)
+     * @ORM\Column(name="classification", type="string", length=255, nullable=true)
      */
     private $classification;
 
@@ -242,9 +242,7 @@ class User implements UserInterface
         $this->assessedProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessorConditionsMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessedConditionseetss = new \Doctrine\Common\Collections\ArrayCollection();
-        $roles = array('ROLE_USER', 'ROLE_ADMIN');
-//        $roles->add('ROLE_USER');
-//        $roles->add('ROLE_ADMIN');
+        $roles = array('ROLE_USER');
         $this->roles = $roles;
         $this->sids = array();
         $this->status = 0;
