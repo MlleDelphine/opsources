@@ -3,232 +3,228 @@
 <div class="row col-lg-12">
     <div class="col-lg-12">
         <div class="col-lg-12">
-            <h1 class="page-header">Dashboard
-
-                <button id="btn_creation_entretien" class=" btn btn-primary btn-lg pull-right" type="button" onclick="showCreation();">
-                    <i class="fa fa-plus" style="margin-right:20px;"></i>
-                    Création d'un entretien à la demande</button>
-
-            </h1>
+            <h1 class="page-header">Dashboard</h1>
 
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-    <div id="creation_entretien" class="row col-lg-12">
-        <div class="col-lg-12">
-            <h2>Création d’un ou de plusieurs entretiens à la demande</h2>
-            <div class="panel panel-default">
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table" id="createSheet">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                {% for type in types %}
-                                    <th>{{ type.name }}</th>
-                                {% endfor %}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for u in user.opusSheetsEvaluator %}
-                                <tr>
-                                    <td>{{ u.evaluate.firstName }} {{ u.evaluate.lastName }}</td>
-                                    {% for type in types %}
-                                            {% set canCreate = 1 %}
-                                            {% for e in u.evaluate.opusSheetsEvaluate %}
-                                                {% if( e.opusTemplate.type == type and e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
-                                                    {% set canCreate = 0 %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            <td>
-                                                {% if canCreate == 1 %}
-                                                    <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ user.id }}">
-                                                {% else %}
-                                                    <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ user.id }}"  disabled="disabled" >
-                                                {% endif %}
-                                            </td>
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                        <input type="submit" value="Créer" class="btn btn-primary pull-right btn-lg" onclick="createSheet();">
-                    </div>
-                    <!-- /.table-responsive -->
-                </div>
-                <!-- /.panel-body -->
-            </div>
-            <!-- /.panel -->
-        </div>
-    </div>
     <div class="row col-lg-12">
-        <div class="row col-lg-12">
-{#            <div class="col-lg-4 col-md-4 col-xs-12">
-                <div class="panel panel-yellow">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <h2 class="col-xs-12">Professionnel</h2>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <span class="pull-left">En attente de validation de l'évaluateur</span>
+        <div class="panel panel-default">
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills">
+                    <li class="active"><a href="#me" data-toggle="tab">Mes entretiens</a>
+                    </li>
+                    <li><a href="#evaluator" data-toggle="tab">Entretiens dont je suis l'évaluateur</a>
+                    </li>
+                    <li><a href="#equipe" data-toggle="tab">Mon equipe</a>
+                    </li>
+                    <li><a href="#creation" data-toggle="tab">Création de fiche</a>
+                    </li>
+                    <li><a href="#campagne" data-toggle="tab">Campagne</a>
+                    </li>
+                    <li><a href="#export" data-toggle="tab">Export</a>
+                    </li>
+                </ul>
 
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-xs-12">
-                <div class="panel panel-orange">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <h2 class="col-xs-12">Conditions</h2>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <span class="pull-left">A valider</span>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="me">
+                        <div class="row col-lg-12">
 
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>#}
-
-
-            {% for type in types %}
-                {% set done = 0  %}
-                    {% for o in user.opusSheetsEvaluate %}
-                        {% if o.opusTemplate.type == type %}
-                            {% set sheet = o %}
-                            {% if( o.status.intCode != -1 and o.status.intCode != 8 and o.status.intCode != 9 and o.status is not empty ) %}
-                                {% set done = 1 %}
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                {% set color = "done" %}
-                {% if ( done == 0 and sheet is defined ) %}
-                    {% if sheet.getEcheance() > 60 %}
-                        {% set color = "yellow" %}
-                    {% elseif sheet.getEcheance() > 30 %}
-                        {% set color = "orange" %}
-                    {% elseif sheet.getEcheance() > 0 %}
-                        {% set color = "green" %}
-                    {% endif %}
-                {%  endif %}
-                <div class="col-lg-{{ 12/types|length }} col-md-{{ 12/types|length }} col-xs-12">
-                    <div class="panel panel-{{ color }}">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <h2 class="col-xs-12">{{ type.name }}</h2>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
+                            {% for type in types %}
+                                {% set done = 0  %}
+                                {% for o in user.opusSheetsEvaluate %}
+                                    {% if o.opusTemplate.type == type %}
+                                        {% set sheet = o %}
+                                        {% if( o.status.intCode != -1 and o.status.intCode != 8 and o.status.intCode != 9 and o.status is not empty ) %}
+                                            {% set done = 1 %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% set color = "done" %}
+                                {% if ( done == 0 and sheet is defined ) %}
+                                    {% if sheet.getEcheance() > 60 %}
+                                        {% set color = "yellow" %}
+                                    {% elseif sheet.getEcheance() > 30 %}
+                                        {% set color = "orange" %}
+                                    {% elseif sheet.getEcheance() > 0 %}
+                                        {% set color = "green" %}
+                                    {% endif %}
+                                {%  endif %}
+                                <div class="col-lg-{{ 12/types|length }} col-md-{{ 12/types|length }} col-xs-12">
+                                    <div class="panel panel-{{ color }}">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <h2 class="col-xs-12">{{ type.name }}</h2>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
                             <span class="pull-left">
                                 {{ ( sheet is defined and done == 0 ) ? sheet.status.label : '' }}
                             </span>
 
-                            <div class="clearfix"></div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="creation">
+                        <div id="" class="row col-lg-12">
+                            <div class="col-lg-12">
+                                <h2>Création d’un ou de plusieurs entretiens à la demande</h2>
+                                <div class="panel panel-default">
+                                    <!-- /.panel-heading -->
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table" id="createSheet">
+                                                <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    {% for type in types %}
+                                                        <th class="upperFirst">{{ type.name }}</th>
+                                                    {% endfor %}
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for u in user.opusSheetsEvaluator %}
+                                                    <tr>
+                                                        <td>{{ u.evaluate.firstName }} {{ u.evaluate.lastName }}</td>
+                                                        {% for type in types %}
+                                                            {% set canCreate = 1 %}
+                                                            {% for e in u.evaluate.opusSheetsEvaluate %}
+                                                                {% if( e.opusTemplate.type == type and e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
+                                                                    {% set canCreate = 0 %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            <td>
+                                                                {% if canCreate == 1 %}
+                                                                    <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ user.id }}">
+                                                                {% else %}
+                                                                    <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ user.id }}"  disabled="disabled" >
+                                                                {% endif %}
+                                                            </td>
+                                                        {% endfor %}
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            <input type="submit" value="Créer" class="btn btn-primary pull-right btn-lg" onclick="createSheet();">
+                                        </div>
+                                        <!-- /.table-responsive -->
+                                    </div>
+                                    <!-- /.panel-body -->
+                                </div>
+                                <!-- /.panel -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="evaluator">
+                        <div class="col-lg-12">
+                            <h2>Les entretiens dont je suis l’évaluateur en cours</h2>
+                            <div class="panel panel-default">
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                {% for type in types %}
+                                                    <th class="upperFirst">{{ type.name }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for u in user.opusSheetsEvaluator %}
+                                                <tr>
+                                                    <td>{{ u.evaluate.firstName }} {{ u.evaluate.lastName }}</td>
+                                                    {% for type in types %}
+
+                                                        {% set color = 1 %}
+                                                        {% set status = '' %}
+                                                        {% for e in u.evaluate.opusSheetsEvaluate %}
+
+                                                            <!-- fermer -->
+                                                            {% if( e.opusTemplate.type == type and e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
+                                                                {% set color = 0 %}
+                                                                {% else %}
+                                                                    {% if is_granted('ROLE_ADMIN') %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center">{{ status }}</td>
+                                                    {% endfor %}
+                                                    <td></td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.table-responsive -->
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="equipe">
+                        <div class="col-lg-12">
+                            <h2>Les fiches d’entretien de mon équipe</h2>
+                            <div class="panel panel-default">
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                {% for type in types %}
+                                                    <th class="upperFirst">{{ type.name }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>Jean-Jacques LEFEVRE</td>
+                                                <td class="table-orange">A Faire</td>
+                                                <td class="table-orange"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jean-Jacques LEFEVRE</td>
+                                                <td></td>
+                                                <td class="table-orange">A Faire</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jean-Jacques LEFEVRE</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="table-orange"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.table-responsive -->
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-
-        </div>
-
-        <!-- /.row -->
-        <div class="">
-            <div class="col-lg-12">
-                <h2>Les entretiens dont je suis l’évaluateur en cours</h2>
-                <div class="panel panel-default">
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Appréciation</th>
-                                    <th>Professionnel</th>
-                                    <th>Conditions de travail</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Jean-Jacques LEFEVRE</td>
-                                    <td class="table-orange">A Faire</td>
-                                    <td class="table-orange"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Jean-Jacques LEFEVRE</td>
-                                    <td></td>
-                                    <td class="table-orange">A Faire</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Jean-Jacques LEFEVRE</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="table-orange"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
             </div>
-            <!-- /.col-lg-6 -->
-
-
-
-            <div class="col-lg-12">
-                <h2>Les fiches d’entretien de mon équipe</h2>
-                <div class="panel panel-default">
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Appréciation</th>
-                                    <th>Professionnel</th>
-                                    <th>Conditions de travail</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Jean-Jacques LEFEVRE</td>
-                                    <td class="table-orange">A Faire</td>
-                                    <td class="table-orange"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Jean-Jacques LEFEVRE</td>
-                                    <td></td>
-                                    <td class="table-orange">A Faire</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Jean-Jacques LEFEVRE</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="table-orange"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
-            </div>
+            <!-- /.panel-body -->
         </div>
-        <!-- /.row -->
+        <!-- /.panel -->
     </div>
 
 {% endblock %}
@@ -236,29 +232,22 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        function showCreation(){
-            $b = $(document).find("#creation_entretien");
-            if($b.css('display') === "block")
-                $b.hide();
-            else
-                $b.show();
-        }
-
         function createSheet(){
             $t =$(document).find("#createSheet");
             $n = 0;
             $("input[type=\"checkbox\"]").each(function(i,j){
                if($(this).is(":checked"))
                {
-                   $n++;
-                   $path = '{{ path("generator_newsheet",{"id":"__USER__"}) }}' + '/' + $(this).attr("sheetType");
+
+                   $path = '{{ path("generator_newsheet",{"idUser":"__USER__","strCodeType":"__TYPE__"}) }}';
                    $path = $path.replace("__USER__",$(this).attr("user"));
-                   $.post($path,function(d){
-                       alert("yo");
+                   $path = $path.replace("__TYPE__",$(this).attr("sheetType"));
+                    $.post($path,function(d){
+                        $n++;
                    })
                }
             });
-            alert("GG :" + $n);
+            alert($n +" fiches viennent d'êtres ajouté");
         }
     </script>
 
