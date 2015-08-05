@@ -517,4 +517,15 @@ class OpusSheet
     {
         return $this->opusTemplate;
     }
+
+    public function getEcheance()
+    {
+        if($this->getCampaign() === null)
+            return null;
+        $now = new \DateTime();
+        if($this->getCampaign()->getLimitDate() < $now)
+            return -$this->getCampaign()->getLimitDate()->diff($now)->days;
+        return $this->getCampaign()->getLimitDate()->diff($now)->days;
+
+    }
 }

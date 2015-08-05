@@ -25,8 +25,19 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('UserBundle:User')->findAll();
-
-        return array('users' => $users);
+        $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
+        foreach($users as $u)
+        {
+            foreach($u->getOpusSheetsEvaluator() as $e){
+                $user = $u;
+                break 2;
+            }
+        }
+        return array(
+            'user' => $user,
+            'users' => $users,
+            'types' => $types
+        );
     }
 
     /**

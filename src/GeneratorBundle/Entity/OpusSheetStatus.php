@@ -37,6 +37,7 @@ class OpusSheetStatus
 
     /**
      * @var string
+     *
      * @ORM\Column(name="strCode", type="string", length=255)
      */
     private $strCode;
