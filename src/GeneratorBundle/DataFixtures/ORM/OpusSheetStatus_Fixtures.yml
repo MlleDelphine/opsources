@@ -14,7 +14,7 @@ GeneratorBundle\Entity\OpusSheetStatus:
     status3:
         label: "Attente de validation évalué"
         intCode: 3
-        strCode: "valid_evalue"
+        strCode: "valid_evaluate"
     status4:
         label: "Attente de validation évaluateur"
         intCode: 4

@@ -1,11 +1,36 @@
+# This file is auto-generated during the composer install
 parameters:
-    database_host: 127.0.0.1
+    database_host: 172.22.24.241
     database_port: null
-    database_name: opus
-    database_user: opus
-    database_password: opus
+    database_name: opus33
+    database_user: opus33
+    database_password: setrzDTRZ346
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    ldap:
+        dc:					ae-e-ds01
+        dclist:		        ae-e-ds01|ae-e-ds02|ae-k-ds03|ae-k-ds04
+        port:				389
+        dn:					DC=ad,DC=arianespace,DC=fr
+        basename:			ad.arianespace.fr
+        limit:				3000
+        login:				reader@ad.arianespace.fr
+        password:			Ari@nespace
+        admins:				CN=opus_admins,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr
+        users:				CN=opus_users,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr
+    # Groupe des personnes qui recoivent les mails de leur departement
+        managers:			CN=opus_managers,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr
+    # Groupe des personnes pouvant accéder aux fiches de leur division sauf celle de leur manager
+        division_managers:  CN=opus_division_managers,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr
+    # Groupe des personnes des RHs qui recoivent le mail final en copie cachée
+        rhs:                CN=opus_rh,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr
+    # Groupe des directeurs du COMEX
+        directors:			CN=opus_directors,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr
+    # Directeur par défaut si aucun directeur du COMEX ne correspond
+    # AE40336 = Stéphane ISRAEL
+        director_default:	ae40336
+        group_maj: CN=arianespace_employees,OU=Groupes,OU=Administration,DC=ad,DC=arianespace,DC=fr

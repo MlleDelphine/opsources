@@ -9,6 +9,7 @@
 
 namespace GeneratorBundle\Service;
 
+use PhpSpec\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Yaml\Parser;
@@ -36,13 +37,13 @@ class CustomFieldsParser
     {
         $yaml = new Parser();
         $finder = new Finder();
+
         $iterator = $finder->files()->name($name->getProviderReference())->in($this->kernel->getRootDir().'/../web/uploads/media/default');
 
         foreach ($iterator as $file) {
             $template = $file->getRealpath();
         }
 
-//        $path = $this->kernel->getRootDir() . '/config/BaseFormMeet/old_meet2.yml';
         try {
             if ($field && $field == 'fields') {
                 $attributesParsed = $yaml->parse(file_get_contents($template)); // $template
@@ -56,8 +57,10 @@ class CustomFieldsParser
                     }
                 }
             } elseif ($field) {
+
                 $attributesParsed = $yaml->parse(file_get_contents($template));
                 $allAttributes = $attributesParsed[$field];
+
             } else {
                 $allAttributes = $yaml->parse(file_get_contents($template));
             }

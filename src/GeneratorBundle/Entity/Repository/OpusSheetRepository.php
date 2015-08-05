@@ -24,21 +24,22 @@ class OpusSheetRepository extends EntityRepository
      */
     public function findSheetsNotClosedInCampaign(OpusCampaign $campaign, User $user)
     {
-        $qb = $this->createQueryBuilder('sheet')
-            ->join('sheet.status', 'status')
-            ->join('sheet.campaign', 'campaign')
-            ->join('sheet.evaluate', 'u')
-            ->where('status.strCode <> :close')
-            ->andWhere('status.strCode <> :close_finish')
-            ->andWhere('campaign.id = :campaignId')
-            ->andWhere('user.id = :userId')
-            ->setParameters(array('close' => 'close',
-                'close_finish' => 'close_finish',
+        $qb = $this->createQueryBuilder('sh');
+        $result = $qb->join('sh.status', 's')
+            ->join('sh.campaign', 'c')
+            ->join('sh.evaluate', 'e')
+            ->where($qb->expr()->notLike('s.strCode', 'close'))
+            ->andWhere($qb->expr()->notLike('s.strCode', 'close_finish'))
+            ->where('c.id = :campaignId')
+            ->andWhere('e.id = :userId')
+            ->setParameters(array(
                 'campaignId' => $campaign->getId(),
-                'userId' => $user->getId(), ))
+                'userId' => $user->getId()))
+            ->orderBy('sh.id', 'DESC')
             ->getQuery()
-            ->getFirstResult();
+            ->setMaxResults(1)
+            ->getResult();
 
-        return $qb;
+        return $result;
     }
 }

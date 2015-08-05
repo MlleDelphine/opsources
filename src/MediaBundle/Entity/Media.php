@@ -4,6 +4,7 @@ namespace MediaBundle\Entity;
 
 use Sonata\MediaBundle\Entity\BaseMedia as BaseMedia;
 use Doctrine\ORM\Mapping as ORM;
+use Sonata\MediaBundle\Model\GalleryHasMedia;
 
 /**
  * Media.
@@ -77,7 +78,7 @@ class Media extends BaseMedia
     /**
      * Add galleryHasMedias.
      *
-     * @param \Application\Sonata\MediaBundle\Entity\GalleryHasMedia $galleryHasMedias
+     * @param \Sonata\MediaBundle\Model\GalleryHasMedia $galleryHasMedias
      *
      * @return Media
      */
@@ -91,7 +92,7 @@ class Media extends BaseMedia
     /**
      * Remove galleryHasMedias.
      *
-     * @param \Application\Sonata\MediaBundle\Entity\GalleryHasMedia $galleryHasMedias
+     * @param \Sonata\MediaBundle\Model\GalleryHasMedia $galleryHasMedias
      */
     public function removeGalleryHasMedia(GalleryHasMedia $galleryHasMedias)
     {
