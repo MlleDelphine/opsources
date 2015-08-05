@@ -14,3 +14,7 @@ services:
     ldap_service:
         class: UserBundle\Service\LdapService
         arguments: ["@service_container"]
+
+    ldap_user_service:
+        class: UserBundle\Service\LdapUserService
+        arguments: ["@doctrine.orm.default_entity_manager","@service_container"]

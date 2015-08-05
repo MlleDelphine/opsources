@@ -40,3 +40,6 @@ puphpet/files/dot/ssh
 # IDE
 .idea
 /nbproject
+src/AppBundle/Resources/public/.sass-cache/
+node_modules/
+npm-debug.log
