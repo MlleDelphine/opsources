@@ -18,21 +18,37 @@ class LdapUserService
     private $em;
     private $container;
     private $dns = ["group_maj","admins","users","managers","division_managers","rhs","directors"];
-
+    private $allMembers = [];
     public function __construct(EntityManager $em, Container $container)
     {
         $this->em = $em;
         $this->container = $container;
+
+        foreach($this->dns as $dn)
+        {
+            $membres = $this->container->get('ldap_service')->getMembers($this->container->getParameter('ldap')[$dn]);
+            foreach($membres as $membreDn)
+            {
+                $membre = $this->container->get("ldap_service")->getAccountInformation($membreDn);
+                if(!in_array($membre,$this->allMembers))
+                    array_push($this->allMembers, $membre);
+            }
+        }
     }
 
     public function updateAll()
     {
         $members = $this->getAllUsersInfos();
-/*        dump($members);die;*/
         foreach($members as $member)
             $this->em->persist($member);
         $this->em->flush();
-
+        foreach($members as $member)
+        {
+            $this->em->refresh($member);
+            $member = $this->setRelations($member);
+            $this->em->persist($member);
+        }
+        $this->em->flush();
     }
 
     public function updateByLogin($login)
@@ -40,25 +56,29 @@ class LdapUserService
 
     }
 
+    private function getLdapByLogin($login)
+    {
+        $allUser = $this->allMembers;
+        foreach($allUser as $singleUser)
+            if($singleUser["samaccountname"] === $login)
+                return $singleUser;
+        return null;
+    }
+
+    private function getUserByCn($cn)
+    {
+        return $this->container->get("ldap_service")->getAccountInformation($cn);
+    }
+
     public function updateByCn($cn)
     {
-        $ldap = $this->container->get("ldap_service")->getAccountInformation($cn);
-        return $this->formatLdapToUser($ldap);
+
+        return $this->formatLdapToUser($this->getUserByCn($cn));
     }
 
     public function getAllUsersInfos()
     {
-        $return  = [];
-        foreach($this->dns as $dn)
-        {
-            $membres = $this->container->get('ldap_service')->getMembers($this->container->getParameter('ldap')[$dn]);
-            foreach($membres as $membreDn)
-            {
-                $membre = $this->container->get("ldap_service")->getAccountInformation($membreDn);
-                if(!in_array($membre,$return))
-                    array_push($return, $membre);
-            }
-        }
+        $return  = $this->allMembers;
         foreach($return as $id => $membre) {
             $return[$id] = $this->formatLdapToUser($membre);
         }
@@ -78,7 +98,7 @@ class LdapUserService
 
         ];
 
-        $personnes = ["manager"];
+
 
         $roles = [
             "admins"                => "ROLE_ADMIN",
@@ -96,12 +116,6 @@ class LdapUserService
 
 
         $user->setLogin($login);
-
-
-        //  Relation
-        /*foreach($personnes as $person)
-            if(array_key_exists($person,$membre))
-                $user = $this->setRelation($user,$person,$this->updateByCn($membre[$person]));*/
 
         // Valeurs
         foreach($arr as $attr => $val)
@@ -121,14 +135,42 @@ class LdapUserService
         return $user;
     }
 
-    private function setRelation($user,$attr,$val)
+    private function setRelations(User $user)
     {
-        $set = "set". ucfirst($attr);
-        $user->$set($val);
+        $personnes = ["manager"];
+
+        foreach($personnes as $personne)
+        {
+            $ldap = $this->getLdapByLogin($user->getLogin());
+            if(array_key_exists($personne,$ldap))
+            {
+                if(is_array($ldap[$personne]))
+                {
+                    foreach($ldap[$personne] as $cn)
+                    {
+                        $pers = $this->getUserByCn($cn);
+                        $this->setRelation($user,$pers,$personne);
+                    }
+                }else{
+                    $pers = $this->getUserByCn($ldap[$personne]);
+                    $this->setRelation($user,$pers,$personne);
+                }
+
+            }
+        }
+
         return $user;
     }
 
-    private function setRoles($user,$ldap, $role_name, $role)
+    private function setRelation($user,$relation,$attr)
+    {
+        $userInstance = $this->em->getRepository("UserBundle:User")->findOneByLogin($relation["samaccountname"]);
+        $set = "set". ucfirst($attr);
+        $user->$set($userInstance);
+        return $user;
+    }
+
+    private function setRoles($user,$ldap,$role_name,$role)
     {
         if(is_array($ldap["memberof"]))
         {
@@ -150,9 +192,7 @@ class LdapUserService
                     $user->setRoles([$role]);
             }
         }
-
         return $user;
     }
-
 
 }
