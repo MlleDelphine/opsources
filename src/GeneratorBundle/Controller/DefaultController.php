@@ -78,6 +78,14 @@ class DefaultController extends Controller
 
     }
 
+    /*
+     * Création d'une nouvelle campagne
+     */
+    public function newCampaignAction($year, $mailDate, $limitDate, $idStatus, $idType, $idTemplate){
+        return new Response($year.' '.$mailDate.' '.$limitDate.' '.$idStatus.' '.$idType.' '.$idTemplate);
+    }
+
+
     /**
      * Affichage du formulaire d'édition
      *

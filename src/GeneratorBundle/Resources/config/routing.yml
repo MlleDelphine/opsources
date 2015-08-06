@@ -6,6 +6,10 @@ generator_newsheet:
     path:     /new/sheet/{idUser}/{strCodeType}
     defaults: { _controller: GeneratorBundle:Default:new }
 
+generator_newcampaign:
+    path:     /new/campaign/{year}/{mailDate}/{limitDate}/{idStatus}/{idType}/{idTemplate}
+    defaults: { _controller: GeneratorBundle:Default:newCampaign }
+
 generator_createsheet:
     path:     /create/sheet
     defaults: { _controller: GeneratorBundle:Default:add }

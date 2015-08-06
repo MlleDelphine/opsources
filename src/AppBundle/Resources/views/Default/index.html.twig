@@ -220,6 +220,48 @@
                             <!-- /.panel -->
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="campagne">
+                        <div class="col-lg-12">
+                            <h2>Création d'une campagne</h2>
+                            <div class="panel panel-default">
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <label for="campaign_year" class="col-md-12">Année *</label>
+                                    <input type="text" name="campaign_year" id="campaign_year" class="col-md-12"/>
+
+                                    <label for="campaign_mail_date" class="col-md-12">Mail date *</label>
+                                    <input type="date" name="campaign_mail_date" id="campaign_mail_date" class="col-md-12"/>
+
+                                    <label for="campaign_limit_date" class="col-md-12">Date limite *</label>
+                                    <input type="date" name="campaign_limit_date" id="campaign_limit_date" class="col-md-12"/>
+
+                                    <label for="campaign_status" class="col-md-12">Statut *</label>
+                                    <select name="campaign_status" id="campaign_status" class="col-md-12">
+                                        <option value="0">Désactivée</option>
+                                        <option value="1">Activée</option>
+                                    </select>
+
+                                    <label for="campaign_type" class="col-md-12">Type d'entretien *</label>
+                                    <select name="campaign_type" id="campaign_type" class="col-md-12">
+                                        {% for type in types %}
+                                            <option value="{{ type.id }}">{{ type.name }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <label for="campaign_template" class="col-md-12">Template *</label>
+                                    <select name="campaign_template" id="campaign_template" class="col-md-12">
+                                        {% for template in templates %}
+                                            <option value="{{ template.id }}">{{ template.name }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <input type="submit" value="Créer" class="btn btn-primary pull-right btn-lg" onclick="createCampaign();">
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /.panel-body -->
@@ -244,11 +286,39 @@
                    $path = $path.replace("__TYPE__",$(this).attr("sheetType"));
                     $.post($path,function(d){
                         $n++;
-
                    })
                }
             });
             alert($n +" fiches viennent d'êtres ajoutées");
+        }
+
+        function createCampaign(){
+            $campaign_year = $(document).find("#campaign_year").val();
+            $campaign_mail_date = $(document).find("#campaign_mail_date").val();
+            $campaign_limit_date = $(document).find("#campaign_limit_date").val();
+            $campaign_status = $(document).find("#campaign_status").val();
+            $campaign_type = $(document).find("#campaign_type").val();
+            $campaign_template = $(document).find("#campaign_template").val();
+//            {year}/{mailDate}/{limitDate}/{idStatus}/{idType}/{idTemplate}
+            $path = '{{ path("generator_newcampaign",{
+                        "year":"__YEAR__",
+                        "mailDate":"__MAILDATE__",
+                        "limitDate":"__LIMITDATE__",
+                        "idStatus":"__IDSTATUS__",
+                        "idType":"__IDTYPE__",
+                        "idTemplate":"__IDTEMPLATE__"
+                        })
+                    }}';
+            $path = $path.replace("__YEAR__",$campaign_year);
+            $path = $path.replace("__MAILDATE__",$campaign_mail_date);
+            $path = $path.replace("__LIMITDATE__",$campaign_limit_date);
+            $path = $path.replace("__IDSTATUS__",$campaign_status);
+            $path = $path.replace("__IDTYPE__",$campaign_type);
+            $path = $path.replace("__IDTEMPLATE__",$campaign_template);
+
+            $.post($path,function(response){
+                alert(response);
+            })
         }
     </script>
 

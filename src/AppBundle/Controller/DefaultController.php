@@ -26,6 +26,8 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('UserBundle:User')->findAll();
         $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
+        $templates = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findAll();
+
         foreach($users as $u)
         {
             foreach($u->getOpusSheetsEvaluator() as $e){
@@ -36,7 +38,8 @@ class DefaultController extends Controller
         return array(
             'user' => $user,
             'users' => $users,
-            'types' => $types
+            'types' => $types,
+            'templates' => $templates
         );
     }
 
