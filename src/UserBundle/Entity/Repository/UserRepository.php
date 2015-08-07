@@ -28,9 +28,6 @@ class UserRepository extends EntityRepository
             ->where('u.id = :uid')
             ->setParameter('uid', $user->getId());
 
-//        dump($qb->getQuery()->getFirstResult());
-//        dump($user);
-//        die;
         return $qb;
     }
 }

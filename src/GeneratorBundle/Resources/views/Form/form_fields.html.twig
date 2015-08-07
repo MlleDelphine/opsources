@@ -1,55 +1,4 @@
-{# Affichage en tableau de champs collection existants #}
-
-{# Affichage d'une collection d'attributs directement lié. But : ne pas afficher les labels + afficher un tableau#}
-{#{% block customCollectionField_widget %}#}
-    {#{% if numberFields is null %}#}
-        {#{% set col = 'col-md-12' %}#}
-    {#{% else %}#}
-        {#{% set valCol = 12/numberFields %}#}
-        {#{% set col = 'col-md-'~valCol|round(0, 'ceil') %}#}
-    {#{% endif %}#}
-    {#{% spaceless %}#}
-        {#<div {{ block('widget_container_attributes') }}>#}
-            {#{{ block('collectionField_rows') }}#}
-            {#{{ form_rest(form) }}#}
-        {#</div>#}
-    {#{% endspaceless %}#}
-{#{% endblock %}#}
-
-{#{% block collectionField_rows %}#}
-    {#{% spaceless %}#}
-
-        {#{{ form_errors(form) }}#}
-        {#<table class="table table-condensed col-md-12">#}
-            {#<thead>#}
-            {#<tr>#}
-                {#{% for key, child in form %}#}
-                    {#{% if loop.index <= 1 %}#}
-                        {#{%  for k, c in child %}#}
-                            {#{%  if  c.vars.label is not null %}#}
-                                {#<th data-field="id" style="text-align:center">{{ c.vars.label }}</th> &#123;&#35;{{ col }} dans class&#35;&#125;#}
-                            {#{%  endif %}#}
-                        {#{%  endfor %}#}
-                    {#{% endif %}#}
-                {#{% endfor %}#}
-            {#</tr>#}
-            {#</thead>#}
-            {#{{ block('only_fields_field') }}#}
-        {#</table>#}
-    {#{% endspaceless %}#}
-{#{% endblock collectionField_rows %}#}
-
-{#{% block only_fields_field %}#}
-    {#{% for key, child in form %}#}
-        {#<tr>#}
-            {#{%  for c in child %}#}
-                {#<td style="text-align:center">{{ form_widget(c) }}</td>#}
-            {#{%  endfor %}#}
-        {#</tr>#}
-    {#{% endfor %}#}
-{#{% endblock %}#}
-
-    {# Affichage de la collection d'attributs SECONDAIRE. But : ne pas afficher les labels + afficher un tableau#}
+{# Affichage de la collection d'attributs SECONDAIRE. But : ne pas afficher les labels + afficher un tableau#}
     {% block customCollection_widget %}
         {% if numberFields is null %}
             {% set col = 'col-md-12' %}
@@ -138,18 +87,25 @@
         {% set attr = attr|merge(classes) %}
         {% set attr = attr|merge(others) %}
 
-
-        {#{{ dump(attr) }}#}
-
-
         <div class="icheck-inline">
         {% for child in form.children %}
+
+            {% set uAttr = attr %}
+            {% set disabled = {'data-ok': 'ok'} %}
+
+            {%  if attr.readonly is defined %}
+                {%  if(child.vars.data != 1 ) %}
+                    {# tu ajoutes disabled et tu le merges #}
+                    {% set disabled = {'disabled': 'disabled'} %}
+                    {% set uAttr = uAttr|merge(disabled) %}
+                {%  endif %}
+            {%  endif %}
             {%  if loop.first %}
                 <div class="col-md-12">
             {% endif %}
             <label class="radio-inline">
                 {{ child.vars.label }}
-                {{ form_widget(child, {'attr': (attr)}) }}
+                {{ form_widget(child, {'attr': (uAttr)}) }}
             </label>
             {% if loop.last %}
                 </div>

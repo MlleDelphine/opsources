@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * OpusJob.
  *
  * @ORM\Table(name="opus_job")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusJobRepository")
  */
 class OpusJob
 {
@@ -60,6 +60,11 @@ class OpusJob
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    public function __toString()
+    {
+        return (string) $this->getLabel();
+    }
 
     /**
      * Get id.

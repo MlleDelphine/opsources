@@ -91,6 +91,13 @@ class OpusCampaign
     private $opusTemplate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="until_sheet_date", type="datetime", nullable=true)
+     */
+    private $untilSheetDate;
+
+    /**
      * Get id.
      *
      * @return int
@@ -194,6 +201,30 @@ class OpusCampaign
     public function getLimitDate()
     {
         return $this->limitDate;
+    }
+
+    /**
+     * Set untilSheetDate.
+     *
+     * @param \DateTime $untilSheetDate
+     *
+     * @return OpusCampaign
+     */
+    public function setUntilSheetDate($untilSheetDate)
+    {
+        $this->untilSheetDate = $untilSheetDate;
+
+        return $this;
+    }
+
+    /**
+     * Get untilSheetDate.
+     *
+     * @return \DateTime
+     */
+    public function getUntilSheetDate()
+    {
+        return $this->untilSheetDate;
     }
 
     /**

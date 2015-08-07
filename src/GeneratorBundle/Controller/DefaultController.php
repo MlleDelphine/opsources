@@ -16,18 +16,17 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $ldap_config = $this->container->getParameter('ldap');
-        $members = $this->get('ldap_service')->getMembers($ldap_config['admins']);
-        foreach ($members as $member)
-        {
-            $infos = $this->get('ldap_service')->getAccountInformation($member);
-            dump($infos);
-
-            $tmp[] = USERSTable::getUserByLogin($infos['samaccountname']);
-        }
-
-        dump('fin');
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+        dump($userLogged);
         die;
+
+        $userBdd = $em->getRepository("UserBundle:User")->find($userLogged->getId());
+
+        $opusSheets = $userBdd->getOpusSheetsEvaluator();
+
+
+
+
 //        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($campaign->getConfFile(), 'fields');
 //        $name = $this->get('app.customfields_parser')->parseYamlConf($campaign->getConfFile(), 'name');
 //
@@ -48,8 +47,10 @@ class DefaultController extends Controller
      */
     public function newAction($idUser, $strCodeType, $ajaxCall = false)
     {
+
         $em = $this->getDoctrine()->getManager();
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+
 
         $opusSheet = new OpusSheet();
 
@@ -149,8 +150,15 @@ class DefaultController extends Controller
             $vEvaluatorStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
                 'valid_evaluator'
             );
+            $vFinalEvaluatorStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_final_evaluator'
+            );
             $vSecEvaluatorStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
                 'valid_second_evaluator'
+            );
+
+            $vRHStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_RH'
             );
 
             $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
@@ -165,25 +173,37 @@ class DefaultController extends Controller
 
                     //Si c'était en génération ou en création
                     if ($actualStatus == $generatedStatus || $actualStatus == $creationStatus) {
+                        //Si le manager enregistre --> creation
+                        //Si le manager valide --> en attente de validation par l'évalué
                         if ($form->get('save')->isClicked()) {
-                            $opusSheet->setStatus($generatedStatus);
-                        } elseif ($form->get('validate')->isClicked()) {
                             $opusSheet->setStatus($creationStatus);
+                        } elseif ($form->get('validate')->isClicked()) {
+                            $opusSheet->setStatus($vEvaluatedStatus);
                         }
                     } //Si c'était à l'évalué de choisir
                     elseif ($actualStatus == $vEvaluatedStatus) {
+                        //Si l'évalué invalide --> en attente de validation par l'évaluateur (mais il ajoute un commentaire : @Todo)
+                        //Si l'évalué valide --> en attente de validation par l'évaluateur
                         if ($form->get('invalidate')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatorStatus);
                         } elseif ($form->get('validate')->isClicked()) {
-                            $opusSheet->setStatus($vEvaluatorStatus);
+                            $opusSheet->setStatus($vFinalEvaluatorStatus);
                         }
                     } elseif ($actualStatus == $vEvaluatorStatus) {
+                        //Si l'évaluateur invalide --> retour à l'évalué
+                        //Si l'évaluateur valide --> Renvoie à l'évalué
                         if ($form->get('invalidate')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatedStatus);
                         } elseif ($form->get('validate')->isClicked()) {
-                            $opusSheet->setStatus($vSecEvaluatorStatus);
+                            $opusSheet->setStatus($vEvaluatedStatus);
                         }
-                    } else {
+                    } elseif($actualStatus == $vFinalEvaluatorStatus) {
+                        //Si l'utilisateur était OK - l'évaluateur peut refuser ou envoyer au DRH (s'il envoie au RH pas de modif possible @todo)
+                        if ($form->get('invalidate_for_rh')->isClicked()) {
+                            $opusSheet->setStatus($vEvaluatorStatus);
+                        } elseif ($form->get('validate_rh')->isClicked()) {
+                            $opusSheet->setStatus($vRHStatus);
+                        }
 
                     }
                     $em->persist($opusSheet);

@@ -69,7 +69,7 @@ class OpusCollection
     private $sheet;
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusAttribute", mappedBy="collection", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusAttribute", mappedBy="collection", cascade={"persist", "remove"})
      */
     private $attributes;
 
