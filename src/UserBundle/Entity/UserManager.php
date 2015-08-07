@@ -13,17 +13,20 @@ use Arianespace\PlexcelBundle\Plexcel;
 use Arianespace\PlexcelBundle\Security\User\UserInterface;
 use Arianespace\PlexcelBundle\Security\User\UserManagerInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 class UserManager implements UserManagerInterface
 {
     private $entityManager = null;
     private $groupsConfig = array();
+    private $container;
 
-    public function __construct(EntityManager $manager, $groupsConfig)
+    public function __construct(EntityManager $manager, $groupsConfig, Container $container)
     {
         $this->entityManager = $manager;
         $this->groupsConfig = $groupsConfig;
+        $this->container = $container;
     }
 
     /**
@@ -36,10 +39,12 @@ class UserManager implements UserManagerInterface
     public function createUser(Plexcel $plexcel)
     {
         $plexcelAccount = $plexcel->getAccount();
+        return $this->container->get('ldap_user_service')->updateByLogin($plexcelAccount['sAMAccountName']);
         // TODO: Implement createUser() method.
 //        dump($plexcelAccount);
 //        die;
 
+        /*
         $user = new User();
         $user->setUsername($plexcelAccount['sAMAccountName']);
         $user->setlogin($plexcelAccount['sAMAccountName']);
@@ -48,7 +53,7 @@ class UserManager implements UserManagerInterface
         $user->setFullName($plexcelAccount['givenName'].' '.$plexcelAccount['sn']);
         $user->setMail($plexcelAccount['mail']);
 
-        return $this->updateUser($user, $plexcel);
+        return $this->updateUser($user, $plexcel);*/
     }
 
     /**

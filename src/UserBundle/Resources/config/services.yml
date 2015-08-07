@@ -5,7 +5,7 @@ services:
         class: UserBundle\Entity\UserProvider
     user_manager:
         class: UserBundle\Entity\UserManager
-        arguments: ["@doctrine.orm.default_entity_manager", null] #Delphine
+        arguments: ["@doctrine.orm.default_entity_manager", null,"@service_container"] #Delphine
 
     user_provider:
         class: UserBundle\Entity\PlexcelUserProvider
