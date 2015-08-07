@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use GeneratorBundle\Entity\OpusCampaign;
+use GeneratorBundle\Form\Campaign\OpusCampaignType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

@@ -19,7 +19,7 @@ class PrepopulateLoader extends DataFixtureLoader
     protected function getFixtures()
     {
         $fix = [
-            "GeneratorBundle:OpusSheetStatus" => __DIR__.'/OpusSheetStatus_Fixtures.yml',
+            /*"GeneratorBundle:OpusSheetStatus" => __DIR__.'/OpusSheetStatus_Fixtures.yml',*/
             "GeneratorBundle:OpusSheetType" => __DIR__.'/OpusSheetType_Fixtures.yml'
         ];
         $return = [];

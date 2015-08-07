@@ -99,12 +99,6 @@ class OpusCampaign
      */
     private $opusTemplate;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="until_sheet_date", type="datetime", nullable=true)
-     */
-    private $untilSheetDate;
 
     /**
      * Get id.
