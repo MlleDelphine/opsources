@@ -2,6 +2,9 @@ user_update:
     path:     /user/update
     defaults: { _controller: UserBundle:Default:update }
 
+user_one_update:
+    path:     /user/update/{login}
+    defaults: { _controller: UserBundle:Default:updateOne }
 #fos_user_security:
 #    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 #

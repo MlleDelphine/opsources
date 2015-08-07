@@ -10,6 +10,7 @@ namespace UserBundle\Service;
 
 
 use Doctrine\ORM\EntityManager;
+use PhpSpec\Exception\Example\NotEqualException;
 use Symfony\Component\DependencyInjection\Container;
 use UserBundle\Entity\User;
 
@@ -49,10 +50,22 @@ class LdapUserService
             $this->em->persist($member);
         }
         $this->em->flush();
+        return $members;
     }
 
     public function updateByLogin($login)
     {
+        $ldap = $this->getLdapByLogin($login);
+        if($ldap === null)
+            throw new \Exception("User not found");
+        $user = $this->formatLdapToUser($ldap);
+        $this->em->persist($user);
+        $this->em->flush();
+        $this->em->refresh($user);
+        $user = $this->setRelations($user);
+        $this->em->persist($user);
+        $this->em->flush();
+        return $user;
 
     }
 
@@ -91,7 +104,6 @@ class LdapUserService
             "firstName" =>  "givenname",
             "lastName"  =>  "sn",
             "fullname"  =>  "cn",
-            "username"  =>  "name",
             "department"=>  "department",
             "mail"      =>  "mail",
             "division"  =>  "division",
@@ -116,6 +128,7 @@ class LdapUserService
 
 
         $user->setLogin($login);
+        $user->setUsername($login);
 
         // Valeurs
         foreach($arr as $attr => $val)
@@ -165,6 +178,8 @@ class LdapUserService
     private function setRelation($user,$relation,$attr)
     {
         $userInstance = $this->em->getRepository("UserBundle:User")->findOneByLogin($relation["samaccountname"]);
+        if($userInstance === null)
+            $userInstance = $this->updateByLogin($relation["samaccountname"]);
         $set = "set". ucfirst($attr);
         $user->$set($userInstance);
         return $user;
@@ -178,7 +193,10 @@ class LdapUserService
             {
                 $roles = $user->getRoles();
                 if(is_array($roles))
-                    $user->setRoles(array_push($roles,$role));
+                {
+                    array_push($roles,$role);
+                    $user->setRoles($roles);
+                }
                 else
                     $user->setRoles([$role]);
             }
@@ -187,11 +205,20 @@ class LdapUserService
             {
                 $roles = $user->getRoles();
                 if(is_array($roles))
-                    $user->setRoles(array_push($roles,$role));
+                {
+                    array_push($roles,$role);
+                    $user->setRoles($role);
+                }
                 else
-                    $user->setRoles([$role]);
+                {
+                    array_push($roles,"ROLE_USER");
+                    $user->setRoles($roles);
+                }
+
             }
         }
+        if(is_int($user->getRoles()))
+            $user->setRoles(["ROLE_USER"]);
         return $user;
     }
 

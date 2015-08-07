@@ -210,11 +210,13 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluator", cascade={"persist"})
+     * @ORM\OrderBy({"updatedAt" = "desc"})
      */
     private $opusSheetsEvaluator;
 
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluate", cascade={"persist"})
+     * @ORM\OrderBy({"updatedAt" = "desc"})
      */
     private $opusSheetsEvaluate;
 

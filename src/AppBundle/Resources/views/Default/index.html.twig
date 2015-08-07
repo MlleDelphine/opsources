@@ -25,12 +25,20 @@
                     </li>
                     <li><a href="#equipe" data-toggle="tab">Mon equipe</a>
                     </li>
-                    <li><a href="#creation" data-toggle="tab">Création de fiche</a>
-                    </li>
+                    {% if is_granted('ROLE_MANAGER') %}
+                        <li><a href="#creation" data-toggle="tab">Création de fiche</a>
+                        </li>
+                    {% endif %}
                     {% if is_granted('ROLE_RH') %}
                         <li><a href="#campagne" data-toggle="tab">Gestion des campagnes</a></li>
                     {% endif %}
                     <li><a href="#export" data-toggle="tab">Export</a>
+                    </li>
+
+                    <li><a href="#valid_rh" data-toggle="tab">Demande validation RH</a>
+                    </li>
+
+                    <li><a href="#fiche_close" data-toggle="tab">Fiches close</a>
                     </li>
                 </ul>
 
@@ -41,7 +49,7 @@
 
                             {% for type in types %}
                                 {% set done = 0  %}
-                                {% for o in user.opusSheetsEvaluate %}
+                                {% for o in user.opusSheetsEvaluate if sheet is not defined %}
                                     {% if o.opusTemplate.type == type %}
                                         {% set sheet = o %}
                                         {% if( o.status.intCode != -1 and o.status.intCode != 8 and o.status.intCode != 9 and o.status is not empty ) %}
@@ -50,8 +58,7 @@
                                     {% endif %}
                                 {% endfor %}
                                 {% set color = "done" %}
-                                {% if ( done == 0 and sheet is defined ) %}
-                                    {% if sheet.getEcheance() > 60 %}
+                                {% if ( done == 0 and sheet is defined ) %}{% if sheet.getEcheance() > 60 %}
                                         {% set color = "yellow" %}
                                     {% elseif sheet.getEcheance() > 30 %}
                                         {% set color = "orange" %}
@@ -97,12 +104,12 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {% for u in user.opusSheetsEvaluator %}
+                                                {% for u in users if u.department == user.department and user.department is not null %}
                                                     <tr>
-                                                        <td>{{ u.evaluate.firstName }} {{ u.evaluate.lastName }}</td>
+                                                        <td>{{ u.firstName }} {{ u.lastName }}</td>
                                                         {% for type in types %}
                                                             {% set canCreate = 1 %}
-                                                            {% for e in u.evaluate.opusSheetsEvaluate %}
+                                                            {% for e in u.opusSheetsEvaluate %}
                                                                 {% if( e.opusTemplate.type == type and e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
                                                                     {% set canCreate = 0 %}
                                                                 {% endif %}
@@ -152,20 +159,30 @@
                                                     <td>{{ u.evaluate.firstName }} {{ u.evaluate.lastName }}</td>
                                                     {% for type in types %}
 
-                                                        {% set color = 1 %}
+                                                        {% set color = 0 %}
                                                         {% set status = '' %}
+                                                        {% set id = 0 %}
                                                         {% for e in u.evaluate.opusSheetsEvaluate %}
-
-                                                            <!-- fermer -->
-                                                            {% if( e.opusTemplate.type == type and e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
-                                                                {% set color = 0 %}
-                                                                {% else %}
+                                                            {% if e.opusTemplate.type == type %}
+                                                                {% set id = e.id %}
+                                                                {% if( e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
+                                                                    {% set color = 1 %}
                                                                     {% if is_granted('ROLE_ADMIN') %}
                                                                         {% set status = e.status.label %}
+                                                                    {% elseif  is_granted('ROLE_DIRECTOR') and e.status.intCode == 6  %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% elseif ( is_granted('ROLE_RH') and e.status.intCode == 7 ) %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% elseif ( is_granted('ROLE_DIVISION_MANAGER') and e.status.intCode == 11 and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5 ) %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% elseif ( is_granted('ROLE_MANAGER') and e.status.intCode == 11 and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5) %}
+                                                                        {% set status = e.status.label %}
                                                                     {% endif %}
+                                                                {% endif %}
                                                             {% endif %}
                                                         {% endfor %}
-                                                        <td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center">{{ status }}</td>
+
+                                                    <a href="{{ path("generator_editsheet",{"id": id}) }}"><td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center"><a  class="{{ color == 1 ? 'table-orange' : '' }}" href="{{ path("generator_editsheet",{"id": id}) }}">{{ status }}</a></td></a>
                                                     {% endfor %}
                                                     <td></td>
                                                 </tr>
@@ -197,24 +214,38 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td>Jean-Jacques LEFEVRE</td>
-                                                <td class="table-orange">A Faire</td>
-                                                <td class="table-orange"></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jean-Jacques LEFEVRE</td>
-                                                <td></td>
-                                                <td class="table-orange">A Faire</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jean-Jacques LEFEVRE</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="table-orange"></td>
-                                            </tr>
+                                            {% for u in users if u.department == user.department and user.department is not null %}
+                                                <tr>
+                                                    <td>{{ u.firstName }} {{ u.lastName }}</td>
+                                                    {% for type in types %}
+
+                                                        {% set color = 0 %}
+                                                        {% set status = '' %}
+                                                        {% set id = 0 %}
+                                                        {% for e in u.opusSheetsEvaluate %}
+                                                            {% if e.opusTemplate.type == type %}
+                                                                {% set id = e.id %}
+                                                                {% if( e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
+                                                                    {% set color = 1 %}
+                                                                    {% if is_granted('ROLE_ADMIN') %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% elseif  is_granted('ROLE_DIRECTOR') and e.status.intCode == 6  %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% elseif ( is_granted('ROLE_RH') and e.status.intCode == 7 ) %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% elseif ( is_granted('ROLE_DIVISION_MANAGER') and e.status.intCode == 11  and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5 ) %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% elseif ( is_granted('ROLE_MANAGER') and e.status.intCode == 11 and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5) %}
+                                                                        {% set status = e.status.label %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                        <a href="{{ path("generator_editsheet",{"id": id}) }}"><td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center"><a  class="{{ color == 1 ? 'table-orange' : '' }}" href="{{ path("generator_editsheet",{"id": id}) }}">{{ status }}</a></td></a>
+                                                    {% endfor %}
+                                                </tr>
+                                            {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>

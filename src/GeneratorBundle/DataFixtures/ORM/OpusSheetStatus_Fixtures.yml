@@ -24,7 +24,7 @@ GeneratorBundle\Entity\OpusSheetStatus:
         intCode: 5
         strCode: "valid_second_evaluator"
     status6:
-        label: "Attente de validtion du directeur"
+        label: "Attente de validation du directeur"
         intCode: 6
         strCode: "valid_director"
     status7:

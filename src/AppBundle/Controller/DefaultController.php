@@ -2,14 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use GeneratorBundle\Entity\OpusCampaign;
-use GeneratorBundle\Entity\OpusSheet;
-use GeneratorBundle\Form\Campaign\OpusCampaignType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use UserBundle\Entity\User;
 
 /**
  * Class DefaultController.
@@ -17,7 +13,7 @@ use UserBundle\Entity\User;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/app", name="homepage")
+     * @Route("/", name="homepage")
      * @Template()
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -30,6 +26,8 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('UserBundle:User')->findAll();
         $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
+        $templates = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findAll();
+        $fiches = $em->getRepository('GeneratorBundle:OpusSheet')->findAll();
         $opusCampaigns = $em->getRepository('GeneratorBundle:OpusCampaign')->findBy(array(),array('id' => 'ASC'));
 
         $opusCampaign = new OpusCampaign();
@@ -56,17 +54,19 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('homepage'));
         }
 
-        foreach($users as $u)
+        /*foreach($users as $u)
         {
             foreach($u->getOpusSheetsEvaluator() as $e){
                 $user = $u;
                 break 2;
             }
-        }
+        }*/
         return array(
             'user' => $user,
             'users' => $users,
             'types' => $types,
+            'templates' => $templates,
+            'fiches' => $fiches,
             'opusCampaigns' => $opusCampaigns,
             'formOpusCampaign' => $form->createView()
         );
