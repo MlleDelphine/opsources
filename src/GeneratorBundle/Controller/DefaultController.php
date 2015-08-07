@@ -2,6 +2,7 @@
 
 namespace GeneratorBundle\Controller;
 
+use GeneratorBundle\Entity\OpusCampaign;
 use GeneratorBundle\Entity\OpusSheet;
 use GeneratorBundle\Entity\OpusSheetType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -46,7 +47,7 @@ class DefaultController extends Controller
     /**
      * On crée une fiche orpheline, hors précréation grâce à une campagne
      */
-    public function newAction($idUser, $strCodeType, $ajaxCall = false)
+    public function newAction(Request $request, $idUser, $strCodeType)
     {
         $em = $this->getDoctrine()->getManager();
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
@@ -70,21 +71,13 @@ class DefaultController extends Controller
         //On persist dans populateOpusSheet
         $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
 
-        if(!$ajaxCall){
+        if(!$request->isXmlHttpRequest()){
             return $this->redirect($this->generateUrl('generator_editsheet', array('id' => $opusSheet->getId())));
         }
 
         return new Response('Success');
 
     }
-
-    /*
-     * Création d'une nouvelle campagne
-     */
-    public function newCampaignAction($year, $mailDate, $limitDate, $idStatus, $idType, $idTemplate){
-        return new Response($year.' '.$mailDate.' '.$limitDate.' '.$idStatus.' '.$idType.' '.$idTemplate);
-    }
-
 
     /**
      * Affichage du formulaire d'édition

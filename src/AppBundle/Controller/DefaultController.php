@@ -2,10 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use GeneratorBundle\Entity\OpusCampaign;
+use GeneratorBundle\Entity\OpusSheet;
+use GeneratorBundle\Form\Campaign\OpusCampaignType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use UserBundle\Entity\User;
 
 /**
  * Class DefaultController.
@@ -26,7 +30,31 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('UserBundle:User')->findAll();
         $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
-        $templates = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findAll();
+        $opusCampaigns = $em->getRepository('GeneratorBundle:OpusCampaign')->findBy(array(),array('id' => 'ASC'));
+
+        $opusCampaign = new OpusCampaign();
+
+        $form = $this->get('form.factory')->create(new OpusCampaignType(), $opusCampaign);
+
+        if($form->handleRequest($request)->isValid()){
+            $em->persist($opusCampaign);
+            $em->flush();
+
+            $flash = "Campagne créée avec succès";
+
+            if($opusCampaign->getStatus() == 1){
+                $associateSheetToCampaign = $this->associateSheetToCampaign($opusCampaign, $user);
+                $associatedSheets = $associateSheetToCampaign[0];
+                $createdSheets = $associateSheetToCampaign[1];
+                $flash = "Campagne créée avec succès<br/> Fiches associées : ".$associatedSheets."<br/> Fiches créées et associées : ".$createdSheets;
+            }
+
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                'INFO : '.$flash);
+
+            return $this->redirect($this->generateUrl('homepage'));
+        }
 
         foreach($users as $u)
         {
@@ -39,7 +67,51 @@ class DefaultController extends Controller
             'user' => $user,
             'users' => $users,
             'types' => $types,
-            'templates' => $templates
+            'opusCampaigns' => $opusCampaigns,
+            'formOpusCampaign' => $form->createView()
+        );
+    }
+
+    /**
+     * @Route("/edit/campaign/{idCampaign}", name="edit_campaign")
+     * @Template()
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return array
+     */
+    public function editCampaignAction(Request $request, $idCampaign)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $opusCampaign = $em->getRepository('GeneratorBundle:OpusCampaign')->find($idCampaign);
+
+        $form = $this->get('form.factory')->create(new OpusCampaignType(), $opusCampaign);
+
+        if($form->handleRequest($request)->isValid()){
+            $em->persist($opusCampaign);
+            $em->flush();
+
+            $flash = "Campagne éditée avec succès";
+
+//            if($opusCampaign->getStatus() == 1){
+//                $associateSheetToCampaign = $this->associateSheetToCampaign($opusCampaign, $user);
+//                $associatedSheets = $associateSheetToCampaign[0];
+//                $createdSheets = $associateSheetToCampaign[1];
+//                $flash = "Campagne éditée avec succès<br/> Fiches associées : ".$associatedSheets."<br/> Fiches créées et associées : ".$createdSheets;
+//            }
+
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                'INFO : '.$flash);
+
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+
+
+        return array(
+            'formOpusCampaign'=>$form->createView()
         );
     }
 
@@ -190,5 +262,41 @@ class DefaultController extends Controller
             'title' => 'Entretiens sur les conditions de travail : Evalué',
             'createRouteName' => 'new_conditionsmeet',
             'icon' => 'fa-tachometer', );
+    }
+
+    protected function associateSheetToCampaign(OpusCampaign $opusCampaign){
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('UserBundle:User')->findUsersWithManager();
+
+        $return = array();
+        $associatedSheets = 0;
+        $createdSheets = 0;
+
+        foreach($users AS $user){
+            $opusSheets = $em->getRepository('GeneratorBundle:OpusSheet')->findSheetsWithoutCampaign($user, $opusCampaign);
+
+            if(!empty($opusSheets)){
+                foreach($opusSheets AS $opusSheet){
+                    $opusSheet->setCampaign($opusCampaign);
+                    $em->persist($opusSheet);
+                    $associatedSheets++;
+                }
+            }else{
+                $newOpusSheet = new OpusSheet();
+                $newOpusSheet
+                    ->setEvaluate($user)
+                    ->setEvaluator($user->getManager())
+                    ->setCampaign($opusCampaign)
+                    ->setOpusTemplate($opusCampaign->getOpusTemplate());
+                $em->persist($newOpusSheet);
+                $createdSheets++;
+            }
+        }
+
+        $em->flush();
+
+        array_push($return, $associatedSheets, $createdSheets);
+
+        return $return;
     }
 }

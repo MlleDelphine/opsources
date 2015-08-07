@@ -4,7 +4,11 @@
     <div class="col-lg-12">
         <div class="col-lg-12">
             <h1 class="page-header">Dashboard</h1>
-
+            {% for flash in app.session.flashbag.get('info') %}
+                <div class="alert alert-success col-md-12">
+                    {{ flash | raw }}
+                </div>
+            {% endfor %}
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -23,8 +27,9 @@
                     </li>
                     <li><a href="#creation" data-toggle="tab">Création de fiche</a>
                     </li>
-                    <li><a href="#campagne" data-toggle="tab">Campagne</a>
-                    </li>
+                    {% if is_granted('ROLE_RH') %}
+                        <li><a href="#campagne" data-toggle="tab">Gestion des campagnes</a></li>
+                    {% endif %}
                     <li><a href="#export" data-toggle="tab">Export</a>
                     </li>
                 </ul>
@@ -222,40 +227,49 @@
                     </div>
                     <div class="tab-pane fade" id="campagne">
                         <div class="col-lg-12">
-                            <h2>Création d'une campagne</h2>
+                            <h2>Création ou édition d'une campagne</h2>
                             <div class="panel panel-default">
                                 <!-- /.panel-heading -->
                                 <div class="panel-body">
-                                    <label for="campaign_year" class="col-md-12">Année *</label>
-                                    <input type="text" name="campaign_year" id="campaign_year" class="col-md-12"/>
+                                    <div class="btn btn-primary" id="btnCreateCampaign" onclick="displayCreateCampaign();">Créer une campagne</div>
+                                    <div class="createCampaign" id="createCampaign" style="display: none">
+                                        {{ form_start(formOpusCampaign) }}
+                                        {{ form_row(formOpusCampaign.year) }}
+                                        {{ form_row(formOpusCampaign.mailDate) }}
+                                        {{ form_row(formOpusCampaign.untilSheetDate) }}
+                                        {{ form_row(formOpusCampaign.limitDate) }}
+                                        {{ form_row(formOpusCampaign.status) }}
+                                        {#{{ form_row(formOpusCampaign.type) }}#}
+                                        {{ form_row(formOpusCampaign.opusTemplate) }}
+                                        <input type="submit" value="Créer" class="btn btn-primary pull-right btn-lg">
+                                        {{ form_end(formOpusCampaign) }}
+                                    </div>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th class="upperFirst">Année</th>
+                                            <th class="upperFirst">Mail date</th>
+                                            <th class="upperFirst">Date limite</th>
+                                            <th class="upperFirst">Statut</th>
+                                            <th class="upperFirst">Type entretien</th>
+                                            <th class="upperFirst">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for opusCampaign in opusCampaigns %}
+                                                <tr>
+                                                    <td>{{ opusCampaign.year }}</td>
+                                                    <td>{{ opusCampaign.mailDate | date('d/m/Y') }}</td>
+                                                    <td>{{ opusCampaign.limitDate | date('d/m/Y') }}</td>
+                                                    <td>{{ opusCampaign.status }}</td>
+                                                    <td>{{ opusCampaign.type.name }}</td>
+                                                    <td><a href="{{ path('edit_campaign',{'idCampaign':opusCampaign.id}) }}" class="btn btn-primary pull-right">Éditer</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
 
-                                    <label for="campaign_mail_date" class="col-md-12">Mail date *</label>
-                                    <input type="date" name="campaign_mail_date" id="campaign_mail_date" class="col-md-12"/>
 
-                                    <label for="campaign_limit_date" class="col-md-12">Date limite *</label>
-                                    <input type="date" name="campaign_limit_date" id="campaign_limit_date" class="col-md-12"/>
-
-                                    <label for="campaign_status" class="col-md-12">Statut *</label>
-                                    <select name="campaign_status" id="campaign_status" class="col-md-12">
-                                        <option value="0">Désactivée</option>
-                                        <option value="1">Activée</option>
-                                    </select>
-
-                                    <label for="campaign_type" class="col-md-12">Type d'entretien *</label>
-                                    <select name="campaign_type" id="campaign_type" class="col-md-12">
-                                        {% for type in types %}
-                                            <option value="{{ type.id }}">{{ type.name }}</option>
-                                        {% endfor %}
-                                    </select>
-
-                                    <label for="campaign_template" class="col-md-12">Template *</label>
-                                    <select name="campaign_template" id="campaign_template" class="col-md-12">
-                                        {% for template in templates %}
-                                            <option value="{{ template.id }}">{{ template.name }}</option>
-                                        {% endfor %}
-                                    </select>
-
-                                    <input type="submit" value="Créer" class="btn btn-primary pull-right btn-lg" onclick="createCampaign();">
                                 </div>
                                 <!-- /.panel-body -->
                             </div>
@@ -274,6 +288,19 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+
+        function displayCreateCampaign(){
+            $div = $('div#createCampaign');
+            if($div.css('display') == 'block'){
+                $('#btnCreateCampaign').text('Créer une campagne');
+                $('div#createCampaign').css('display','none');
+            }else{
+                $('#btnCreateCampaign').text('Fermer');
+                $('div#createCampaign').css('display','block');
+            }
+
+        }
+
         function createSheet(){
             $t =$(document).find("#createSheet");
             $n = 0;
@@ -290,35 +317,6 @@
                }
             });
             alert($n +" fiches viennent d'êtres ajoutées");
-        }
-
-        function createCampaign(){
-            $campaign_year = $(document).find("#campaign_year").val();
-            $campaign_mail_date = $(document).find("#campaign_mail_date").val();
-            $campaign_limit_date = $(document).find("#campaign_limit_date").val();
-            $campaign_status = $(document).find("#campaign_status").val();
-            $campaign_type = $(document).find("#campaign_type").val();
-            $campaign_template = $(document).find("#campaign_template").val();
-//            {year}/{mailDate}/{limitDate}/{idStatus}/{idType}/{idTemplate}
-            $path = '{{ path("generator_newcampaign",{
-                        "year":"__YEAR__",
-                        "mailDate":"__MAILDATE__",
-                        "limitDate":"__LIMITDATE__",
-                        "idStatus":"__IDSTATUS__",
-                        "idType":"__IDTYPE__",
-                        "idTemplate":"__IDTEMPLATE__"
-                        })
-                    }}';
-            $path = $path.replace("__YEAR__",$campaign_year);
-            $path = $path.replace("__MAILDATE__",$campaign_mail_date);
-            $path = $path.replace("__LIMITDATE__",$campaign_limit_date);
-            $path = $path.replace("__IDSTATUS__",$campaign_status);
-            $path = $path.replace("__IDTYPE__",$campaign_type);
-            $path = $path.replace("__IDTEMPLATE__",$campaign_template);
-
-            $.post($path,function(response){
-                alert(response);
-            })
         }
     </script>
 
