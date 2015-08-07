@@ -32,15 +32,70 @@ class AccessControlSheet
      */
     public function canAccess(OpusSheet $sheet)
     {
-//        $userConnected = $this->securityTokenContext->getToken()->getUser();
-//        dump($sheet->getEvaluate());
-//        dump($this->em->getRepository("UserBundle:User")->find(515));
-//        die;
-//
-//        if ($sheet->getEvaluator() === $userConnected || $sheet->getEvaluate() === $userConnected || $sheet->getDirector() === $userConnected || $sheet->getResponsable() === $userConnected) {
-//
-//            return true;
-//        }
-        return true;
+        $userConnected = $this->securityTokenContext->getToken()->getUser();
+
+        $generatedStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+        $creationStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
+        $director = $sheet->getDirector();
+        $responsable = $sheet->getResponsable();
+
+        if ($sheet->getEvaluator()->getId() === $userConnected->getId()
+            || ($sheet->getEvaluate()->getId() === $userConnected->getId() && $sheet->getStatus() != $creationStatus)
+            || ( isset($director) && $sheet->getDirector()->getId() === $userConnected->getId())
+            || (  isset($responsable) && $sheet->getResponsable()->getId() === $userConnected ->getId())) {
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Détermine quel champs seront modifiables en fonction de la personne connectée et du statut de la fiche
+     * @param OpusSheet $opusSheet
+     */
+    public function determineWriteRight(OpusSheet $opusSheet = null){
+
+        if($opusSheet) {
+            $userLogged = $this->securityTokenContext->getToken()->getUser();
+            $sheetStatus = $opusSheet->getStatus();
+
+            $generatedStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+            $creationStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
+            $vEvaluatedStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_evaluated'
+            );
+            $vEvaluatorStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_evaluator'
+            );
+            $vFinalEvaluatorStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_final_evaluator'
+            );
+
+            //Si évaluateur connecté
+            if ($userLogged->getId() == $opusSheet->getEvaluator()->getId()) {
+                if ($sheetStatus == $generatedStatus || $sheetStatus == $creationStatus || $sheetStatus == $vEvaluatorStatus ) {
+                    //L'évaluateur peut modifier ses champs mais pas ceux du user
+                    return 'evaluator_write';
+                } else {
+                    //L'évaluateur ne peut modifier aucun champ
+                    return 'none';
+                }
+            } elseif ($userLogged->getId() == $opusSheet->getEvaluate()->getId()) {
+                if ($sheetStatus == $vEvaluatedStatus) {
+                    //L'évalué peut modifier ses propres champs si c'est à son tour
+                    return 'evaluate_write';
+                } else {
+                    //L'évalué ne peut rien modifier
+                    return 'none';
+                }
+            } else {
+                return 'none';
+            }
+        }
+        else{
+
+            return 'none';
+        }
+
     }
 }

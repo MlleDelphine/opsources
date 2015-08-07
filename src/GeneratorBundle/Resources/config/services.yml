@@ -4,7 +4,7 @@ services:
         arguments: ['@kernel']
     app.prepopulate_entity:
         class:        GeneratorBundle\Service\PrePopulateEntity
-        arguments: ['@form.factory', '@router', '@doctrine.orm.default_entity_manager', '@security.token_storage'] #['@service_container', '@form.factory', '@router']
+        arguments: ['@form.factory', '@router', '@doctrine.orm.default_entity_manager', '@security.token_storage', '@app.accesscontrol_sheet'] #['@service_container', '@form.factory', '@router']
 
     app.accesscontrol_sheet:
         class: GeneratorBundle\Service\AccessControlSheet
