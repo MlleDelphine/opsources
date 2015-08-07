@@ -38,7 +38,7 @@ class DefaultController extends Controller
 
         if($form->handleRequest($request)->isValid()){
             $em->persist($opusCampaign);
-//            $em->flush();
+            $em->flush();
 
             $flash = "Campagne créée avec succès";
 
@@ -293,7 +293,7 @@ class DefaultController extends Controller
             }
         }
 
-//        $em->flush();
+        $em->flush();
 
         array_push($return, $associatedSheets, $createdSheets);
 
