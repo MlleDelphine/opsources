@@ -27,19 +27,23 @@ class DefaultController extends Controller
         $users = $em->getRepository('UserBundle:User')->findAll();
         $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
         $templates = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findAll();
-/*
-        foreach($users as $u)
+        $fiches = $em->getRepository('GeneratorBundle:OpusSheet')->findAll();
+
+        /*foreach($users as $u)
         {
             foreach($u->getOpusSheetsEvaluator() as $e){
                 $user = $u;
                 break 2;
             }
         }*/
+
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
         return array(
             'user' => $user,
             'users' => $users,
             'types' => $types,
-            'templates' => $templates
+            'templates' => $templates,
+            'fiches' => $fiches
         );
     }
 
