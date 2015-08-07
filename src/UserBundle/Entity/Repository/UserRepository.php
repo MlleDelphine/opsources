@@ -33,4 +33,13 @@ class UserRepository extends EntityRepository
 //        die;
         return $qb;
     }
+
+    public function findUsersWithManager()
+    {
+        $qb = $this->createQueryBuilder('u');
+        $result = $qb
+                ->where($qb->expr()->isNotNull('u.manager'))
+                ->getQuery()->getResult();
+        return $result;
+    }
 }

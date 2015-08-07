@@ -42,4 +42,25 @@ class OpusSheetRepository extends EntityRepository
 
         return $result;
     }
+
+    public function findSheetsWithoutCampaign($user, $opusCampaign){
+        $qb = $this->createQueryBuilder('opusSheet');
+        $result = $qb
+            ->join('opusSheet.evaluate','evaluate')
+            ->join('opusSheet.evaluator','evaluator')
+            ->join('opusSheet.opusTemplate','opusTemplate')
+            ->join('opusTemplate.type','opusTemplateType')
+            ->where('evaluate.id = :evaluate')
+            ->andWhere('evaluator.id = :evaluator')
+            ->andWhere($qb->expr()->isNull('opusSheet.campaign'))
+            ->andWhere('opusTemplateType.id = :opusTemplateType')
+            ->andWhere('opusSheet.createdAt > :dateSheet')
+            ->setParameter('evaluate', $user->getId())
+            ->setParameter('evaluator', $user->getManager()->getId())
+            ->setParameter('opusTemplateType', $opusCampaign->getOpusTemplate()->getType()->getId())
+            ->setParameter('dateSheet', $opusCampaign->getUntilSheetDate(), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->getQuery()->getResult();
+
+        return $result;
+    }
 }
