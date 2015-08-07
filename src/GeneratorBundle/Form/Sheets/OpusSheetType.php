@@ -10,6 +10,8 @@
 namespace GeneratorBundle\Form\Sheets;
 
 use Doctrine\ORM\EntityManager;
+use GeneratorBundle\Entity\Repository\OpusJobRepository;
+use GeneratorBundle\Service\AccessControlSheet;
 use UserBundle\Entity\Repository\UserRepository;
 use GeneratorBundle\Form\Type\CustomCollectionAttributeType;
 use Symfony\Component\Form\AbstractType;
@@ -23,12 +25,14 @@ class OpusSheetType extends AbstractType
     protected $attributes;
     protected $em;
     private $security;
+    private $accessControl;
 
-    public function __construct($attributes, EntityManager $em, TokenStorage $security)
+    public function __construct($attributes, EntityManager $em, TokenStorage $security, AccessControlSheet $accessControl  )
     {
         $this->attributes = $attributes;
         $this->em = $em;
         $this->security = $security;
+        $this->accessControl = $accessControl;
     }
     /**
      * @param FormBuilderInterface $builder
@@ -38,31 +42,39 @@ class OpusSheetType extends AbstractType
     {
         $user = $this->security->getToken()->getUser();
 
+
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (\Symfony\Component\Form\FormEvent $event) use ($user) {
-                $meet = $event->getData();
+                $sheet = $event->getData();
+                $job1 = $sheet->getJob1();
+                $job2 = $sheet->getJob2();
                 $form = $event->getForm();
-                $validatedE = $this->em->getRepository('GeneratorBundle:OpusSheetStatus')->findOneBy(array('strCode' => 'valid_evalue'));
-                if ($meet->getEvaluator()) {
-                    $evaluator = $meet->getEvaluator();
+                //Statuts possibles pour déterminer quels submit on affiche et SI on les affiche
+                $generatedStatus =  $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+                $creationStatus =  $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
+                $vEvaluatedStatus =  $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('valid_evaluated');
+                $vEvaluatorStatus =  $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('valid_evaluator');
+                $vFinalEvaluatorStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                    'valid_final_evaluator'
+                );
+
+
+                if ($sheet->getEvaluator()) {
+                    $evaluator = $sheet->getEvaluator();
                 } else {
                     $evaluator = $user;
                 }
 
                 //Si évalué tout est désactivé sauf les siens
-                $access = true;
 
-                if ($meet->getEvaluator() === $user && $meet->getStatus() ==  $validatedE) {
-                    $attr = array('data-tab' => 'tab_1', 'readonly' => true);
-                    $access = false;
-                } elseif ($meet->getEvaluate() === $user) {
-                    $attr = array('data-tab' => 'tab_1', 'readonly' => true);
-                    $access = false;
-                } elseif ($meet->getEvaluator() === $user) {
-                    $attr = array('data-tab' => 'tab_1');
-                } else {
-                    $attr = array('data-tab' => 'tab_1', 'readonly' => true);
+                //On appelle le service qui détermine ce qui peut être édité
+                $attr = array('data-tab' => 'tab_1');
+                $access = $this->accessControl->determineWriteRight($sheet);
+
+                //Si aucun accès ou au tour de l'évalué les champs principaux sont bloqués
+                if ($access == "none" || $access == "evaluate_write") {
+                    $attr['readonly'] = true;
                 }
 
                 $form->add('evaluator', 'genemu_jqueryselect2_entity', array(
@@ -76,62 +88,102 @@ class OpusSheetType extends AbstractType
                         'attr' => $attr, )
                 );
 
-                if (!$meet->getEvaluate()) {
-                    //On affiche tous les users(sauf le connecté qui est le manager) = création
+                $evaluate = $sheet->getEvaluate();
+                //On laisse le connecté de la liste des évalués potentiels
+                $form->add(
+                    'evaluate',
+                    'genemu_jqueryselect2_entity',
+                    array(
+                        'class' => 'UserBundle:User',
+                        'query_builder' => function (UserRepository $er) use ($evaluate) {
+                            return $er->findOneByQuery($evaluate);
+                        },
+                        'label' => 'Evalué',
+                        'multiple' => false,
+                        'required' => true,
+                        'attr' => $attr,
+                    )
+                );
+
+
+                if($access == "none" || $access == "evaluate_write"){
+                    if($job1) {
+                        $form->add(
+                            'job1',
+                            'genemu_jqueryselect2_entity',
+                            array(
+                                'class' => 'GeneratorBundle:OpusJob',
+                                'query_builder' => function (OpusJobRepository $er) use ($job1) {
+                                    return $er->findOneByQuery($job1);
+                                },
+                                'label' => 'Métier 1',
+                                'multiple' => false,
+                                'required' => true,
+                                'attr' => $attr,
+                            )
+                        );
+                    }
+
+                    if($job2){
+                        $form->add(
+                            'job2',
+                            'genemu_jqueryselect2_entity',
+                            array(
+                                'class' => 'GeneratorBundle:OpusJob',
+                                'query_builder' => function (OpusJobRepository $er) use ($job2) {
+                                    return $er->findOneByQuery($job2);
+                                },
+                                'label' => 'Métier 2',
+                                'multiple' => false,
+                                'required' => true,
+                                'attr' => $attr,
+                            ));
+                    }
+                }
+                //Donc évaluateur
+                else{
+
                     $form->add(
-                        'evaluate',
+                        'job1',
                         'genemu_jqueryselect2_entity',
                         array(
-                            'class' => 'UserBundle:User',
-                            'query_builder' => function (UserRepository $er) use ($user) {
-                                return $er->findAllExcept($user);
-                            },
-                            'label' => 'Evalué',
+                            'class' => 'GeneratorBundle:OpusJob',
+                            'label' => 'Métier 1',
                             'multiple' => false,
                             'required' => true,
                             'attr' => $attr,
-                        )
-                    );
-                } else {
-                    $evaluate = $meet->getEvaluate();
-                    //On laisse le connecté de la liste des évalués potentiels
+                        ));
+
                     $form->add(
-                        'evaluate',
+                        'job2',
                         'genemu_jqueryselect2_entity',
                         array(
-                            'class' => 'UserBundle:User',
-                            'query_builder' => function (UserRepository $er) use ($evaluate) {
-                                return $er->findOneByQuery($evaluate);
-                            },
-                            'label' => 'Evalué',
+                            'class' => 'GeneratorBundle:OpusJob',
+                            'label' => 'Métier 2',
                             'multiple' => false,
-                            'required' => true,
+                            'required' => false,
                             'attr' => $attr,
-                        )
-                    );
+                        ));
+
+
                 }
 
-                $attr['data-tab'] = 'tab_2';
-
-
-
-
-                //Nouveau champs de formulaire : attributs simples
-                if (!$event || null === $meet->getId()) {
-                    $form->add(
-                        'attributes', new CustomCollectionAttributeType(), array(
-                        'type' => new OpusSheetAttributeNewType($this->attributes['attr']),
+                $form->add(
+                    'attributes',  new CustomCollectionAttributeType(), array(
+                        'type' => new OpusSheetAttributeNewType($this->attributes['attr'], $access),
                         'allow_add' => true,
-                        'allow_delete' => true,
+                        'allow_delete' => false,
                         'by_reference' => false,
                         'required' => false,
-                        'label' => '', ));
-                }
-                //Edition d'un formulaire existant
-                else {
+                        'label' => false,
+                    )
+                );
+
+                //Nouveau champs de formulaire : collection d'attributs
+                if (array_key_exists('collections', $this->attributes)) {
                     $form->add(
-                        'attributes',  new CustomCollectionAttributeType(), array(
-                            'type' => new OpusSheetAttributeNewType($this->attributes['attr']),
+                        'collections',  new CustomCollectionAttributeType(), array(
+                            'type' => new OpusSheetCollectionAttributeNewType($this->attributes['collections'], $access),
                             'allow_add' => true,
                             'allow_delete' => false,
                             'by_reference' => false,
@@ -141,32 +193,62 @@ class OpusSheetType extends AbstractType
                     );
                 }
 
-                //Nouveau champs de formulaire : collection d'attributs
-                if (array_key_exists('collections', $this->attributes)) {
-                    if (!$event || null === $meet->getId()) {
+                if($access != "none" || ($sheet->getEvaluator()->getId() == $user->getId() && $sheet->getStatus() == $vFinalEvaluatorStatus )) {
+                    //gestion des boutons de formulaire
+                    if ($sheet->getStatus() == $generatedStatus || $sheet->getStatus() == $creationStatus) {
                         $form->add(
-                            'collections', new CustomCollectionAttributeType(), array(
-                            'type' => new OpusSheetCollectionAttributeNewType($this->attributes['collections']),
-                            'allow_add' => true,
-                            'allow_delete' => true,
-                            'by_reference' => false,
-                            'required' => false,
-                            'label' => false, ));
-                    }
-                    //Edition d'un formulaire existant
-                    else {
+                            'save',
+                            'submit',
+                            array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info'))
+                        );
                         $form->add(
-                            'collections',  new CustomCollectionAttributeType(), array(
-                                'type' => new OpusSheetCollectionAttributeNewType($this->attributes['collections']),
-                                'allow_add' => true,
-                                'allow_delete' => false,
-                                'by_reference' => false,
-                                'required' => false,
-                                'label' => false,
-                            )
+                            'validate',
+                            'submit',
+                            array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                        );
+                    } elseif ($sheet->getStatus() == $vEvaluatedStatus) {
+                        $form->add(
+                            'invalidate',
+                            'submit',
+                            array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
+                        );
+                        $form->add(
+                            'validate',
+                            'submit',
+                            array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                        );
+                    } elseif ($sheet->getStatus() == $vEvaluatorStatus) {
+                        $form->add(
+                            'invalidate',
+                            'submit',
+                            array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
+                        );
+                        $form->add(
+                            'validate',
+                            'submit',
+                            array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                        );
+                    } elseif ($sheet->getStatus() == $vFinalEvaluatorStatus) {
+                        $form->add(
+                            'invalidate_for_rh',
+                            'submit',
+                            array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
+                        );
+                        $form->add(
+                            'validate_rh',
+                            'submit',
+                            array('label' => 'Valider pour RH', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                        );
+                    } else {
+                        $form->add(
+                            'validate',
+                            'submit',
+                            array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
                         );
                     }
                 }
+
+
             }
         );
     }

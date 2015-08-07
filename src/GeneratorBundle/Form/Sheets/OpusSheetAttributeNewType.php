@@ -20,10 +20,10 @@ class OpusSheetAttributeNewType extends AbstractType
     protected $attributes;
     protected $tab;
 
-    public function __construct($attributes, $tab = null)
+    public function __construct($attributes, $access = null)
     {
         $this->attributes = $attributes;
-        $this->tab = $tab;
+        $this->access = $access;
     }
 
     /**
@@ -58,13 +58,25 @@ class OpusSheetAttributeNewType extends AbstractType
                                 foreach ($allConf['conf'] as $name => $value) {
                                     $options[$name] = $value;
                                 }
-                                $this->tab = $allConf['conf']['attr']['data-tab'];
 
                                 //Seul le manager peut remplir certains champs
-                                if (isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate') {
-                                    $options['disabled'] = true;
+                                if($this->access == "none"){
                                     $options['attr']['readonly'] = true;
                                 }
+                                elseif($this->access == "evaluator_write"){
+                                    if (isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate') {
+                                       // $options['disabled'] = true;
+                                        $options['attr']['readonly'] = true;
+                                    }
+                                }
+                                elseif($this->access == "evaluate_write"){
+                                    $options['attr']['readonly'] = true;
+
+                                    if (isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate') {
+                                        unset($options['attr']['readonly']);
+                                    }
+                                }
+
 
                                 $form->add(
                                     $fieldName,

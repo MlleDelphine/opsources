@@ -122,12 +122,12 @@ class OpusSheet
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusAttribute", mappedBy="sheet", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusAttribute", mappedBy="sheet", cascade={"persist", "remove"})
      */
     private $attributes;
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusCollection", mappedBy="sheet", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusCollection", mappedBy="sheet", cascade={"persist", "remove"})
      */
     private $collections;
 

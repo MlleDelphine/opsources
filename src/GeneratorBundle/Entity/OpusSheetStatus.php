@@ -14,7 +14,6 @@ class OpusSheetStatus
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer", unique=true)
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */

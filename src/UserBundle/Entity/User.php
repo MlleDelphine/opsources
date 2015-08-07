@@ -209,29 +209,31 @@ class User implements UserInterface
 
 
     /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluator", cascade={"persist", "remove"})
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluator", cascade={"persist"})
      * @ORM\OrderBy({"updatedAt" = "desc"})
      */
     private $opusSheetsEvaluator;
 
     /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluate", cascade={"persist", "remove"})
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluate", cascade={"persist"})
      * @ORM\OrderBy({"updatedAt" = "desc"})
      */
     private $opusSheetsEvaluate;
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="superior", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="superior", cascade={"persist", "remove"})
      */
     private $opusSheetsSuperior;
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="director", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="director", cascade={"persist", "remove"})
      */
     private $opusSheetsDirector;
 
     /**
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="responsable", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="responsable", cascade={"persist", "remove"})
      */
     private $opusSheetsResponsable;
 
@@ -244,8 +246,6 @@ class User implements UserInterface
         $this->assessedProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessorConditionsMeets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->assessedConditionseetss = new \Doctrine\Common\Collections\ArrayCollection();
-        $roles = array('ROLE_USER');
-        $this->roles = $roles;
         $this->sids = array();
         $this->status = 0;
 
