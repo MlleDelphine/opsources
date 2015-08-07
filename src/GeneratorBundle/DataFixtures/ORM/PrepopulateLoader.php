@@ -18,10 +18,17 @@ class PrepopulateLoader extends DataFixtureLoader
      */
     protected function getFixtures()
     {
-        return  array(
-            __DIR__.'/OpusSheetStatus_Fixtures.yml',
-            __DIR__.'/OpusSheetType_Fixtures.yml',
+        $fix = [
+            "GeneratorBundle:OpusSheetStatus" => __DIR__.'/OpusSheetStatus_Fixtures.yml',
+            "GeneratorBundle:OpusSheetType" => __DIR__.'/OpusSheetType_Fixtures.yml'
+        ];
+        $return = [];
+        foreach($fix as $repo => $file) {
+            if (empty($this->container->get('doctrine')->getEntityManager()->getRepository($repo)->findAll()))
+                array_push($return, $file);
+        }
+        return $return;
 
-        );
+
     }
 }

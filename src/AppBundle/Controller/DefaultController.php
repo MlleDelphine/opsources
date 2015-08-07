@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/app", name="homepage")
+     * @Route("/", name="homepage")
      * @Template()
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -27,14 +27,14 @@ class DefaultController extends Controller
         $users = $em->getRepository('UserBundle:User')->findAll();
         $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
         $templates = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findAll();
-
+/*
         foreach($users as $u)
         {
             foreach($u->getOpusSheetsEvaluator() as $e){
                 $user = $u;
                 break 2;
             }
-        }
+        }*/
         return array(
             'user' => $user,
             'users' => $users,

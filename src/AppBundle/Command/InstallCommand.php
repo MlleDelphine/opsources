@@ -51,8 +51,9 @@ class InstallCommand extends ContainerAwareCommand
         $output->writeln("Vous devez maintenant créer un template via l'administration de l'application avec le fichier de configuration associé");
         do{
             $id = $dialog->ask($output,"Une fois créer veuillez indiquer l'id ici:");
-        }while(is_int($id) && $this->templateExist($id) !== null);
+        }while(!is_int($id) || $this->templateExist($id) === null);
         $this->changeTemplate($id);
+        $this->assets($output);
         $output->writeln("\n<success>Mise en production finis</success>");
 
     }
@@ -115,7 +116,6 @@ class InstallCommand extends ContainerAwareCommand
         $statement = $connection->prepare($query);
         $statement->bindValue('id',$id);
         $statement->execute();
-        dump($statement->fetch());die;
         return $statement->fetch();
     }
 
@@ -129,5 +129,11 @@ class InstallCommand extends ContainerAwareCommand
         $statement->execute();
     }
 
-
+    private function assets(OutputInterface $output)
+    {
+        $output->writeln("\n<information>Assets :</information>");
+        shell_exec('php app/console assets:install web --env=prod');
+        shell_exec('php app/console assetic:dump --env=prod --no-debug');
+        $output->writeln("\n<success>Assets finis</success>");
+    }
 }

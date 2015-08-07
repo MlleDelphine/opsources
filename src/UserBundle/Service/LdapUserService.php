@@ -193,7 +193,10 @@ class LdapUserService
             {
                 $roles = $user->getRoles();
                 if(is_array($roles))
-                    $user->setRoles(array_push($roles,$role));
+                {
+                    array_push($roles,$role);
+                    $user->setRoles($roles);
+                }
                 else
                     $user->setRoles([$role]);
             }
@@ -202,12 +205,19 @@ class LdapUserService
             {
                 $roles = $user->getRoles();
                 if(is_array($roles))
-                    $user->setRoles();
+                {
+                    array_push($roles,$role);
+                    $user->setRoles($role);
+                }
                 else
-                    $user->setRoles(array_push($roles,"ROLE_USER"));
+                {
+                    array_push($roles,"ROLE_USER");
+                    $user->setRoles($roles);
+                }
+
             }
         }
-        if(!is_array($user->getRoles()))
+        if(is_int($user->getRoles()))
             $user->setRoles(["ROLE_USER"]);
         return $user;
     }
