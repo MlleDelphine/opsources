@@ -39,4 +39,19 @@ class UserRepository extends EntityRepository
                 ->getQuery()->getResult();
         return $result;
     }
+
+    public function getUsersForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
 }

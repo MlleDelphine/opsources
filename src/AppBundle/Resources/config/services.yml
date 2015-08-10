@@ -18,3 +18,10 @@ services:
         scope: request
         tags:
             - { name: knp_menu.menu, alias: user } # L'alias est très important, c'est avec lui que vous appellerez votre menu dans la vue
+    app.excelbuilder:
+        class: AppBundle\Service\ExcelBuilder
+        calls:
+            - [ setExcel, [ "@phpexcel" ] ]
+
+#%param%
+#@service

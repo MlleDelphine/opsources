@@ -25,10 +25,9 @@
                     </li>
                     <li><a href="#equipe" data-toggle="tab">Mon equipe</a>
                     </li>
-                    {% if is_granted('ROLE_MANAGER') %}
-                        <li><a href="#creation" data-toggle="tab">Création de fiche</a>
-                        </li>
-                    {% endif %}
+                    {#{% if is_granted('ROLE_MANAGER') %}#}
+                        <li><a href="#creation" data-toggle="tab">Création de fiche</a></li>
+                    {#{% endif %}#}
                     {% if is_granted('ROLE_RH') %}
                         <li><a href="#campagne" data-toggle="tab">Gestion des campagnes</a></li>
                     {% endif %}
@@ -292,8 +291,8 @@
                                                     <td>{{ opusCampaign.year }}</td>
                                                     <td>{{ opusCampaign.mailDate | date('d/m/Y') }}</td>
                                                     <td>{{ opusCampaign.limitDate | date('d/m/Y') }}</td>
-                                                    <td>{{ opusCampaign.status }}</td>
-                                                    <td>{{ opusCampaign.opusTemplate.type.name }}</td>
+                                                    <td>{{ opusCampaign.status == 1 ? 'Activé' : 'Désactivé' }}</td>
+                                                    <td>{{ opusCampaign.opusTemplate.type.name | capitalize }}</td>
                                                     <td><a href="{{ path('edit_campaign',{'idCampaign':opusCampaign.id}) }}" class="btn btn-primary pull-right">Éditer</a></td>
                                                 </tr>
                                             {% endfor %}

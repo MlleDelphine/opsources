@@ -43,3 +43,5 @@ puphpet/files/dot/ssh
 src/AppBundle/Resources/public/.sass-cache/
 node_modules/
 npm-debug.log
+
+src/AppBundle/Tests/Service/test.xls
