@@ -3,11 +3,13 @@
 namespace AppBundle\Controller;
 
 use GeneratorBundle\Entity\OpusCampaign;
+use GeneratorBundle\Entity\OpusSheet;
 use GeneratorBundle\Form\Campaign\OpusCampaignType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Class DefaultController.
@@ -300,5 +302,36 @@ class DefaultController extends Controller
         array_push($return, $associatedSheets, $createdSheets);
 
         return $return;
+    }
+
+    /**
+     * @Route("/excel", defaults={"tableName" = null}, name="excel")
+     *
+     * @return array
+     */
+    public function excelAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        list($headers, $data) = $em->getRepository('UserBundle:User')->getUsersForExport();
+
+        /**
+         * @var \AppBundle\Service\ExcelBuilder $phpExcelService
+         */
+        $phpExcelService = $this->get("app.excelbuilder");
+        $worksheet = $phpExcelService->createWorkSheet();
+
+        $worksheet->getProperties()
+            ->setCreator("liuggio")
+            ->setLastModifiedBy("Giulio De Donato")
+            ->setTitle("Office 2005 XLSX Test Document")
+            ->setSubject("Office 2005 XLSX Test Document")
+            ->setDescription("Test document for Office 2005 XLSX, generated using PHP classes.")
+            ->setKeywords("office 2005 openxml php")
+            ->setCategory("Test result file");
+
+        $phpExcelService->draw($headers, $data, 0, true);
+
+        return $phpExcelService->createAndGetResponse('test.xls');
     }
 }
