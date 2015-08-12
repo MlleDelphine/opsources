@@ -15,7 +15,7 @@
                 <ul class="nav nav-tabs">
                     {% for tab in uiTab %}
                         <li class="{% if loop.first %}active{% endif %}">
-                            <a href="#{{ tab.id }}" data-toggle="tab" aria-expanded="true">
+                            <a href="#{{ tab.id }}" data-toggle="tab" aria-expanded="true" onclick="changeTab(this)">
                                 {{ tab.name}} </a>
                         </li>
                     {% endfor %}
@@ -103,4 +103,83 @@
 
             </div>
         </div>
+    {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            function changeTab(url){
+                var currentHref = url.getAttribute("href");
+                var currentTab = $('ul.nav-tabs li a[href='+currentHref+']');
+
+                $('.nav-tabs li').each(function(){
+                    $(this).removeClass('last');
+                    if($(this).hasClass('active')) {
+                        $(this).removeClass('active');
+                        $(this).addClass('last');
+                    }
+                });
+
+                currentTab.parent('li').addClass('active');
+
+                var lastTab = $('ul.nav-tabs li.last a');
+                var lastHref = lastTab.attr('href');
+                var lastDiv = $('div.tab-content div'+lastHref);
+                lastDiv.removeClass('active');
+                var currentDiv = $('div.tab-content div'+currentHref);
+                currentDiv.addClass('active');
+
+                var div = 'div.tab-content div'+lastHref;
+                var div1 ='div.tab-content div#tab_1';
+
+                var divDatas = $( div+' input, '+div+' textarea, '+div+' select,'+div1+' input, '+div1+' textarea, '+div1+' select' ).serializeArray();
+
+                console.log(divDatas, lastHref);
+//                var inputValues = [];
+//                inputValues.length = 0
+//                $('div.tab-content div'+lastHref+' input, textarea, checkbox, radio, select').each(function() {
+//                    var type = $(this).attr("type");
+//                    if ((type == "checkbox" || type == "radio") && this.checked) {
+//                        inputValues.push($(this).val());
+//                    }
+//                    else if (type != "button" || type != "submit") {
+//                        inputValues.push($(this).val());
+//                    }
+//                })
+//                inputValues.join(',');
+//                console.log(inputValues);
+                lastHref = lastHref.replace('#','');
+
+                updateTab(divDatas, lastHref);
+
+            }
+
+            function updateTab(datas,tab){
+
+                var idSheet = window.location.href;
+                var split = idSheet.split('/edit/sheet/');
+                idSheet = split[1];
+
+                var url = "{{ path('generator_updatetab', { 'id':'__IDSHEET__','tab':'__TAB__' }) }}";
+                url = url.replace('__IDSHEET__', idSheet);
+                url = url.replace('__TAB__', tab);
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: datas,
+                    success: function (data) {
+                        $.gritter.add({
+                            title: 'Information',
+                            text: 'Enregistrement effectué avec succès',
+                        });
+                    },
+                    error: function (data) {
+                        $.gritter.add({
+                            title: 'Information',
+                            text: 'Une erreur est survenue lors de l\'enregistrement',
+                        });
+                    }
+                })
+            };
+        </script>
     {% endblock %}

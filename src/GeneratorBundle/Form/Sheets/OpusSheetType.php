@@ -167,18 +167,18 @@ class OpusSheetType extends AbstractType
 
 
                 }
-
-                $form->add(
-                    'attributes',  new CustomCollectionAttributeType(), array(
-                        'type' => new OpusSheetAttributeNewType($this->attributes['attr'], $access),
-                        'allow_add' => true,
-                        'allow_delete' => false,
-                        'by_reference' => false,
-                        'required' => false,
-                        'label' => false,
-                    )
-                );
-
+                if (isset($this->attributes['attr'])) {
+                    $form->add(
+                        'attributes', new CustomCollectionAttributeType(), array(
+                            'type' => new OpusSheetAttributeNewType($this->attributes['attr'], $access),
+                            'allow_add' => true,
+                            'allow_delete' => false,
+                            'by_reference' => false,
+                            'required' => false,
+                            'label' => false,
+                        )
+                    );
+                }
                 //Nouveau champs de formulaire : collection d'attributs
                 if (array_key_exists('collections', $this->attributes)) {
                     $form->add(
@@ -260,6 +260,7 @@ class OpusSheetType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'GeneratorBundle\Entity\OpusSheet',
+            'csrf_protection' => false,
         ));
     }
 

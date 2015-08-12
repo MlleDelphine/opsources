@@ -18,6 +18,10 @@ generator_updatesheet:
     path:     /update/sheet/{id}
     defaults: { _controller: GeneratorBundle:Default:update }
 
+generator_updatetab:
+    path:     /update/tab/{id}/{tab}
+    defaults: { _controller: GeneratorBundle:Default:updateTab }
+
 generator_pdf:
     path: /pdf/{id}
     defaults: { _controller: GeneratorBundle:Default:pdf }

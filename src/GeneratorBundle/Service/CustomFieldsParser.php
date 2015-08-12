@@ -9,6 +9,7 @@
 
 namespace GeneratorBundle\Service;
 
+use MediaBundle\Entity\Media;
 use PhpSpec\Exception\Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -33,12 +34,12 @@ class CustomFieldsParser
      *
      * @return mixed
      */
-    public function parseYamlConf($name, $field = null)
+    public function parseYamlConf(Media $media, $field = null, $tabName = null)
     {
         $yaml = new Parser();
         $finder = new Finder();
 
-        $iterator = $finder->files()->name($name->getProviderReference())->in($this->kernel->getRootDir().'/../web/uploads/media/default');
+        $iterator = $finder->files()->name($media->getProviderReference())->in($this->kernel->getRootDir().'/../web/uploads/media/default');
 
         foreach ($iterator as $file) {
             $template = $file->getRealpath();
@@ -49,7 +50,12 @@ class CustomFieldsParser
                 $attributesParsed = $yaml->parse(file_get_contents($template)); // $template
                 $attributes = $attributesParsed[$field]['attr'];
                 $allAttributes = array();
+                dump($tabName , file_get_contents($template));
+
                 foreach ($attributes as $k => $attribute) {
+                    if((null !== $tabName) and ($attribute['conf']['attr']['data-tab'] !== $tabName)) {
+                        continue;
+                    }
                     if ($attribute['type'] == 'collection') {
                         $allAttributes['collections'][$k] = $attribute;
                     } else {
@@ -60,10 +66,10 @@ class CustomFieldsParser
 
                 $attributesParsed = $yaml->parse(file_get_contents($template));
                 $allAttributes = $attributesParsed[$field];
-
-            } else {
-                $allAttributes = $yaml->parse(file_get_contents($template));
             }
+//            } else {
+//                $allAttributes = $yaml->parse(file_get_contents($template));
+//            }
         } catch (ParseException $e) {
             throw new ParseException('Unable to parse the YAML string: %s', $e->getMessage());
         }
