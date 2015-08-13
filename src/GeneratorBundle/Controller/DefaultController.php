@@ -6,6 +6,7 @@ use GeneratorBundle\Entity\OpusCampaign;
 use GeneratorBundle\Entity\OpusSheet;
 use GeneratorBundle\Entity\OpusSheetType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use UserBundle\Entity\User;
@@ -92,6 +93,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->findOneById($id);
+
         if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
 
             if (!$opusSheet) {
@@ -107,7 +109,6 @@ class DefaultController extends Controller
             $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($template, 'fields');
 
             $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm($opusSheet, $allAttributes, true);
-
             return $this->render(
                 'GeneratorBundle:Default:generator.html.twig',
                 array(
@@ -157,9 +158,11 @@ class DefaultController extends Controller
             $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
 
             $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+
             $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes, true);
 
             if ($request->isMethod('POST')) {
+
                 $form->handleRequest($request);
                 if ($form->isValid()) {
                     $em = $this->getDoctrine()->getManager();
@@ -168,6 +171,7 @@ class DefaultController extends Controller
                     if ($actualStatus == $generatedStatus || $actualStatus == $creationStatus) {
                         //Si le manager enregistre --> creation
                         //Si le manager valide --> en attente de validation par l'évalué
+
                         if ($form->get('save')->isClicked()) {
                             $opusSheet->setStatus($creationStatus);
                         } elseif ($form->get('validate')->isClicked()) {
@@ -190,7 +194,7 @@ class DefaultController extends Controller
                         } elseif ($form->get('validate')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatedStatus);
                         }
-                    } elseif($actualStatus == $vFinalEvaluatorStatus) {
+                    } elseif ($actualStatus == $vFinalEvaluatorStatus) {
                         //Si l'utilisateur était OK - l'évaluateur peut refuser ou envoyer au DRH (s'il envoie au RH pas de modif possible @todo)
                         if ($form->get('invalidate_for_rh')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatorStatus);
@@ -199,8 +203,10 @@ class DefaultController extends Controller
                         }
 
                     }
+
                     $em->persist($opusSheet);
                     $em->flush();
+
                 }
             }
 
@@ -210,6 +216,49 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('homepage'));
     }
 
+    public function updateTabAction(Request $request,OpusSheet $opusSheet, $tab){
+        $em = $this->getDoctrine()->getManager();
+        if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
+            $actualStatus = $opusSheet->getStatus();
+
+            //Availables status
+            $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+            $creationStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
+
+            $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
+
+
+            $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields', $tab);
+
+            $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes, true);
+
+            if ($request->isMethod('POST')) {
+
+                $form->handleRequest($request);
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
+
+                    //Si c'était en génération ou en création
+                    if ($actualStatus == $generatedStatus || $actualStatus == $creationStatus) {
+                        //Si le manager enregistre --> creation
+                        //Si le manager valide --> en attente de validation par l'évalué
+                        $opusSheet->setStatus($creationStatus);
+                    }
+
+                    $em->persist($opusSheet);
+                    $em->flush();
+
+                    return new JsonResponse(array('result'=>true));
+
+                }else{
+                    dump($form->getErrors());
+                }
+            }
+        }
+
+        return new JsonResponse(array('result'=>false));
+
+    }
 
     public function pdfAction($id)
     {
