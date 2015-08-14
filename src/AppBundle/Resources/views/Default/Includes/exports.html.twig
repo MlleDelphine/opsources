@@ -1,0 +1,141 @@
+<div class="tab-pane fade" id="export">
+    <div class="col-lg-12">
+        <h2>Liste des exports</h2>
+        <div class="panel panel-default">
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>NOM</th>
+                        <th>DESCRIPTION</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Objectifs fixés</td>
+                        <td>Liste des objectifs fixés de vos collaborateur</td>
+                        <td><a href="{{ path('_excel_objectives') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Compétences à développer</td>
+                        <td>Compétences à développer de vos collaborateurs</td>
+                        <td><a href="{{ path('_excel_skills_to_be_developed_by_collaborator') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Plan formation</td>
+                        <td>Plan formation souhaité de vos collaborateurs</td>
+                        <td><a href="{{ path('_excel_training_plan_by_collaborator') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <h2>Exports administrateurs</h2>
+        <div class="panel panel-default">
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>NOM</th>
+                        <th>DESCRIPTION</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Statistiques</td>
+                        <td>Statistiques sur les fiches par département et par évaluation</td>
+                        <td><a href="{{ path('_excel_statistics') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Entretien professionnel</td>
+                        <td>Liste des personnes qui ont demandé un entretien professionnel</td>
+                        <td><a href="{{ path('_excel_professional_meeting') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Entretien RH</td>
+                        <td>Liste des personnes qui ont demandé un entretien RH avec le thème</td>
+                        <td><a href="{{ path('_excel_rh_meeting') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Souhaits d'évolution</td>
+                        <td>Liste des souhaits d'évolution des salariés</td>
+                        <td><a href="{{ path('_excel_evolution_wishes') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Liste des métiers</td>
+                        <td>Liste des métier 1 et métier 2 par salarié</td>
+                        <td><a href="{{ path('_excel_business') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Compétences à développer</td>
+                        <td>Liste des compétences à développer par salarié</td>
+                        <td><a href="{{ path('_excel_skills_to_be_developed_by_employe') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Communication interne</td>
+                        <td>Avis sur la communication interne</td>
+                        <td><a href="{{ path('_excel_internal_communication') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Mobilité</td>
+                        <td>Liste des personnes mobiles géographiquement</td>
+                        <td><a href="{{ path('_excel_mobility') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Poste</td>
+                        <td>Liste des personnes ayant changé de poste</td>
+                        <td><a href="{{ path('_excel_change_of_post') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Plan formation</td>
+                        <td>Plan formation souhaité par salarié</td>
+                        <td><a href="{{ path('_excel_training_plan_by_employe') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Autres thèmes de discussion</td>
+                        <td>Autres thèmes de discussion (rémunération, organisation, conditions et charge de travail, articulation entre vie professionnelle et vie personnelle)</td>
+                        <td><a href="{{ path('_excel_topics_for_discussion') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Observations</td>
+                        <td>Observations éventuelles du salarié à l'issue de l'entretien</td>
+                        <td><a href="{{ path('_excel_observations') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Points forts</td>
+                        <td>Liste des points forts des salariés, Aptitudes, Savoirs / Savoir Faire</td>
+                        <td><a href="{{ path('_excel_strong_points') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Formations reçues</td>
+                        <td>Liste des formations reçues (formations professionnelles)</td>
+                        <td><a href="{{ path('_excel_training_received') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Fonction campagne</td>
+                        <td>Liste des fonctions campagnes pour chaque utilisateur</td>
+                        <td><a href="{{ path('_excel_campaign_function') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Fonction</td>
+                        <td>Liste de la fonction de chaque utilisateur</td>
+                        <td><a href="{{ path('_excel_users_function') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Managers fonctionnels</td>
+                        <td>Liste de tous les managers fonctionnels ainsi que des personnes qu'ils supervisent</td>
+                        <td><a href="{{ path('_excel_functional_manager') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+</div>

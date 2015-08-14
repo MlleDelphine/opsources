@@ -1,0 +1,72 @@
+<div class="tab-pane fade" id="campagne">
+    <div class="col-lg-12">
+        <h2>Création ou édition d'une campagne</h2>
+        <div class="panel panel-default">
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingAddCampaign">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAddCampaign" aria-expanded="true" aria-controls="collapseOne">
+                                    Ajouter une campagne
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseAddCampaign" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddCampaign">
+                            <div class="panel-body">
+                                {{ form_start(formOpusCampaign) }}
+                                {{ form_row(formOpusCampaign.year) }}
+                                {{ form_row(formOpusCampaign.mailDate) }}
+                                {{ form_row(formOpusCampaign.untilSheetDate) }}
+                                {{ form_row(formOpusCampaign.limitDate) }}
+                                {{ form_row(formOpusCampaign.status) }}
+                                {#{{ form_row(formOpusCampaign.type) }}#}
+                                {{ form_row(formOpusCampaign.opusTemplate) }}
+                                <input type="submit" value="Créer" class="btn btn-primary pull-right btn-lg">
+                                {{ form_end(formOpusCampaign) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingListCampaign">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseListCampaign" aria-expanded="true" aria-controls="collapseOne">
+                                    Liste des campagnes
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseListCampaign" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingListCampaign">
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="upperFirst">Année</th>
+                                        <th class="upperFirst">Mail date</th>
+                                        <th class="upperFirst">Date limite</th>
+                                        <th class="upperFirst">Statut</th>
+                                        <th class="upperFirst">Type entretien</th>
+                                        <th class="upperFirst"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for opusCampaign in opusCampaigns %}
+                                        <tr>
+                                            <td class="text-center">{{ opusCampaign.year }}</td>
+                                            <td class="text-center">{{ opusCampaign.mailDate | date('d/m/Y') }}</td>
+                                            <td class="text-center">{{ opusCampaign.limitDate | date('d/m/Y') }}</td>
+                                            <td class="text-center">{{ opusCampaign.status == 1 ? 'Activé' : 'Désactivé' }}</td>
+                                            <td class="text-center">{{ opusCampaign.opusTemplate.type.name | capitalize }}</td>
+                                            <td class="text-center"><a href="{{ path('edit_campaign',{'idCampaign':opusCampaign.id}) }}" class="btn btn-primary">Éditer</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

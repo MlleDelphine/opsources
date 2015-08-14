@@ -133,20 +133,6 @@
 
                 var divDatas = $( div+' input, '+div+' textarea, '+div+' select,'+div1+' input, '+div1+' textarea, '+div1+' select' ).serializeArray();
 
-                console.log(divDatas, lastHref);
-//                var inputValues = [];
-//                inputValues.length = 0
-//                $('div.tab-content div'+lastHref+' input, textarea, checkbox, radio, select').each(function() {
-//                    var type = $(this).attr("type");
-//                    if ((type == "checkbox" || type == "radio") && this.checked) {
-//                        inputValues.push($(this).val());
-//                    }
-//                    else if (type != "button" || type != "submit") {
-//                        inputValues.push($(this).val());
-//                    }
-//                })
-//                inputValues.join(',');
-//                console.log(inputValues);
                 lastHref = lastHref.replace('#','');
 
                 updateTab(divDatas, lastHref);
@@ -168,6 +154,7 @@
                     url: url,
                     data: datas,
                     success: function (data) {
+                        console.log(data);
                         $.gritter.add({
                             title: 'Information',
                             text: 'Enregistrement effectué avec succès',
