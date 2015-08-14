@@ -50,7 +50,6 @@ class CustomFieldsParser
                 $attributesParsed = $yaml->parse(file_get_contents($template)); // $template
                 $attributes = $attributesParsed[$field]['attr'];
                 $allAttributes = array();
-                dump($tabName , file_get_contents($template));
 
                 foreach ($attributes as $k => $attribute) {
                     if((null !== $tabName) and ($attribute['conf']['attr']['data-tab'] !== $tabName)) {
@@ -66,10 +65,10 @@ class CustomFieldsParser
 
                 $attributesParsed = $yaml->parse(file_get_contents($template));
                 $allAttributes = $attributesParsed[$field];
+
+            } else {
+                $allAttributes = $yaml->parse(file_get_contents($template));
             }
-//            } else {
-//                $allAttributes = $yaml->parse(file_get_contents($template));
-//            }
         } catch (ParseException $e) {
             throw new ParseException('Unable to parse the YAML string: %s', $e->getMessage());
         }

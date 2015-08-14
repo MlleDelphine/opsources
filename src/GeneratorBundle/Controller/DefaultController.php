@@ -218,6 +218,7 @@ class DefaultController extends Controller
 
     public function updateTabAction(Request $request,OpusSheet $opusSheet, $tab){
         $em = $this->getDoctrine()->getManager();
+        $response = new Response();
         if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
             $actualStatus = $opusSheet->getStatus();
 
@@ -248,15 +249,13 @@ class DefaultController extends Controller
                     $em->persist($opusSheet);
                     $em->flush();
 
-                    return new JsonResponse(array('result'=>true));
-
-                }else{
-                    dump($form->getErrors());
+                    return $response->setStatusCode(200);
                 }
             }
         }
 
-        return new JsonResponse(array('result'=>false));
+        return $response->setStatusCode(500);
+
 
     }
 

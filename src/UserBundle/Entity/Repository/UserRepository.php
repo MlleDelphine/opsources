@@ -54,4 +54,344 @@ class UserRepository extends EntityRepository
 
         return array($headers,$data);
     }
+
+    public function getJobsByUserForExport(){
+        $objects = $this->findBy(array(),array('lastName'=>'ASC','firstName'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getLastname(),$value->getFirstname(),$value->getJob(),$value->getJob2());
+            array_push($data,$line);
+        }
+
+        $headers = array('Nom','Prenom', 'Metier 1', 'Metier 2');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getSkillsToBeDevelopedByCollaboratorForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getTrainingPlanByCollaboratorForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getStatisticsForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getProfessionalMeetingForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getRhMeetingForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getEvolutionWishesForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getSkillsToBeDevelopedByEmployeForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getInternalCommunicationForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getMobilityForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getChangeOfPostForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getTrainingPlanByEmployeForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getTopicsForDiscussionForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getObservationsForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getStrongPointsForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getTrainingReceivedForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getCampaignFunctionForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getUsersFunctionForExport(){
+        $objects = $this->findBy(array(),array('lastName'=>'ASC','firstName'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getLastName(),$value->getFirstName(),$value->getFonction());
+            array_push($data,$line);
+        }
+
+        $headers = array('Nom','Prenom','Function');
+
+        return array($headers,$data);
+    }
+
+    /*
+     * ToDo
+     */
+    public function getFunctionalManagerForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
 }
