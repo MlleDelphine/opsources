@@ -407,7 +407,7 @@ class ExcelController extends Controller
         $title = 'Liste des personnes mobiles géographiquement';
         $filename = 'Liste des personnes mobiles geographiquement.xls';
 
-        list($headers, $data) = $em->getRepository('UserBundle:User')->getInternalCommunicationForExport();
+        list($headers, $data) = $em->getRepository('GeneratorBundle:OpusSheet')->getMobilityForExport();
 
         /**
          * @var \AppBundle\Service\ExcelBuilder $phpExcelService
@@ -572,7 +572,7 @@ class ExcelController extends Controller
         $title = "Liste des points forts des salariés";
         $filename = "Liste des points forts des salaries.xls";
 
-        list($headers, $data) = $em->getRepository('UserBundle:User')->getStrongPointsForExport();
+        list($headers, $data) = $em->getRepository('GeneratorBundle:OpusSheet')->getStrongPointsForExport();
 
         /**
          * @var \AppBundle\Service\ExcelBuilder $phpExcelService
@@ -671,7 +671,7 @@ class ExcelController extends Controller
         $title = "Liste de la fonction de chaque utilisateur";
         $filename = "Liste de la fonction de chaque utilisateur.xls";
 
-        list($headers, $data) = $em->getRepository('UserBundle:User')->getUsersFunctionForExport();
+        list($headers, $data) = $em->getRepository('GeneratorBundle:OpusSheet')->getUsersFunctionForExport();
 
         /**
          * @var \AppBundle\Service\ExcelBuilder $phpExcelService

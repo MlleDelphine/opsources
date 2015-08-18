@@ -214,23 +214,7 @@ class UserRepository extends EntityRepository
         return array($headers,$data);
     }
 
-    /*
-     * ToDo
-     */
-    public function getMobilityForExport(){
-        $objects = $this->findBy(array(),array('id'=>'ASC'));
 
-        $data = array();
-
-        foreach($objects AS $value){
-            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
-            array_push($data,$line);
-        }
-
-        $headers = array('ID','Firstname','Lastname');
-
-        return array($headers,$data);
-    }
 
     /*
      * ToDo
@@ -307,24 +291,6 @@ class UserRepository extends EntityRepository
     /*
      * ToDo
      */
-    public function getStrongPointsForExport(){
-        $objects = $this->findBy(array(),array('id'=>'ASC'));
-
-        $data = array();
-
-        foreach($objects AS $value){
-            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
-            array_push($data,$line);
-        }
-
-        $headers = array('ID','Firstname','Lastname');
-
-        return array($headers,$data);
-    }
-
-    /*
-     * ToDo
-     */
     public function getTrainingReceivedForExport(){
         $objects = $this->findBy(array(),array('id'=>'ASC'));
 
@@ -358,23 +324,7 @@ class UserRepository extends EntityRepository
         return array($headers,$data);
     }
 
-    /*
-     * ToDo
-     */
-    public function getUsersFunctionForExport(){
-        $objects = $this->findBy(array(),array('lastName'=>'ASC','firstName'=>'ASC'));
 
-        $data = array();
-
-        foreach($objects AS $value){
-            $line = array($value->getLastName(),$value->getFirstName(),$value->getFonction());
-            array_push($data,$line);
-        }
-
-        $headers = array('Nom','Prenom','Function');
-
-        return array($headers,$data);
-    }
 
     /*
      * ToDo

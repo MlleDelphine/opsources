@@ -23,7 +23,7 @@
                                 {{ form_row(formOpusCampaign.status) }}
                                 {#{{ form_row(formOpusCampaign.type) }}#}
                                 {{ form_row(formOpusCampaign.opusTemplate) }}
-                                <input type="submit" value="Créer" class="btn btn-primary pull-right btn-lg">
+                                <input type="submit" value="Créer" class="btn success pull-right btn-lg">
                                 {{ form_end(formOpusCampaign) }}
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                                             <td class="text-center">{{ opusCampaign.limitDate | date('d/m/Y') }}</td>
                                             <td class="text-center">{{ opusCampaign.status == 1 ? 'Activé' : 'Désactivé' }}</td>
                                             <td class="text-center">{{ opusCampaign.opusTemplate.type.name | capitalize }}</td>
-                                            <td class="text-center"><a href="{{ path('edit_campaign',{'idCampaign':opusCampaign.id}) }}" class="btn btn-primary">Éditer</a></td>
+                                            <td class="text-center"><a href="{{ path('edit_campaign',{'idCampaign':opusCampaign.id}) }}" class="btn">Éditer</a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

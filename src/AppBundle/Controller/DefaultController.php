@@ -287,7 +287,9 @@ class DefaultController extends Controller
                 }
             }else{
                 $newOpusSheet = new OpusSheet();
+                $opusSheetStatus = $em->getRepository('GeneratorBundle:OpusSheetStatus')->findOneByStrCode('generee');
                 $newOpusSheet
+                    ->setStatus($opusSheetStatus)
                     ->setEvaluate($user)
                     ->setEvaluator($user->getManager())
                     ->setCampaign($opusCampaign)
