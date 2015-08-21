@@ -38,30 +38,37 @@
                         </div>
                         <div id="collapseListCampaign" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingListCampaign">
                             <div class="panel-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th class="upperFirst">Année</th>
-                                        <th class="upperFirst">Mail date</th>
-                                        <th class="upperFirst">Date limite</th>
-                                        <th class="upperFirst">Statut</th>
-                                        <th class="upperFirst">Type entretien</th>
-                                        <th class="upperFirst">ACTION</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for opusCampaign in opusCampaigns %}
-                                        <tr>
-                                            <td class="text-center">{{ opusCampaign.year }}</td>
-                                            <td class="text-center">{{ opusCampaign.mailDate | date('d/m/Y') }}</td>
-                                            <td class="text-center">{{ opusCampaign.limitDate | date('d/m/Y') }}</td>
-                                            <td class="text-center">{{ opusCampaign.status == 1 ? 'Activé' : 'Désactivé' }}</td>
-                                            <td class="text-center">{{ opusCampaign.opusTemplate.type.name | capitalize }}</td>
-                                            <td class="text-center"><a href="{{ path('edit_campaign',{'idCampaign':opusCampaign.id}) }}" class="btn">Éditer</a></td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                                {#<table class="table">#}
+                                    {#<thead>#}
+                                    {#<tr>#}
+                                        {#<th class="upperFirst">Année</th>#}
+                                        {#<th class="upperFirst">Mail date</th>#}
+                                        {#<th class="upperFirst">Date limite</th>#}
+                                        {#<th class="upperFirst">Statut</th>#}
+                                        {#<th class="upperFirst">Type entretien</th>#}
+                                        {#<th class="upperFirst">ACTION</th>#}
+                                    {#</tr>#}
+                                    {#</thead>#}
+                                    {#<tbody>#}
+                                    {#{% for opusCampaign in opusCampaigns %}#}
+                                        {#<tr>#}
+                                            {#<td class="text-center">{{ opusCampaign.year }}</td>#}
+                                            {#<td class="text-center">{{ opusCampaign.mailDate | date('d/m/Y') }}</td>#}
+                                            {#<td class="text-center">{{ opusCampaign.limitDate | date('d/m/Y') }}</td>#}
+                                            {#<td class="text-center">{{ opusCampaign.status == 1 ? 'Activé' : 'Désactivé' }}</td>#}
+                                            {#<td class="text-center">{{ opusCampaign.opusTemplate.type.name | capitalize }}</td>#}
+                                            {#<td class="text-center"><a href="{{ path('edit_campaign',{'idCampaign':opusCampaign.id}) }}" class="btn">Éditer</a></td>#}
+                                        {#</tr>#}
+                                    {#{% endfor %}#}
+                                    {#</tbody>#}
+                                {#</table>#}
+                                {{ addDataTable(dataTableManagementCampaign, {
+                                    'path':          path('homepage',{'tableName':'OpusCampaignTable'}),
+                                    'id':            'OpusCampaignTable',
+                                    'bLengthChange': 1,
+                                    'bInfo':         1,
+                                    'bFilter':       1
+                                }) }}
                             </div>
                         </div>
                     </div>

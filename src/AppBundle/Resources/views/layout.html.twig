@@ -96,4 +96,7 @@
         </script>
         {{ form_javascript(form) }}
     {% endif %}
+    {% javascripts '@data_tables' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

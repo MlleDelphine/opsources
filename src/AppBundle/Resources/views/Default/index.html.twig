@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Dashboard</h1>
+            <h1 class="page-header">{{ 'Tableau de bord' | trans }}</h1>
             {% for flash in app.session.flashbag.get('info') %}
                 <div class="alert alert-success col-md-12">
                     {{ flash | raw }}
@@ -28,9 +28,9 @@
                         {% if is_granted('ROLE_MANAGER') %}
                             <li><a href="#creation" data-toggle="tab">Création de fiche</a></li>
                         {% endif %}
-                        {% if is_granted('ROLE_RH') %}
+                        {#{% if is_granted('ROLE_RH') %}#}
                             <li><a href="#campagne" data-toggle="tab">Gestion des campagnes</a></li>
-                        {% endif %}
+                        {#{% endif %}#}
                         <li><a href="#export" data-toggle="tab">Export</a>
                         </li>
 
@@ -256,7 +256,7 @@
                                 <!-- /.panel -->
                             </div>
                         </div>
-                        {% include 'AppBundle:Default/Includes:campaignManagement.html.twig' with {'formOpusCampaign': formOpusCampaign, 'opusCampaigns': opusCampaigns } %}
+                        {% include 'AppBundle:Default/Includes:campaignManagement.html.twig' with {'formOpusCampaign': formOpusCampaign, 'opusCampaigns': opusCampaigns, 'dataTableManagementCampaign': dataTableManagementCampaign } %}
                         <div class="tab-pane fade" id="valid_rh">
                             <div class="col-lg-12">
                                 <h2>Demande de validation RH</h2>
@@ -293,24 +293,34 @@
                                 <div class="panel panel-default">
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Utilisateur</th>
-                                                <th>Type</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for fiche in fiches if fiche.status.intCode == -1 or fiche.status.intCode == 8 or fiche.status.intCode == 9 %}
-                                                <tr>
-                                                    <th><a href="{{ path("generator_editsheet",{"id":fiche.id}) }}"></a></th>
-                                                    <th>{{ fiche.evaluate.firstName }} {{ fiche.evaluate.lastName }}</th>
-                                                    <th>{{ fiche.opusTemplate.type.name }}</th>
-                                                </tr>
-                                            {% endfor %}
-                                            </tbody>
-                                        </table>
+                                        {{ addDataTable(dataTableClosedSheets, {
+                                            'path':          path('homepage',{'tableName':'OpusSheetTable'}),
+                                            'id':            'OpusSheetTable',
+                                            'bLengthChange': 1,
+                                            'bInfo':         1,
+                                            'bFilter':       1
+                                        }) }}
+                                        {#<table class="table">#}
+                                            {#<thead>#}
+                                            {#<tr>#}
+                                                {#<th></th>#}
+                                                {#<th>Utilisateur</th>#}
+                                                {#<th>Type</th>#}
+                                            {#</tr>#}
+                                            {#</thead>#}
+                                            {#<tbody>#}
+                                            {#{% set test = 0 %}#}
+                                            {#{% for fiche in fiches if fiche.status.intCode == -1 or fiche.status.intCode == 8 or fiche.status.intCode == 9 %}#}
+                                                {#{% set test = test +1 %}#}
+                                                {#<tr>#}
+                                                    {#<th><a href="{{ path("generator_editsheet",{"id":fiche.id}) }}"></a></th>#}
+                                                    {#<th>{{ fiche.evaluate.firstName }} {{ fiche.evaluate.lastName }}</th>#}
+                                                    {#<th>{{ fiche.opusTemplate.type.name }}</th>#}
+                                                {#</tr>#}
+                                            {#{% endfor %}#}
+                                            {#{{ test }}#}
+                                            {#</tbody>#}
+                                        {#</table>#}
                                     </div>
                                     <!-- /.panel-body -->
                                 </div>

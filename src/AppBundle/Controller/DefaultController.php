@@ -17,14 +17,15 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/{tableName}", defaults={"tableName" = null}, name="homepage")
      * @Template()
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
+     * @param $tableName
      * @return array
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $tableName = null)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -65,6 +66,17 @@ class DefaultController extends Controller
                 break 2;
             }
         }*/
+
+        $dataTableManagementCampaign = $this->get('data_tables.manager')->getTable('OpusCampaignTable');
+        if ($tableName == 'OpusCampaignTable' && $response = $dataTableManagementCampaign->ProcessRequest($request)) {
+            return $response;
+        }
+
+        $dataTableClosedSheets = $this->get('data_tables.manager')->getTable('OpusSheetTable');
+        if ($tableName == 'OpusSheetTable' && $response = $dataTableClosedSheets->ProcessRequest($request)) {
+            return $response;
+        }
+
         return array(
             'user' => $user,
             'users' => $users,
@@ -72,7 +84,9 @@ class DefaultController extends Controller
             'templates' => $templates,
             'fiches' => $fiches,
             'opusCampaigns' => $opusCampaigns,
-            'formOpusCampaign' => $form->createView()
+            'formOpusCampaign' => $form->createView(),
+            'dataTableManagementCampaign' => $dataTableManagementCampaign,
+            'dataTableClosedSheets' => $dataTableClosedSheets
         );
     }
 
@@ -304,5 +318,10 @@ class DefaultController extends Controller
         array_push($return, $associatedSheets, $createdSheets);
 
         return $return;
+    }
+
+    protected function datatables()
+    {
+
     }
 }

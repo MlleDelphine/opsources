@@ -180,3 +180,12 @@ h3.panel-title{
     @include buttonBackground(#444, $grayDarker);
   }
 }
+
+.dataTables_length{
+  display: inline;
+}
+
+.dataTables_filter{
+  display: inline;
+  float: right;
+}

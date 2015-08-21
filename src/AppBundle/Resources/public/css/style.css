@@ -305,6 +305,17 @@ h3.panel-title {
   background-color: #090909 \9;
 }
 
+/* line 184, ../scss/arianestyle.scss */
+.dataTables_length {
+  display: inline;
+}
+
+/* line 188, ../scss/arianestyle.scss */
+.dataTables_filter {
+  display: inline;
+  float: right;
+}
+
 /* line 4, ../scss/style.scss */
 .panel-done {
   border-style: dashed;

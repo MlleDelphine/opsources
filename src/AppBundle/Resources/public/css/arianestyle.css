@@ -304,3 +304,14 @@ h3.panel-title {
 .btn.inverse:active, .btn.inverse.active, button.inverse:active, button.inverse.active, input[type=submit].inverse:active, input[type=submit].inverse.active, input[type=button].inverse:active, input[type=button].inverse.active, input[type=reset].inverse:active, input[type=reset].inverse.active {
   background-color: #090909 \9;
 }
+
+/* line 184, ../scss/arianestyle.scss */
+.dataTables_length {
+  display: inline;
+}
+
+/* line 188, ../scss/arianestyle.scss */
+.dataTables_filter {
+  display: inline;
+  float: right;
+}
