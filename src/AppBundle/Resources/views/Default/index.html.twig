@@ -28,9 +28,9 @@
                         {% if is_granted('ROLE_MANAGER') %}
                             <li><a href="#creation" data-toggle="tab">Création de fiche</a></li>
                         {% endif %}
-                        {#{% if is_granted('ROLE_RH') %}#}
+                        {% if is_granted('ROLE_RH') %}
                             <li><a href="#campagne" data-toggle="tab">Gestion des campagnes</a></li>
-                        {#{% endif %}#}
+                        {% endif %}
                         <li><a href="#export" data-toggle="tab">Export</a>
                         </li>
 
@@ -329,6 +329,8 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.fr.min.js') }}"></script>
     <script>
         function createSheet(){
             $t =$(document).find("#createSheet");
@@ -347,6 +349,11 @@
             });
             alert($n +" fiches viennent d'êtres ajoutées");
         }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $( ".datepicker" ).datepicker();
+        });
     </script>
 
 {%  endblock %}

@@ -16,6 +16,7 @@
     {% stylesheets
         '@AppBundle/Resources/public/css/style.css'
         '@AppBundle/Resources/public/css/arianestyle.css'
+        'css/bootstrap-datepicker.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}">
     {% endstylesheets %}
@@ -93,8 +94,6 @@
 
             });
         </script>
-
         {{ form_javascript(form) }}
     {% endif %}
-
 {% endblock %}

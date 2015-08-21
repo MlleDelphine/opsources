@@ -16,13 +16,13 @@
                         <div id="collapseAddCampaign" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddCampaign">
                             <div class="panel-body">
                                 {{ form_start(formOpusCampaign) }}
-                                {{ form_row(formOpusCampaign.year) }}
-                                {{ form_row(formOpusCampaign.mailDate) }}
-                                {{ form_row(formOpusCampaign.untilSheetDate) }}
-                                {{ form_row(formOpusCampaign.limitDate) }}
-                                {{ form_row(formOpusCampaign.status) }}
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.year) }}</div>
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.mailDate) }}</div>
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.untilSheetDate) }}</div>
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.limitDate) }}</div>
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.status) }}</div>
                                 {#{{ form_row(formOpusCampaign.type) }}#}
-                                {{ form_row(formOpusCampaign.opusTemplate) }}
+                                <div class="col-md-6">{{  form_row(formOpusCampaign.opusTemplate) }}</div>
                                 <input type="submit" value="Créer" class="btn success pull-right btn-lg">
                                 {{ form_end(formOpusCampaign) }}
                             </div>
