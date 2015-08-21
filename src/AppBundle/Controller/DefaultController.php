@@ -319,9 +319,4 @@ class DefaultController extends Controller
 
         return $return;
     }
-
-    protected function datatables()
-    {
-
-    }
 }

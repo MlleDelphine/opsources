@@ -8,9 +8,12 @@
 
 namespace GeneratorBundle\Tests\Controller;
 
+use GeneratorBundle\Entity\OpusSheetTemplate;
+use MediaBundle\Entity\Media;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Yaml\Parser;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -43,17 +46,43 @@ class DefaultControllerTest extends WebTestCase
 
     public function testGenerationForEvaluator()
     {
-
-        $this->logIn('ROLE_ADMIN');
-
-        $crawler = $this->client->request('GET', 'edit/sheet/21680');
+        $this->logInAs('ROLE_ADMIN');
+        $this->loadYML();
+//        $crawler = $this->client->request('GET', 'edit/sheet/21680');
 //        dump($client);die();
-        $this->assertTrue(200 === $this->client->getResponse()->getStatusCode());
+//        $this->assertTrue(200 === $this->client->getResponse()->getStatusCode());
+    }
+
+    public function loadYML(){
+//        $em = $this->em;
+//
+//        $yaml = new Parser();
+//        try {
+//            $file = $yaml->parse(file_get_contents(static::$kernel->getRootDir().'/../app/config/BaseFormMeet/test_form.yml'));
+//        } catch (ParseException $e) {
+//            printf("Unable to parse the YAML string: %s", $e->getMessage());
+//        }
+//
+//        $file = file_get_contents(static::$kernel->getRootDir().'/../app/config/BaseFormMeet/test_form.yml');
+//
+//        dump($file);die();
+//
+//        $media = new Media();
+//        $media
+//            ->setName('TestForm')
+//            ->setProviderMetadata($file)
+//            ->setProviderName('providerTest.txt');
+//
+//        $opusSheetTemplate = new OpusSheetTemplate();
+//        $opusSheetTemplate
+//            ->setStatus(1)
+//            ->setName('TestForm')
+//            ->setConfFile($media);
+//
+//        $em->persist($media);
+//        $em->persist($opusSheetTemplate);
+//        $em->flush();
     }
 
 
-    public function testGenerationForEvaluate()
-    {
-
-    }
 }
