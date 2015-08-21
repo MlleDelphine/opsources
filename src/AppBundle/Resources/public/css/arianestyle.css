@@ -91,7 +91,7 @@ footer {
 
 /* line 117, ../scss/arianestyle.scss */
 nav {
-  background: #3981BB url("/bundles/arianespacetheme/images/header/fond.jpg") repeat-x scroll 0px 0px;
+  background-color: transparent;
 }
 
 /* line 121, ../scss/arianestyle.scss */
@@ -314,4 +314,31 @@ h3.panel-title {
 .dataTables_filter {
   display: inline;
   float: right;
+}
+
+/* line 193, ../scss/arianestyle.scss */
+.ariane-background {
+  background: transparent url("/bundles/arianespacetheme/images/header/container_background.png") no-repeat scroll center center;
+  z-index: 700;
+  position: absolute;
+  height: 180px;
+}
+
+/* line 200, ../scss/arianestyle.scss */
+.ariane-background-color {
+  background: #3981BB url("/bundles/arianespacetheme/images/header/fond.jpg") repeat-x scroll 0px 0px;
+  z-index: 500;
+  position: absolute;
+  height: 180px;
+}
+
+/* line 207, ../scss/arianestyle.scss */
+.navbar {
+  height: 180px;
+  background-color: transparent !important;
+}
+
+/* line 212, ../scss/arianestyle.scss */
+.navbar-brand {
+  margin-top: 30px;
 }
