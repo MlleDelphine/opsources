@@ -85,7 +85,8 @@
 
                             </div>
                         </div>
-                        {% include 'AppBundle:Default/Includes:exports.html.twig' %}
+                        {#{% include 'AppBundle:Default/Includes:exports.html.twig' %}#}
+                        {{ render(controller('AppBundle:Default:listAllExports')) }}
                         <div class="tab-pane fade" id="creation">
                             <div id="" class="row col-lg-12">
                                 <div class="col-lg-12">

@@ -130,6 +130,8 @@ fields:
                   data-tab: "tab_3"
         - id: "professional_mobility_bool"
           type: "checkbox"
+          export_name: "Mobilité"
+          export_desc: "Liste des personnes mobiles géographiquement"
           conf:
               label: "Le salarié est mobile géographiquement :"
               required: false
@@ -174,6 +176,8 @@ fields:
                   data-tab: "tab_3"
         - id: "professional_prof_evolution"
           type: "checkbox"
+          export_name: "Evolution"
+          export_desc: "Liste des personnes souhaitant un entretien pour discuter de son évolution professionnelle"
           conf:
               label: "Le salarié souhaite un entretien spécifique pour discuter de son évolution professionnelle avec la DRH"
               required: false

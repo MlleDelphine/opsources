@@ -38,6 +38,7 @@ class CustomFieldsParser
     {
         $yaml = new Parser();
         $finder = new Finder();
+        $template = null;
 
         $iterator = $finder->files()->name($media->getProviderReference())->in($this->kernel->getRootDir().'/../web/uploads/media/default');
 

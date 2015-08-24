@@ -238,6 +238,8 @@ fields:
 # TAB 2
         - id: "year_review"
           type: "choice"
+          export_name: "Evènement significatif"
+          export_desc: "Liste des personnes ayant été marquées par un évènement significatif"
           conf:
               label: "L’année a-t-elle été marquée par un événement significatif (mutation, évolution importante des responsabilités, absence de longue durée, …) ?"
               choices: { 1: "Oui", 0: "Non" }

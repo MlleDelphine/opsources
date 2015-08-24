@@ -19,8 +19,8 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
-        dump($userLogged);
-        die;
+//        dump($userLogged);
+//        die;
 
         $userBdd = $em->getRepository("UserBundle:User")->find($userLogged->getId());
 

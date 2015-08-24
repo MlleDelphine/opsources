@@ -63,7 +63,7 @@ class OpusCollection
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheet")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sheet_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sheet_id", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $sheet;

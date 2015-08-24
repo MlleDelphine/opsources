@@ -32,7 +32,7 @@ class OpusSheetTemplate
      * @var \OpusSheetType
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheetType", inversedBy="opusTemplates")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="type_id", referencedColumnName="id", onDelete="SET NULL")
      * })
      */
     private $type;

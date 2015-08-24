@@ -77,7 +77,7 @@ class OpusAttribute
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusSheet")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sheet_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sheet_id", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $sheet;
@@ -87,7 +87,7 @@ class OpusAttribute
      *
      * @ORM\ManyToOne(targetEntity="GeneratorBundle\Entity\OpusCollection")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="collection_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="collection_id", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $collection;

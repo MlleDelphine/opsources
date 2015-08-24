@@ -889,7 +889,7 @@ tabs_ui:
                                     - attribute: "seniority"
                                 - td:
                                     - attribute: "comment_secondary_evaluator"
-              - attribute: "campagn_function"
+              - attribute: "campaign_function"
               - attribute: "prise_poste"
               - attribute: "poste_precedent"
               - attribute: "evolution_poste"
