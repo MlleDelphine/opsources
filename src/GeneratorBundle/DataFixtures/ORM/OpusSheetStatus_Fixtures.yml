@@ -39,3 +39,7 @@ GeneratorBundle\Entity\OpusSheetStatus:
         label: "Clôturée (non finie)"
         intCode: 9
         strCode: "close_finish"
+    status9:
+        label: "Attente de validation définitive évaluateur"
+        intCode: 10
+        strCode: "valid_final_evaluator "
