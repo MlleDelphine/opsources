@@ -23,7 +23,7 @@
                         </li>
                         <li><a href="#evaluator" data-toggle="tab">Entretiens dont je suis l'évaluateur</a>
                         </li>
-                        <li><a href="#equipe" data-toggle="tab">Mon equipe</a>
+                        <li><a href="#equipe" data-toggle="tab">Mon équipe</a>
                         </li>
                         {% if is_granted('ROLE_MANAGER') %}
                             <li><a href="#creation" data-toggle="tab">Création de fiche</a></li>
@@ -294,7 +294,7 @@
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
                                         {{ addDataTable(dataTableClosedSheets, {
-                                            'path':          path('homepage',{'tableName':'OpusSheetTable'}),
+                                            'path':          path('datatables',{'tableName':'OpusSheetTable'}),
                                             'id':            'OpusSheetTable',
                                             'bLengthChange': 1,
                                             'bInfo':         1,

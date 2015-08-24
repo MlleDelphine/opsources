@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/{tableName}", defaults={"tableName" = null}, name="homepage")
+     * @Route("/", name="homepage")
      * @Template()
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -85,6 +85,33 @@ class DefaultController extends Controller
             'fiches' => $fiches,
             'opusCampaigns' => $opusCampaigns,
             'formOpusCampaign' => $form->createView(),
+            'dataTableManagementCampaign' => $dataTableManagementCampaign,
+            'dataTableClosedSheets' => $dataTableClosedSheets
+        );
+    }
+
+    /**
+     * @Route("/{tableName}", defaults={"tableName" = null}, name="datatables", condition="request.isXmlHttpRequest()")
+     * @Template()
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @param $tableName
+     * @return array
+     */
+    public function datatablesAction(Request $request, $tableName = null)
+    {
+        $dataTableManagementCampaign = $this->get('data_tables.manager')->getTable('OpusCampaignTable');
+        if ($tableName == 'OpusCampaignTable' && $response = $dataTableManagementCampaign->ProcessRequest($request)) {
+            return $response;
+        }
+
+        $dataTableClosedSheets = $this->get('data_tables.manager')->getTable('OpusSheetTable');
+        if ($tableName == 'OpusSheetTable' && $response = $dataTableClosedSheets->ProcessRequest($request)) {
+            return $response;
+        }
+
+        return array(
             'dataTableManagementCampaign' => $dataTableManagementCampaign,
             'dataTableClosedSheets' => $dataTableClosedSheets
         );
