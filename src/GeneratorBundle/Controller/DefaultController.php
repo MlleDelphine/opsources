@@ -223,8 +223,8 @@ class DefaultController extends Controller
             $actualStatus = $opusSheet->getStatus();
 
             //Availables status
-            $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
-            $creationStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
+//            $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+//            $creationStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
 
             $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
 
@@ -240,11 +240,11 @@ class DefaultController extends Controller
                     $em = $this->getDoctrine()->getManager();
 
                     //Si c'était en génération ou en création
-                    if ($actualStatus == $generatedStatus || $actualStatus == $creationStatus) {
-                        //Si le manager enregistre --> creation
-                        //Si le manager valide --> en attente de validation par l'évalué
-                        $opusSheet->setStatus($creationStatus);
-                    }
+//                    if ($actualStatus == $generatedStatus || $actualStatus == $creationStatus) {
+//                        //Si le manager enregistre --> creation
+//                        //Si le manager valide --> en attente de validation par l'évalué
+//                        $opusSheet->setStatus($creationStatus);
+//                    }
 
                     $em->persist($opusSheet);
                     $em->flush();

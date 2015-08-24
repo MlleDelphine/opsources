@@ -16,9 +16,27 @@ class OpusCampaignType extends AbstractType
     {
         $builder
             ->add('year', 'text', array('label' => 'Année *', 'required' => true))
-            ->add('mailDate', 'date', array('label' => 'Mail date *', 'required' => true))
-            ->add('untilSheetDate', 'date',array('label' => 'Date fiche *', 'required' => true))
-            ->add('limitDate', 'date', array('label' => 'Date limite *', 'required' => true))
+            ->add('mailDate', 'datetime', array('label' => 'Mail date *', 'required' => true,
+                    'widget' => 'single_text',
+                    'input' => 'datetime',
+                    'format' => 'MM/dd/yyyy',
+                    'attr'=>array(
+                        'class' => 'datepicker'
+                    )))
+            ->add('untilSheetDate', 'datetime',array('label' => 'Date fiche *', 'required' => true,
+                'widget' => 'single_text',
+                'input' => 'datetime',
+                'format' => 'MM/dd/yyyy',
+                'attr'=>array(
+                    'class' => 'datepicker'
+                )))
+            ->add('limitDate', 'datetime', array('label' => 'Date limite *', 'required' => true,
+                'widget' => 'single_text',
+                'input' => 'datetime',
+                'format' => 'MM/dd/yyyy',
+                'attr'=>array(
+                    'class' => 'datepicker'
+                )))
             ->add('status', 'choice', array(
                 'label' => 'Statut *',
                 'choices' => array(

@@ -42,3 +42,27 @@ login:
 #    resource: '@SonataMediaBundle/Resources/config/routing/media.xml'
 #    prefix: /media
 
+arianespace_theme_bundle_home:
+    path: /_arianespace/themebundle/home
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'ArianespaceThemeBundle:Example:home.html.twig'
+
+arianespace_theme_bundle_form:
+    path: /_arianespace/themebundle/form
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'ArianespaceThemeBundle:Example:form.html.twig'
+
+arianespace_theme_bundle_table:
+    path: /_arianespace/themebundle/table
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'ArianespaceThemeBundle:Example:table.html.twig'
+
+arianespace_theme_bundle_login:
+    path: /_arianespace/themebundle/login
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: 'ArianespaceThemeBundle:Example:login.html.twig'
+

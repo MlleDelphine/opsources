@@ -1,0 +1,844 @@
+@import "_base";
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: $baseFontFamily;
+    font-size: $baseFontSize;
+    line-height: $baseLineHeight;
+    background-color: $bodyBackground;
+    color: $textColor;
+    
+    &.login {
+        background: #59b0d6 url('/bundles/arianespacetheme/images/login/background.jpg') repeat-x 0 0;
+        color: #FFF;
+        overflow: hidden;
+    }
+    
+    section#login {
+        padding: 20px;
+        line-height: 18px;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        margin-left: -600px;
+        position: absolute;
+        top: 50%;
+        margin-top: -250px;
+        left: 50%;
+        width: 1200px;
+        font-size: 15px;
+        
+        & > form {
+            display: inline-block;
+            text-align: right;
+            padding-top: 164px;
+            padding-right: 110px;
+            padding: 164px 50px 0 50px;
+            width: 500px;
+            background: transparent url('/bundles/arianespacetheme/images/login/logo.png') no-repeat top center;
+            vertical-align: top;
+            
+            & > div {
+                padding: 0;
+                margin: 10px 0;
+            }
+            
+            & > div#login-application {
+                text-align: left;
+                margin-bottom: 30px;
+                
+                h1, p {
+                    margin: 0;
+                    padding: 0;
+                }
+                
+                h1 {
+                    font-size: 40px;
+                }
+            }
+        }
+        
+        &:before {
+            background: transparent url('/bundles/arianespacetheme/images/login/fusee.png') no-repeat top right;
+            content: '';
+            height: 500px;
+            width: 300px;
+            display: inline-block;
+        }
+        
+        &:after {
+            background: transparent url('/bundles/arianespacetheme/images/login/soleil.png') no-repeat top left;
+            content: '';
+            height: 500px;
+            width: 300px;
+            display: inline-block;
+        }
+    }
+}
+
+.rounded-box {
+    border: 1px solid #dcdcdc;
+    @include border-radius(4px, 4px);
+    margin-bottom: 30px;
+}
+
+.clearfix {
+    @include clearfix;
+}
+
+.nav {
+    margin-left: 0;
+    margin-bottom: $baseLineHeight;
+    list-style: none;
+}
+
+// Make links block level
+.nav > li > a {
+    display: block;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+    text-decoration: none;
+    background-color: $grayLighter;
+}
+
+// Prevent IE8 from misplacing imgs
+// See https://github.com/h5bp/html5-boilerplate/issues/984#issuecomment-3985989
+.nav > li > a > img {
+    max-width: none;
+}
+
+// Redeclare pull classes because of specifity
+.nav > .pull-right {
+    float: right;
+}
+
+.nav-tabs,
+.nav-pills {
+    @include clearfix();
+}
+.nav-tabs > li,
+.nav-pills > li {
+    float: left;
+}
+.nav-tabs > li > a,
+.nav-pills > li > a {
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-right: 2px;
+    line-height: 14px; // keeps the overall height an even number
+}
+
+// TABS
+// ----
+
+// Give the tabs something to sit on
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+}
+// Make the list-items overlay the bottom border
+.nav-tabs > li {
+    margin-bottom: -1px;
+}
+// Actual tabs (as links)
+.nav-tabs > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: $baseLineHeight;
+    border: 1px solid transparent;
+    @include border-radius(4px 4px 0 0);
+    &:hover,
+    &:focus {
+        border-color: $grayLighter $grayLighter #ddd;
+    }
+}
+// Active state, and it's :hover/:focus to override normal :hover/:focus
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
+    color:            $gray;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+    cursor: default;
+}
+
+#ae_container {    
+    & > header {
+        display: none;
+        background: #3981bb url('/bundles/arianespacetheme/images/header/fond.jpg') repeat-x 0 0;
+        
+        &.active {
+            display: block;
+        }
+        
+        a {
+            @include link-colors(#FFF, #FFF, #FFF, #FFF, #FFF);
+            @include hover-link;
+        }
+        
+        & > div {
+            @include container;
+            @include clearfix;
+            background: transparent url(/bundles/arianespacetheme/images/header/container_background.png) no-repeat top right;
+            padding-bottom: 10px;
+            min-height: 120px;
+            padding-top: 20px;
+            color: #FFF;
+            
+            img#logo {
+                @include float-left;
+                margin-right: 20px;
+            }
+            
+            h1 {
+                @include float-left;
+                font-size: 35px;
+                margin: 62px 0 12px 0;
+                
+                sub {
+                    color: red;
+                }
+            }
+            
+            & > p {
+                @include float-right;
+                text-align: right;
+            }
+        }
+    }
+        
+    h2 {
+        font-size: 26px;
+        font-weight: normal;
+        
+        &:before {
+            display: inline-block;
+            width: 5px;
+            height: 15px;
+            background-color: #3074b3;
+            font-size: 15px;
+            margin-right: 27px;
+            content: '';
+        }
+    }
+    
+    h3 {
+        font-weight: normal;
+        font-size: 20px;
+    }
+    
+    & > nav {
+        background: #E9E9E9 url("/bundles/arianespacetheme/images/nav/background.gif") repeat-x 0 0 scroll;
+        border-bottom: 1px solid #a6a6a5;
+        
+        & > ul {
+            @include container;
+            padding: 0;
+            color: #666666;
+            height: 32px;
+            overflow: visible;
+            
+            & > li > a {
+                @include link-colors(#666, #666, #666, #666, #666);
+                @include float-left;
+                display: block;
+                border-right: 1px solid #a6a6a5;
+                text-transform: uppercase;
+                font-size: 10px;
+                padding: 10px 30px;
+                line-height: 12px;
+                background: #e9e9e9 url(/bundles/arianespacetheme/images/nav/item.gif) repeat-x 0 0;
+                text-decoration: none;
+                
+                &:hover {
+                    background: #cccccc url(/bundles/arianespacetheme/images/nav/item_hover.gif) repeat-x 0 0;
+                }
+                
+                &.selected {
+                    background: #a6a6a5 url(/bundles/arianespacetheme/images/nav/item_selected.gif) repeat-x 0 0;
+                    padding-bottom: 0px;
+                    @include link-colors(#FFF, #FFF, #FFF, #FFF, #FFF);
+                    
+                    &:after {
+                        background: #a6a6a5 url(/bundles/arianespacetheme/images/nav/pointer.gif) no-repeat center bottom;
+                        width: 100%;
+                        height: 11px;
+                        content: '';
+                        display: block;
+                        z-index: 200;
+                    }
+                }
+                
+                &.header-toggle {
+                    float: right;
+                    text-indent: -1000px;
+                    overflow: hidden;
+                    border: none;
+                    height: 12px;
+                }
+                
+                &.header-down {
+                    background: url(/bundles/arianespacetheme/images/nav/arrow-up.png) no-repeat center center;
+                }
+                
+                &.header-up {
+                    background: url(/bundles/arianespacetheme/images/nav/arrow-down.png) no-repeat center center;
+                }
+            }
+            
+            & > li:first-child > a {
+                border-left: 1px solid #a6a6a5;
+            }
+        }
+    }
+    
+    & > section {
+        @include container;
+        @include clearfix;
+        overflow: visible;
+        
+        a {
+            @include link-colors(#000, #000, #000, #000, #000);
+            @include hover-link;
+        }
+            
+        & > article {
+            & > * {
+                margin: 0 30px;
+                margin-bottom: 20px;
+                
+                &:first-child {
+                    margin-top: 30px;
+                }
+                
+                &:last-child {
+                    margin-bottom: 30px;
+                }
+            }
+            
+            & > hr {
+                margin: 30px 0px;
+                color: #dcdcdc;
+                background-color: #dcdcdc;
+                height: 1px;
+                border: 0;
+            }
+        }
+        
+        &#search-box {
+            display: none;
+        }
+        
+        & > aside {
+            @include float-left;
+            width: $aside_width;
+            
+            & ~ * {
+                @include float-left;
+                width: $container_width - $aside_width - 2;
+                border: 1px solid #dcdcdc;
+                @include border-radius(4px, 4px);
+                
+            }
+            
+            & > nav > ul {
+                margin: 0;
+                padding: 0;
+            
+                & > li {
+                    padding: 14px 0 14px 14px;
+                    border-top: 1px solid #dcdcdc;
+                    
+                    
+                    & > a {
+                        @include link-colors(#bcbcbc, #6a6a6a, #bcbcbc, #bcbcbc, #bcbcbc);
+                        color: #bcbcbc;
+                        font-size: 15px;
+                        font-weight: bold;
+                        line-height: 22px;
+                        
+                        &:hover {
+                            text-decoration: none;
+                        }
+                    }
+                    
+                    &:first-child {
+                        border-top: none;
+                    }
+                }
+            }
+        }
+
+    }
+    
+    table {
+        width: 100%;
+    
+        & > thead {            
+            th {
+                line-height: 18px;
+                height: 18px;
+                font-weight: normal;
+                vertical-align: middle;
+                text-align: left;
+                @include gradientBar(#3981BB, #2362A9, #FFF, none);
+                padding: 10px;
+                font-size: 15px;
+                
+                a {
+                    @include link-colors(#FFF, #FFF, #FFF, #FFF, #FFF);
+                }
+            }
+            
+            tr:first-child th:first-child {
+                @include border-top-left-radius(6px);
+            }
+            
+            tr:first-child th:last-child {
+                @include border-top-right-radius(6px);
+            }
+        }
+        
+        & > tbody {
+            td {
+                padding: 10px;
+                font-size: $baseFontSize;
+            }
+            
+            tr {
+                border-top: 1px solid #dcdcdc;
+            }
+            
+            > tr:nth-child(odd) > td, > tr:nth-child(odd) > th {
+                background-color: #f9f9f9;
+            }
+            
+            tr:hover > td, tr:hover > th {
+                background-color: #f5f5f5;
+            }
+            
+            tr.success td {
+                background-color: #dff0d8;
+            }
+            
+            tr.error td {
+                background-color: #f2dede;
+            }
+        }
+        
+        & > tfoot {
+            td {
+                background-color: #f5f5f5;
+                text-align: center;
+                border-top: 1px solid #dcdcdc;
+                height: 20px;
+            }
+            
+            tr.paginate {
+                ul {
+                    list-style-type: none;
+                    margin: 8px 0;
+                    padding: 0;
+                    
+                    li {
+                        display: inline-block;
+                        
+                        a, span {
+                            display: inline-block;
+                            padding: 5px 10px;
+                            border: 1px solid #dcdcdc;
+                            background-color: #f5f5f5;
+                        }
+                        
+                        span {
+                            background-color: $white;
+                            font-weight: bold;
+                        }
+                        
+                        a:hover {
+                            background-color: $white;
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+        
+            tr:last-child td:first-child {
+                @include border-bottom-left-radius(6px);
+            }
+            
+            tr:last-child td:last-child {
+                @include border-bottom-right-radius(6px);
+            }
+        }
+    }
+    
+    i {
+        width: 24px;
+        height: 23px;
+        display: inline-block;
+        margin-right: 5px;
+        
+        &.arrow_down {
+            background: url(/bundles/arianespacetheme/images/icon/arrow_down.png) no-repeat bottom center;
+        }
+        
+        &.back {
+            background: url(/bundles/arianespacetheme/images/icon/back.png) no-repeat bottom center;
+        }
+        
+        &.calendar {
+            background: url(/bundles/arianespacetheme/images/icon/calendar.png) no-repeat bottom center;
+        }
+        
+        &.clock {
+            background: url(/bundles/arianespacetheme/images/icon/clock.png) no-repeat bottom center;
+        }
+        
+        &.create {
+            background: url(/bundles/arianespacetheme/images/icon/create.png) no-repeat bottom center;
+        }
+        
+        &.delegation {
+            background: url(/bundles/arianespacetheme/images/icon/delegation.png) no-repeat bottom center;
+        }
+        
+        &.directory {
+            background: url(/bundles/arianespacetheme/images/icon/directory.png) no-repeat bottom center;
+        }
+        
+        &.edit {
+            background: url(/bundles/arianespacetheme/images/icon/edit.png) no-repeat bottom center;
+        }
+        
+        &.letter {
+            background: url(/bundles/arianespacetheme/images/icon/letter.png) no-repeat bottom center;
+        }
+        
+        &.ok {
+            background: url(/bundles/arianespacetheme/images/icon/ok.png) no-repeat bottom center;
+        }
+        
+        &.perso {
+            background: url(/bundles/arianespacetheme/images/icon/perso.png) no-repeat bottom center;
+        }
+        
+        &.rights {
+            background: url(/bundles/arianespacetheme/images/icon/rights.png) no-repeat bottom center;
+        }
+    }
+    
+    form {
+        margin: 0 0 $baseLineHeight;
+        
+        div.form-widget {
+            position: relative;
+    
+            span.helper {
+                background-color:#000;
+                border:1px solid #fff;
+                padding:4px 10px;
+                display:none;
+                float:right;
+                color:#fff;
+                text-align:left;
+                font-size:12px;
+             
+                /* outline radius for mozilla/firefox only */
+                -moz-box-shadow:0 0 10px #000;
+                -webkit-box-shadow:0 0 10px #000;
+                z-index: 1000;
+                position: absolute;
+                width: 250px;
+                right: -280px;
+                
+                &:before {
+                    content:"";
+                    position:absolute;
+                    border-bottom: 10px solid transparent;
+                    border-right: 10px solid black;
+                    border-top: 10px solid transparent;
+                    height: 0px;
+                    width: 0px;
+                    margin-left: -20px;
+                }
+            }
+        }
+    }
+    
+    fieldset {
+        padding: 0;
+        margin: 20px 0 20px 0;
+        border: 0;
+    }
+    
+    legend {
+        display: block;
+        width: 100%;
+        padding-left: 20px;
+        margin-bottom: $baseLineHeight;
+        font-size: $baseFontSize * 1.5;
+        line-height: $baseLineHeight * 2;
+        color: $grayDark;
+        border: 0;
+        border-bottom: 1px solid #e5e5e5;
+        
+        small {
+            font-size: $baseLineHeight * .75;
+            color: $grayLight;
+        }
+    }
+    
+    form > ul.error_field, fieldset > ul.error_field {
+        color: #b94a48;
+        list-style-type: none;
+        border: 1px solid #b94a48;
+        @include border-radius(4px, 4px);
+        margin: 10px 20px;
+        padding: 10px;
+    }
+    
+    form > div, fieldset > div {
+        padding-left: 20px;
+        margin-bottom: $baseLineHeight;
+        @include clearfix;
+        overflow: visible;
+        
+        &.error {
+            color: #b94a48;
+        }
+        
+        & > .error_field {
+            position: absolute;
+            list-style-type: none;
+            padding: 6px 5px;
+            margin: 0;
+            margin-left: 520px;
+            border: 1px solid #b94a48;
+            
+            &:before {
+                content:"";
+                position:absolute;
+                border-bottom: 10px solid transparent;
+                border-right: 10px solid #b94a48;
+                border-top: 10px solid transparent;
+                height: 0px;
+                width: 0px;
+                margin-left: -15px;
+            }
+        }
+        
+        & > label {
+            float: left;
+            width: 160px;
+            padding-top: 5px;
+            text-align: right;
+            
+            & + div {
+                display: inline-block;
+            }
+        }
+        
+        & > div {
+            margin-left: 20px;
+        }
+    }
+    
+    select {
+        width: 320px;
+    } 
+    
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"],
+    .uneditable-input {
+        display: inline-block;
+        height: $baseLineHeight;
+        padding: 4px 6px;
+        margin-bottom: $baseLineHeight / 2;
+        margin: 0;
+        font-size: 100%;
+        line-height: $baseLineHeight;
+        color: $gray;
+        @include border-radius(4px);
+        vertical-align: middle;
+    }
+    
+    input, textarea, .uneditable-input {
+        width: 306px; // plus 12px padding and 2px border
+    }
+    
+    textarea {
+        height: 170px;
+    }
+    // Everything else
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"],
+    .uneditable-input {
+        background-color: $white;
+        border: 1px solid #ccc;
+        @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
+        @include transition(border linear .2s, box-shadow linear .2s);
+        
+        // Focus state
+        &:focus {
+            border-color: rgba(82,168,236,.8);
+            outline: 0;
+            outline: thin dotted \9; /* IE6-9 */
+            @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6));
+        }
+        
+        &[disabled] {
+            background-color: #f4f4f4;
+            background-image: none;
+            border: 1px solid #ddd;
+            cursor: default;
+        }
+    }
+    
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin: 7px 10px 0 0;
+        *margin-top: 0; /* IE7 */
+        margin-top: 4px \9; /* IE8-9 */
+        line-height: normal;
+        
+        & + label {
+            margin-right: 10px;
+        }
+    }
+    
+    input[type="file"],
+    input[type="image"],
+    input[type="submit"],
+    input[type="reset"],
+    input[type="button"],
+    input[type="radio"],
+    input[type="checkbox"] {
+        width: auto; // Override of generic input selector
+    }
+    
+    input[type="file"] {
+        height: $baseLineHeight + 10px;; /* In IE7, the height of the select element cannot be changed by height, only font-size */
+        *margin-top: 4px; /* For IE7, add top margin to align select with labels */
+        line-height: $baseLineHeight + 10px;;
+    }
+    
+    input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus {
+        @include tab-focus();
+    }
+    
+    .button, button, input[type=button], input[type=reset] {
+        @include buttonBackground($white, darken($white, 10%), $grayDark, 0 1px 1px rgba(255,255,255,.75));
+        
+        &:hover, &:focus {
+            color: $grayDark;
+            text-decoration: none;
+            background-position: 0 -15px;
+        
+            @include transition(background-position .1s linear);
+        }
+    }
+    
+    input[type=submit] {
+        @include buttonBackground(#62c462, #51a351);
+        
+        &:hover, &:focus {
+            text-decoration: none;
+            background-position: 0 -15px;
+        
+            @include transition(background-position .1s linear);
+        }
+    }
+    
+    .button, button, input[type=submit], input[type=button], input[type=reset] {
+        display: inline-block;
+        padding: 4px 12px;
+        margin-bottom: 0;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 18px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        *border: 0; // Remove the border to prevent IE7's black border on input:focus
+        border-bottom-color: darken(#ccc, 10%);
+        @include border-radius(4px);
+        @include box-shadow(inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05));
+        
+        // Hover/focus state
+        &:focus {
+            @include tab-focus();
+        }
+        
+        // Active state
+        &.active, &:active {
+            background-image: none;
+            outline: 0;
+            @include box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05));
+        }
+        
+        // Disabled state
+        &.disabled, &[disabled] {
+            cursor: default;
+            background-image: none;
+            @include opacity(65);
+            @include box-shadow(none);
+        }
+        
+        &.primary {
+            @include buttonBackground(#08c, adjust-hue(#08c, 20%));
+        }
+        // Warning appears are orange
+        &.warning {
+            @include buttonBackground(lighten($orange, 15%), $orange);
+        }
+        // Danger and error appear as red
+        &.danger {
+            @include buttonBackground(#ee5f5b, #bd362f);
+        }
+        // Success appears as green
+        &.success {
+            @include buttonBackground(#62c462, #51a351);
+        }
+        // Info appears as a neutral blue
+        &.info {
+            @include buttonBackground(#5bc0de, #2f96b4);
+        }
+        // Inverse appears as dark gray
+        &.inverse {
+            @include buttonBackground(#444, $grayDarker);
+        }
+    }
+    
+    @include select2;
+    
+    @import "jqueryui";
+}

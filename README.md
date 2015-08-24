@@ -33,3 +33,8 @@ Les bibliothèques sont ensuite installable en ce placant dans la racine du
 projet et en lancant la commande :
 
     bower install
+    
+Procédure de déploiement
+----------------------------------------
+
+Se référer au fichier : deploy.md

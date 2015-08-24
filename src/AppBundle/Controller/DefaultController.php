@@ -22,9 +22,10 @@ class DefaultController extends Controller
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
+     * @param $tableName
      * @return array
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $tableName = null)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -65,6 +66,17 @@ class DefaultController extends Controller
                 break 2;
             }
         }*/
+
+        $dataTableManagementCampaign = $this->get('data_tables.manager')->getTable('OpusCampaignTable');
+        if ($tableName == 'OpusCampaignTable' && $response = $dataTableManagementCampaign->ProcessRequest($request)) {
+            return $response;
+        }
+
+        $dataTableClosedSheets = $this->get('data_tables.manager')->getTable('OpusSheetTable');
+        if ($tableName == 'OpusSheetTable' && $response = $dataTableClosedSheets->ProcessRequest($request)) {
+            return $response;
+        }
+
         return array(
             'user' => $user,
             'users' => $users,
@@ -72,7 +84,36 @@ class DefaultController extends Controller
             'templates' => $templates,
             'fiches' => $fiches,
             'opusCampaigns' => $opusCampaigns,
-            'formOpusCampaign' => $form->createView()
+            'formOpusCampaign' => $form->createView(),
+            'dataTableManagementCampaign' => $dataTableManagementCampaign,
+            'dataTableClosedSheets' => $dataTableClosedSheets
+        );
+    }
+
+    /**
+     * @Route("/{tableName}", defaults={"tableName" = null}, name="datatables", condition="request.isXmlHttpRequest()")
+     * @Template()
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @param $tableName
+     * @return array
+     */
+    public function datatablesAction(Request $request, $tableName = null)
+    {
+        $dataTableManagementCampaign = $this->get('data_tables.manager')->getTable('OpusCampaignTable');
+        if ($tableName == 'OpusCampaignTable' && $response = $dataTableManagementCampaign->ProcessRequest($request)) {
+            return $response;
+        }
+
+        $dataTableClosedSheets = $this->get('data_tables.manager')->getTable('OpusSheetTable');
+        if ($tableName == 'OpusSheetTable' && $response = $dataTableClosedSheets->ProcessRequest($request)) {
+            return $response;
+        }
+
+        return array(
+            'dataTableManagementCampaign' => $dataTableManagementCampaign,
+            'dataTableClosedSheets' => $dataTableClosedSheets
         );
     }
 
@@ -287,7 +328,9 @@ class DefaultController extends Controller
                 }
             }else{
                 $newOpusSheet = new OpusSheet();
+                $opusSheetStatus = $em->getRepository('GeneratorBundle:OpusSheetStatus')->findOneByStrCode('generee');
                 $newOpusSheet
+                    ->setStatus($opusSheetStatus)
                     ->setEvaluate($user)
                     ->setEvaluator($user->getManager())
                     ->setCampaign($opusCampaign)

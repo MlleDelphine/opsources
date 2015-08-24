@@ -63,4 +63,97 @@ class OpusSheetRepository extends EntityRepository
 
         return $result;
     }
+
+    /*
+ * ToDo
+ */
+    public function getMobilityForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+        $qb = $this->createQueryBuilder('opusSheet');
+        $users = $qb
+            ->select('evaluate.id')
+            ->join('opusSheet.collections','collections')
+            ->join('collections.attributes','attributes')
+            ->join('opusSheet.evaluate','evaluate')
+            ->where('attributes.label LIKE :label')
+            ->andWhere('attributes.value IS NOT NULL')
+            ->groupBy('evaluate.id')
+            ->setParameter('label', 'improve_comment')
+            ->getQuery()->getResult();
+//        professional_mobility_bool
+
+        $em = $this->getEntityManager();
+
+        $objects = array();
+        foreach($users AS $user){
+            $evaluate = $em->getRepository('UserBundle:User')->find($user,array('lastName'=>'ASC'));
+            array_push($objects,$evaluate);
+        }
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getLastname(),$value->getFirstname());
+            array_push($data,$line);
+        }
+
+        $headers = array('Nom','Prenom');
+
+        return array($headers,$data);
+    }
+
+    /*
+ * ToDo
+ */
+    public function getStrongPointsForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+
+        $data = array();
+
+        foreach($objects AS $value){
+            $line = array($value->getId(),$value->getFirstname(),$value->getLastname());
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Firstname','Lastname');
+
+        return array($headers,$data);
+    }
+
+    /*
+ * ToDo
+ */
+    public function getUsersFunctionForExport(){
+        $objects = $this->findBy(array(),array('id'=>'ASC'));
+        $qb = $this->createQueryBuilder('opusSheet');
+        $users = $qb
+            ->select('attributes.value')
+            ->join('opusSheet.collections','collections')
+            ->join('collections.attributes','attributes')
+            ->join('opusSheet.evaluate','evaluate')
+            ->where('attributes.label LIKE :label')
+//            ->andWhere('attributes.value IS NOT NULL')
+            ->setParameter('label', 'current_function')
+            ->getQuery()->getResult();
+//        professional_mobility_bool
+
+        $em = $this->getEntityManager();
+        $objects = array();
+        foreach($users AS $user){
+            $evaluate = $em->getRepository('UserBundle:User')->find($user->getEvaluate(),array('lastName'=>'ASC'));
+            array_push($objects,$evaluate);
+        }
+
+        $data = array();
+
+        foreach($objects AS $value){
+            dump($value);die();
+            $line = array($value->getLastname(),$value->getFirstname());
+            array_push($data,$line);
+        }
+
+        $headers = array('Nom','Prenom');
+
+        return array($headers,$data);
+    }
 }
