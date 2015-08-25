@@ -4,6 +4,7 @@ namespace GeneratorBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use GeneratorBundle\Entity\OpusCampaign;
+use Symfony\Component\Validator\Constraints\DateTime;
 use UserBundle\Entity\User;
 
 /**
@@ -156,4 +157,59 @@ class OpusSheetRepository extends EntityRepository
 
         return array($headers,$data);
     }
+
+    /**
+     * Retourne toutes les fiches où la valeur de l'attribut fieldName est égale à $value
+     *
+     * @param $fieldName
+     * @param $value
+     * @return array
+     */
+    public function findForAttributeExport($fieldName, $value){
+
+        $formats = array("d.m.Y", "d/m/Y", "Ymd", "Y-m-d H:i:s");
+        $isDate = false;
+
+        foreach ($formats as $format)
+        {
+            $date = \DateTime::createFromFormat($format, $value);
+            if ($date == false || !(date_format($date,$format) == $value) )
+            {}
+            else
+            {
+                $isDate = true;
+                break;
+            }
+        }
+
+        if($isDate && $value){
+            $qb = $this->createQueryBuilder('opusSheet');
+            $result = $qb
+                ->join('opusSheet.attributes', 'attributes')
+                ->where('attributes.label = :fieldName')
+                ->andWhere('attributes.value = :value OR attributes.valueDate = :value')
+                ->setParameters(array('fieldName' => $fieldName, 'value' => $value))
+                ->getQuery()->getResult();
+        }elseif(!$isDate && $value){
+            $qb = $this->createQueryBuilder('opusSheet');
+            $result = $qb
+                ->join('opusSheet.attributes', 'attributes')
+                ->where('attributes.label = :fieldName')
+                ->andWhere('attributes.value = :value OR attributes.valueData = :value')
+                ->setParameters(array('fieldName' => $fieldName, 'value' => $value))
+                ->getQuery()->getResult();
+        }
+        else{
+            $qb = $this->createQueryBuilder('opusSheet');
+            $result = $qb
+                ->join('opusSheet.attributes', 'attributes')
+                ->where('attributes.label = :fieldName')
+                ->getQuery()->getResult();
+        }
+
+        return $result;
+
+    }
+
+
 }

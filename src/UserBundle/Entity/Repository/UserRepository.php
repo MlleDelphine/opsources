@@ -110,7 +110,7 @@ class UserRepository extends EntityRepository
      * ToDo
      */
     public function getStatisticsForExport(){
-        $objects = $this->findBy(array(),array('id'=>'ASC'));
+        $objects = $this->findBy(array(), array('id'=>'ASC'));
 
         $data = array();
 

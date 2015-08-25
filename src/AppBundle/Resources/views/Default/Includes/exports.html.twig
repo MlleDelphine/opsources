@@ -177,8 +177,8 @@
                                                 {% for option in template.options %}
                                                     <tr>
                                                         <td>{{ option.export_name }}</td>
-                                                        <td>{{  option.export_desc }}</td>
-                                                        <td><a href="{{ path('_excel_statistics') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                                                        <td>{{  option.export_desc }} et sa valeur :  {{ option.export_value }}</td>
+                                                        <td><a href="{{ path('_excel_exports', {'templateID': template.template.id, 'exportID': option.export_id, 'exportValue': option.export_value }) }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
                                                     </tr>
                                                 {% endfor %}
 

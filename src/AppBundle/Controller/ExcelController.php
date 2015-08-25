@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * Class DefaultController.
@@ -60,6 +61,91 @@ class ExcelController extends Controller
         $phpExcelService->draw($headers, $data, 0, true);
 
         return $phpExcelService->createAndGetResponse($filename);
+    }
+
+    /**
+     * @Route("/generateexport/{templateID}/{exportID}/{exportValue}", defaults={"exportValue" = null}, name="_excel_exports")
+     *
+     * @param $templateID
+     * @param $exportID
+     * @param null $exportValue
+     */
+    public function getElementsForExportAction($templateID, $exportID, $exportValue){
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $template = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->find($templateID);
+        $templateFile = $template->getConfFile();
+        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+        //On le recherche avant tout dans les attributes
+        $allAttributes['attr'] = array_values($allAttributes['attr']);
+        $elementKey = array_search($exportID, array_column($allAttributes['attr'], 'id'));
+
+        try {
+            if ($elementKey) {
+                $field = $allAttributes['attr'][$elementKey];
+                $sheets = $em->getRepository("GeneratorBundle:OpusSheet")->findForAttributeExport($exportID, $exportValue);
+                list($headers, $data) = $this->displayValuesForAttributeExport($sheets, $field);
+            } else {
+                //Si aucun attribut correspondant on le recherche dans les collections
+                $allAttributes['collections'] = array_values($allAttributes['collections']);
+                $elementKey = array_search($exportID, array_column($allAttributes['collections'], 'id'));
+                $field = $allAttributes['collections'][$elementKey];
+            }
+        }catch (NotFoundResourceException $e){
+            throw $this->createNotFoundException('This export does not exist.');
+        }
+
+        /**
+         * On génère le fichier Excel
+         */
+        $title = $field['export_desc'];
+        $filename =  $this->wd_remove_accents($field["export_desc"]).' - '.date("Y-m-d H:i:s").'.xls';
+
+        /**
+         * @var \AppBundle\Service\ExcelBuilder $phpExcelService
+         */
+        $phpExcelService = $this->get("app.excelbuilder");
+        $worksheet = $phpExcelService->createWorkSheet();
+
+        $worksheet->getProperties()
+            ->setCreator($user->getFullName())
+            ->setLastModifiedBy($user->getFullName())
+            ->setTitle($title);
+
+        $phpExcelService->draw($headers, $data, 0, true);
+
+        return $phpExcelService->createAndGetResponse($filename);
+    }
+
+    /**
+     * Organise les données d'une fiche pour l'export (attribut simple)
+     */
+    public function displayValuesForAttributeExport($sheets, $attribute){
+
+        $data = array();
+
+        foreach($sheets AS $sheet){
+            $line = array($sheet->getEvaluate()->getId(),$sheet->getEvaluate()->getFirstname(),$sheet->getEvaluate()->getLastname(), $attribute['export_value'] );
+            array_push($data,$line);
+        }
+
+        $headers = array('ID','Prénom','Nom', $attribute['export_name']);
+
+        return array($headers,$data);
+
+    }
+
+    private function wd_remove_accents($str, $charset='utf-8')
+    {
+        $str = htmlentities($str, ENT_NOQUOTES, $charset);
+
+        $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
+        $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
+
+        return $str;
     }
 
     /**

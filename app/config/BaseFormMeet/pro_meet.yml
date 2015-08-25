@@ -132,6 +132,7 @@ fields:
           type: "checkbox"
           export_name: "Mobilité"
           export_desc: "Liste des personnes mobiles géographiquement"
+          export_value: true
           conf:
               label: "Le salarié est mobile géographiquement :"
               required: false
@@ -178,6 +179,7 @@ fields:
           type: "checkbox"
           export_name: "Evolution"
           export_desc: "Liste des personnes souhaitant un entretien pour discuter de son évolution professionnelle"
+          export_value: true
           conf:
               label: "Le salarié souhaite un entretien spécifique pour discuter de son évolution professionnelle avec la DRH"
               required: false

@@ -146,7 +146,10 @@ class DefaultController extends Controller
                             $results[$type->getId()]['templates'][$template->getId()]['template'] = $template;
                         }
 
-                        $results[$type->getId()]['templates'][$template->getId()]['options'][] = array('id' => $attr['id'], 'export_name' => $attr['export_name'], 'export_desc' => $attr['export_desc']);
+                        $results[$type->getId()]['templates'][$template->getId()]['options'][] = array('export_id' => $attr['id'],
+                            'export_name' => $attr['export_name'],
+                            'export_desc' => $attr['export_desc'],
+                            'export_value' => $attr['export_value']);
                     }
                 }
             }
