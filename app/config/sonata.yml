@@ -3,7 +3,7 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts:   [admin]
-            
+
 sonata_media:
     # if you don't use default namespace configuration
     class:

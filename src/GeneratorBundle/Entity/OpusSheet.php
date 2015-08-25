@@ -354,14 +354,13 @@ class OpusSheet
     /**
      * Set Campaign.
      *
-     * @param \GeneratorBundle\Entity\OpusCampaign $info
+     * @param \GeneratorBundle\Entity\OpusCampaign $campaign
      *
      * @return OpusSheet
      */
     public function setCampaign(\GeneratorBundle\Entity\OpusCampaign $campaign = null)
     {
         $this->campaign = $campaign;
-
         return $this;
     }
 
