@@ -85,7 +85,7 @@ class ExcelBuilder{
     }
 
     public function getRowIterator(){
-        return $this->phpExcel->getRowIterator();
+        return $this->get('phpexcel')->getRowIterator();
     }
 
     protected function drawHeader($headers, $activeSheet)

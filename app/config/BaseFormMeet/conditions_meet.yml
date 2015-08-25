@@ -5,7 +5,7 @@ fields:
         - id: "cond_workconditions"
           type: "collection"
           export_name: "Conditions de travail"
-          export_desc: "Liste des évaluation des conditions de travail"
+          export_desc: "Liste des évaluations des conditions de travail"
           export_value: null
           conf:
               allow_add: true
