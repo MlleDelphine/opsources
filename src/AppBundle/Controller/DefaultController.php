@@ -136,6 +136,7 @@ class DefaultController extends Controller
             foreach ($allTemplateByType as $template) {
                 $templateFile = $template->getConfFile();
                 $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+                //Attributs directs
                 foreach($allAttributes['attr'] as $k => $attr){
                     if(array_key_exists('export_name', $attr)){
 
@@ -150,6 +151,39 @@ class DefaultController extends Controller
                             'export_name' => $attr['export_name'],
                             'export_desc' => $attr['export_desc'],
                             'export_value' => $attr['export_value']);
+                    }
+                }
+                //Collection et attributs de collection
+                foreach($allAttributes['collections'] as $k => $coll){
+                    if(array_key_exists('export_name', $coll)){
+                        if(!array_key_exists($type->getId(), $results)){
+                            $results[$type->getId()] = array('type' => $type);
+                        }
+                        if(array_key_exists($type->getId(), $results) && (!array_key_exists('templates', $results[$type->getId()]) || !array_key_exists($template->getId(), $results[$type->getId()]['templates']))) {
+                            $results[$type->getId()]['templates'][$template->getId()]['template'] = $template;
+                        }
+
+                        $results[$type->getId()]['templates'][$template->getId()]['options'][] = array('export_id' => $coll['id'],
+                            'export_name' => $coll['export_name'],
+                            'export_desc' => $coll['export_desc'],
+                            'export_value' => $coll['export_value']);
+                    }
+
+                    //Atrtibuts de collections
+                    foreach ($coll['child'] as $collChild) {
+                        if(array_key_exists('export_name', $collChild)){
+                            if(!array_key_exists($type->getId(), $results)){
+                                $results[$type->getId()] = array('type' => $type);
+                            }
+                            if(array_key_exists($type->getId(), $results) && (!array_key_exists('templates', $results[$type->getId()]) || !array_key_exists($template->getId(), $results[$type->getId()]['templates']))) {
+                                $results[$type->getId()]['templates'][$template->getId()]['template'] = $template;
+                            }
+
+                            $results[$type->getId()]['templates'][$template->getId()]['options'][] = array('export_id' => $collChild['id'],
+                                'export_name' => $collChild['export_name'],
+                                'export_desc' => $collChild['export_desc'],
+                                'export_value' => $collChild['export_value']);
+                        }
                     }
                 }
             }

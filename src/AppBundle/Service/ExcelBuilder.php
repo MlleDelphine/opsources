@@ -84,6 +84,10 @@ class ExcelBuilder{
         $writer->save($filename);
     }
 
+    public function getRowIterator(){
+        return $this->phpExcel->getRowIterator();
+    }
+
     protected function drawHeader($headers, $activeSheet)
     {
         foreach($headers AS $key => $value){

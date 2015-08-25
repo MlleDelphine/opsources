@@ -9,7 +9,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * OpusCollection.
  *
  * @ORM\Table(name="opus_collection", indexes={@ORM\Index(name="opus_collection_sheet_id", columns={"sheet_id"}), @ORM\Index(name="opus_collection_users_id", columns={"users_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusCollectionRepository")
+ *
  */
 class OpusCollection
 {

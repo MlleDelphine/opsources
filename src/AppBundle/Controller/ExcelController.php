@@ -92,6 +92,8 @@ class ExcelController extends Controller
                 $allAttributes['collections'] = array_values($allAttributes['collections']);
                 $elementKey = array_search($exportID, array_column($allAttributes['collections'], 'id'));
                 $field = $allAttributes['collections'][$elementKey];
+                $collections = $em->getRepository("GeneratorBundle:OpusCollection")->findForCollectionExport($exportID);
+                list($headers, $data) = $this->displayValuesForCollectionExport($collections, $field);
             }
         }catch (NotFoundResourceException $e){
             throw $this->createNotFoundException('This export does not exist.');
@@ -116,6 +118,7 @@ class ExcelController extends Controller
 
         $phpExcelService->draw($headers, $data, 0, true);
 
+
         return $phpExcelService->createAndGetResponse($filename);
     }
 
@@ -134,8 +137,61 @@ class ExcelController extends Controller
         $headers = array('ID','Prénom','Nom', $attribute['export_name']);
 
         return array($headers,$data);
+    }
+    /**
+     * Organise les données d'une fiche pour l'export (collection d'attribut)
+     * On passe des collections
+     */
+    public function displayValuesForCollectionExport($collections, $attribute){
+
+        $data = array();
+        $attrValues = array();
+
+        foreach($collections AS $k => $coll){
+            $collAttributes = $coll->getAttributes();
+            foreach ($collAttributes as $collAttr) {
+
+                if($collAttr->getValue() != null){
+                    $attrValues[] = $collAttr->getValue();
+                }elseif($collAttr->getValueDate() != null) {
+                    $attrValues[] = $collAttr->getValueDate();
+                }
+                elseif($collAttr->getValueData() != null){
+                    $attrValues[] = $collAttr->getValueData();
+                }
+                else{
+                    $attrValues[] = "Valeur non renseignée";
+                }
+            }
+
+            //Pour les attributs qui s'enregistrent à l'envers..
+            if($collAttributes[0]->getLabel() != $attribute['child'][0]['id']){
+                $attrValues = array_reverse($attrValues);
+            }
+
+            //On ajoute la ligne avec tous les attr sur la même ligne (ou une vide entre deux avant)
+
+            if($k > 0 && $coll->getSheet()->getId() != $collections[$k-1]->getSheet()->getId()){
+                $lineColor = array('', '', '', '', '', '', '');
+                array_push($data,$lineColor);
+            }
+
+            $lineFirst = array($coll->getSheet()->getId(), $coll->getSheet()->getEvaluate()->getId(),$coll->getSheet()->getEvaluate()->getFirstname(), $coll->getSheet()->getEvaluate()->getLastname());
+            $line = array_merge($lineFirst, $attrValues);
+            array_push($data,$line);
+            unset($attrValues);
+        }
+
+        $headers = array('ID de la fiche', 'ID utilisateur','Prénom','Nom');
+
+        foreach($attribute['child'] as $confAttr){
+            $headers[] = $confAttr['conf']['label'];
+        }
+
+        return array($headers,$data);
 
     }
+
 
     private function wd_remove_accents($str, $charset='utf-8')
     {
@@ -176,7 +232,11 @@ class ExcelController extends Controller
             ->setLastModifiedBy($user->getFullName())
             ->setTitle($title);
 
+
+
         $phpExcelService->draw($headers, $data, 0, true);
+
+
 
         return $phpExcelService->createAndGetResponse($filename);
     }
