@@ -4,12 +4,15 @@ namespace AppBundle\Controller;
 
 use GeneratorBundle\Entity\OpusCampaign;
 use GeneratorBundle\Entity\OpusSheet;
+use GeneratorBundle\Entity\Repository\OpusSheetRepository;
+use GeneratorBundle\Entity\Repository\OpusSheetStatusRepository;
 use GeneratorBundle\Form\Campaign\OpusCampaignType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use UserBundle\Entity\Repository\UserRepository;
 
 /**
  * Class DefaultController.
@@ -59,14 +62,6 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('homepage'));
         }
 
-        /*foreach($users as $u)
-        {
-            foreach($u->getOpusSheetsEvaluator() as $e){
-                $user = $u;
-                break 2;
-            }
-        }*/
-
         $dataTableManagementCampaign = $this->get('data_tables.manager')->getTable('OpusCampaignTable');
         if ($tableName == 'OpusCampaignTable' && $response = $dataTableManagementCampaign->ProcessRequest($request)) {
             return $response;
@@ -76,6 +71,59 @@ class DefaultController extends Controller
         if ($tableName == 'OpusSheetTable' && $response = $dataTableClosedSheets->ProcessRequest($request)) {
             return $response;
         }
+        //Formulaire de filtre pour les fiches
+
+        $defaultData = array('message' => 'Type here');
+        $formSheet = $this->createFormBuilder($defaultData)
+            ->add('search_lastname', 'genemu_jqueryselect2_entity',array(
+                'class' => 'UserBundle:User',
+                'query_builder' => function(UserRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.lastName', 'ASC');
+                },
+                'property' => 'lastName',
+                'expanded'=>false,
+                'multiple'=>false,
+                'label' => 'Nom',
+                'required' => false))
+            ->add('search_firstname', 'genemu_jqueryselect2_entity',array(
+                'class' => 'UserBundle:User',
+                'query_builder' => function(UserRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.firstName', 'ASC');
+                },
+                'property' => 'firstName',
+                'expanded'=>false,
+                'multiple'=>false,
+                'label' => 'Prénom',
+                'required' => false))
+            ->add('search_date', 'choice',array(
+                'choices' => $em->getRepository("GeneratorBundle:OpusSheet")->getAllDates(),
+                'expanded'=>false,
+                'multiple'=>false,
+                'label' => 'Année',
+                'required' => false))
+            ->add('search_status', 'genemu_jqueryselect2_entity', array(
+                'class' => 'GeneratorBundle:OpusSheetStatus',
+                'query_builder' => function(OpusSheetStatusRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.label', 'ASC');
+                },
+                'property' => 'label',
+                'expanded'=>false,
+                'multiple'=>false,
+                'label' => 'Statut',
+                'required' => false))
+            ->add('search_type', 'genemu_jqueryselect2_entity', array(
+                'class' => 'GeneratorBundle:OpusSheetType',
+                'property' => 'name',
+                'expanded'=>false,
+                'multiple'=>false,
+                'label' => 'Type d\'entretien',
+                'required' => false))
+            ->add('submit','submit', array('label' => "Filtrer"))
+            ->getForm()
+            ->createView();
 
         return array(
             'user' => $user,
@@ -86,7 +134,8 @@ class DefaultController extends Controller
             'opusCampaigns' => $opusCampaigns,
             'formOpusCampaign' => $form->createView(),
             'dataTableManagementCampaign' => $dataTableManagementCampaign,
-            'dataTableClosedSheets' => $dataTableClosedSheets
+            'dataTableClosedSheets' => $dataTableClosedSheets,
+            'formSheet' => $formSheet
         );
     }
 
@@ -101,6 +150,7 @@ class DefaultController extends Controller
      */
     public function datatablesAction(Request $request, $tableName = null)
     {
+
         $dataTableManagementCampaign = $this->get('data_tables.manager')->getTable('OpusCampaignTable');
         if ($tableName == 'OpusCampaignTable' && $response = $dataTableManagementCampaign->ProcessRequest($request)) {
             return $response;
@@ -113,7 +163,27 @@ class DefaultController extends Controller
 
         return array(
             'dataTableManagementCampaign' => $dataTableManagementCampaign,
-            'dataTableClosedSheets' => $dataTableClosedSheets
+            'dataTableClosedSheets' => $dataTableClosedSheets,
+        );
+    }
+
+    /**
+     * @Route("/datatablereload/{tableName}", defaults={"tableName" = null}, name="datatablereload", options={"expose"=true}, condition="request.isXmlHttpRequest()")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @param $tableName
+     * @return array
+     */
+
+    public function datatableReloadAction(Request $request, $tableName = null){
+
+        $dataTableClosedSheets = $this->get('data_tables.manager')->getTable('OpusSheetTable');
+        if ($tableName == 'OpusSheetTable' && $response = $dataTableClosedSheets->ProcessRequest($request)) {
+            return $response;
+        }
+        return array(
+            'dataTableClosedSheets' => $dataTableClosedSheets,
         );
     }
 

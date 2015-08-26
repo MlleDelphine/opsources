@@ -212,5 +212,22 @@ class OpusSheetRepository extends EntityRepository
     }
 
 
+    public function getAllDates()
+    {
+        $qb = $this->createQueryBuilder('s');
+        $results = $qb->orderBy('s.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        $dates = array();
+        foreach ($results as $sheet) {
+            $dates[] = $sheet->getCreatedAt()->format('Y');
+        }
+
+
+        return $dates;
+    }
+
+
 
 }

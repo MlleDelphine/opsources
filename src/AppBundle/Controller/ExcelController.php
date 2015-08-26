@@ -117,6 +117,21 @@ class ExcelController extends Controller
             ->setTitle($title);
 
         $phpExcelService->draw($headers, $data, 0, true);
+//        $rowIterator = $phpExcelService->getRowIterator();
+//        foreach($rowIterator as $k => $row) {
+//            $cellIterator = $row->getCellIterator();
+//            $rowIndex = $row->getRowIndex();
+//            $array_data[$rowIndex] = array('A'=>'', 'B'=>'','C'=>'','D'=>'');
+//            foreach ($cellIterator as $cell) {
+//                if('A' == $cell->getColumn()) {
+//                    $prevIndex = $rowIndex-1;
+//                    if($cell->getCalculatedValue() == $phpExcelService->getCellByColumnAndRow(1,$prevIndex )->getCalculatedValue()){
+//                        dump('coucou');
+//                    }
+//                }
+//            }
+//        }
+
 
 
         return $phpExcelService->createAndGetResponse($filename);
