@@ -6,8 +6,8 @@ security:
         Arianespace\MopBundle\Entity\User: sha512
 
     providers:
-#        custom_user:
-#            id: arianespace.user_provider
+        plexcel_provider:
+            id: user_provider
         in_memory:
             memory:
                 users:
@@ -15,20 +15,21 @@ security:
         chain_provider:
             chain :
                 providers: [plexcel_provider, in_memory]
-        plexcel_provider:
-            id: user_provider
 
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+#    role_hierarchy:
+#        ROLE_ADMIN:       ROLE_USER
+#        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
+            switch_user: true
         login:
             pattern:  ^/(login|try_sso)$
             security: false
+            switch_user: true
         secured_area:
             pattern:    ^/
             plexcel: true
@@ -40,7 +41,7 @@ security:
                 path:    /logout
                 invalidate_session: false
                 handlers:           [ arianespace.plexcel.logout_handler ]
-
+            switch_user: true
             anonymous:    true
 #        main:
 #            #provider: fos_userbundle #custom_user

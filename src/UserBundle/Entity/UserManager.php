@@ -41,19 +41,6 @@ class UserManager implements UserManagerInterface
         $plexcelAccount = $plexcel->getAccount();
         return $this->container->get('ldap_user_service')->updateByLogin($plexcelAccount['sAMAccountName']);
         // TODO: Implement createUser() method.
-//        dump($plexcelAccount);
-//        die;
-
-        /*
-        $user = new User();
-        $user->setUsername($plexcelAccount['sAMAccountName']);
-        $user->setlogin($plexcelAccount['sAMAccountName']);
-        $user->setFirstName($plexcelAccount['givenName']);
-        $user->setLastName($plexcelAccount['sn']);
-        $user->setFullName($plexcelAccount['givenName'].' '.$plexcelAccount['sn']);
-        $user->setMail($plexcelAccount['mail']);
-
-        return $this->updateUser($user, $plexcel);*/
     }
 
     /**
@@ -70,8 +57,15 @@ class UserManager implements UserManagerInterface
 
         $user = $this->fetchSids($user, $plexcel);
 
-//        dump($user);
-//        die;
+        $roles = $user->getRoles();
+
+        if(!in_array('ROLE_ALLOWED_TO_SWITCH', $roles)) {
+            $user->addRole('ROLE_ALLOWED_TO_SWITCH');
+        }
+        if(!in_array('ROLE_USER', $roles)) {
+            $user->addRole('ROLE_USER');
+        }
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

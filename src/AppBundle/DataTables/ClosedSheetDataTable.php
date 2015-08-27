@@ -150,7 +150,7 @@ class ClosedSheetDataTable extends QueryBuilderDataTable implements QueryBuilder
 
 
         if ($request->getMethod() == "POST") {
-            $formSheet->submit($request);
+            $formSheet->handleRequest($request);
             if ($formSheet->isValid()) {
                 $postData = current($request->request->all());
 

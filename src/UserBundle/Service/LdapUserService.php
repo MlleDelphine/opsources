@@ -217,8 +217,11 @@ class LdapUserService
 
             }
         }
-        if(is_int($user->getRoles()))
+
+
+        if(is_int($user->getRoles())) {
             $user->setRoles(["ROLE_USER"]);
+        }
         return $user;
     }
 

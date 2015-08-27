@@ -27,7 +27,7 @@
 
 
         {% stylesheets output='bundles/app/compiled/frontend-layout.css'  filter='less'
-        'bundles/formgenerator/css/footer.less'
+        'bundles/app/css/footer.less'
         'bundles/app/css/left-menu.less'%}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
@@ -61,7 +61,7 @@
 </head>
 <body>
 <div id="wrapper">
-{% block mainmenu %} {{ knp_menu_render('FormGeneratorBundle:Builder:mainMenu') }} {% endblock %}
+    {% block mainmenu %} {{ knp_menu_render('FormGeneratorBundle:Builder:mainMenu') }} {% endblock %}
 <div id="">
     {% block body %}
     {% endblock %}

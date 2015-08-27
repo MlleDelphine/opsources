@@ -31,9 +31,7 @@ class PlexcelUserProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
-
         $account = $this->plexcel->getAccount($username);
-
         $exist = $this->entityManager->getRepository('UserBundle:User')->findOneBy(array('login' => $account['sAMAccountName']));
 
         if (!$account) {
@@ -43,6 +41,7 @@ class PlexcelUserProvider implements UserProviderInterface
         }
 
         $user = $exist;
+
 
         return $user;
     }

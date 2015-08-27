@@ -1017,6 +1017,11 @@ class User implements UserInterface
         return $this;
     }
 
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+    }
+
     /**
      * Set pasword.
      *

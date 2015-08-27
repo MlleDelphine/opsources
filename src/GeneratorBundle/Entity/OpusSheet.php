@@ -28,7 +28,7 @@ class OpusSheet
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="opusSheetsEvaluate", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="evaluate_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="evaluate_id", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $evaluate;
@@ -38,7 +38,7 @@ class OpusSheet
      *
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="opusSheetsEvaluator", cascade={"persist"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="evaluator_id", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="evaluator_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private $evaluator;

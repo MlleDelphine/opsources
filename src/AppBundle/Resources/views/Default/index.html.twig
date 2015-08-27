@@ -11,6 +11,9 @@
                 {% endfor %}
             </div>
         </div>
+        <div class="row">
+            {{ render(controller('AppBundle:Default:changingRole')) }}
+        </div>
         <!-- /.row -->
         <div class="row">
             <div class="col-lg-12">
@@ -23,7 +26,9 @@
                             </li>
                             <li><a href="#evaluator" data-toggle="tab">Entretiens dont je suis l'évaluateur</a>
                             </li>
+                            {% if is_granted('ROLE_MANAGER') %}
                             <li><a href="#equipe" data-toggle="tab">Mon équipe</a>
+                                {% endif %}
                             </li>
                             {% if is_granted('ROLE_MANAGER') %}
                                 <li><a href="#creation" data-toggle="tab">Création de fiche</a></li>
@@ -33,11 +38,13 @@
                             {% endif %}
                             <li><a href="#export" data-toggle="tab">Export</a>
                             </li>
-
+                            {% if is_granted('ROLE_RH') %}
                             <li><a href="#valid_rh" data-toggle="tab">Demande validation RH</a>
+                                {% endif %}
                             </li>
-
-                            <li><a href="#fiche_closes" data-toggle="tab">Fiches</a>
+                            {% if is_granted('ROLE_RH') %}
+                            <li><a href="#fiche_closes" data-toggle="tab">Liste des fiches</a>
+                                {% endif %}
                             </li>
                         </ul>
 
@@ -84,10 +91,7 @@
 
                                 </div>
                             </div>
-                            {#{% include 'AppBundle:Default/Includes:exports.html.twig' %}#}
-                            {% if is_granted('ROLE_ADMIN') %}
-                                {{ render(controller('AppBundle:Default:listAllExports')) }}
-                            {% endif %}
+                            {{ render(controller('AppBundle:Default:listAllExports')) }}
                             {% if is_granted('ROLE_MANAGER') %}
                                 <div class="tab-pane fade" id="creation">
                                     <div class="row col-lg-12">
@@ -200,124 +204,131 @@
                                     <!-- /.panel -->
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="equipe">
-                                <div class="col-lg-12">
-                                    <h2>Les fiches d’entretien de mon équipe</h2>
-                                    <div class="panel panel-default">
-                                        <!-- /.panel-heading -->
-                                        <div class="panel-body">
-                                            <div class="table-responsive">
+                            {% if is_granted('ROLE_MANAGER') %}
+                                <div class="tab-pane fade" id="equipe">
+                                    <div class="col-lg-12">
+                                        <h2>Les fiches d’entretien de mon équipe</h2>
+                                        <div class="panel panel-default">
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            {% for type in types %}
+                                                                <th class="upperFirst">{{ type.name }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for u in users if u.department == user.department and user.department is not null %}
+                                                            <tr>
+                                                                <td>{{ u.firstName }} {{ u.lastName }}</td>
+                                                                {% for type in types %}
+
+                                                                    {% set color = 0 %}
+                                                                    {% set status = '' %}
+                                                                    {% set id = 0 %}
+                                                                    {% for e in u.opusSheetsEvaluate %}
+                                                                        {% if e.opusTemplate.type == type %}
+                                                                            {% set id = e.id %}
+                                                                            {% if( e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
+                                                                                {% set color = 1 %}
+                                                                                {% if is_granted('ROLE_ADMIN') %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% elseif  is_granted('ROLE_DIRECTOR') and e.status.intCode == 6  %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% elseif ( is_granted('ROLE_RH') and e.status.intCode == 7 ) %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% elseif ( is_granted('ROLE_DIVISION_MANAGER') and e.status.intCode == 11  and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5 ) %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% elseif ( is_granted('ROLE_MANAGER') and e.status.intCode == 11 and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5) %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+
+                                                                    <a href="{{ path("generator_editsheet",{"id": id}) }}"><td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center"><a  class="{{ color == 1 ? 'table-orange' : '' }}" href="{{ path("generator_editsheet",{"id": id}) }}">{{ status }}</a></td></a>
+                                                                {% endfor %}
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- /.table-responsive -->
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                </div>
+                            {%  endif %}
+                            {% if is_granted('ROLE_RH') %}
+                                {% include 'AppBundle:Default/Includes:campaignManagement.html.twig' with {'formOpusCampaign': formOpusCampaign, 'opusCampaigns': opusCampaigns, 'dataTableManagementCampaign': dataTableManagementCampaign } %}
+                            {% endif %}
+                            {% if is_granted('ROLE_RH') %}
+                                <div class="tab-pane fade" id="valid_rh">
+                                    <div class="col-lg-12">
+                                        <h2>Demande de validation RH</h2>
+                                        <div class="panel panel-default">
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
                                                 <table class="table">
                                                     <thead>
                                                     <tr>
                                                         <th></th>
-                                                        {% for type in types %}
-                                                            <th class="upperFirst">{{ type.name }}</th>
-                                                        {% endfor %}
+                                                        <th>Utilisateur</th>
+                                                        <th>Type</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for u in users if u.department == user.department and user.department is not null %}
+                                                    {% for fiche in fiches if fiche.status.intCode == 7 %}
                                                         <tr>
-                                                            <td>{{ u.firstName }} {{ u.lastName }}</td>
-                                                            {% for type in types %}
-
-                                                                {% set color = 0 %}
-                                                                {% set status = '' %}
-                                                                {% set id = 0 %}
-                                                                {% for e in u.opusSheetsEvaluate %}
-                                                                    {% if e.opusTemplate.type == type %}
-                                                                        {% set id = e.id %}
-                                                                        {% if( e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
-                                                                            {% set color = 1 %}
-                                                                            {% if is_granted('ROLE_ADMIN') %}
-                                                                                {% set status = e.status.label %}
-                                                                            {% elseif  is_granted('ROLE_DIRECTOR') and e.status.intCode == 6  %}
-                                                                                {% set status = e.status.label %}
-                                                                            {% elseif ( is_granted('ROLE_RH') and e.status.intCode == 7 ) %}
-                                                                                {% set status = e.status.label %}
-                                                                            {% elseif ( is_granted('ROLE_DIVISION_MANAGER') and e.status.intCode == 11  and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5 ) %}
-                                                                                {% set status = e.status.label %}
-                                                                            {% elseif ( is_granted('ROLE_MANAGER') and e.status.intCode == 11 and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5) %}
-                                                                                {% set status = e.status.label %}
-                                                                            {% endif %}
-                                                                        {% endif %}
-                                                                    {% endif %}
-                                                                {% endfor %}
-
-                                                                <a href="{{ path("generator_editsheet",{"id": id}) }}"><td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center"><a  class="{{ color == 1 ? 'table-orange' : '' }}" href="{{ path("generator_editsheet",{"id": id}) }}">{{ status }}</a></td></a>
-                                                            {% endfor %}
+                                                            <th><a href="{{ path("generator_editsheet",{"id":fiche.id}) }}"></a></th>
+                                                            <th>{{ fiche.evaluate.firstName }} {{ fiche.evaluate.lastName }}</th>
+                                                            <th>{{ fiche.type.name }}</th>
                                                         </tr>
                                                     {% endfor %}
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <!-- /.table-responsive -->
+                                            <!-- /.panel-body -->
                                         </div>
-                                        <!-- /.panel-body -->
+                                        <!-- /.panel -->
                                     </div>
-                                    <!-- /.panel -->
                                 </div>
-                            </div>
-                            {% if is_granted('ROLE_RH') %}
-                                {% include 'AppBundle:Default/Includes:campaignManagement.html.twig' with {'formOpusCampaign': formOpusCampaign, 'opusCampaigns': opusCampaigns, 'dataTableManagementCampaign': dataTableManagementCampaign } %}
                             {% endif %}
-                            <div class="tab-pane fade" id="valid_rh">
-                                <div class="col-lg-12">
-                                    <h2>Demande de validation RH</h2>
-                                    <div class="panel panel-default">
-                                        <!-- /.panel-heading -->
-                                        <div class="panel-body">
-                                            <table class="table">
-                                                <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Utilisateur</th>
-                                                    <th>Type</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% for fiche in fiches if fiche.status.intCode == 7 %}
-                                                    <tr>
-                                                        <th><a href="{{ path("generator_editsheet",{"id":fiche.id}) }}"></a></th>
-                                                        <th>{{ fiche.evaluate.firstName }} {{ fiche.evaluate.lastName }}</th>
-                                                        <th>{{ fiche.type.name }}</th>
-                                                    </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <!-- /.panel-body -->
-                                    </div>
-                                    <!-- /.panel -->
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="fiche_closes">
-                                <div class="col-lg-12">
-                                    <h2>Fiches</h2>
-                                    <div class="panel panel-default">
-                                        <div class="loader">Loading...</div>
-                                        <!-- /.panel-heading -->
-                                        <div class="panel-body" id="all-sheets">
-                                            {% include 'AppBundle:Default/Includes/Form:filter_sheet_form.html.twig' with {'form': formSheet } %}
+                            {% if is_granted('ROLE_RH') %}
+                                <div class="tab-pane fade" id="fiche_closes">
+                                    <div class="col-lg-12">
+                                        <h2>Fiches</h2>
+                                        <div class="panel panel-default">
+                                            <div class="loader">Loading...</div>
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body" id="all-sheets">
+                                                {% include 'AppBundle:Default/Includes/Form:filter_sheet_form.html.twig' with {'form': formSheet } %}
 
-                                            <div id="display-sheet">
-                                                {{ addDataTable(dataTableClosedSheets, {
-                                                    'path':          path('datatables',{'tableName':'OpusSheetTable'}),
-                                                    'id':            'OpusSheetTable',
-                                                    'bLengthChange': 1,
-                                                    'bInfo':         1,
-                                                    'bFilter':       1
-                                                }) }}
+                                                <div id="display-sheet">
+                                                    {{ addDataTable(dataTableClosedSheets, {
+                                                        'path':          path('datatables',{'tableName':'OpusSheetTable'}),
+                                                        'id':            'OpusSheetTable',
+                                                        'bLengthChange': 1,
+                                                        'bInfo':         1,
+                                                        'bFilter':       1
+                                                    }) }}
+                                                </div>
+
                                             </div>
-
+                                            <!-- /.panel-body -->
                                         </div>
-                                        <!-- /.panel-body -->
+                                        <!-- /.panel -->
                                     </div>
-                                    <!-- /.panel -->
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
+
                     </div>
                     <!-- /.panel-body -->
                 </div>

@@ -1,5 +1,4 @@
 <div class="tab-pane fade" id="export">
-
     <div class="col-lg-12">
         <h2>Liste des exports</h2>
         <div class="panel panel-default">
@@ -34,6 +33,8 @@
             </div>
             {#<!-- /.panel-body -->#}
         </div>
+
+        {% if is_granted('ROLE_ADMIN') %}
         <h2>Exports administrateurs</h2>
         <div class="panel panel-default">
             {#<!-- /.panel-heading -->#}
@@ -87,6 +88,7 @@
                     <!-- /.panel-body -->
                 </div>
                 <!-- /.panel -->
-            </div>
+            </div>{% endif %}
+
         </div>
     </div>

@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use UserBundle\Entity\Repository\UserRepository;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
 
 /**
  * Class DefaultController.
@@ -286,13 +287,6 @@ class DefaultController extends Controller
 
             $flash = "Campagne éditée avec succès";
 
-//            if($opusCampaign->getStatus() == 1){
-//                $associateSheetToCampaign = $this->associateSheetToCampaign($opusCampaign, $user);
-//                $associatedSheets = $associateSheetToCampaign[0];
-//                $createdSheets = $associateSheetToCampaign[1];
-//                $flash = "Campagne éditée avec succès<br/> Fiches associées : ".$associatedSheets."<br/> Fiches créées et associées : ".$createdSheets;
-//            }
-
             $this->get('session')->getFlashBag()->add(
                 'info',
                 'INFO : '.$flash);
@@ -304,6 +298,50 @@ class DefaultController extends Controller
         return array(
             'formOpusCampaign'=>$form->createView()
         );
+    }
+
+    /**
+     * @Route("/changingrole", name="changing_role", options={"expose"=true})
+     * @Template()
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return array
+     */
+    public function changingRoleAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $formRole = $this->createFormBuilder()
+            ->setAction($this->generateUrl('changing_role'))
+            ->setMethod('POST')
+            ->setAttribute('id', 'form-role')
+            ->add('change_role', 'entity', array(
+                'class' => "UserBundle:User",
+                'query_builder' => function(UserRepository $er){
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.lastName', 'ASC');
+                },
+                'expanded'=>false,
+                'multiple'=>false,
+                'label' => 'Utilisateurs',
+                'required' => true,
+                'attr' => array('class' => "col-md-4")))
+            ->add('submit','submit', array('label' => "Changer", 'attr' => array('class' => "pull-right")))
+            ->getForm();
+
+        if ($request->getMethod() == "POST") {
+            $formRole->handleRequest($request);
+            if ($formRole->isValid()) {
+                $datas = $formRole->getData();
+                $userID = $datas['change_role'];
+                $user = $em->getRepository("UserBundle:User")->find($userID);
+                return $this->redirect( $this->generateUrl('homepage', array('_switch_user' => $user->getUsername())));
+
+            }
+        }
+        return $this->render('AppBundle:Default/Includes/Temp:changing_role.html.twig',
+            array('formRole' => $formRole->createView()));
+
     }
 
 
