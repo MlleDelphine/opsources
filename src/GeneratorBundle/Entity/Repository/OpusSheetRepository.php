@@ -221,7 +221,7 @@ class OpusSheetRepository extends EntityRepository
 
         $dates = array();
         foreach ($results as $sheet) {
-            $dates[] = $sheet->getCreatedAt()->format('Y');
+            $dates[$sheet->getCreatedAt()->format('Y')] = $sheet->getCreatedAt()->format('Y');
         }
 
 

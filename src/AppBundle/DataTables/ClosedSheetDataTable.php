@@ -16,19 +16,14 @@ use mageekguy\atoum\asserters\dateTime;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\EngineInterface;
+use DoctrineExtensions\Query\Oracle;
+
 
 /**
  * @DataTable\Table(id="OpusSheetTable", displayLength=100)
  */
 class ClosedSheetDataTable extends QueryBuilderDataTable implements QueryBuilderDataTableInterface
 {
-//    protected $container;
-//    protected $em;
-//
-//    public function __construct(Container $container, EntityManager $em) {
-//        $this->container = Container::;
-//        $this->em = $em;
-//    }
 
     /**
      * @var OpusUsers
@@ -159,6 +154,10 @@ class ClosedSheetDataTable extends QueryBuilderDataTable implements QueryBuilder
             if ($formSheet->isValid()) {
                 $postData = current($request->request->all());
 
+                //Ajout de fonction SQL supplémentaires dans Doctrine
+                $emConfig = $this->em->getConfiguration();
+                $emConfig->addCustomDatetimeFunction('YEAR', 'DoctrineExtensions\Query\Oracle\Year');
+
                 if ($postData["search_lastname"]) {
                     $user = $this->em->getRepository("UserBundle:User")->find($postData['search_lastname']);
                     $wheres .= "evaluate.lastName LIKE '" . $user->getLastName()."'";
@@ -173,23 +172,23 @@ class ClosedSheetDataTable extends QueryBuilderDataTable implements QueryBuilder
                 }
                 if ($postData["search_date"]) {
                     if ($wheres != '') {
-                        $wheres .= " AND sheet.createdAt = " . $postData['search_date'];
+                        $wheres .= " AND YEAR(sheet.createdAt) = " . $postData['search_date'];
                     } else {
-                        $wheres = "sheet.createdAt = " . $postData['search_date'];
+                        $wheres = "YEAR(sheet.createdAt) = " . $postData['search_date'];
                     }
                 }
                 if ($postData["search_status"]) {
                     if ($wheres != '') {
-                        $wheres .= " AND status.id = " . $postData['search_status'];
+                        $wheres .= " AND status.intCode = " . $postData['search_status'];
                     } else {
-                        $wheres = "status.id = " . $postData['search_status'];
+                        $wheres = "status.intCode = " . $postData['search_status'];
                     }
                 }
                 if ($postData["search_type"]) {
                     if ($wheres != '') {
                         $wheres .= " AND type.id = " . $postData['search_type'];
                     } else {
-                        $wheres = "type.id = " . $postData['search_id'];
+                        $wheres = "type.id = " . $postData['search_type'];
                     }
                 }
             }
@@ -206,6 +205,7 @@ class ClosedSheetDataTable extends QueryBuilderDataTable implements QueryBuilder
                 ->join('sheet.status', 'status')
                 ->where($wheres)
                 ->orderBy('evaluate.lastName ASC, evaluate.firstName ASC, sheet.createdAt DESC, type.name');
+
         }
         else{
 
