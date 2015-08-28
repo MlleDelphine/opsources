@@ -31,9 +31,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request, $tableName = null)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('UserBundle:User')->findAll();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
+
+            $users = $em->getRepository('UserBundle:User')->findAll();
         $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
         $templates = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findAll();
         $fiches = $em->getRepository('GeneratorBundle:OpusSheet')->findAll();
@@ -274,7 +276,6 @@ class DefaultController extends Controller
      */
     public function editCampaignAction(Request $request, $idCampaign)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
 
         $opusCampaign = $em->getRepository('GeneratorBundle:OpusCampaign')->find($idCampaign);
@@ -343,7 +344,6 @@ class DefaultController extends Controller
             array('formRole' => $formRole->createView()));
 
     }
-
 
 
     protected function associateSheetToCampaign(OpusCampaign $opusCampaign){

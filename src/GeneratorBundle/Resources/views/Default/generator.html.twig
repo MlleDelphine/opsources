@@ -93,9 +93,13 @@
                     {% endif %}
 
                     {% if(form.validate_rh is defined) %}
-
                         {{ form_widget(form.invalidate_for_rh) }}
                         {{ form_widget(form.validate_rh) }}
+                    {% endif %}
+
+                    {% if(form.validate_by_rh is defined) %}
+                        {{ form_widget(form.invalidate_by_rh) }}
+                        {{ form_widget(form.validate_by_rh) }}
                     {% endif %}
 
                 </div>

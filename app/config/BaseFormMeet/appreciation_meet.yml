@@ -134,10 +134,14 @@ fields:
               attr:
                   data-tab: "tab_1"
         - id: "campaign_function"
-          type: "checkbox"
+          type: "choice"
           conf:
               label: "Fonction campagne :"
-              required: false
+              choices: { 1: "Oui", 0: "Non" }
+              expanded: true
+              multiple: false
+              required: true
+              data: 0
               attr:
                   data-tab: "tab_1"
         - id: "current_fiche_poste"
@@ -187,7 +191,7 @@ fields:
         - id: "evaluate_bis"
           type: "text"
           conf:
-              label: "Nom et prénom"
+              label: "Nom et prénom de <strong>l'évalué</strong>"
               required: false
               attr:
                   data-tab: "tab_1"
@@ -204,7 +208,7 @@ fields:
         - id: "evaluator_bis"
           type: "text"
           conf:
-              label: "Nom et prénom"
+              label: "Nom et prénom de <strong>l'évaluateur</strong>"
               required: false
               attr:
                   data-tab: "tab_1"
@@ -221,7 +225,7 @@ fields:
         - id: "visa_dhr"
           type: "text"
           conf:
-              label: "Nom et prénom"
+              label: "Nom et prénom du <strong> Visa DRH</strong>"
               required: false
               attr:
                   data-tab: "tab_1"
@@ -388,7 +392,7 @@ fields:
                         data-tab: "tab_5"
           number: 5
           predefined_values:
-              qualite: [ "Collaboration avec l'équipe (Entraide, échange, reporting ...)", "Motivation", "Fiabilité et qualité du travail fourni", "Attitude constructive / positive", "Capacité d'adaptation"]
+              overall_evaluation_qualite: [ "Collaboration avec l'équipe (Entraide, échange, reporting ...)", "Motivation", "Fiabilité et qualité du travail fourni", "Attitude constructive / positive", "Capacité d'adaptation"]
         - id: "observation_evaluation"
           type: "textarea"
           conf:
@@ -431,6 +435,14 @@ fields:
                     required: false
                     attr:
                         data-tab: "tab_6"
+              - id: "new_objectif_comments"
+                type: "textarea"
+                conf:
+                    label: "Commentaires((risques, difficultés possibles, moyens nécessaires, priorités...)"
+                    required: false
+                    attr:
+                        data-tab: "tab_6"
+                        class: "textarea-resize no-horizontal"
           number: 5
 # TAB 7
         - id: "possible_comments"

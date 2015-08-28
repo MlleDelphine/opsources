@@ -31,8 +31,10 @@ class ExcelController extends Controller
      */
     public function indexAction()
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
+
 
         $title = 'title';
         $subject = 'subject';
@@ -74,6 +76,7 @@ class ExcelController extends Controller
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $template = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->find($templateID);
         $templateFile = $template->getConfFile();
@@ -230,6 +233,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Liste des objectifs fixés de vos collaborateurs';
         $filename = 'Liste des objectifs fixes de vos collaborateurs.xls';
@@ -267,6 +271,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Liste des métier 1 et métier 2 par salarie';
         $filename = 'Liste des metier 1 et metier 2 par salarie.xls';
@@ -300,6 +305,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Compétences à développer de vos collaborateurs';
         $filename = 'Competences a developper de vos collaborateurs.xls';
@@ -333,6 +339,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Plan formation souhaité de vos collaborateurs';
         $filename = 'Plan formation souhaite de vos collaborateurs.xls';
@@ -366,6 +373,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Statistiques sur les fiches par département et par évaluation';
         $filename = 'Statistiques sur les fiches par departement et par evaluation.xls';
@@ -399,6 +407,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Liste des personnes qui ont demandé un entretien professionnel';
         $filename = 'Liste des personnes qui ont demande un entretien professionnel.xls';
@@ -432,6 +441,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Liste des personnes qui ont demandé un entretien RH';
         $filename = 'Liste des personnes qui ont demande un entretien RH.xls';
@@ -465,6 +475,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = "Liste des souhaits d'évolution des salariés";
         $filename = "Liste des souhaits d'evolution des salaries.xls";
@@ -498,6 +509,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Liste des compétences à développer par salarié';
         $filename = 'Liste des competences a developper par salarie.xls';
@@ -531,6 +543,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Avis sur la communication interne';
         $filename = 'Avis sur la communication interne.xls';
@@ -564,6 +577,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Liste des personnes mobiles géographiquement';
         $filename = 'Liste des personnes mobiles geographiquement.xls';
@@ -597,6 +611,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Liste des personnes ayant changé de poste';
         $filename = 'Liste des personnes ayant change de poste.xls';
@@ -630,6 +645,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Plan formation souhaité par salarié';
         $filename = 'Plan formation souhaite par salarie.xls';
@@ -663,6 +679,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = 'Thèmes de discussion';
         $filename = 'Themes de discussion.xls';
@@ -696,6 +713,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = "Observations éventuelles du salarié à l'issue de l'entretien";
         $filename = "Observations eventuelles du salarie a l'issue de l'entretien.xls";
@@ -729,6 +747,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = "Liste des points forts des salariés";
         $filename = "Liste des points forts des salaries.xls";
@@ -762,6 +781,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = "Liste des formations professionnelles reçues";
         $filename = "Liste des formations professionnelles recues.xls";
@@ -795,6 +815,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = "Liste des fonctions campagnes pour chaque utilisateur";
         $filename = "Liste des fonctions campagnes pour chaque utilisateur.xls";
@@ -828,6 +849,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = "Liste de la fonction de chaque utilisateur";
         $filename = "Liste de la fonction de chaque utilisateur.xls";
@@ -861,6 +883,7 @@ class ExcelController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
         $title = "Liste de tous les managers fonctionnels ainsi que des personnes qu'ils supervisent";
         $filename = "Liste de tous les managers fonctionnels ainsi que des personnes qu'ils supervisent.xls";

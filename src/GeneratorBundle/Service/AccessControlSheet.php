@@ -9,6 +9,7 @@
 
 namespace GeneratorBundle\Service;
 
+use AppBundle\Service\CheckRoleService;
 use Doctrine\ORM\EntityManager;
 use GeneratorBundle\Entity\OpusSheet;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -17,11 +18,13 @@ class AccessControlSheet
 {
     private $securityTokenContext;
     private $em;
+    private $checkRole;
 
-    public function __construct(TokenStorage $securityTokenContext, EntityManager $em)
+    public function __construct(TokenStorage $securityTokenContext, EntityManager $em, CheckRoleService $checkRole)
     {
         $this->securityTokenContext = $securityTokenContext;
         $this->em = $em;
+        $this->checkRole = $checkRole;
     }
 
     /**
@@ -33,6 +36,7 @@ class AccessControlSheet
     public function canAccess(OpusSheet $sheet)
     {
         $userConnected = $this->securityTokenContext->getToken()->getUser();
+        $userConnected = $this->em->getRepository('UserBundle:User')->find($userConnected->getId());
 
         $generatedStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
         $creationStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
@@ -57,6 +61,7 @@ class AccessControlSheet
 
         if($opusSheet) {
             $userLogged = $this->securityTokenContext->getToken()->getUser();
+            $userLogged = $this->em->getRepository('UserBundle:User')->find($userLogged->getId());
             $sheetStatus = $opusSheet->getStatus();
 
             $generatedStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
@@ -70,9 +75,16 @@ class AccessControlSheet
             $vFinalEvaluatorStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
                 'valid_final_evaluator'
             );
+            $vRHStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                'valid_RH'
+            );
 
             //Si évaluateur connecté
-            if ($userLogged->getId() == $opusSheet->getEvaluator()->getId()) {
+            if($opusSheet->getStatus() == $vRHStatus && $this->checkRole->isGranted('ROLE_RH', $userLogged)){
+                return "drh_decision";
+            }
+            if ($userLogged->getId() == $opusSheet->getEvaluator()->getId() ) {
+
                 if ($sheetStatus == $generatedStatus || $sheetStatus == $creationStatus || $sheetStatus == $vEvaluatorStatus ) {
                     //L'évaluateur peut modifier ses champs mais pas ceux du user
                     return 'evaluator_write';

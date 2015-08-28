@@ -111,25 +111,30 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            {% for u in users if u.department == user.department and user.department is not null %}
-                                                                <tr>
-                                                                    <td>{{ u.firstName }} {{ u.lastName }}</td>
-                                                                    {% for type in types %}
-                                                                        {% set canCreate = 1 %}
-                                                                        {% for e in u.opusSheetsEvaluate %}
-                                                                            {% if( e.opusTemplate.type == type and e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
-                                                                                {% set canCreate = 0 %}
-                                                                            {% endif %}
+                                                            {{ user.id }}
+                                                            {#{% for u in users if u.department == user.department and user.department is not null %}#}
+                                                            {% for u in users %}
+                                                                {% if u.manager.id is defined and u.manager.id == user.id %}
+                                                                    <tr>
+                                                                        <td>{{ u.firstName }} {{ u.lastName }}</td>
+                                                                        {% for type in types %}
+                                                                            {% set canCreate = 1 %}
+                                                                            {% for e in u.opusSheetsEvaluate %}
+                                                                                {# Si une fiche de ce type existe entre ce manager, déterminé au 1er if, et cet évalué qui aurait un statut != de suppr / close / close_finish ou qui serait déjà orpheline on ne PEUT pas en recréer une #}
+                                                                                {% if( e.opusTemplate.type == type and (e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty) or e.campaign is not defined ) %}
+                                                                                    {% set canCreate = 0 %}
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                            <td>
+                                                                                {% if canCreate == 1 %}
+                                                                                    <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ u.id }}">
+                                                                                {% else %}
+                                                                                    <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ u.id }}"  disabled="disabled" >
+                                                                                {% endif %}
+                                                                            </td>
                                                                         {% endfor %}
-                                                                        <td>
-                                                                            {% if canCreate == 1 %}
-                                                                                <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ user.id }}">
-                                                                            {% else %}
-                                                                                <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ user.id }}"  disabled="disabled" >
-                                                                            {% endif %}
-                                                                        </td>
-                                                                    {% endfor %}
-                                                                </tr>
+                                                                    </tr>
+                                                                {% endif %}
                                                             {% endfor %}
                                                             </tbody>
                                                         </table>
@@ -158,6 +163,7 @@
                                                         {% for type in types %}
                                                             <th class="upperFirst">{{ type.name }}</th>
                                                         {% endfor %}
+                                                        <th class="upperFirst"></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -165,7 +171,6 @@
                                                         <tr>
                                                             <td>{{ u.evaluate.firstName }} {{ u.evaluate.lastName }}</td>
                                                             {% for type in types %}
-
                                                                 {% set color = 0 %}
                                                                 {% set status = '' %}
                                                                 {% set id = 0 %}
@@ -279,16 +284,24 @@
                                                     <thead>
                                                     <tr>
                                                         <th></th>
-                                                        <th>Utilisateur</th>
+                                                        <th>Evalué</th>
+                                                        <th>Date de création</th>
                                                         <th>Type</th>
+                                                        <th>Statut</th>
+                                                        <th>Campagne</th>
+                                                        <th></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     {% for fiche in fiches if fiche.status.intCode == 7 %}
                                                         <tr>
-                                                            <th><a href="{{ path("generator_editsheet",{"id":fiche.id}) }}"></a></th>
-                                                            <th>{{ fiche.evaluate.firstName }} {{ fiche.evaluate.lastName }}</th>
-                                                            <th>{{ fiche.type.name }}</th>
+                                                            <td><a href="{{ path("generator_editsheet",{"id":fiche.id}) }}"></a></td>
+                                                            <td>{{ fiche.evaluate.firstName }} {{ fiche.evaluate.lastName }}</td>
+                                                            <td>{{ fiche.createdAt|date("d/m/Y", "Europe/Paris") }}</td>
+                                                            <td>{{ fiche.opusTemplate.type.name|capitalize }}</td>
+                                                            <td>{{ fiche.status.label }}</td>
+                                                            <td>{% if(fiche.campaign.id is defined) %}{{ fiche.campaign.id }}{% else %} <i>>Orpheline</i> {% endif %}</td>
+                                                            <td><a class="btn btn-block btn-social" href="{{ path("generator_editsheet",{"id": fiche.id}) }}"><i class="fa fa-pencil"></i></a></td>
                                                         </tr>
                                                     {% endfor %}
                                                     </tbody>

@@ -8,7 +8,7 @@ services:
 
     app.accesscontrol_sheet:
         class: GeneratorBundle\Service\AccessControlSheet
-        arguments: ['@security.token_storage', '@doctrine.orm.default_entity_manager']
+        arguments: ['@security.token_storage', '@doctrine.orm.default_entity_manager', '@app.service.role']
     app.pdfparser:
         class: GeneratorBundle\Service\PdfParser
         arguments: ['@doctrine.orm.default_entity_manager','@app.customfields_parser','@service_container']

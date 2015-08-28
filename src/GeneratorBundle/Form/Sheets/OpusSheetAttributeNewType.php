@@ -39,52 +39,55 @@ class OpusSheetAttributeNewType extends AbstractType
             function (\Symfony\Component\Form\FormEvent $event) use ($formFactory) {
                 if (null != $event->getData()) {
                     $valAttributeEntity = $event->getData();
-                        $form = $event->getForm();
-                        $data = $event->getData();
-                        $options = array();
-                        $fieldName = 'value';
-                        foreach ($this->attributes as $allConf) {
-                            if ($allConf['id'] == $data->getLabel()) {
-                                //Si on a un champ date  /time on stockera dans valueDate sinon dans value
-                                if ($allConf['type'] == 'date' || $allConf['type'] == 'datetime' || $allConf['type'] == 'time' || $allConf['type'] == 'birthday' || $allConf['type'] == 'genemu_jquerydate') {
-                                    $fieldName = 'valueDate';
-                                } elseif ($allConf['type'] == 'file') {
-                                    $fieldName = 'valueData';
-                                }
+                    $form = $event->getForm();
+                    $data = $event->getData();
+                    $options = array();
+                    $fieldName = 'value';
+                    foreach ($this->attributes as $allConf) {
 
-                                if ($allConf['type'] == 'choice') {
-                                    $allConf['type'] = new CustomRadioType();
-                                }
-                                foreach ($allConf['conf'] as $name => $value) {
-                                    $options[$name] = $value;
-                                }
-
-                                //Seul le manager peut remplir certains champs
-                                if($this->access == "none"){
-                                    $options['attr']['readonly'] = true;
-                                }
-                                elseif($this->access == "evaluator_write"){
-                                    if (isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate') {
-                                       // $options['disabled'] = true;
-                                        $options['attr']['readonly'] = true;
-                                    }
-                                }
-                                elseif($this->access == "evaluate_write"){
-                                    $options['attr']['readonly'] = true;
-
-                                    if (isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate') {
-                                        unset($options['attr']['readonly']);
-                                    }
-                                }
-
-
-                                $form->add(
-                                    $fieldName,
-                                    $allConf['type'],
-                                    $options
-                                );
+                        if ($allConf['id'] == $data->getLabel()) {
+                            //Si on a un champ date  /time on stockera dans valueDate sinon dans value
+                            if ($allConf['type'] == 'date' || $allConf['type'] == 'datetime' || $allConf['type'] == 'time' || $allConf['type'] == 'birthday' || $allConf['type'] == 'genemu_jquerydate') {
+                                $fieldName = 'valueDate';
+                            } elseif ($allConf['type'] == 'file') {
+                                $fieldName = 'valueData';
                             }
+
+                            if ($allConf['type'] == 'choice') {
+                                $allConf['type'] = new CustomRadioType();
+                            }
+                            foreach ($allConf['conf'] as $name => $value) {
+                                $options[$name] = $value;
+                            }
+
+                            //Seul le manager peut remplir certains champs
+                            if($this->access == "none" || $this->access == "drh_decision"){
+                                $options['attr']['readonly'] = true;
+                            }
+                            elseif($this->access == "evaluator_write"){
+                                if (isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate') {
+                                    // $options['disabled'] = true;
+                                    $options['attr']['readonly'] = true;
+                                }
+                            }
+                            elseif($this->access == "evaluate_write"){
+                                $options['attr']['readonly'] = true;
+
+                                if (isset($allConf['conf']['attr']['data-access']) && $allConf['conf']['attr']['data-access'] == 'evaluate') {
+                                    unset($options['attr']['readonly']);
+                                }
+                            }
+//                            dump($this->access);
+//
+//                            die;
+                            $form->add(
+                                $fieldName,
+                                $allConf['type'],
+                                $options
+                            );
+
                         }
+                    }
                 }
             });
     }

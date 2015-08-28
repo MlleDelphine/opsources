@@ -162,13 +162,14 @@ class OpusSheet
     /**
      * Set evaluator.
      *
-     * @param int $evaluator
+     * @param \UserBundle\Entity\OpusUsers $evaluator
      *
      * @return OpusSheet
      */
-    public function setEvaluator($evaluator)
+    public function setEvaluator(\UserBundle\Entity\User $evaluator)
     {
         $this->evaluator = $evaluator;
+        $evaluator->addOpusSheetsEvaluator($this);
 
         return $this;
     }
@@ -190,7 +191,7 @@ class OpusSheet
      *
      * @return OpusSheet
      */
-    public function setSuperior($superior)
+    public function setSuperior(\UserBundle\Entity\User $superior)
     {
         $this->superior = $superior;
 
@@ -384,6 +385,7 @@ class OpusSheet
     public function setEvaluate(\UserBundle\Entity\User $evaluate = null)
     {
         $this->evaluate = $evaluate;
+        $evaluate->addOpusSheetsEvaluate($this);
 
         return $this;
     }

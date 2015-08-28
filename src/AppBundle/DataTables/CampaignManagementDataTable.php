@@ -71,14 +71,8 @@ class CampaignManagementDataTable extends QueryBuilderDataTable implements Query
      */
     public function getQueryBuilder(Request $request = null)
     {
-        /** @var $securityContext Symfony\Component\Security\Core\SecurityContext */
-        $securityContext = $this->container->get('security.context');
-        /** @var \UserBundle\Entity\User $user */
-        $user            = $securityContext->getToken()->getUser();
         $repository      = $this->em->getRepository('GeneratorBundle:OpusCampaign');
-
         $qb = $repository->createQueryBuilder('campaign');
-
         return $qb;
 
     }

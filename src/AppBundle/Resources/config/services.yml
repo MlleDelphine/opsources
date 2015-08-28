@@ -22,9 +22,8 @@ services:
         class: AppBundle\Service\ExcelBuilder
         calls:
             - [ setExcel, [ "@phpexcel" ] ]
-
     app.service.role:
-        class: AppBundle\Services\RoleService
+        class: AppBundle\Service\CheckRoleService
         arguments: ["@security.role_hierarchy"]
 
 #%param%

@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * User.
  *
- * @ORM\Table(name="opus_users")
+ * @ORM\Table(name="opus_users", uniqueConstraints={@ORM\UniqueConstraint(name="login_uniq", columns={"login"})})
  * @ORM\Entity(repositoryClass="UserBundle\Entity\Repository\UserRepository")
  * //implements UserInterface de plexcel pour Plexcel
  */
@@ -103,7 +103,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="login", type="string", length=255, nullable=false)
+     * @ORM\Column(name="login", type="string", length=255, nullable=false, unique=true)
      */
     private $login;
 
@@ -210,14 +210,12 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluator", cascade={"persist", "remove"})
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluator", cascade={"persist"})
      * @ORM\OrderBy({"updatedAt" = "desc"})
      */
     private $opusSheetsEvaluator;
 
     /**
      * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluate", cascade={"persist", "remove"})
-     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheet", mappedBy="evaluate", cascade={"persist"})
      * @ORM\OrderBy({"updatedAt" = "desc"})
      */
     private $opusSheetsEvaluate;
@@ -240,16 +238,12 @@ class User implements UserInterface
     public function __construct()
     {
         //   parent::__construct();
-        $this->assessorValuationMeets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->assessedValuationMeets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->assessorProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->assessedProfessionalMeets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->assessorConditionsMeets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->assessedConditionseetss = new \Doctrine\Common\Collections\ArrayCollection();
         $this->sids = array();
         $this->status = 0;
-
-        $this->opusSheetsEvaluator = new ArrayCollection();
+        $this->opusSheetsEvaluator = \Doctrine\Common\Collections\ArrayCollection();
+        $this->opusSheetsEvaluate = \Doctrine\Common\Collections\ArrayCollection();
+        $this->opusSheetsDirector = \Doctrine\Common\Collections\ArrayCollection();
+        $this->opusSheetsResponsable = \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()

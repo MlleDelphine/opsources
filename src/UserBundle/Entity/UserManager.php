@@ -38,6 +38,7 @@ class UserManager implements UserManagerInterface
      */
     public function createUser(Plexcel $plexcel)
     {
+        dump('create');
         $plexcelAccount = $plexcel->getAccount();
         return $this->container->get('ldap_user_service')->updateByLogin($plexcelAccount['sAMAccountName']);
         // TODO: Implement createUser() method.

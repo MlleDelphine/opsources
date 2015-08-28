@@ -4,6 +4,7 @@ namespace GeneratorBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use GeneratorBundle\Entity\OpusCampaign;
+use GeneratorBundle\Entity\OpusSheetType;
 use Symfony\Component\Validator\Constraints\DateTime;
 use UserBundle\Entity\User;
 
@@ -228,6 +229,28 @@ class OpusSheetRepository extends EntityRepository
         return $dates;
     }
 
+    /**
+     * méthode permettant de retrouver la dernière fiche en date concernant un évalué et un type : pour les objectifs (rappel / new )
+     * @param User $evaluate
+     * @param OpusSheetType $type
+     * @return \Doctrine\ORM\Query
+     */
+    public function getLastSheetForEvaluateForObjectives(User $evaluate, OpusSheetType $type){
 
+        $qb = $this->createQueryBuilder('s');
+        $results = $qb
+            ->join('s.evaluate', 'evaluate')
+            ->join('s.opusTemplate', 'template')
+            ->join('template.type', 'type')
+            ->where('evaluate.id = :userID')
+            ->andWhere('type.id = :typeID')
+            ->setParameters(array('userID' => $evaluate->getId(), 'typeID' => $type->getId()))
+            ->orderBy('s.createdAt', 'DESC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getSingleResult();
 
+        return $results;
+
+    }
 }

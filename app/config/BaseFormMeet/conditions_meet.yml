@@ -56,6 +56,7 @@ fields:
               attr:
                   data-tab: "tab_3"
                   data-access: "evaluate"
+                  class: "textarea-resize no-horizontal"
 tabs_ui:
     - id: "tab_1"
       name: "Général"

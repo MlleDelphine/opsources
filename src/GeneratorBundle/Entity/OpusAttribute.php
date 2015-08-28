@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * OpusAttribute.
  *
  * @ORM\Table(name="opus_attribute", indexes={@ORM\Index(name="opus_attribute_collection_id", columns={"collection_id"}), @ORM\Index(name="opus_attribute_sheet_id", columns={"sheet_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GeneratorBundle\Entity\Repository\OpusAttributeRepository")
  */
 class OpusAttribute
 {

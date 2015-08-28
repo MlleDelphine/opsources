@@ -41,6 +41,7 @@ class OpusSheetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $user = $this->security->getToken()->getUser();
+        $user = $this->em->getRepository('UserBundle:User')->find($user->getId());
 
 
         $builder->addEventListener(
@@ -58,7 +59,9 @@ class OpusSheetType extends AbstractType
                 $vFinalEvaluatorStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
                     'valid_final_evaluator'
                 );
-
+                $vRHStatus = $this->em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode(
+                    'valid_RH'
+                );
 
                 if ($sheet->getEvaluator()) {
                     $evaluator = $sheet->getEvaluator();
@@ -73,7 +76,7 @@ class OpusSheetType extends AbstractType
                 $access = $this->accessControl->determineWriteRight($sheet);
 
                 //Si aucun accès ou au tour de l'évalué les champs principaux sont bloqués
-                if ($access == "none" || $access == "evaluate_write") {
+                if ($access == "none" || $access == "evaluate_write" || $access == "drh_decision") {
                     $attr['readonly'] = true;
                 }
 
@@ -106,7 +109,7 @@ class OpusSheetType extends AbstractType
                 );
 
 
-                if($access == "none" || $access == "evaluate_write"){
+                if($access == "none" || $access == "evaluate_write" || $access == "drh_decision"){
                     if($job1) {
                         $form->add(
                             'job1',
@@ -167,6 +170,7 @@ class OpusSheetType extends AbstractType
 
 
                 }
+
                 if (isset($this->attributes['attr'])) {
                     $form->add(
                         'attributes', new CustomCollectionAttributeType(), array(
@@ -238,6 +242,17 @@ class OpusSheetType extends AbstractType
                             'validate_rh',
                             'submit',
                             array('label' => 'Valider pour RH', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                        );
+                    }elseif ($sheet->getStatus() == $vRHStatus) {
+                        $form->add(
+                            'invalidate_by_rh',
+                            'submit',
+                            array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
+                        );
+                        $form->add(
+                            'validate_by_rh',
+                            'submit',
+                            array('label' => 'Validation finale', 'attr' => array('class' => 'btn btn-lg btn-success'))
                         );
                     } else {
                         $form->add(
