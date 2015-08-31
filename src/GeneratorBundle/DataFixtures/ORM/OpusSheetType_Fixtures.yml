@@ -8,6 +8,6 @@ GeneratorBundle\Entity\OpusSheetType:
     type2:
         name: "Entretien sur les conditions de travail"
         strCode: "work_conditions"
-    type:
+    type3:
         name: "Entretien annuel"
         strCode: "annual"

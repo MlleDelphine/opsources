@@ -240,10 +240,10 @@ class User implements UserInterface
         //   parent::__construct();
         $this->sids = array();
         $this->status = 0;
-        $this->opusSheetsEvaluator = \Doctrine\Common\Collections\ArrayCollection();
-        $this->opusSheetsEvaluate = \Doctrine\Common\Collections\ArrayCollection();
-        $this->opusSheetsDirector = \Doctrine\Common\Collections\ArrayCollection();
-        $this->opusSheetsResponsable = \Doctrine\Common\Collections\ArrayCollection();
+        $this->opusSheetsEvaluator = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->opusSheetsEvaluate = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->opusSheetsDirector = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->opusSheetsResponsable = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()

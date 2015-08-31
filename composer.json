@@ -4,8 +4,7 @@
   "type": "project",
   "authors": [
     { "name": "Delphine Graftieaux", "email": "delphine@zephyr-web.fr" },
-    { "name": "Paul Pasturel", "email": "paul@zephyr-web.fr" },
-    { "name": "Nicolas de Marqué Fromentin", "email": "ndm@zephyr-web.fr" }
+    { "name": "Paul Pasturel", "email": "paul@zephyr-web.fr" }
   ],
 
   "description": "The \"Symfony Standard Edition\" distribution",
@@ -67,7 +66,8 @@
     "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
     "doctrine/migrations": "^1.0",
     "doctrine/doctrine-migrations-bundle": "1.0.*",
-    "liuggio/excelbundle": "^2.0"
+    "liuggio/excelbundle": "^2.0",
+    "beberlei/DoctrineExtensions": "*"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^2.2",      
