@@ -24,7 +24,8 @@ class PrepopulateLoader extends DataFixtureLoader
         ];
         $return = [];
         foreach($fix as $repo => $file) {
-            if (empty($this->container->get('doctrine')->getEntityManager()->getRepository($repo)->findAll()))
+            $repo = $this->container->get('doctrine')->getEntityManager()->getRepository($repo)->findAll();
+            if (empty($repo))
                 array_push($return, $file);
         }
         return $return;
