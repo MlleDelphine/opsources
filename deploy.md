@@ -1,4 +1,4 @@
-Procédure Arianespace
+ProcÃ©dure Arianespace
 =====================
 1. Doctrine Migration
 ---------------------
@@ -12,20 +12,21 @@ php app/console doctrine:fixtures:load --append
 ```
 3. Ajout de l'ancien template sur SonataAdmin
 ---------------------------------------------
-1. Se connecter à SonataAdmin
-2. Aller à l'adresse suivante : 
+1. Se connecter Ã  SonataAdmin
+2. Aller Ã  l'adresse suivante : 
    > http://opus33.ad.arianespace.fr/app_dev.php/admin/generator/opussheettemplate/create
-3. Créer le "Modèle de fiche" et lier le fichier "old_meet2.yml"
-4. Mettre à jour la base de données
+3. CrÃ©er le "ModÃ¨le de fiche" et lier le fichier "old_meet2.yml"
+4. Mettre Ã  jour la base de donnÃ©es
 En ligne de commande: 
-1.  Se connecter à la base de données :
+1.  Se connecter Ã  la base de donnÃ©es :
 ```sh
 psql -h pg21 -U opus32
 ```
-2.  exécuter les commandes suivantes :
+2.  exÃ©cuter les commandes suivantes :
 ```sh
 UPDATE opus_sheet SET template_id = 1;
 ```
+
 ```sh
 UPDATE opus_campaign SET template_id = 1;
 ```
