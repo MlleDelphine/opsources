@@ -26,7 +26,7 @@ Déploiement
 
 Commande de déploiement en étant connecté sur la preprod :
 
-    git init && git clone http://ae-e-scm01.ad.arianespace.fr/arianespace/opus2.git
+    git clone http://ae-e-scm01.ad.arianespace.fr/arianespace/opus2.git
 
 
 Gestion des bibliothèques Javascript et CSS
