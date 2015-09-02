@@ -27,6 +27,14 @@ class ClosedSheetDataTable extends QueryBuilderDataTable implements QueryBuilder
 
     /**
      * @var OpusUsers
+     * @DataTable\Column(source="entity.id", name="ID")
+     * @DataTable\DefaultSort()
+     */
+    public $id;
+
+
+    /**
+     * @var OpusUsers
      * @DataTable\Column(source="entity.evaluate.lastname", name="Nom")
      * @DataTable\DefaultSort()
      */
@@ -71,6 +79,13 @@ class ClosedSheetDataTable extends QueryBuilderDataTable implements QueryBuilder
      * @DataTable\Format(dataFields={"date":"entity.createdAt"}, template="AppBundle:Default/Includes/Datatables:_datatable_date.html.twig")
      */
     public $createdAt;
+
+    /**
+     * @DataTable\Column(source="", name="Actions",  class="")
+     * @DataTable\Format(dataFields={"id":"entity.id"}, template="AppBundle:Default/Includes/Datatables:_datatable_sheet_action.html.twig")
+     */
+    public $action;
+
 
     /**
      * getQueryBuilder

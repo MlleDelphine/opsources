@@ -23,6 +23,7 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-pills">
                             <li class="active"><a href="#me" data-toggle="tab">Mes entretiens</a>
+                            <li><a href="#sheet-history" data-toggle="tab">Mes entretiens passés</a>
                             </li>
                             <li><a href="#evaluator" data-toggle="tab">Entretiens dont je suis l'évaluateur</a>
                             </li>
@@ -59,6 +60,47 @@
                                             {% if o.opusTemplate.type == type %}
                                                 {% set sheet = o %}
                                                 {% if( o.status.intCode != -1 and o.status.intCode != 8 and o.status.intCode != 9 and o.status is not empty ) %}
+                                                    {% set done = 1 %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% set color = "done" %}
+                                        {% if ( done == 0 and sheet is defined ) %}{% if sheet.getEcheance() > 60 %}
+                                            {% set color = "yellow" %}
+                                        {% elseif sheet.getEcheance() > 30 %}
+                                            {% set color = "orange" %}
+                                        {% elseif sheet.getEcheance() > 0 %}
+                                            {% set color = "green" %}
+                                        {% endif %}
+                                        {%  endif %}
+                                        <div class="col-lg-{{ 12/types|length }} col-md-{{ 12/types|length }} col-xs-12">
+                                            <div class="panel panel-{{ color }}">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <h2 class="col-xs-12">{{ type.name }}</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-footer">
+                                <span class="pull-left">
+                                    {{ ( sheet is defined and done == 0 ) ? sheet.status.label : '' }}
+                                </span>
+
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in " id="sheet-history">
+                                <div class="row col-lg-12">
+                                    {% for type in types %}
+                                        {% set done = 0  %}
+                                        {% for o in user.opusSheetsEvaluate if sheet is not defined %}
+                                            {% if o.opusTemplate.type == type %}
+                                                {% set sheet = o %}
+                                                {% if( o.status.intCode == -1 and o.status.intCode == 8 and o.status.intCode == 9 and o.status is not empty ) %}
                                                     {% set done = 1 %}
                                                 {% endif %}
                                             {% endif %}

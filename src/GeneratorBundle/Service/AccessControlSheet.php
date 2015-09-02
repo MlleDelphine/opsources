@@ -43,6 +43,10 @@ class AccessControlSheet
         $director = $sheet->getDirector();
         $responsable = $sheet->getResponsable();
 
+        if($this->checkRole->isGranted('ROLE_ADMIN', $userConnected)){
+            return true;
+        }
+
         if ($sheet->getEvaluator()->getId() === $userConnected->getId()
             || ($sheet->getEvaluate()->getId() === $userConnected->getId() && $sheet->getStatus() != $creationStatus)
             || ( isset($director) && $sheet->getDirector()->getId() === $userConnected->getId())
@@ -80,7 +84,7 @@ class AccessControlSheet
             );
 
             //Si évaluateur connecté
-            if($opusSheet->getStatus() == $vRHStatus && $this->checkRole->isGranted('ROLE_RH', $userLogged)){
+            if( ( $opusSheet->getStatus() == $vRHStatus && $this->checkRole->isGranted('ROLE_RH', $userLogged)) || $this->checkRole->isGranted('ROLE_ADMIN', $userLogged)){
                 return "drh_decision";
             }
             if ($userLogged->getId() == $opusSheet->getEvaluator()->getId() ) {
