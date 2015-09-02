@@ -1,9 +1,8 @@
-Arianespace
-=========================
+# Arianespace
 
 
-Dépendances (exemple avec Apache)
------------
+
+## 1. Dépendances et prérequis (exemple avec Apache)
 
 Sur le système doit être installé (à adapter selon la distribution):
 * Apache
@@ -20,17 +19,17 @@ Sur le système doit être installé (à adapter selon la distribution):
 * PHP GD
     * yum install gd gd-devel php-gd
     * service httpd restart
+* PHP Ldap
+* Less
+    * npm install -g less
 
-Déploiement
------------
+## 2. Déploiement
 
 Commande de déploiement en étant connecté sur la preprod :
 
-    git init && git clone http://ae-e-scm01.ad.arianespace.fr/arianespace/opus2.git
+    git clone http://ae-e-scm01.ad.arianespace.fr/arianespace/opus2.git
 
-
-Gestion des bibliothèques Javascript et CSS
-----------------------------------------
+## 3. Gestion des bibliothèques Javascript et CSS
 
 L'ensemble des bibliothèques externes (sauf exceptions futures) est géré à
 l'aide de bower.
@@ -43,8 +42,75 @@ Les bibliothèques sont ensuite installables en se plaçant à la racine du
 projet et en lançant la commande :
 
     bower install
+    
+## 4. Composer ( /!\ .lock )
 
-Procédure de déploiement
-----------------------------------------
+```sh
+composer install
+```
 
-Se référer au fichier : deploy.md
+Si une erreur est retournée concernant le composer.lock il faut faire :
+
+```sh
+composer update
+```
+
+puis refaire :
+
+```sh
+composer install
+```
+
+## 5. Installation des assets (ressources JS/CSS des bundles)
+
+Autorisation en terme de droits sur le dossier web et création d'un dossier pour stocker les medias.
+
+```sh
+sudo mkdir web/uploads && sudo mkdir web/uploads/media && sudo chmod -R 777 web
+```
+Installation des assets : 
+```sh
+php app/console assetic:dump
+```
+puis
+
+```sh
+php app/console assets:install
+```
+
+## 6. Doctrine Migration : modification du schéma de BdD
+
+```sh
+php app/console doctrine:migrations:migrate
+```
+## 7. Lancer les fixtures (création des types d'entretiens)
+
+```sh
+php app/console doctrine:fixtures:load --append
+```
+## 8. Ajout de l'ancien template sur SonataAdmin et mapping aves les fiches existantes
+
+### 1. Se connecter sur SonataAdmin
+
+ >http://opus33.ad.arianespace.fr/admin/dashboard
+
+### 2. Aller à l'adresse suivante : 
+   > http://opus33.ad.arianespace.fr/app_dev.php/admin/generator/opussheettemplate/create
+   
+### 3. Créer l'ancien "Modèle de fiche" 
+
+Ajouter un modèle de fiche.
+Déterminer le type à “Entretien annuel” et lier le fichier "app/config/BaseFormMeet/old_meet2.yml”. Retenir l’id qui aura été généré, en toute logique : 1.
+
+### 4.  Se connecter à la base de données :
+```sh
+psql -h pg21 -U opus32
+```
+### 5. Exécuter les commandes suivantes :
+La valeur déterminée est bien sûr l'id du modèle de fiche que vous venez de créer.
+```sh
+UPDATE opus_sheet SET template_id = 1;
+```
+```sh
+UPDATE opus_campaign SET template_id = 1;
+```
