@@ -35,7 +35,7 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
-            $users = $em->getRepository('UserBundle:User')->findAll();
+        $users = $em->getRepository('UserBundle:User')->findAll();
         $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
         $templates = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findAll();
         $fiches = $em->getRepository('GeneratorBundle:OpusSheet')->findAll();
@@ -336,7 +336,7 @@ class DefaultController extends Controller
                 $datas = $formRole->getData();
                 $userID = $datas['change_role'];
                 $user = $em->getRepository("UserBundle:User")->find($userID);
-               // return $this->redirect( $this->generateUrl('homepage', array('_switch_user' => $user->getUsername())));
+                return $this->redirect( $this->generateUrl('homepage', array('_switch_user' => $user->getUsername())));
 
             }
         }

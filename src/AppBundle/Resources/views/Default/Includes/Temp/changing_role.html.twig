@@ -1,10 +1,12 @@
 <div class ="col-md-offset-10 col-md-2">
     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
         <a href="{{ path('homepage', {'_switch_user': '_exit'}) }}">Exit impersonation</a>
+    {% else %}
+        {{ form_start(formRole, {'attr' : {'class' : 'form-role'}}) }}
+        {{ form_end(formRole) }}
     {% endif %}
 
-    {{ form_start(formRole, {'attr' : {'class' : 'form-role'}}) }}
-        {{ form_end(formRole) }}
+
     </form>
 </div>
 <div class="row"></div>

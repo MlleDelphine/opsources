@@ -10,8 +10,8 @@ class DefaultController extends Controller
 {
     public function updateAction()
     {
-        $this->container->get("ldap_user_service")->updateAll();
-        return new Response();
+        $membersUpdated = $this->container->get("ldap_user_service")->updateAll();
+        return new Response(count($membersUpdated));
     }
 
     public function updateOneAction($login)

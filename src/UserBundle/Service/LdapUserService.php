@@ -20,6 +20,8 @@ class LdapUserService
     private $container;
     private $dns = ["group_maj","admins","users","managers","division_managers","rhs","directors"];
     private $allMembers = [];
+
+
     public function __construct(EntityManager $em, Container $container)
     {
         $this->em = $em;
@@ -40,8 +42,9 @@ class LdapUserService
     public function updateAll()
     {
         $members = $this->getAllUsersInfos();
-        foreach($members as $member)
+        foreach($members as $member){
             $this->em->persist($member);
+        }
         $this->em->flush();
         foreach($members as $member)
         {
@@ -109,8 +112,6 @@ class LdapUserService
             "division"  =>  "division",
 
         ];
-
-
 
         $roles = [
             "admins"                => "ROLE_ADMIN",
@@ -218,9 +219,9 @@ class LdapUserService
             }
         }
 
-
-        if(is_int($user->getRoles())) {
-            $user->setRoles(["ROLE_USER"]);
+//On détermine au minimum le role USER
+        if(is_int($user->getRoles()) || !$user->getRoles() || $user->getLastName() == "ALVES") {
+            $user->addRole(["ROLE_USER"]);
         }
         return $user;
     }

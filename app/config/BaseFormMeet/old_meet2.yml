@@ -1,5 +1,5 @@
-name: "FICHE D'APPRECIATION"
 id: "old_meet"
+name: "FICHE D'APPRECIATION"
 fields:
     attr:
         - id: "date_entretien"
@@ -172,7 +172,7 @@ fields:
               allow_delete: true
               by_reference: false
               required: true
-              label: "Lister ci-dessus les principaux thèmes de la mission permanente et en évaluer leur réalisation :"
+              label: "Lister ci-dessous les principaux thèmes de la mission permanente et en évaluer leur réalisation :"
               attr:
                   data-tab: 'tab_2'
           child:
@@ -252,7 +252,7 @@ fields:
               allow_delete: false
               by_reference: false
               required: false
-              label: ""
+              label: "Label inconnu sur l'évaluation"
               attr:
                   data-tab: 'tab_4'
           child:
@@ -336,6 +336,7 @@ fields:
               attr:
                   data-tab: "tab_5"
 ### TAB 6
+
         # Points forts du salarié
         - id: "competence_bis"
           type: "collection"
@@ -462,69 +463,81 @@ fields:
               attr:
                   data-tab: 'tab_6'
           child:
-                  - id: "libelle"
-                    type: "text"
-                    conf:
-                        label: "Libellé du stage"
-                        required: true
-                        attr:
-                            data-tab: "tab_6"
-                  - id: "date_debut"
-                    type: "genemu_jquerydate"
-                    conf:
-                        label: "Date de début"
-                        required: true
-                        attr:
-                            data-tab: 'tab_6'
-                            class: 'datepicker'
-                        widget: 'single_text'
-                        format: 'dd/MM/yyyy'
-                  - id: "date_fin"
-                    type: "genemu_jquerydate"
-                    conf:
-                        label: "Date de fin"
-                        required: true
-                        attr:
-                            data-tab: 'tab_6'
-                            class: 'datepicker'
-                        widget: 'single_text'
-                        format: 'dd/MM/yyyy'
-                  - id: "duree"
-                    type: "text"
-                    conf:
-                        label: "Durée théorique"
-                        required: true
-                        attr:
-                            data-tab: "tab_6"
-                  - id: "heures"
-                    type: "number"
-                    conf:
-                        label: "Heures réalisées"
-                        required: true
-                        attr:
-                            data-tab: "tab_6"
-                  - id: "competence"
-                    type: "text"
-                    conf:
-                        label: "Compétence(s) visée(s)"
-                        required: true
-                        attr:
-                            data-tab: "tab_6"
-                  - id: "pratique"
-                    type: "choice"
-                    conf:
-                        label: "La formation a-t-elle été mise en pratique (illustrer)"
-                        choices: { 1: "Oui", 0: "Non" }
-                        required: true
-                        attr:
-                            data-tab: "tab_6"
-                  - id: "avis"
-                    type: "text"
-                    conf:
-                        label: "Avis de l'évaluateur et de l'évalué sur la pertinence de cette formation"
-                        required: true
-                        attr:
-                            data-tab: "tab_6"
+                 - id: "duree"
+                   type: "text"
+                   conf:
+                       label: "Durée théorique"
+                       required: true
+                       attr:
+                           data-tab: "tab_6"
+                 - id: "heures"
+                   type: "number"
+                   conf:
+                       label: "Heures réalisées"
+                       required: true
+                       attr:
+                           data-tab: "tab_6"
+                 - id: "competence"
+                   type: "text"
+                   conf:
+                       label: "Compétence(s) visée(s)"
+                       required: true
+                       attr:
+                           data-tab: "tab_6"
+                 - id: "date_debut"
+                   type: "text"
+                   conf:
+                       label: "Date de début"
+                       required: true
+                       attr:
+                           data-tab: 'tab_6'
+                 - id: "pratique"
+                   type: "choice"
+                   conf:
+                       label: "La formation a-t-elle été mise en pratique (illustrer)"
+                       choices: { 1: "Oui", 0: "Non" }
+                       required: true
+                       attr:
+                           data-tab: "tab_6"
+                 - id: "avis"
+                   type: "text"
+                   conf:
+                       label: "Avis de l'évaluateur et de l'évalué sur la pertinence de cette formation"
+                       required: true
+                       attr:
+                           data-tab: "tab_6"
+                 - id: "libelle"
+                   type: "text"
+                   conf:
+                       label: "Libellé du stage"
+                       required: true
+                       attr:
+                           data-tab: "tab_6"
+                 - id: "label"
+                   type: "text"
+                   conf:
+                       label: "Label ??"
+                       required: true
+                       attr:
+                           data-tab: "tab_6"
+                 - id: "organisme"
+                   type: "text"
+                   conf:
+                       label: "Organiseme"
+                       required: true
+                       attr:
+                           data-tab: "tab_6"
+                 - id: "date_fin"
+                   type: "genemu_jquerydate"
+                   conf:
+                       label: "Date de fin"
+                       required: true
+                       attr:
+                           data-tab: 'tab_6'
+                           class: 'datepicker'
+                       widget: 'single_text'
+                       format: 'dd/MM/yyyy'
+
         - id: "observation_formation"
           type: "text"
           conf:
@@ -616,11 +629,10 @@ fields:
         - id: "observation"
           type: "textarea"
           conf:
-              label: ""
+              label: "Label inconnu sur les observations"
               required: false
               attr:
                   data-tab: "tab_9"
-
 
 
                   ##############
@@ -630,7 +642,7 @@ fields:
         - id: "evaluator_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de validation évaluateur"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -641,7 +653,7 @@ fields:
         - id: "director_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de validation directeur"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -653,7 +665,7 @@ fields:
         - id: "second_evaluator_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de validation second évaluateur"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -665,7 +677,7 @@ fields:
         - id: "evaluate_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de validation évalué"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -677,7 +689,7 @@ fields:
         - id: "save_evaluate_function"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de validation évalué"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -689,7 +701,7 @@ fields:
         - id: "superior_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de validation supérieur"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -701,7 +713,7 @@ fields:
         - id: "responsable_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de validation responsable"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -713,7 +725,7 @@ fields:
         - id: "evaluator_pre_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de prevalidation évalauteur"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -726,7 +738,7 @@ fields:
         - id: "close_date"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de clôture"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -739,7 +751,7 @@ fields:
         - id: "save_evaluate_entrydate"
           type: "genemu_jquerydate"
           conf:
-              label: ""
+              label: "Date de validation ???"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -755,7 +767,7 @@ fields:
         - id: "line_management"
           type: "text"
           conf:
-              label: ""
+              label: "Label inconnu"
               required: false
               attr:
                   data-tab: "tab_2"
@@ -772,7 +784,7 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: ""
+              label: "Label inconnu sur les compétences"
               attr:
                   data-tab: 'tab_6'
           child:
@@ -807,14 +819,14 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: ""
+              label: "label inconnu sur les formation"
               attr:
                   data-tab: 'tab_6'
           child:
                   - id: "besoin"
                     type: "text"
                     conf:
-                        label: ""
+                        label: "besoin"
                         required: true
                         attr:
                             data-tab: "tab_6"
@@ -828,28 +840,28 @@ fields:
                   - id: "stage"
                     type: "text"
                     conf:
-                        label: ""
+                        label: "Stage"
                         required: true
                         attr:
                             data-tab: "tab_6"
                   - id: "categorie"
                     type: "text"
                     conf:
-                        label: ""
+                        label: "Catégorie"
                         required: true
                         attr:
                             data-tab: "tab_6"
                   - id: "observation"
                     type: "text"
                     conf:
-                        label: ""
+                        label: "Observations"
                         required: true
                         attr:
                             data-tab: "tab_6"
                   - id: "periode"
                     type: "text"
                     conf:
-                        label: ""
+                        label: "Période"
                         required: true
                         attr:
                             data-tab: "tab_6"
@@ -955,7 +967,7 @@ tabs_ui:
               - attribute: "site_mobilite"
               - attribute: "entretien_pro"
     - id: 'tab_8'
-      name: "Discution"
+      name: "Discussion"
       content:
               - h1: "VI - Communication interne : niveau de satisfaction du salarié"
               - attribute: "satisfaction"
@@ -964,7 +976,7 @@ tabs_ui:
               - attribute: "entretien_spe"
               - attribute: "theme_entretien_spe"
     - id: 'tab_9'
-      name: "Observation"
+      name: "Observations"
       content:
               - h3: "Observations éventuelles du salarié à l’issue de l’entretien :"
               - attribute: "observation"

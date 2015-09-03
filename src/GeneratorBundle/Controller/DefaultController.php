@@ -42,7 +42,7 @@ class DefaultController extends Controller
         $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
 
         $opusSheet->setEvaluate($userEvaluate);
-        $opusSheet->setEvaluator($userLogged);
+        $opusSheet->setEvaluator($userEvaluate->getManager());
 
         $opusSheet->setStatus($generatedStatus);
 

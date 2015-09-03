@@ -44,6 +44,9 @@
                             {% if is_granted('ROLE_RH') %}
                             <li><a href="#fiche_closes" data-toggle="tab">Liste des fiches</a></li>
                             {% endif %}
+                            {% if is_granted('ROLE_RH') %}
+                                <li><a href="#update_users" data-toggle="tab">Màj utilisateurs</a></li>
+                            {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li><a href="{{ path("sonata_admin_dashboard") }}" target="_blank">Accès à l'admin</a></li>
                             {% endif %}
@@ -382,6 +385,9 @@
                                         <!-- /.panel -->
                                     </div>
                                 </div>
+                            {% endif %}
+                            {% if is_granted('ROLE_RH') %}
+                            {% include 'AppBundle:Default/Includes:update_users_ad.html.twig' %}
                             {% endif %}
                         </div>
 

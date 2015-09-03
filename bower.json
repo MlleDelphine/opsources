@@ -21,5 +21,7 @@
     "icheck": "*",
     "jquery.ui": "*",
     "bootstrap": "*",
-    "datatables-plugins-bootstrap3": "*"  }
+    "datatables-plugins-bootstrap3": "*",
+    "jquery.gritter": "~1.7.4"
+  }
 }

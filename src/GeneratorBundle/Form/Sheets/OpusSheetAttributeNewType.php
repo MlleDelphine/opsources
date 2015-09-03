@@ -77,9 +77,7 @@ class OpusSheetAttributeNewType extends AbstractType
                                     unset($options['attr']['readonly']);
                                 }
                             }
-//                            dump($this->access);
-//
-//                            die;
+
                             $form->add(
                                 $fieldName,
                                 $allConf['type'],

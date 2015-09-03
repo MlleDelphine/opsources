@@ -23,7 +23,10 @@
         <!-- Custom Fonts -->
         <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 
-        {# FIN CSS tempalte BS Admin#}
+        {# FIN CSS template BS Admin#}
+
+
+        <link rel="stylesheet" href="{{ asset('vendor/jquery.gritter/css/jquery.gritter.css') }}">
 
 
         {% stylesheets output='bundles/app/compiled/frontend-layout.css'  filter='less'
@@ -52,6 +55,9 @@
         <!-- Custom Theme JavaScript -->
         <script src="{{  asset('vendor/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js') }}"></script>
         {# FIN Scripts#}
+
+
+        <script src="{{ asset('vendor/jquery.gritter/js/jquery.gritter.js') }}"></script>
 
         {% javascripts '@data_tables' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>

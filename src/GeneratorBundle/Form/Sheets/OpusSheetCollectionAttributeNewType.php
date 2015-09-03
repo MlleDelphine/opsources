@@ -45,7 +45,7 @@ class OpusSheetCollectionAttributeNewType extends AbstractType
                         if ($allConf['id'] == $data->getType()) {
                             $form->add(
                                 'attributes',
-                                new CustomCollectionType(count($allConf['child'])),
+                                new CustomCollectionType(count($data->getAttributes())), //count($allConf['child'])
                                 array(
                                     'type' => new OpusSheetAttributeNewType(
                                         $allConf['child'],
@@ -55,7 +55,7 @@ class OpusSheetCollectionAttributeNewType extends AbstractType
                                     'allow_delete' => true,
                                     'by_reference' => false,
                                     'required' => false,
-                                    'label' => false,
+                                    'label' => $allConf['conf']['label'],
                                     'attr' => array('data-tab' => $this->tab),
                                 )
                             );

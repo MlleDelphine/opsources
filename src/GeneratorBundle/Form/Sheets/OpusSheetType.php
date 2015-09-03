@@ -63,12 +63,6 @@ class OpusSheetType extends AbstractType
                     'valid_RH'
                 );
 
-                if ($sheet->getEvaluator()) {
-                    $evaluator = $sheet->getEvaluator();
-                } else {
-                    $evaluator = $user;
-                }
-
                 //Si évalué tout est désactivé sauf les siens
 
                 //On appelle le service qui détermine ce qui peut être édité
@@ -82,8 +76,8 @@ class OpusSheetType extends AbstractType
 
                 $form->add('evaluator', 'genemu_jqueryselect2_entity', array(
                         'class' => 'UserBundle:User',
-                        'query_builder' => function (UserRepository $er) use ($evaluator) {
-                            return $er->findOneByQuery($evaluator);
+                        'query_builder' => function (UserRepository $er) use ($sheet) {
+                            return $er->findOneByQuery($sheet->getEvaluator());
                         },
                         'label' => 'Evaluateur',
                         'multiple' => false,
@@ -186,7 +180,7 @@ class OpusSheetType extends AbstractType
                 //Nouveau champs de formulaire : collection d'attributs
                 if (array_key_exists('collections', $this->attributes)) {
                     $form->add(
-                        'collections',  new CustomCollectionAttributeType(), array(
+                            'collections',  new CustomCollectionAttributeType(), array(
                             'type' => new OpusSheetCollectionAttributeNewType($this->attributes['collections'], $access),
                             'allow_add' => true,
                             'allow_delete' => false,
