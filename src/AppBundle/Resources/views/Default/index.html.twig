@@ -31,7 +31,7 @@
                             <li><a href="#equipe" data-toggle="tab">Mon équipe</a>
                                 {% endif %}
                             </li>
-                            {% if is_granted('ROLE_MANAGER') %}
+                            {% if is_granted('ROLE_MANAGER')  %}
                                 <li><a href="#creation" data-toggle="tab">Création de fiche</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_RH') %}

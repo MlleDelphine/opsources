@@ -63,7 +63,7 @@ class ClosedSheetDataTable extends QueryBuilderDataTable implements QueryBuilder
 
     /**
      * @var \OpusSheetTemplate
-     * @DataTable\Column(source="entity.campaign.name", name="Campagne")
+     * @DataTable\Column(source="entity.campaign.year", name="Campagne")
      */
     public $campaign;
 

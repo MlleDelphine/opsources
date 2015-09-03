@@ -64,7 +64,7 @@ fields:
               widget: 'single_text'
               format: 'dd/MM/yyyy'
         - id: "seniority"
-          type: "number"
+          type: "text"
           conf:
               label: "Ancienneté dans le poste :"
               required: true
@@ -126,10 +126,14 @@ fields:
               attr:
                   data-tab: "tab_1"
         - id: "prise_poste"
-          type: "checkbox"
+          type: "choice"
           conf:
               label: "Prise de poste en cours d'année :"
-              required: false
+              choices: { 1: "Oui", 0: "Non" }
+              expanded: true
+              multiple: false
+              data: 0
+              required: true
               attr:
                   data-tab: "tab_1"
         - id: "poste_precedent"
@@ -140,10 +144,14 @@ fields:
               attr:
                   data-tab: "tab_1"
         - id: "evolution_poste"
-          type: "checkbox"
+          type: "choice"
           conf:
               label: "La fiche de poste a-t-elle evolué de façon significative ?"
-              required: false
+              choices: { 1: "Oui", 0: "Non" }
+              expanded: true
+              multiple: false
+              data: 0
+              required: true
               attr:
                   data-tab: "tab_1"
         - id: "fiche_poste"
@@ -180,7 +188,7 @@ fields:
                 type: "choice"
                 conf:
                     label: "Réalisé"
-                    choices: { n: "N", p: "P", r: "R", d: "D" }
+                    choices: { N: "N", P: "P", R: "R", D: "D" }
                     required: true
                     expanded: true
                     multiple: false
@@ -220,7 +228,7 @@ fields:
                 type: "choice"
                 conf:
                     label: "Réalisé"
-                    choices: { n: "N", p: "P", r: "R", d: "D" }
+                    choices: { N: "N", P: "P", R: "R", D: "D" }
                     required: true
                     expanded: true
                     multiple: false
@@ -506,7 +514,7 @@ fields:
                     type: "choice"
                     conf:
                         label: "La formation a-t-elle été mise en pratique (illustrer)"
-                        choices: { true: "Oui", false: "Non" }
+                        choices: { 1: "Oui", 0: "Non" }
                         required: true
                         attr:
                             data-tab: "tab_6"
@@ -541,10 +549,14 @@ fields:
               attr:
                   data-tab: "tab_7"
         - id: "mobilite"
-          type: "checkbox"
+          type: "choice"
           conf:
               label: "Le salarié est-il mobile géographiquement ?"
-              required: false
+              choices: { 1: "Oui", 0: "Non" }
+              expanded: true
+              multiple: false
+              data: 0
+              required: true
               attr:
                   data-tab: "tab_7"
         - id: "site_mobilite"
@@ -555,10 +567,14 @@ fields:
               attr:
                   data-tab: "tab_7"
         - id: "entretien_pro"
-          type: "checkbox"
+          type: "choice"
           conf:
               label: "Le salarié souhaite-t-il un entretien spécifique pour discuter de son évolution professionnelle ? (Entretien professionnel)"
-              required: false
+              choices: { 1: "Oui", 0: "Non" }
+              expanded: true
+              multiple: false
+              data: 0
+              required: true
               attr:
                   data-tab: "tab_7"
 
@@ -578,10 +594,14 @@ fields:
               attr:
                   data-tab: "tab_8"
         - id: "entretien_spe"
-          type: "checkbox"
+          type: "choice"
           conf:
               label: "Le salarié souhaite-t-il un entretien spécifique sur un de ces thèmes avec la direction des RH ?"
-              required: false
+              choices: { 1: "Oui", 0: "Non" }
+              expanded: true
+              multiple: false
+              data: 0
+              required: true
               attr:
                   data-tab: "tab_8"
         - id: "theme_entretien_spe"
