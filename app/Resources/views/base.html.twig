@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}ArianEspace  - Opus{% endblock %}</title>
+    <title>{% block title %}Arianespace  - Opus{% endblock %}</title>
     {% block stylesheets %}
         {# CSS template BS Admin #}
         <!-- Bootstrap Core CSS Déjà importé -->
@@ -27,7 +27,7 @@
 
 
         {% stylesheets output='bundles/app/compiled/frontend-layout.css'  filter='less'
-        'bundles/formgenerator/css/footer.less'
+        'bundles/app/css/footer.less'
         'bundles/app/css/left-menu.less'%}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
@@ -61,8 +61,8 @@
 </head>
 <body>
 <div id="wrapper">
-{% block mainmenu %} {{ knp_menu_render('FormGeneratorBundle:Builder:mainMenu') }} {% endblock %}
-<div id="page-wrapper">
+
+<div id="">
     {% block body %}
     {% endblock %}
 </div>

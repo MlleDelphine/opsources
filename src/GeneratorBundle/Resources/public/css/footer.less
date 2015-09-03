@@ -1,0 +1,32 @@
+@media (max-width:768px){ .footer{position:absolute;width:100%;} }
+@media (min-width:768px){ .footer{position:absolute;bottom:0;height:60px;width:100%;}}
+
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+body {
+  margin-bottom: 60px;
+  > .container {
+    padding: 60px 15px 0;
+  }
+  .container .text-muted {
+    margin: 20px 0;
+  }
+}
+.footer {
+  background-color: #f5f5f5;
+  bottom: 0;
+  height: 60px;
+  position: absolute;
+  width: 100%;
+  > .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+code {
+  font-size: 80%;
+}

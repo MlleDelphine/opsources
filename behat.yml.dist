@@ -5,22 +5,32 @@ default:
         default:
             path: %paths.base%/src/*/features
             contexts: 
+                - Rezzza\RestApiBehatExtension\RestApiContext
+                - Rezzza\RestApiBehatExtension\Json\JsonContext
                 - Context\FeatureContext:
                     container:   '@service_container'                    
                 - Behat\MinkExtension\Context\MinkContext
+            filters:
+                tags: ~@wip
+                
     extensions:
         Behat\Symfony2Extension: ~
         Behat\MinkExtension\ServiceContainer\MinkExtension:
-            base_url:    'http://preprod.opus.ariane.njord.fr/'
+            base_url:    'http://integration.opus.ariane.njord.fr/app_dev.php/'
             goutte:      ~
             selenium2:   ~
             sessions:
                 default:
                     symfony2: ~
+            files_path: './'
             #default_session: goutte
             #javascript_session: selenium2
             #show_auto: true
             #show_cmd: chrome %s
+        Rezzza\RestApiBehatExtension\Extension:
+            rest:
+                base_url: http://integration.opus.ariane.njord.fr/app_dev.php/
+                store_response: true
 jenkins:
     formatters:
         pretty: 

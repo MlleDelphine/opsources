@@ -1,69 +1,116 @@
-Symfony Standard Edition
-========================
+# Arianespace
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
 
-What's inside?
---------------
+## 1. Dépendances et prérequis (exemple avec Apache)
 
-The Symfony Standard Edition is configured with the following defaults:
+Sur le système doit être installé (à adapter selon la distribution):
+* Apache
+* Curl
+* npm (https://www.rosehosting.com/blog/how-to-install-nodejs-bower-and-gulp-on-a-centos-7-vps/)
+* bower (https://www.rosehosting.com/blog/how-to-install-nodejs-bower-and-gulp-on-a-centos-7-vps/)
+* extension ldap php
+    * yum install php-ldap
+    * vi /etc/php.ini
+    * add extension=ldap.so
+    * service httpd restart
+* plexcel
+    * Pour le PlexcelBundle :  http://www.ioplex.com/plexcel.html
+* PHP GD
+    * yum install gd gd-devel php-gd
+    * service httpd restart
+* PHP Ldap
+* Less
+    * npm install -g less
 
-  * An AppBundle you can use to start coding;
+## 2. Déploiement
 
-  * Twig as the only configured template engine;
+Commande de déploiement en étant connecté sur la preprod :
 
-  * Doctrine ORM/DBAL;
+    git clone http://ae-e-scm01.ad.arianespace.fr/arianespace/opus2.git
 
-  * Swiftmailer;
+## 3. Gestion des bibliothèques Javascript et CSS
 
-  * Annotations enabled for everything.
+L'ensemble des bibliothèques externes (sauf exceptions futures) est géré à
+l'aide de bower.
 
-It comes pre-configured with the following bundles:
+L'installation de bower est réalisable simplement à l'aide de la commande :
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+    npm install bower -g
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+Les bibliothèques sont ensuite installables en se plaçant à la racine du
+projet et en lançant la commande :
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+    bower install
+    
+## 4. Composer ( /!\ .lock )
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+```sh
+composer install
+```
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+Si une erreur est retournée concernant le composer.lock il faut faire :
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+```sh
+composer update
+```
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+puis refaire :
 
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
+```sh
+composer install
+```
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+## 5. Installation des assets (ressources JS/CSS des bundles)
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+Autorisation en terme de droits sur le dossier web et création d'un dossier pour stocker les medias.
 
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
+```sh
+sudo mkdir web/uploads && sudo mkdir web/uploads/media && sudo chmod -R 777 web
+```
+Installation des assets : 
+```sh
+php app/console assetic:dump
+```
+puis
 
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
+```sh
+php app/console assets:install
+```
 
-Enjoy!
+## 6. Doctrine Migration : modification du schéma de BdD
 
-[1]:  http://symfony.com/doc/2.7/book/installation.html
-[6]:  http://symfony.com/doc/2.7/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.7/book/doctrine.html
-[8]:  http://symfony.com/doc/2.7/book/templating.html
-[9]:  http://symfony.com/doc/2.7/book/security.html
-[10]: http://symfony.com/doc/2.7/cookbook/email.html
-[11]: http://symfony.com/doc/2.7/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.7/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.7/bundles/SensioGeneratorBundle/index.html
+```sh
+php app/console doctrine:migrations:migrate
+```
+## 7. Lancer les fixtures (création des types d'entretiens)
+
+```sh
+php app/console doctrine:fixtures:load --append
+```
+## 8. Ajout de l'ancien template sur SonataAdmin et mapping aves les fiches existantes
+
+### 1. Se connecter sur SonataAdmin
+
+ >http://opus33.ad.arianespace.fr/admin/dashboard
+
+### 2. Aller à l'adresse suivante : 
+   > http://opus33.ad.arianespace.fr/app_dev.php/admin/generator/opussheettemplate/create
+   
+### 3. Créer l'ancien "Modèle de fiche" 
+
+Ajouter un modèle de fiche.
+Déterminer le type à “Entretien annuel” et lier le fichier "app/config/BaseFormMeet/old_meet2.yml”. Retenir l’id qui aura été généré, en toute logique : 1.
+
+### 4.  Se connecter à la base de données :
+```sh
+psql -h pg21 -U opus32
+```
+### 5. Exécuter les commandes suivantes :
+La valeur déterminée est bien sûr l'id du modèle de fiche que vous venez de créer.
+```sh
+UPDATE opus_sheet SET template_id = 1;
+```
+```sh
+UPDATE opus_campaign SET template_id = 1;
+```

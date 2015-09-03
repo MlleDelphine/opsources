@@ -1,0 +1,66 @@
+services:
+    sonata.admin.sheet_campaign:
+        class: AppBundle\Admin\OpusCampaignAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Campagnes", label: "Campagne" }
+        arguments:
+            - ~
+            - GeneratorBundle\Entity\OpusCampaign
+            - ~
+        calls:
+            - [ setTranslationDomain, [GeneratorBundle], @app.customfields_parser]
+    sonata.admin.sheet_type:
+        class: AppBundle\Admin\OpusSheetTypeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Campagnes", label: "Type d'entretien" }
+        arguments:
+            - ~
+            - GeneratorBundle\Entity\OpusSheetType
+            - ~
+        calls:
+            - [ setTranslationDomain, [GeneratorBundle]]
+
+    sonata.admin.sheet_status:
+        class: AppBundle\Admin\OpusSheetStatusAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Fiches d'entretien", label: "Statuts" }
+        arguments:
+            - ~
+            - GeneratorBundle\Entity\OpusSheetStatus
+            - ~
+        calls:
+            - [ setTranslationDomain, [GeneratorBundle]]
+
+    sonata.admin.sheet_template:
+        class: AppBundle\Admin\OpusSheetTemplateAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Campagnes", label: "Modèle de fiche" }
+        arguments:
+            - ~
+            - GeneratorBundle\Entity\OpusSheetTemplate
+            - ~
+        calls:
+            - [ setTranslationDomain, [GeneratorBundle]]
+
+#
+#    sonata.admin.status:
+#        class: FormGeneratorBundle\Admin\StatusAdmin
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: "Suivi des fiches", label: "Statut de fiche" }
+#        arguments:
+#            - ~
+#            - FormGeneratorBundle\Entity\Status
+#            - ~
+#        calls:
+#            - [ setTranslationDomain, [FormGeneratorBundle]]
+#
+#    sonata.admin.condition:
+#        class: FormGeneratorBundle\Admin\ConditionAdmin
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: "ConditionsMeet de travail", label: "ConditionsMeet" }
+#        arguments:
+#            - ~
+#            - FormGeneratorBundle\Entity\Condition
+#            - ~
+#        calls:
+#            - [ setTranslationDomain, [FormGeneratorBundle]]

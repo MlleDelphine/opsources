@@ -1,0 +1,53 @@
+id: "test_form"
+name: "Formulaire de test"
+fields:
+    attr:
+        - id: "choice"
+          type: "collection"
+          conf:
+              allow_add: true
+              type: "to defined"
+              allow_delete: true
+              by_reference: false
+              required: false
+              label: "Choice"
+              attr:
+                  data-tab: 'tab_1'
+          child:
+              - id: "temp_choice"
+                type: "choice"
+                conf:
+                    required: true
+                    choices: { 0: "0", 1: "1", 2: "2", 3: "3", 4: "4" }
+                    expanded: true
+                    multiple: false
+                    required: true
+                    data: 0
+                    label: ' '
+                    attr:
+                        data-tab: 'tab_1'
+                        class: "col-md-2"
+        - id: "checkbox"
+          type: "checkbox"
+          conf:
+              label: "Checkbox"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "textarea"
+          type: "textarea"
+          conf:
+              label: "Textarea"
+              required: false
+              attr:
+                  data-tab: "tab_1"
+        - id: "text"
+          type: "text"
+          conf:
+              label: "Text"
+              required: false
+              attr:
+                  data-tab: 'tab_1'
+tabs_ui:
+    - id: 'tab_1'
+      name: 'Test'

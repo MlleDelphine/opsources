@@ -1,0 +1,117 @@
+{# Affichage de la collection d'attributs SECONDAIRE. But : ne pas afficher les labels + afficher un tableau#}
+    {% block customCollection_widget %}
+        {% if numberFields is null %}
+            {% set col = 'col-md-12' %}
+        {% else %}
+            {% set valCol = 12/numberFields %}
+            {% set col = 'col-md-'~valCol|round(0, 'ceil') %}
+        {% endif %}
+        {% spaceless %}
+            <div {{ block('widget_container_attributes') }}>
+                {{ block('collection_rows') }}
+                {{ form_rest(form) }}
+            </div>
+        {% endspaceless %}
+    {% endblock %}
+
+    {% block collection_rows %}
+        {% spaceless %}
+            {{ form_errors(form) }}
+            <table class="table table-condensed col-md-12">
+                <thead>
+                <tr>
+                    {% for key, child in form %}
+                        {% if loop.index <= numberFields %}
+                            {%  for k, c in child %}
+                                {%  if  c.vars.label is not null and c.vars.label is not empty and loop.index <= numberFields %}
+                                    <th data-field="id" style="text-align:center">{{ c.vars.label }}</th> {#{{ col }} dans class#}
+                                {%  endif %}
+                            {%  endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                </thead>
+                {{ block('only_fields') }}
+            </table>
+        {% endspaceless %}
+    {% endblock collection_rows %}
+
+    {% block only_fields %}
+    {% for key, child in form %}
+    {% if loop.first %}
+<tr>
+    {% endif %}
+    <td style="text-align:center">
+        {%  for c in child %}
+            {{ form_widget(c) }}
+        {%  endfor %}
+    </td>
+    {% if loop.last %}
+</tr>
+{% elseif loop.index is divisible by(numberFields) %}
+</tr><tr>
+    {% endif %}
+    {% endfor %}
+    {% endblock %}
+
+
+    {# Affichage de la collection d'attributs PRINCIPALE. But : ne pas afficher les labels#}
+    {% block customCollectionAttribute_widget %}
+        {% spaceless %}
+            <div {{ block('widget_container_attributes') }}>
+                {{ block('collection_rows_attr') }}
+                {{ form_rest(form) }}
+            </div>
+        {% endspaceless %}
+    {%  endblock %}
+
+    {% block collection_rows_attr %}
+        {% spaceless %}
+            {{ form_errors(form) }}
+            {% for child in form %}
+                {{ form_widget(child) }}
+            {% endfor %}
+        {% endspaceless %}
+    {% endblock collection_rows_attr %}
+
+    {% block customRadio_widget %}
+        {# On merge les attributs pour l'affichage et l'éventuel readonly #}
+        {%  if(form.vars.attr.class is defined) %}
+            {% set classes = {'class': 'icheck icheck-radio '~form.vars.attr.class} %}
+        {% else %}
+            {% set classes = {'class': 'icheck icheck-radio '} %}
+        {% endif %}
+        {% set others = {'data-radio':' iradio_square-blue' } %}
+
+        {% set attr = attr|merge(form.vars.attr) %}
+        {% set attr = attr|merge(classes) %}
+        {% set attr = attr|merge(others) %}
+
+        <div class="icheck-inline">
+        {% for child in form.children %}
+
+            {% set uAttr = attr %}
+            {% set disabled = {'data-ok': 'ok'} %}
+
+            {%  if attr.readonly is defined %}
+                {%  if(child.vars.data != 1 ) %}
+                    {# tu ajoutes disabled et tu le merges #}
+                    {% set disabled = {'disabled': 'disabled'} %}
+                    {% set uAttr = uAttr|merge(disabled) %}
+                {%  endif %}
+            {%  endif %}
+            {%  if loop.first %}
+                <div class="col-md-12">
+            {% endif %}
+            <label class="radio-inline">
+                {{ child.vars.label }}
+                {{ form_widget(child, {'attr': (uAttr)}) }}
+            </label>
+            {% if loop.last %}
+                </div>
+            {% elseif loop.index is divisible by(6) %}
+                </div> <div class="col-md-12">
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endblock %}

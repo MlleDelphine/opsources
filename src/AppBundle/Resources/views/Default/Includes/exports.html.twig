@@ -1,0 +1,94 @@
+<div class="tab-pane fade" id="export">
+    <div class="col-lg-12">
+        <h2>Liste des exports</h2>
+        <div class="panel panel-default">
+            {#<!-- /.panel-heading -->#}
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>NOM</th>
+                        <th>DESCRIPTION</th>
+                        <th>Exporter</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Objectifs fixés</td>
+                        <td>Liste des objectifs fixés de vos collaborateur</td>
+                        <td><a href="{{ path('_excel_objectives') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Compétences à développer</td>
+                        <td>Compétences à développer de vos collaborateurs</td>
+                        <td><a href="{{ path('_excel_skills_to_be_developed_by_collaborator') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Plan formation</td>
+                        <td>Plan formation souhaité de vos collaborateurs</td>
+                        <td><a href="{{ path('_excel_training_plan_by_collaborator') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            {#<!-- /.panel-body -->#}
+        </div>
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <h2>Exports administrateurs</h2>
+        <div class="panel panel-default">
+            {#<!-- /.panel-heading -->#}
+            <div class="panel-body">
+                {# Affichage des exports Admin #}
+                <ul class="nav nav-pills">
+                    {% for export in exports %}
+                        <!-- Nav tabs -->
+                        {%  if loop.first %}
+                            <li class="active">
+                        {% else %}
+                            <li >
+                        {% endif %}
+                        <a href="#{{ export.type.strCode }}" data-toggle="tab">{{ export.type.name|capitalize }}</a>
+                        </li>
+                    {%endfor %}
+                </ul>
+
+                <div class="tab-content">
+                    {% for export in exports %}
+                    {%  if loop.first %}
+                    <div class="tab-pane fade in active" id="{{ export.type.strCode }}">
+                        {% else %}
+                        <div class="tab-pane fade" id="{{ export.type.strCode }}">
+                            {% endif %}
+                            {% for template in export.templates %}
+                                <h2 style="font-size: 18px; color: #1B9CDD">{{ template.template.name }}</h2>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>NOM</th>
+                                        <th>DESCRIPTION</th>
+                                        <th>Exporter</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for option in template.options %}
+                                        <tr>
+                                            <td>{{ option.export_name }}</td>
+                                            <td>{{  option.export_desc }}</td>
+                                            <td><a href="{{ path('_excel_exports', {'templateID': template.template.id, 'exportID': option.export_id, 'exportValue': option.export_value }) }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            {% endfor %}
+                        </div> <!-- Div du loop.first : double -->
+                        {% endfor %}
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>{% endif %}
+
+        </div>
+    </div>

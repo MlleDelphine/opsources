@@ -2,6 +2,11 @@
   "name": "symfony/framework-standard-edition",
   "license": "MIT",
   "type": "project",
+  "authors": [
+    { "name": "Delphine Graftieaux", "email": "delphine@zephyr-web.fr" },
+    { "name": "Paul Pasturel", "email": "paul@zephyr-web.fr" }
+  ],
+
   "description": "The \"Symfony Standard Edition\" distribution",
   "autoload": {
     "psr-4": { "": "src/", "SymfonyStandard\\": "app/" }
@@ -47,16 +52,26 @@
     "fr3d/ldap-bundle": "2.0.*@dev",
     "friendsofsymfony/user-bundle": "~1.3",
     "knplabs/knp-menu-bundle": "^2.0",
+    "knplabs/knp-snappy-bundle" : "*",
     "genemu/form-bundle":"2.2.*",
-    "gedmo/doctrine-extensions": "dev-master",
-    "arianespace/theme-bundle": "dev-master",
-    "arianespace/plexcel-bundle": "dev-master",
+    "gedmo/doctrine-extensions": "~2.4.4",
+    "arianespace/theme-bundle": "~1.0.0",
+    "arianespace/plexcel-bundle": "~1.0.0",
     "sonata-project/doctrine-orm-admin-bundle": "2.3.2",
     "sonata-project/admin-bundle": "2.3.3",
-    "brown298/data-tables-bundle": "dev-master"
-
+    "brown298/data-tables-bundle": "dev-master",
+    "sonata-project/media-bundle": "^2.3",
+    "jms/serializer-bundle": "~0.13",
+    "sonata-project/easy-extends-bundle": "^2.1",
+    "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
+    "doctrine/migrations": "^1.0",
+    "doctrine/doctrine-migrations-bundle": "1.0.*",
+    "liuggio/excelbundle": "^2.0",
+    "beberlei/DoctrineExtensions": "*"
   },
   "require-dev": {
+    "doctrine/doctrine-fixtures-bundle": "^2.2",      
+    "hautelook/alice-bundle": "0.1.*",
     "sensio/generator-bundle": "~2.3",
     "behat/behat":                       "~3.0@dev",
     "behat/symfony2-extension":          "~2.0",
@@ -71,8 +86,9 @@
     "phpunit/phpunit":                   "~4.1",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "doctrine/data-fixtures":  "dev-master",
-    "hautelook/alice-bundle":  "0.1.*",
-    "deployer/deployer": "~3.0"
+    "hautelook/alice-bundle":  "*",
+    "rezzza/rest-api-behat-extension": "@dev",
+    "mockery/mockery": "~0.9"
   },
   "scripts": {
     "post-root-package-install": [
@@ -85,7 +101,9 @@
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+      "AppBundle\\Composer\\ScriptHandler::installDeployer",
+      "bower install"
     ],
     "post-update-cmd": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -94,7 +112,9 @@
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+      "AppBundle\\Composer\\ScriptHandler::installDeployer",
+      "bower install"
     ]
   },
   "config": {
@@ -104,6 +124,7 @@
     "symfony-app-dir": "app",
     "symfony-web-dir": "web",
     "symfony-assets-install": "relative",
+    "deployer-version": "v3.0.6",
     "incenteev-parameters": {
       "file": "app/config/parameters.yml"
     },

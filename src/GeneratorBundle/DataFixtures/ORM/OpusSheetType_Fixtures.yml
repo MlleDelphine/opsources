@@ -1,0 +1,13 @@
+GeneratorBundle\Entity\OpusSheetType:
+    type:
+        name: "Entretien d'évaluation"
+        strCode: "evaluation"
+    type1:
+        name: "Entretien professionnel"
+        strCode: "professional"
+    type2:
+        name: "Entretien sur les conditions de travail"
+        strCode: "work_conditions"
+    type3:
+        name: "Entretien annuel"
+        strCode: "annual"

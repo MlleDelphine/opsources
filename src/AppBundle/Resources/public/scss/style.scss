@@ -1,0 +1,55 @@
+@import "compass";
+@import "arianestyle";
+
+.panel-done{
+  border-style: dashed;
+  border-color: grey;
+  .panel-heading{
+    background:grey;
+    color:white;
+  }
+}
+
+.panel-yellow{
+  border-color:#f1c40f;
+  .panel-heading{
+    background: #f1c40f;
+  }
+}
+.panel-orange{
+  border-color: #e67e22;
+  .panel-heading{
+    background:#e67e22;
+    color:white;
+  }
+}
+
+.panel-footer{
+  min-height: 45px;
+}
+
+.table-orange{
+  background:#e67e22;
+  border-color: #e67e22;
+  color:white;
+  &:hover{
+    color:white;
+  }
+}
+
+#creation_entretien{
+  display: none;
+}
+.upperFirst{
+  text-transform: uppercase;
+  text-align: center;
+}
+input[type="checkbox"]{
+  text-align: center;
+  display: block;
+  width: 40px;
+  margin: 0 auto;
+}
+.tab-pane{
+  margin:20px;
+}

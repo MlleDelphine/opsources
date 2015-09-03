@@ -1,106 +1,428 @@
 {% extends 'AppBundle::layout.html.twig' %}
 {% block body %}
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Tableau de bord</h1>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <div class="row">
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-comments fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">26</div>
-                            <div>New Comments!</div>
-                        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{ 'Tableau de bord' | trans }}</h1>
+                {% for flash in app.session.flashbag.get('info') %}
+                    <div class="alert alert-success col-md-12">
+                        {{ flash | raw }}
                     </div>
-                </div>
-                <a href="#">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
+                {% endfor %}
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-green">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-tasks fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">12</div>
-                            <div>New Tasks!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
+        <div class="row">
+            {{ render(controller('AppBundle:Default:changingRole')) }}
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-yellow">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-shopping-cart fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">124</div>
-                            <div>New Orders!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-red">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-support fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">13</div>
-                            <div>Support Tickets!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-pills">
+                            <li class="active"><a href="#me" data-toggle="tab">Mes entretiens</a>
+                            <li><a href="#sheet-history" data-toggle="tab">Mes entretiens passés</a>
+                            </li>
+                            <li><a href="#evaluator" data-toggle="tab">Entretiens dont je suis l'évaluateur</a>
+                            </li>
+                            {% if is_granted('ROLE_MANAGER') %}
+                            <li><a href="#equipe" data-toggle="tab">Mon équipe</a>
+                                {% endif %}
+                            </li>
+                            {% if is_granted('ROLE_MANAGER') %}
+                                <li><a href="#creation" data-toggle="tab">Création de fiche</a></li>
+                            {% endif %}
+                            {% if is_granted('ROLE_RH') %}
+                                <li><a href="#campagne" data-toggle="tab">Gestion des campagnes</a></li>
+                            {% endif %}
+                            <li><a href="#export" data-toggle="tab">Export</a></li>
+                            {% if is_granted('ROLE_RH') %}
+                            <li><a href="#valid_rh" data-toggle="tab">Demande validation RH</a></li>
+                            {% endif %}
+                            {% if is_granted('ROLE_RH') %}
+                            <li><a href="#fiche_closes" data-toggle="tab">Liste des fiches</a></li>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="{{ path("sonata_admin_dashboard") }}" target="_blank">Accès à l'admin</a></li>
+                            {% endif %}
 
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="me">
+                                <div class="row col-lg-12">
+                                    {% for type in types %}
+                                        {% set done = 0  %}
+                                        {% for o in user.opusSheetsEvaluate if sheet is not defined %}
+                                            {% if o.opusTemplate.type == type %}
+                                                {% set sheet = o %}
+                                                {% if( o.status.intCode != -1 and o.status.intCode != 8 and o.status.intCode != 9 and o.status is not empty ) %}
+                                                    {% set done = 1 %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% set color = "done" %}
+                                        {% if ( done == 0 and sheet is defined ) %}{% if sheet.getEcheance() > 60 %}
+                                            {% set color = "yellow" %}
+                                        {% elseif sheet.getEcheance() > 30 %}
+                                            {% set color = "orange" %}
+                                        {% elseif sheet.getEcheance() > 0 %}
+                                            {% set color = "green" %}
+                                        {% endif %}
+                                        {%  endif %}
+                                        <div class="col-lg-{{ 12/types|length }} col-md-{{ 12/types|length }} col-xs-12">
+                                            <div class="panel panel-{{ color }}">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <h2 class="col-xs-12">{{ type.name }}</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-footer">
+                                <span class="pull-left">
+                                    {{ ( sheet is defined and done == 0 ) ? sheet.status.label : '' }}
+                                </span>
+
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in " id="sheet-history">
+                                <div class="row col-lg-12">
+                                    {% for type in types %}
+                                        {% set done = 0  %}
+                                        {% for o in user.opusSheetsEvaluate if sheet is not defined %}
+                                            {% if o.opusTemplate.type == type %}
+                                                {% set sheet = o %}
+                                                {% if( o.status.intCode == -1 and o.status.intCode == 8 and o.status.intCode == 9 and o.status is not empty ) %}
+                                                    {% set done = 1 %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% set color = "done" %}
+                                        {% if ( done == 0 and sheet is defined ) %}{% if sheet.getEcheance() > 60 %}
+                                            {% set color = "yellow" %}
+                                        {% elseif sheet.getEcheance() > 30 %}
+                                            {% set color = "orange" %}
+                                        {% elseif sheet.getEcheance() > 0 %}
+                                            {% set color = "green" %}
+                                        {% endif %}
+                                        {%  endif %}
+                                        <div class="col-lg-{{ 12/types|length }} col-md-{{ 12/types|length }} col-xs-12">
+                                            <div class="panel panel-{{ color }}">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <h2 class="col-xs-12">{{ type.name }}</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-footer">
+                                <span class="pull-left">
+                                    {{ ( sheet is defined and done == 0 ) ? sheet.status.label : '' }}
+                                </span>
+
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                            {{ render(controller('AppBundle:Default:listAllExports')) }}
+                            {% if is_granted('ROLE_MANAGER') %}
+                                <div class="tab-pane fade" id="creation">
+                                    <div class="row col-lg-12">
+                                        <div class="col-lg-12">
+                                            <h2>Création d’un ou de plusieurs entretiens à la demande</h2>
+                                            <div class="panel panel-default">
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table" id="createSheet">
+                                                            <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                {% for type in types %}
+                                                                    <th class="upperFirst">{{ type.name }}</th>
+                                                                {% endfor %}
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {{ user.id }}
+                                                            {#{% for u in users if u.department == user.department and user.department is not null %}#}
+                                                            {% for u in users %}
+                                                                {% if u.manager.id is defined and u.manager.id == user.id %}
+                                                                    <tr>
+                                                                        <td>{{ u.firstName }} {{ u.lastName }}</td>
+                                                                        {% for type in types %}
+                                                                            {% set canCreate = 1 %}
+                                                                            {% for e in u.opusSheetsEvaluate %}
+                                                                                {# Si une fiche de ce type existe entre ce manager, déterminé au 1er if, et cet évalué qui aurait un statut != de suppr / close / close_finish ou qui serait déjà orpheline on ne PEUT pas en recréer une #}
+                                                                                {% if( e.opusTemplate.type == type and (e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty) or e.campaign is not defined ) %}
+                                                                                    {% set canCreate = 0 %}
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                            <td>
+                                                                                {% if canCreate == 1 %}
+                                                                                    <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ u.id }}">
+                                                                                {% else %}
+                                                                                    <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ u.id }}"  disabled="disabled" >
+                                                                                {% endif %}
+                                                                            </td>
+                                                                        {% endfor %}
+                                                                    </tr>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                        <input type="submit" value="Créer" class="btn btn-primary pull-right btn-lg" onclick="createSheet();">
+                                                    </div>
+                                                    <!-- /.table-responsive -->
+                                                </div>
+                                                <!-- /.panel-body -->
+                                            </div>
+                                            <!-- /.panel -->
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="tab-pane fade" id="evaluator">
+                                <div class="col-lg-12">
+                                    <h2>Les entretiens dont je suis l’évaluateur en cours</h2>
+                                    <div class="panel panel-default">
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        {% for type in types %}
+                                                            <th class="upperFirst">{{ type.name }}</th>
+                                                        {% endfor %}
+                                                        <th class="upperFirst"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for u in user.opusSheetsEvaluator %}
+                                                        <tr>
+                                                            <td>{{ u.evaluate.firstName }} {{ u.evaluate.lastName }}</td>
+                                                            {% for type in types %}
+                                                                {% set color = 0 %}
+                                                                {% set status = '' %}
+                                                                {% set id = 0 %}
+                                                                {% for e in u.evaluate.opusSheetsEvaluate %}
+                                                                    {% if e.opusTemplate.type == type %}
+                                                                        {% set id = e.id %}
+                                                                        {% if( e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
+                                                                            {% set color = 1 %}
+                                                                            {% if is_granted('ROLE_ADMIN') %}
+                                                                                {% set status = e.status.label %}
+                                                                            {% elseif  is_granted('ROLE_DIRECTOR') and e.status.intCode == 6  %}
+                                                                                {% set status = e.status.label %}
+                                                                            {% elseif ( is_granted('ROLE_RH') and e.status.intCode == 7 ) %}
+                                                                                {% set status = e.status.label %}
+                                                                            {% elseif ( is_granted('ROLE_DIVISION_MANAGER') and e.status.intCode == 11 and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5 ) %}
+                                                                                {% set status = e.status.label %}
+                                                                            {% elseif ( is_granted('ROLE_MANAGER') and e.status.intCode == 11 and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5) %}
+                                                                                {% set status = e.status.label %}
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endfor %}
+
+                                                                <a href="{{ path("generator_editsheet",{"id": id}) }}"><td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center"><a  class="{{ color == 1 ? 'table-orange' : '' }}" href="{{ path("generator_editsheet",{"id": id}) }}">{{ status }}</a></td></a>
+                                                            {% endfor %}
+                                                            <td></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- /.table-responsive -->
+                                        </div>
+                                        <!-- /.panel-body -->
+                                    </div>
+                                    <!-- /.panel -->
+                                </div>
+                            </div>
+                            {% if is_granted('ROLE_MANAGER') %}
+                                <div class="tab-pane fade" id="equipe">
+                                    <div class="col-lg-12">
+                                        <h2>Les fiches d’entretien de mon équipe</h2>
+                                        <div class="panel panel-default">
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            {% for type in types %}
+                                                                <th class="upperFirst">{{ type.name }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for u in users if u.department == user.department and user.department is not null %}
+                                                            <tr>
+                                                                <td>{{ u.firstName }} {{ u.lastName }}</td>
+                                                                {% for type in types %}
+
+                                                                    {% set color = 0 %}
+                                                                    {% set status = '' %}
+                                                                    {% set id = 0 %}
+                                                                    {% for e in u.opusSheetsEvaluate %}
+                                                                        {% if e.opusTemplate.type == type %}
+                                                                            {% set id = e.id %}
+                                                                            {% if( e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
+                                                                                {% set color = 1 %}
+                                                                                {% if is_granted('ROLE_ADMIN') %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% elseif  is_granted('ROLE_DIRECTOR') and e.status.intCode == 6  %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% elseif ( is_granted('ROLE_RH') and e.status.intCode == 7 ) %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% elseif ( is_granted('ROLE_DIVISION_MANAGER') and e.status.intCode == 11  and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5 ) %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% elseif ( is_granted('ROLE_MANAGER') and e.status.intCode == 11 and e.status.intCode == 1 and e.status.intCode == 2 and e.status.intCode == 4 and e.status.intCode == 5) %}
+                                                                                    {% set status = e.status.label %}
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+
+                                                                    <a href="{{ path("generator_editsheet",{"id": id}) }}"><td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center"><a  class="{{ color == 1 ? 'table-orange' : '' }}" href="{{ path("generator_editsheet",{"id": id}) }}">{{ status }}</a></td></a>
+                                                                {% endfor %}
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- /.table-responsive -->
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                </div>
+                            {%  endif %}
+                            {% if is_granted('ROLE_RH') %}
+                                {% include 'AppBundle:Default/Includes:campaignManagement.html.twig' with {'formOpusCampaign': formOpusCampaign, 'opusCampaigns': opusCampaigns, 'dataTableManagementCampaign': dataTableManagementCampaign } %}
+                            {% endif %}
+                            {% if is_granted('ROLE_RH') %}
+                                <div class="tab-pane fade" id="valid_rh">
+                                    <div class="col-lg-12">
+                                        <h2>Demande de validation RH</h2>
+                                        <div class="panel panel-default">
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Evalué</th>
+                                                        <th>Date de création</th>
+                                                        <th>Type</th>
+                                                        <th>Statut</th>
+                                                        <th>Campagne</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for fiche in fiches if fiche.status.intCode == 7 %}
+                                                        <tr>
+                                                            <td><a href="{{ path("generator_editsheet",{"id":fiche.id}) }}"></a></td>
+                                                            <td>{{ fiche.evaluate.firstName }} {{ fiche.evaluate.lastName }}</td>
+                                                            <td>{{ fiche.createdAt|date("d/m/Y", "Europe/Paris") }}</td>
+                                                            <td>{{ fiche.opusTemplate.type.name|capitalize }}</td>
+                                                            <td>{{ fiche.status.label }}</td>
+                                                            <td>{% if(fiche.campaign.id is defined) %}{{ fiche.campaign.id }}{% else %} <i>>Orpheline</i> {% endif %}</td>
+                                                            <td><a class="btn btn-block btn-social" href="{{ path("generator_editsheet",{"id": fiche.id}) }}"><i class="fa fa-pencil"></i></a></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if is_granted('ROLE_RH') %}
+                                <div class="tab-pane fade" id="fiche_closes">
+                                    <div class="col-lg-12">
+                                        <h2>Fiches</h2>
+                                        <div class="panel panel-default">
+                                            <div class="loader">Loading...</div>
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body" id="all-sheets">
+                                                {% include 'AppBundle:Default/Includes/Form:filter_sheet_form.html.twig' with {'form': formSheet } %}
+
+                                                <div id="display-sheet">
+                                                    {{ addDataTable(dataTableClosedSheets, {
+                                                        'path':          path('datatables',{'tableName':'OpusSheetTable'}),
+                                                        'id':            'OpusSheetTable',
+                                                        'bLengthChange': 1,
+                                                        'bInfo':         1,
+                                                        'bFilter':       1
+                                                    }) }}
+                                                </div>
+
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.fr.min.js') }}"></script>
+    <script>
+        function createSheet(){
+            $t =$(document).find("#createSheet");
+            $n = 0;
+            $("input[type=\"checkbox\"]").each(function(i,j){
+                if($(this).is(":checked"))
+                {
+
+                    $path = '{{ path("generator_newsheet",{"idUser":"__USER__","strCodeType":"__TYPE__"}) }}';
+                    $path = $path.replace("__USER__",$(this).attr("user"));
+                    $path = $path.replace("__TYPE__",$(this).attr("sheetType"));
+                    $.post($path,function(d){
+                        $n++;
+                    })
+                }
+            });
+            alert($n +" fiches viennent d'êtres ajoutées");
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $( ".datepicker" ).datepicker();
+        });
+    </script>
+
 {%  endblock %}
 
 

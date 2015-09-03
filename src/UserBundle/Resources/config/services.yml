@@ -1,3 +1,20 @@
 services:
     user.plexcelservice:
-        class: UserBundle\Service\UserPLexcelService
+        class: UserBundle\Service\UserPlexcelService
+    arianespace.user_provider:
+        class: UserBundle\Entity\UserProvider
+    user_manager:
+        class: UserBundle\Entity\UserManager
+        arguments: ["@doctrine.orm.default_entity_manager", null,"@service_container"] #Delphine
+
+    user_provider:
+        class: UserBundle\Entity\PlexcelUserProvider
+        arguments: ["@arianespace.plexcel", "@doctrine.orm.default_entity_manager", "@app.customfields_parser"]
+
+    ldap_service:
+        class: UserBundle\Service\LdapService
+        arguments: ["@service_container"]
+
+    ldap_user_service:
+        class: UserBundle\Service\LdapUserService
+        arguments: ["@doctrine.orm.default_entity_manager","@service_container"]
