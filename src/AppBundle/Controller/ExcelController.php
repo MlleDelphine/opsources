@@ -189,9 +189,17 @@ class ExcelController extends Controller
 
             //On ajoute la ligne avec tous les attr sur la même ligne (ou une vide entre deux avant)
 
-            if($k > 0 && $coll->getSheet()->getId() != $collections[$k-1]->getSheet()->getId()){
-                $lineColor = array('', '', '', '', '', '', '');
-                array_push($data,$lineColor);
+//            if($k > 0 && $coll->getSheet()->getId() != $collections[$k-1]->getSheet()->getId()){
+//                $lineColor = array('', '', '', '', '', '', '');
+//                array_push($data,$lineColor);
+//            }
+
+            if ($k > 0 && $coll->getSheet()->getId() != $collections[$k - 1]->getSheet()->getId()) {
+                $lineColor = array('', '', '', '');
+                foreach($collAttributes as $empty){
+                    array_push($lineColor, '');
+                }
+                array_push($data, $lineColor);
             }
 
             $lineFirst = array($coll->getSheet()->getId(), $coll->getSheet()->getEvaluate()->getId(),$coll->getSheet()->getEvaluate()->getFirstname(), $coll->getSheet()->getEvaluate()->getLastname());
@@ -211,6 +219,69 @@ class ExcelController extends Controller
     }
 
 
+    /**
+     * Organise les données d'une fiche pour l'export (collection d'attribut)
+     * On passe des collections
+     */
+    public function displayValuesForEvaluatorExport($collections, $attribute){
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:User')->find($user->getId());
+
+        $data = array();
+        $attrValues = array();
+
+        foreach($collections AS $k => $coll){
+            if(null !== $coll->getsheet()->getEvaluator()) {
+                if ($coll->getsheet()->getEvaluator()->getId() == $user->getId()) {
+                    $collAttributes = $coll->getAttributes();
+                    foreach ($collAttributes as $collAttr) {
+
+                        if ($collAttr->getValue() != null) {
+                            $attrValues[] = $collAttr->getValue();
+                        } elseif ($collAttr->getValueDate() != null) {
+                            $attrValues[] = $collAttr->getValueDate();
+                        } elseif ($collAttr->getValueData() != null) {
+                            $attrValues[] = $collAttr->getValueData();
+                        } else {
+                            $attrValues[] = "Valeur non renseignée";
+                        }
+                    }
+
+                    //Pour les attributs qui s'enregistrent à l'envers..
+                    if ($collAttributes[0]->getLabel() != $attribute['child'][0]['id']) {
+                        $attrValues = array_reverse($attrValues);
+                    }
+
+                    //On ajoute la ligne avec tous les attr sur la même ligne (ou une vide entre deux avant)
+
+                    if ($k > 0 && $coll->getSheet()->getId() != $collections[$k - 1]->getSheet()->getId()) {
+                        $lineColor = array('', '', '', '');
+                        foreach($collAttributes as $empty){
+                            array_push($lineColor, '');
+                        }
+                        array_push($data, $lineColor);
+                    }
+
+                    $lineFirst = array($coll->getSheet()->getId(), $coll->getSheet()->getEvaluate()->getId(), $coll->getSheet()->getEvaluate()->getFirstname(), $coll->getSheet()->getEvaluate()->getLastname());
+                    $line = array_merge($lineFirst, $attrValues);
+                    array_push($data, $line);
+                    unset($attrValues);
+                }
+            }
+        }
+
+        $headers = array('ID de la fiche', 'ID utilisateur','Prénom','Nom');
+
+        foreach($attribute['child'] as $confAttr){
+            $headers[] = $confAttr['conf']['label'];
+        }
+
+        return array($headers,$data);
+    }
+
+
     private function wd_remove_accents($str, $charset='utf-8')
     {
         $str = htmlentities($str, ENT_NOQUOTES, $charset);
@@ -223,41 +294,56 @@ class ExcelController extends Controller
     }
 
     /**
-     * @Route("/excel/objectives", defaults={"tableName" = null}, name="_excel_objectives")
+     * @Route("/excel/evaluator/{title}/{exportID}", defaults={"tableName" = null}, name="_excel_evaluator")
      *
      * Liste des objectifs fixés de vos collaborateurs
      *
      * @return array
      */
-    public function objectivesAction()
+    public function evaluatorAction($title, $exportID)
     {
+
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
-        $title = 'Liste des objectifs fixés de vos collaborateurs';
-        $filename = 'Liste des objectifs fixes de vos collaborateurs.xls';
+        $templates = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->findAll();
+        foreach($templates as $template){
+            $templateFile = $template->getConfFile();
+            $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
 
-        list($headers, $data) = $em->getRepository('UserBundle:User')->getUsersForExport();
+            $allAttributes['collections'] = array_values($allAttributes['collections']);
+            $elementKey = array_search($exportID, array_column($allAttributes['collections'], 'id'));
 
-        /**
-         * @var \AppBundle\Service\ExcelBuilder $phpExcelService
-         */
-        $phpExcelService = $this->get("app.excelbuilder");
-        $worksheet = $phpExcelService->createWorkSheet();
+            if($elementKey){
+                $field = $allAttributes['collections'][$elementKey];
 
-        $worksheet->getProperties()
-            ->setCreator($user->getFullName())
-            ->setLastModifiedBy($user->getFullName())
-            ->setTitle($title);
+                $collections = $em->getRepository("GeneratorBundle:OpusCollection")->findForCollectionExport($exportID);
 
+                list($headers, $data) = $this->displayValuesForEvaluatorExport($collections, $field);
+                /**
+                 * On génère le fichier Excel
+                 */
+                $title = $title;
+                $filename =  $this->wd_remove_accents($title).' - '.date("Y-m-d H:i:s").'.xls';
 
+                /**
+                 * @var \AppBundle\Service\ExcelBuilder $phpExcelService
+                 */
+                $phpExcelService = $this->get("app.excelbuilder");
+                $worksheet = $phpExcelService->createWorkSheet();
 
-        $phpExcelService->draw($headers, $data, 0, true);
+                $worksheet->getProperties()
+                    ->setCreator($user->getFullName())
+                    ->setLastModifiedBy($user->getFullName())
+                    ->setTitle($title);
 
+                $phpExcelService->draw($headers, $data, 0, true);
+                return $phpExcelService->createAndGetResponse($filename);
 
-
-        return $phpExcelService->createAndGetResponse($filename);
+                break;
+            }
+        }
     }
 
     /**
@@ -307,25 +393,43 @@ class ExcelController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
-        $title = 'Compétences à développer de vos collaborateurs';
-        $filename = 'Competences a developper de vos collaborateurs.xls';
+        $templates = $em->getRepository("GeneratorBundle:OpusSheetTemplate")->findAll();
+        foreach($templates as $template){
+            $templateFile = $template->getConfFile();
+            $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
 
-        list($headers, $data) = $em->getRepository('UserBundle:User')->getSkillsToBeDevelopedByCollaboratorForExport();
+            $allAttributes['collections'] = array_values($allAttributes['collections']);
+            $elementKey = array_search("training_desired_actions", array_column($allAttributes['collections'], 'id'));
 
-        /**
-         * @var \AppBundle\Service\ExcelBuilder $phpExcelService
-         */
-        $phpExcelService = $this->get("app.excelbuilder");
-        $worksheet = $phpExcelService->createWorkSheet();
+            if($elementKey){
+                $field = $allAttributes['collections'][$elementKey];
 
-        $worksheet->getProperties()
-            ->setCreator($user->getFullName())
-            ->setLastModifiedBy($user->getFullName())
-            ->setTitle($title);
+                $collections = $em->getRepository("GeneratorBundle:OpusCollection")->findForCollectionExport("training_desired_actions");
 
-        $phpExcelService->draw($headers, $data, 0, true);
+                list($headers, $data) = $this->displayValuesForChildExport($collections, $field);
+                /**
+                 * On génère le fichier Excel
+                 */
+                $title = 'Objectifs fixés';
+                $filename =  $this->wd_remove_accents("Objectifs fixés").' - '.date("Y-m-d H:i:s").'.xls';
 
-        return $phpExcelService->createAndGetResponse($filename);
+                /**
+                 * @var \AppBundle\Service\ExcelBuilder $phpExcelService
+                 */
+                $phpExcelService = $this->get("app.excelbuilder");
+                $worksheet = $phpExcelService->createWorkSheet();
+
+                $worksheet->getProperties()
+                    ->setCreator($user->getFullName())
+                    ->setLastModifiedBy($user->getFullName())
+                    ->setTitle($title);
+
+                $phpExcelService->draw($headers, $data, 0, true);
+                return $phpExcelService->createAndGetResponse($filename);
+
+                break;
+            }
+        }
     }
 
     /**

@@ -112,6 +112,14 @@ class ExcelBuilder{
             $column = 0;
             foreach($line AS $value){
                 $activeSheet->setCellValueByColumnAndRow($column, $row, $value);
+                if(empty($value)){
+                    $activeSheet->getStyle(chr($column+65).$row)->getFill()->applyFromArray(array(
+                        'type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                        'startcolor' => array(
+                            'rgb' => '7BB4E3'
+                        )
+                    ));
+                }
                 $column++;
             }
             $row++;
