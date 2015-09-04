@@ -180,7 +180,7 @@ class OpusSheetType extends AbstractType
                 //Nouveau champs de formulaire : collection d'attributs
                 if (array_key_exists('collections', $this->attributes)) {
                     $form->add(
-                            'collections',  new CustomCollectionAttributeType(), array(
+                        'collections',  new CustomCollectionAttributeType(), array(
                             'type' => new OpusSheetCollectionAttributeNewType($this->attributes['collections'], $access),
                             'allow_add' => true,
                             'allow_delete' => false,
@@ -193,67 +193,76 @@ class OpusSheetType extends AbstractType
 
                 if($access != "none" || ($sheet->getEvaluator()->getId() == $user->getId() && $sheet->getStatus() == $vFinalEvaluatorStatus )) {
                     //gestion des boutons de formulaire
-                    if ($sheet->getStatus() == $generatedStatus || $sheet->getStatus() == $creationStatus) {
-                        $form->add(
-                            'save',
-                            'submit',
-                            array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info'))
-                        );
-                        $form->add(
-                            'validate',
-                            'submit',
-                            array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
-                        );
-                    } elseif ($sheet->getStatus() == $vEvaluatedStatus) {
-                        $form->add(
-                            'invalidate',
-                            'submit',
-                            array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
-                        );
-                        $form->add(
-                            'validate',
-                            'submit',
-                            array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
-                        );
-                    } elseif ($sheet->getStatus() == $vEvaluatorStatus) {
-                        $form->add(
-                            'invalidate',
-                            'submit',
-                            array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
-                        );
-                        $form->add(
-                            'validate',
-                            'submit',
-                            array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
-                        );
-                    } elseif ($sheet->getStatus() == $vFinalEvaluatorStatus) {
-                        $form->add(
-                            'invalidate_for_rh',
-                            'submit',
-                            array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
-                        );
-                        $form->add(
-                            'validate_rh',
-                            'submit',
-                            array('label' => 'Valider pour RH', 'attr' => array('class' => 'btn btn-lg btn-success'))
-                        );
-                    }elseif ($sheet->getStatus() == $vRHStatus) {
-                        $form->add(
-                            'invalidate_by_rh',
-                            'submit',
-                            array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
-                        );
-                        $form->add(
-                            'validate_by_rh',
-                            'submit',
-                            array('label' => 'Validation finale', 'attr' => array('class' => 'btn btn-lg btn-success'))
-                        );
-                    } else {
-                        $form->add(
-                            'validate',
-                            'submit',
-                            array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
-                        );
+                    if($access != "drh_decision"){
+                        if ($sheet->getStatus() == $generatedStatus || $sheet->getStatus() == $creationStatus) {
+
+                            $form->add(
+                                'save',
+                                'submit',
+                                array('label' => 'Enregistrer', 'attr' => array('class' => 'btn btn-lg btn-info'))
+                            );
+                            $form->add(
+                                'validate',
+                                'submit',
+                                array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                            );
+
+
+                        } elseif ($sheet->getStatus() == $vEvaluatedStatus) {
+                            $form->add(
+                                'invalidate',
+                                'submit',
+                                array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
+                            );
+                            $form->add(
+                                'validate',
+                                'submit',
+                                array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                            );
+                        } elseif ($sheet->getStatus() == $vEvaluatorStatus) {
+                            $form->add(
+                                'invalidate',
+                                'submit',
+                                array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
+                            );
+                            $form->add(
+                                'validate',
+                                'submit',
+                                array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                            );
+                        } elseif ($sheet->getStatus() == $vFinalEvaluatorStatus) {
+                            $form->add(
+                                'invalidate_for_rh',
+                                'submit',
+                                array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
+                            );
+                            $form->add(
+                                'validate_rh',
+                                'submit',
+                                array('label' => 'Valider pour RH', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                            );
+                        }else {
+                            $form->add(
+                                'validate',
+                                'submit',
+                                array('label' => 'Valider', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                            );
+                        }
+                    }
+                    //donc si RH ou admin
+                    else {
+                        if ($sheet->getStatus() == $vRHStatus) {
+                            $form->add(
+                                'invalidate_by_rh',
+                                'submit',
+                                array('label' => 'Invalider', 'attr' => array('class' => 'btn btn-lg btn-danger'))
+                            );
+                            $form->add(
+                                'validate_by_rh',
+                                'submit',
+                                array('label' => 'Validation finale', 'attr' => array('class' => 'btn btn-lg btn-success'))
+                            );
+                        }
                     }
                 }
 

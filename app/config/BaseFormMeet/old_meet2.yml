@@ -215,7 +215,7 @@ fields:
               required: true
               label: "(Apprécier le niveau de réalisation)"
               attr:
-                  data-tab: 'tab_3'
+                  data-tab: "tab_3"
           child:
               - id: "rappel"
                 type: "textarea"
@@ -257,13 +257,14 @@ fields:
                   data-tab: 'tab_4'
           child:
                   - id: "qualite"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Qualités personnelles"
                         required: true
                         attr:
                             data-tab: "tab_4"
                             readonly: true
+                            class: "textarea-resize no-horizontal"
                   - id: "eval"
                     type: "choice"
                     conf:
@@ -275,12 +276,13 @@ fields:
                         attr:
                             data-tab: "tab_4"
                   - id: "commentaires"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Commentaires"
                         required: true
                         attr:
                             data-tab: "tab_4"
+                            class: "textarea-resize no-horizontal"
           number: 5
           predefined_values:
               qualite: [ "Collaboration avec l'équipe (Entraide, échange, reporting ...)", "Motivation", "Fiabilité et qualité du travail fourni", "Attitude constructive / positive", "Capacité d'adaptation"]
@@ -292,6 +294,7 @@ fields:
               required: false
               attr:
                   data-tab: "tab_9"
+                  class: "textarea-resize no-horizontal"
 ## TAB 5
         - id: "new_objectif"
           type: "collection"
@@ -351,12 +354,13 @@ fields:
                   data-tab: 'tab_6'
           child:
                   - id: "aptitude"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Compétence (Aptitudes / Savoirs / Savoir Faire)"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "acquisition"
                     type: "text"
                     conf:
@@ -377,26 +381,29 @@ fields:
                   data-tab: 'tab_6'
           child:
                   - id: "competence"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Compétence à développer"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "resultat"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Résultat à atteindre"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "plan"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Plan d'action"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
         - id: "formation_souhait"
           type: "collection"
           conf:
@@ -410,40 +417,45 @@ fields:
                   data-tab: 'tab_6'
           child:
                   - id: "formation_souhait_competence"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Compétence à développer"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "formation_souhait_resultat"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Résultat à atteindre"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "formation_souhait_stage"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Stage envisagé"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "formation_souhait_organisme"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Organisme (éventuel)"
                         required: false
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "formation_souhait_periode"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Période souhaitée"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "formation_souhait_categorie"
                     type: "number"
                     conf:
@@ -478,12 +490,13 @@ fields:
                        attr:
                            data-tab: "tab_6"
                  - id: "competence"
-                   type: "text"
+                   type: "textarea"
                    conf:
                        label: "Compétence(s) visée(s)"
                        required: true
                        attr:
                            data-tab: "tab_6"
+                           class: "textarea-resize no-horizontal"
                  - id: "date_debut"
                    type: "text"
                    conf:
@@ -500,12 +513,13 @@ fields:
                        attr:
                            data-tab: "tab_6"
                  - id: "avis"
-                   type: "text"
+                   type: "textarea"
                    conf:
                        label: "Avis de l'évaluateur et de l'évalué sur la pertinence de cette formation"
                        required: true
                        attr:
                            data-tab: "tab_6"
+                           class: "textarea-resize no-horizontal"
                  - id: "libelle"
                    type: "text"
                    conf:
@@ -523,7 +537,7 @@ fields:
                  - id: "organisme"
                    type: "text"
                    conf:
-                       label: "Organiseme"
+                       label: "Organisme"
                        required: true
                        attr:
                            data-tab: "tab_6"
@@ -539,28 +553,31 @@ fields:
                        format: 'dd/MM/yyyy'
 
         - id: "observation_formation"
-          type: "text"
+          type: "textarea"
           conf:
               label: "Observation :"
               required: false
               attr:
                   data-tab: "tab_6"
+                  class: "textarea-resize no-horizontal"
 
 ## TAB 7
         - id: "souhait_salarie"
-          type: "text"
+          type: "textarea"
           conf:
               label: "Souhaits du salarié :"
               required: true
               attr:
                   data-tab: "tab_7"
+                  class: "textarea-resize no-horizontal"
         - id: "avis_evaluateur"
-          type: "text"
+          type: "textarea"
           conf:
               label: "Avis de l'évaluateur :"
               required: true
               attr:
                   data-tab: "tab_7"
+                  class: "textarea-resize no-horizontal"
         - id: "mobilite"
           type: "choice"
           conf:
@@ -573,12 +590,13 @@ fields:
               attr:
                   data-tab: "tab_7"
         - id: "site_mobilite"
-          type: "text"
+          type: "textarea"
           conf:
-              label: "Si oui vers quel (s) site(s)  et à quelle échéance ?"
+              label: "Si oui vers quel (s) site(s) et à quelle échéance ?"
               required: false
               attr:
                   data-tab: "tab_7"
+                  class: "textarea-resize no-horizontal"
         - id: "entretien_pro"
           type: "choice"
           conf:
@@ -599,13 +617,15 @@ fields:
               required: true
               attr:
                   data-tab: "tab_8"
+                  class: "textarea-resize no-horizontal"
         - id: "discussion"
-          type: "text"
+          type: "textarea"
           conf:
               label: "(rémunération, organisation, conditions et charge de travail, articulation entre vie professionnelle et vie personnelle)"
               required: true
               attr:
                   data-tab: "tab_8"
+                  class: "textarea-resize no-horizontal"
         - id: "entretien_spe"
           type: "choice"
           conf:
@@ -618,12 +638,13 @@ fields:
               attr:
                   data-tab: "tab_8"
         - id: "theme_entretien_spe"
-          type: "text"
+          type: "textarea"
           conf:
               label: "Si oui, préciser le thème"
               required: false
               attr:
                   data-tab: "tab_8"
+                  class: "textarea-resize no-horizontal"
 
 ## TAB 9
         - id: "observation"
@@ -633,6 +654,7 @@ fields:
               required: false
               attr:
                   data-tab: "tab_9"
+                  class: "textarea-resize no-horizontal"
 
 
                   ##############
@@ -765,12 +787,13 @@ fields:
                   ###############
 
         - id: "line_management"
-          type: "text"
+          type: "textarea"
           conf:
               label: "Label inconnu"
               required: false
               attr:
                   data-tab: "tab_2"
+                  class: "textarea-resize no-horizontal"
 
                   ##############
                   ##Collection##
@@ -789,27 +812,30 @@ fields:
                   data-tab: 'tab_6'
           child:
                   - id: "aptitude"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Compétence"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "commentaire"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Commentaire"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
 
                   - id: "commentaires"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Commentaires"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
 
         - id: "formation_valid"
           type: "collection"
@@ -824,47 +850,53 @@ fields:
                   data-tab: 'tab_6'
           child:
                   - id: "besoin"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "besoin"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "organisme"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Commentaire"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "stage"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Stage"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "categorie"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Catégorie"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "observation"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Observations"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
                   - id: "periode"
-                    type: "text"
+                    type: "textarea"
                     conf:
                         label: "Période"
                         required: true
                         attr:
                             data-tab: "tab_6"
+                            class: "textarea-resize no-horizontal"
 tabs_ui:
     - id: 'tab_1'
       name: "Général"

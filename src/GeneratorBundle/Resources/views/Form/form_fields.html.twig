@@ -16,7 +16,7 @@
 
     {% block collection_rows %}
         {% spaceless %}
-            {{ form_label(form ) }}
+            {#{{ form_label(form ) }}  -- Affiche le label de la collection#}
             {{ form_errors(form) }}
             <table class="table table-condensed col-md-12">
                 <thead>
@@ -42,7 +42,7 @@
     {% if loop.first %}
 <tr>
     {% endif %}
-    <td style="text-align:center">
+    <td style="text-align:center" >
         {%  for c in child %}
             {{ form_widget(c) }}
         {%  endfor %}

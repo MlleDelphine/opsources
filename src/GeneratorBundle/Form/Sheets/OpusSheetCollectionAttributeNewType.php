@@ -56,7 +56,7 @@ class OpusSheetCollectionAttributeNewType extends AbstractType
                                     'by_reference' => false,
                                     'required' => false,
                                     'label' => $allConf['conf']['label'],
-                                    'attr' => array('data-tab' => $this->tab),
+                                    'attr' => array('data-tab' => $allConf['conf']['attr']['data-tab']),
                                 )
                             );
 
