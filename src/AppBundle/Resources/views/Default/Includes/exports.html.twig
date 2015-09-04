@@ -16,17 +16,17 @@
                     <tr>
                         <td>Objectifs fixés</td>
                         <td>Liste des objectifs fixés de vos collaborateur</td>
-                        <td><a href="{{ path('_excel_objectives') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                        <td><a href="{{ path('_excel_evaluator', { 'title':'Objectifs fixés', 'exportID' : 'new_objectif'}) }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
                     </tr>
                     <tr>
                         <td>Compétences à développer</td>
                         <td>Compétences à développer de vos collaborateurs</td>
-                        <td><a href="{{ path('_excel_skills_to_be_developed_by_collaborator') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                        <td><a href="{{ path('_excel_evaluator', { 'title':'Compétences à développer', 'exportID' : 'training_desired_actions'}) }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
                     </tr>
                     <tr>
                         <td>Plan formation</td>
                         <td>Plan formation souhaité de vos collaborateurs</td>
-                        <td><a href="{{ path('_excel_training_plan_by_collaborator') }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
+                        <td><a href="{{ path('_excel_evaluator', { 'title':'Plan formation', 'exportID' : 'formation_souhait'}) }}" class="pull-right"><i class="fa fa-file-excel-o fa-lg"></i></a></td>
                     </tr>
                     </tbody>
                 </table>

@@ -22,9 +22,10 @@
     {% endstylesheets %}
 {% endblock %}
 {% block mainmenu %}
-    {{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}
+    {#{{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}#}
 {% endblock %}
     {% block body %}
+        {{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}
     {% endblock %}
 {% block javascripts %}
     {{ parent() }}
