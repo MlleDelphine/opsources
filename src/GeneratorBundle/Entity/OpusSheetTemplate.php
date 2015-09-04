@@ -62,6 +62,22 @@ class OpusSheetTemplate
     private $status = '0';
 
     /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->campaigns = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Constructor.
+     */
+    public function __toString()
+    {
+        return (string)$this->getName();
+    }
+
+    /**
      * Get id.
      *
      * @return int
@@ -93,13 +109,6 @@ class OpusSheetTemplate
     public function getName()
     {
         return $this->name;
-    }
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        $this->campaigns = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

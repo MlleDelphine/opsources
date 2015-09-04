@@ -77,11 +77,11 @@ class DefaultController extends Controller
 
         $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->findOneById($id);
 
-        if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
+        if (!$opusSheet) {
+            throw $this->createNotFoundException('Unable to find OpusSheet entity.');
+        }
 
-            if (!$opusSheet) {
-                throw $this->createNotFoundException('Unable to find OpusSheet entity.');
-            }
+        if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
 
             $opusTemplate = $opusSheet->getOpusTemplate();
             $template = $opusTemplate->getConfFile();
@@ -223,10 +223,6 @@ class DefaultController extends Controller
         if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
             $actualStatus = $opusSheet->getStatus();
 
-            //Availables status
-//            $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
-//            $creationStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('creation');
-
             $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
 
 
@@ -238,15 +234,6 @@ class DefaultController extends Controller
 
                 $form->handleRequest($request);
                 if ($form->isValid()) {
-                    $em = $this->getDoctrine()->getManager();
-
-                    //Si c'était en génération ou en création
-//                    if ($actualStatus == $generatedStatus || $actualStatus == $creationStatus) {
-//                        //Si le manager enregistre --> creation
-//                        //Si le manager valide --> en attente de validation par l'évalué
-//                        $opusSheet->setStatus($creationStatus);
-//                    }
-
                     $em->persist($opusSheet);
                     $em->flush();
 

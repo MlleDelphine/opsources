@@ -27,9 +27,6 @@ class OpusCampaignAdmin extends Admin
             ->add('mailDate', 'date', array('label' => 'Mail date'))
             ->add('limitDate', 'date', array('label' => 'Date limite'))
             ->add('status', 'choice', array('label' => 'Statut', 'choices' => array(0 => 'Désactivée', 1 => 'Activée')))
-            ->add('type', 'entity', array('class' => 'GeneratorBundle:OpusSheetType',
-                'label' => "Type d'entretien",
-                'property' => 'name', ))
             ->add('opusTemplate', 'entity', array(
                 'class' => 'GeneratorBundle:OpusSheetTemplate',
                 'property' => 'name',
@@ -49,6 +46,8 @@ class OpusCampaignAdmin extends Admin
             ->add('limitDate', null, array('label' => 'Date limite'))
             ->add('status', null, array('label' => 'Statut'))
             ->add('type', null, array('label' => "Type d'entretien"))
+            ->add('opusTemplate', null, array('label' => "Modèle de fiche"))
+            ->add('opusTemplate.type', null, array('label' => "Type ?"))
 
         ;
     }
@@ -63,6 +62,9 @@ class OpusCampaignAdmin extends Admin
             ->add('limitDate', null, array('label' => 'Date limite'))
             ->add('status', null, array('label' => 'Statut'))
             ->add('type', null, array('label' => "Type d'entretien"))
+            ->add('opusTemplate', null, array('label' => "Modèle de fiche"))
+            ->add('opusTemplate.type', null, array('label' => "Type d'entretien"))
+
         ;
     }
 }

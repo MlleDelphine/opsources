@@ -414,21 +414,21 @@ fields:
               attr:
                   data-tab: 'tab_6'
           child:
-              - id: "new_objectif_objectif"
+              - id: "objectif"
                 type: "text"
                 conf:
                     label: "Objectifs fixés"
                     required: false
                     attr:
                         data-tab: "tab_6"
-              - id: "new_objectif_mesure"
+              - id: "mesure"
                 type: "text"
                 conf:
                     label: "Indicateurs de mesure"
                     required: false
                     attr:
                         data-tab: "tab_6"
-              - id: "new_objectif_echeance"
+              - id: "echeance"
                 type: "text"
                 conf:
                     label: "Echéances"

@@ -89,15 +89,15 @@ class PrePopulateEntity
                                 $lastAttributes = $this->em->getRepository("GeneratorBundle:OpusAttribute")->getAttributesByCollectionType($lastSheet, 'new_objectif');
                                 if($lastSheet){
                                     if($child['id'] == 'evaluation_achievement_objectives_rappel'){
-                                        $key = array_search('new_objectif_objectif', array_column($lastAttributes[$okey], 'label'));
+                                        $key = array_search('objectif', array_column($lastAttributes[$okey], 'label'));
                                         $opusAttribute->setValue($lastAttributes[$okey][$key]['value']);
 
                                     }elseif($child['id'] == 'evaluation_achievement_objectives_measurement_indicator'){
-                                        $key = array_search('new_objectif_mesure', array_column($lastAttributes[$okey], 'label'));
+                                        $key = array_search('mesure', array_column($lastAttributes[$okey], 'label'));
                                         $opusAttribute->setValue($lastAttributes[$okey][$key]['value']);
                                     }
                                     elseif($child['id'] == 'evaluation_achievement_objectives_maturities'){
-                                        $key = array_search('new_objectif_echeance', array_column($lastAttributes[$okey], 'label'));
+                                        $key = array_search('echeance', array_column($lastAttributes[$okey], 'label'));
                                         $opusAttribute->setValue($lastAttributes[$okey][$key]['value']);
                                     }
                                 }
