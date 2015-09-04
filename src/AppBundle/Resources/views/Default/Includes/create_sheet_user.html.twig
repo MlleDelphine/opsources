@@ -1,0 +1,50 @@
+{#{% for u in users if u.department == user.department and user.department is not null %}#}
+{% for u in users %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <tr>
+            <td>{{ u.firstName }} {{ u.lastName }}</td>
+            {% for type in types %}
+                {% set canCreate = 1 %}
+                {% for e in u.opusSheetsEvaluate %}
+                    {# Si une fiche de ce type existe entre ce manager, déterminé au 1er if, et cet évalué qui aurait un statut != de suppr / close / close_finish ou qui serait déjà orpheline on ne PEUT pas en recréer une #}
+                    {% if( e.opusTemplate.type == type and (e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty) or e.campaign is not defined ) %}
+                        {% set canCreate = 0 %}
+                    {% endif %}
+                {% endfor %}
+                <td>
+                    {% if canCreate == 1 %}
+                        <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ u.id }}">
+                    {% else %}
+                        <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ u.id }}"  disabled="disabled" >
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+
+    {% else %}
+
+        {% if u.manager.id is defined and u.manager.id == user.id %}
+            <tr>
+                <td>{{ u.firstName }} {{ u.lastName }}</td>
+                {% for type in types %}
+                    {% set canCreate = 1 %}
+                    {% for e in u.opusSheetsEvaluate %}
+                        {# Si une fiche de ce type existe entre ce manager, déterminé au 1er if, et cet évalué qui aurait un statut != de suppr / close / close_finish ou qui serait déjà orpheline on ne PEUT pas en recréer une #}
+                        {% if( e.opusTemplate.type == type and (e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty) or e.campaign is not defined ) %}
+                            {% set canCreate = 0 %}
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        {% if canCreate == 1 %}
+                            <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ u.id }}">
+                        {% else %}
+                            <input type="checkbox" name="" value="" sheetType="{{ type.strCode }}" user="{{ u.id }}"  disabled="disabled" >
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{# {% if is_granted('ROLE_ADMIN') == false %} #}

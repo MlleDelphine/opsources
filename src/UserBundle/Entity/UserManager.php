@@ -38,7 +38,6 @@ class UserManager implements UserManagerInterface
      */
     public function createUser(Plexcel $plexcel)
     {
-        dump('create');
         $plexcelAccount = $plexcel->getAccount();
         return $this->container->get('ldap_user_service')->updateByLogin($plexcelAccount['sAMAccountName']);
         // TODO: Implement createUser() method.
@@ -108,8 +107,6 @@ class UserManager implements UserManagerInterface
             'attrs' => array('tokenGroups'),
         );
 
-//        dump($objs[0]);
-//        die;
         $user->addGroup($this->bin_to_str_sid($objs[0]['objectSid']));
 
         $objs = \plexcel_search_objects($px, $params);

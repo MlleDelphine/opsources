@@ -34,6 +34,7 @@ sso:
 login:
     resource: "@UserBundle/Resources/config/routing.yml"
 
+
 #gallery:
 #    resource: '@SonataMediaBundle/Resources/config/routing/gallery.xml'
 #    prefix: /media/gallery
