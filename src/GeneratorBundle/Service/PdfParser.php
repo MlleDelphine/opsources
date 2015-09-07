@@ -284,7 +284,7 @@ class PdfParser
     {
         $str = '';
         $str .= '<h1 class="title" style="font-size:4em;">'.$this->yml['name'].'</h1>';
-        $str .= '<img src="'.$this->container->get('request')->getScheme().'://'.$this->container->get('request')->getHttpHost().$this->container->get('request')->getBasePath().'/img/logo.jpg">';
+        $str .= '<img src="'.$this->container->get('request')->getScheme().'://'.$this->container->get('request')->getHttpHost().$this->container->get('request')->getBasePath().'/bundles/arianespacetheme/images/logo.png">';
 
         return $str;
     }

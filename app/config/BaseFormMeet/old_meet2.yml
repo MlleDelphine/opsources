@@ -76,7 +76,7 @@ fields:
           type: "text"
           ref: "evaluator.firstname"
           conf:
-              label: "Nom de l'evaluateur :"
+              label: "Nom de l'évaluateur :"
               required: true
               attr:
                   data-tab: "tab_1"
@@ -84,7 +84,7 @@ fields:
           type: "text"
           ref: "evaluator.lastname"
           conf:
-              label: "Prénom de l'evaluateur :"
+              label: "Prénom de l'évaluateur :"
               required: true
               attr:
                   data-tab: "tab_1"
@@ -92,7 +92,7 @@ fields:
           type: "text"
           ref: "evaluator.fonction"
           conf:
-              label: "Fonction de l'evaluateur :"
+              label: "Fonction de l'évaluateur :"
               required: true
               attr:
                   data-tab: "tab_1"

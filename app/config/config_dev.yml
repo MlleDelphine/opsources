@@ -1,4 +1,4 @@
-imports:gdgdfg
+imports:
     - { resource: config.yml }
     - { resource: arianeplexcel_dev.yml }
 
@@ -56,43 +56,3 @@ hautelook_alice:
     locale: fr_FR
     seed: 1         # default
 
-#arianespace_plexcel:
-#    enable:               false #active plexcel (mettre en false pour le dev)
-#    autologin:            true
-#    local:                false
-#    create:               false
-#    application:
-#        name:                 ArianEspace - Opus
-#        version:              v2
-#        description:
-#    auto_add_domain:      ~
-#    autologin_redirect_route:  homepage
-#    check_plexcel_login:  true # true en dev et false en prod
-#    check_plexcel_login_route:  ask_plexcel_authorization
-#    check_plexcel_redirect_route:  homepage
-#    authorized_cn:        []
-#    user_manager:         ~
-#    file:                 "%kernel.root_dir%/../plexcel/plexcel.php"
-
-
-
-
-##Grand test plexcel
-#arianespace_plexcel:
-#    enable:               false #active plexcel (mettre en false pour le dev)
-#    autologin:            true
-#    local:                false
-#    create:               true #valeur booléenne autorisant (ou non) la création d’utilisateur dans la base de données s’il est présent dans l’annuaire mais pas dans la base.
-#    application:
-#        name:                 ArianEspace - Opus
-#        version:              v2
-#        description:
-#    auto_add_domain:      ad.arianespace.fr
-#    autologin_redirect_route:  homepage
-#    check_plexcel_login:  true # true en dev et false en prod
-#    check_plexcel_login_route:  ask_plexcel_authorization
-#    check_plexcel_redirect_route:  homepage
-#    authorized_cn:  { 'CN=opus users,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr': 'ROLE_USER' }
-#    user_manager:         user.plexcelservice #arianespace.user_manager
-#    file:                 "%kernel.root_dir%/../plexcel/plexcel.php" #"%kernel.root_dir%/../vendor/arianespace/plexcel-bundle/Arianespace/PlexcelBundle/Plexcel.php" #~
-##    file:                 "%kernel.root_dir%/../vendor/arianespace/plexcel-bundle/Arianespace/PlexcelBundle/Plexcel.php"

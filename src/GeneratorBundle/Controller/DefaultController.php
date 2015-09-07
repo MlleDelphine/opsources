@@ -249,20 +249,22 @@ class DefaultController extends Controller
 
     public function pdfAction($id)
     {
+        $em = $this->getDoctrine()->getManager();
+        $sheet = $em->getRepository("GeneratorBundle:OpusSheet")->find($id);
         $text = $this->get('app.pdfparser')->getSheetToHtml($id);
-        /*return $this->render('GeneratorBundle:PDF:view.html.twig', array(
-            'html' => $text
-        ));*/
+
+        $fileName = $sheet->getEvaluate()->getLastName().' '.$sheet->getEvaluate()->getFirstName().' - '.$sheet->getOpusTemplate()->getType()->getName().' - '.$sheet->getCreatedAt()->format('d-m-Y'). ' -- '.date('d-m-Y H:i:s');
         $html = $this->renderView('GeneratorBundle:PDF:view.html.twig', array(
             'html' => $text,
         ));
 
+
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('encoding' => 'utf-8', 'header-font-name' => 'Arial', 'orientation'=>'Landscape')),
             200,
             array(
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="file.pdf"',
+                'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
             )
         );
     }
