@@ -61,7 +61,7 @@ class LdapService {
             throw new Exception("Impossible de se connecter au serveur LDAP");
 
         $this->bind = ldap_bind($this->connexion,
-           $this->ldap_config['login'],
+            $this->ldap_config['login'],
             $this->ldap_config['password']);
         if (!$this->bind)
             throw new Exception("Echec du bind au serveur LDAP");
@@ -118,9 +118,12 @@ class LdapService {
      *
      * @param unknown_type $dn
      */
-    public function getMembers($dn)
+    public function getMembers($dn = null)
     {
 
+        if($dn == null){
+            $dn = $this->ldap_config['dn'];
+        }
         $this->ldap();
 
         $filter    = "(distinguishedName=". self::escapeSpecialChars($dn) . ")";
@@ -136,7 +139,6 @@ class LdapService {
             if ($this->isGroup($tmp))
             {
                 $tab_tmp = $this->getMembers($tmp);
-
                 $tab = array_merge($tab, $tab_tmp);
             }
             else
@@ -208,7 +210,7 @@ class LdapService {
 
         $this->close();
         //on regarde si tous les justthese y sont. on complete $tabretour avec des chaines vides ou des tableaux vides pour les champs multivalues
-  //      $tabmultivalue = explode("|", sfConfig::get('app_tabchamps_multivalue'));
+        //      $tabmultivalue = explode("|", sfConfig::get('app_tabchamps_multivalue'));
 //        for ($i = 0; isset($justthese[$i]); $i++)
 //        {
 //            if (!isset($tabretour[$justthese[$i]]))

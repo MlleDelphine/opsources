@@ -61,7 +61,15 @@ puis refaire :
 composer install
 ```
 
-## 5. Installation des assets (ressources JS/CSS des bundles)
+## 5. Gestion des droits pour rendre app.php accessible
+
+http://symfony.com/fr/doc/current/book/installation.html
+
+## 6. Génération des PDF et wkhtmltopdf
+
+https://jaimegris.wordpress.com/2015/03/04/how-to-install-wkhtmltopdf-in-centos-7-0/
+
+## 7. Installation des assets (ressources JS/CSS des bundles)
 
 Autorisation en terme de droits sur le dossier web et création d'un dossier pour stocker les medias.
 
@@ -78,17 +86,17 @@ puis
 php app/console assets:install
 ```
 
-## 6. Doctrine Migration : modification du schéma de BdD
+## 8. Doctrine Migration : modification du schéma de BdD
 
 ```sh
 php app/console doctrine:migrations:migrate
 ```
-## 7. Lancer les fixtures (création des types d'entretiens)
+## 9. Lancer les fixtures (création des types d'entretiens)
 
 ```sh
 php app/console doctrine:fixtures:load --append
 ```
-## 8. Ajout de l'ancien template sur SonataAdmin et mapping aves les fiches existantes
+## 10. Ajout de l'ancien template sur SonataAdmin et mapping aves les fiches existantes
 
 ### 1. Se connecter sur SonataAdmin
 
