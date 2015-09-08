@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use UserBundle\Entity\Repository\UserRepository;
 use Symfony\Component\Security\Core\Role\RoleHierarchy;
+use Zend\Stdlib\Response;
 
 /**
  * Class DefaultController.
@@ -357,7 +358,13 @@ class DefaultController extends Controller
                 $datas = $formRole->getData();
                 $userID = $datas['change_role'];
                 $user = $em->getRepository("UserBundle:User")->find($userID);
-                return $this->redirect( $this->generateUrl('homepage', array('_switch_user' => $user->getUsername())));
+                //Permet d'ajouter le role ROLE_USER (comprenant allowed to switch) pour switcher quand même
+                if(!$user->getRoles()) {
+                    $user->addRole('ROLE_USER');
+                    $em->persist($user);
+                    $em->flush();
+                }
+                return $this->redirect( $this->generateUrl('homepage', array('_switch_user' => $user->getLogin())));
 
             }
         }
@@ -441,5 +448,33 @@ class DefaultController extends Controller
         return json_encode(
             SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
         );
+    }
+
+    /**
+     * Permet d'attribuer le ROLE_USER à tous et d'enlever les duplicats des tests
+     * @Route("/uniqueroles", name="_unique_roles")
+     * @Template()
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     */
+    public function uniqueRolesAction(){
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository("UserBundle:User")->findAll();
+
+        foreach ($users as $user) {
+            $roles = $user->getRoles();
+            if($roles) {
+                $unik = array_unique($roles);
+                $user->setRoles($unik);
+            }
+            else{
+                $user->addRole('ROLE_USER');
+            }
+            $em->persist($user);
+        }
+        $em->flush();
+        return new \Symfony\Component\HttpFoundation\Response('Ok');
+
     }
 }

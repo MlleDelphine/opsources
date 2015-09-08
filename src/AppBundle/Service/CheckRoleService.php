@@ -8,6 +8,7 @@
 
 namespace AppBundle\Service;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
@@ -21,9 +22,10 @@ class CheckRoleService {
      *
      * @param RoleHierarchyInterface $roleHierarchy
      */
-    public function __construct(RoleHierarchyInterface $roleHierarchy)
+    public function __construct(RoleHierarchyInterface $roleHierarchy, EntityManager $entityManager)
     {
         $this->roleHierarchy = $roleHierarchy;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -37,10 +39,12 @@ class CheckRoleService {
 
         $role = new Role($role);
 
-        foreach($user->getRoles() as $userRole) {
-            if (in_array($role, $this->roleHierarchy->getReachableRoles(array(new Role($userRole)))))
-                return true;
-        }
+            foreach ($user->getRoles() as $userRole) {
+                if (in_array($role, $this->roleHierarchy->getReachableRoles(array(new Role($userRole))))) {
+                    return true;
+                }
+            }
+
 
         return false;
     }

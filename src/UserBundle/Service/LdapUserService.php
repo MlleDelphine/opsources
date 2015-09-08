@@ -76,7 +76,7 @@ class LdapUserService
     {
         $allUser = $this->allMembers;
         foreach($allUser as $singleUser)
-            if($singleUser["samaccountname"] === $login)
+            if(strtolower($singleUser["samaccountname"]) === strtolower($login))
                 return $singleUser;
         return null;
     }
