@@ -14,14 +14,14 @@ table thead {
   padding: 10px;
   font-size: 15px;
 }
-/* line 31, ../scss/arianestyle.scss */
-table tbody tr:nth-child(2n+1) th {
-  background-color: #F9F9F9;
-}
-/* line 34, ../scss/arianestyle.scss */
-table tbody tr:nth-child(2n+1) td {
-  background-color: #F9F9F9;
-}
+/*/!* line 31, ../scss/arianestyle.scss *!/*/
+/*table tbody tr:nth-child(2n+1) th {*/
+  /*background-color: #F9F9F9;*/
+/*}*/
+/*/!* line 34, ../scss/arianestyle.scss *!/*/
+/*table tbody tr:nth-child(2n+1) td {*/
+  /*background-color: #F9F9F9;*/
+/*}*/
 /* line 39, ../scss/arianestyle.scss */
 table tbody tr {
   border-top: 1px solid #DCDCDC;

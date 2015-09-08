@@ -219,14 +219,14 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for u in user.opusSheetsEvaluator %}
+                                                    {% for u in evaluates %}
                                                         <tr>
-                                                            <td>{{ u.evaluate.firstName }} {{ u.evaluate.lastName }}</td>
+                                                            <td>{{ u.firstName }} {{ u.lastName }}</td>
                                                             {% for type in types %}
                                                                 {% set color = 0 %}
                                                                 {% set status = '' %}
                                                                 {% set id = 0 %}
-                                                                {% for e in u.evaluate.opusSheetsEvaluate %}
+                                                                {% for e in u.opusSheetsEvaluate %}
                                                                     {% if e.opusTemplate.type == type %}
                                                                         {% set id = e.id %}
                                                                         {% if( e.status.intCode != -1 and e.status.intCode != 8 and e.status.intCode != 9 and e.status is not empty ) %}
@@ -245,8 +245,18 @@
                                                                         {% endif %}
                                                                     {% endif %}
                                                                 {% endfor %}
-
-                                                                <a href="{{ path("generator_editsheet",{"id": id}) }}"><td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center"><a  class="{{ color == 1 ? 'table-orange' : '' }}" href="{{ path("generator_editsheet",{"id": id}) }}">{{ status }}</a></td></a>
+                                                                <a href="{{ path("generator_editsheet",{"id": id}) }}">
+                                                                    <td class="{{ color == 1 ? 'table-orange' : '' }}" style="text-align: center">
+                                                                        <a  class="{{ color == 1 ? 'table-orange' : '' }}" href="{{ path("generator_editsheet",{"id": id}) }}">{{ status }}</a>
+                                                                        {% if color == 1 %}
+                                                                            <a href="{{ path('generator_editsheet', {'id':id}) }}">
+                                                                                <button class="btn btn-success btn-lg">
+                                                                                    <i class="ace-icon fa fa-wrench  bigger-110 icon-only"></i>
+                                                                                </button>
+                                                                            </a>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </a>
                                                             {% endfor %}
                                                             <td></td>
                                                         </tr>
@@ -381,7 +391,7 @@
                                                         'id':            'OpusSheetTable',
                                                         'bLengthChange': 1,
                                                         'bInfo':         1,
-                                                        'bFilter':       1
+                                                        'bFilter':       1,
                                                     }) }}
                                                 </div>
 
@@ -393,7 +403,7 @@
                                 </div>
                             {% endif %}
                             {% if is_granted('ROLE_RH') %}
-                                {% include 'AppBundle:Default/Includes:update_users_ad.html.twig' %}
+                                {% include 'AppBundle:Default/Includes:update_users_ad.html.twig' with { 'UpdateUserAdDataTable': UpdateUserAdDataTable } %}
                             {% endif %}
                         </div>
 
