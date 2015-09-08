@@ -1,4 +1,4 @@
-imports:gdgdfg
+imports:
     - { resource: config.yml }
     - { resource: arianeplexcel_dev.yml }
 

@@ -41,6 +41,14 @@ class DefaultController extends Controller
         $fiches = $em->getRepository('GeneratorBundle:OpusSheet')->findAll();
         $opusCampaigns = $em->getRepository('GeneratorBundle:OpusCampaign')->findBy(array(),array('id' => 'ASC'));
 
+        $opusSheetsEvaluator = $em->getRepository('GeneratorBundle:OpusSheet')->getEvaluateByEvaluator($user);
+
+        $evaluates = array();
+        foreach($opusSheetsEvaluator as $evaluateID){
+            $evaluate = $em->getRepository('UserBundle:User')->find($evaluateID);
+            array_push($evaluates, $evaluate);
+        }
+
         $opusCampaign = new OpusCampaign();
 
         $form = $this->get('form.factory')->create(new OpusCampaignType(), $opusCampaign);
@@ -72,6 +80,11 @@ class DefaultController extends Controller
 
         $dataTableClosedSheets = $this->get('data_tables.manager')->getTable('OpusSheetTable');
         if ($tableName == 'OpusSheetTable' && $response = $dataTableClosedSheets->ProcessRequest($request)) {
+            return $response;
+        }
+
+        $UpdateUserAdDataTable = $this->get('data_tables.manager')->getTable('UpdateUserAdDataTable');
+        if ($tableName == 'UpdateUserAdDataTable' && $response = $UpdateUserAdDataTable->ProcessRequest($request)) {
             return $response;
         }
         //Formulaire de filtre pour les fiches
@@ -138,7 +151,9 @@ class DefaultController extends Controller
             'formOpusCampaign' => $form->createView(),
             'dataTableManagementCampaign' => $dataTableManagementCampaign,
             'dataTableClosedSheets' => $dataTableClosedSheets,
-            'formSheet' => $formSheet
+            'UpdateUserAdDataTable' => $UpdateUserAdDataTable,
+            'formSheet' => $formSheet,
+            'evaluates' => $evaluates
         );
     }
 
@@ -164,9 +179,15 @@ class DefaultController extends Controller
             return $response;
         }
 
+        $UpdateUserAdDataTable = $this->get('data_tables.manager')->getTable('UpdateUserAdDataTable');
+        if ($tableName == 'UpdateUserAdDataTable' && $response = $UpdateUserAdDataTable->ProcessRequest($request)) {
+            return $response;
+        }
+
         return array(
             'dataTableManagementCampaign' => $dataTableManagementCampaign,
             'dataTableClosedSheets' => $dataTableClosedSheets,
+            'UpdateUserAdDataTable' => $UpdateUserAdDataTable
         );
     }
 
@@ -382,5 +403,43 @@ class DefaultController extends Controller
         array_push($return, $associatedSheets, $createdSheets);
 
         return $return;
+    }
+
+    /**
+     * @Route("/test_datatable", name="_test_datatable")
+     * @Template()
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     */
+    public function testAction(Request $request){
+        $table = 'opus_users';
+
+        $primaryKey = 'id';
+
+        $columns = array(
+            array( 'db' => 'first_name', 'dt' => 0 ),
+            array( 'db' => 'last_name',  'dt' => 1 ),
+        );
+
+        // SQL server connection information
+        $sql_details = array(
+            'user' => $this->container->getParameter('database_user'),
+            'pass' => $this->container->getParameter('database_password'),
+            'db'   => $this->container->getParameter('database_name'),
+            'host' => $this->container->getParameter('database_host')
+        );
+
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         * If you just want to use the basic configuration for DataTables with PHP
+         * server-side, there is no need to edit below this line.
+         */
+
+        require( 'ssp.class.php' );
+
+        return json_encode(
+            SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
+        );
     }
 }

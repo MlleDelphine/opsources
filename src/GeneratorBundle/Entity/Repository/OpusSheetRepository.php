@@ -253,4 +253,19 @@ class OpusSheetRepository extends EntityRepository
         return $results;
 
     }
+
+    public function getEvaluateByEvaluator($evaluator){
+        $qb = $this->createQueryBuilder('s');
+        $results = $qb
+            ->join('s.evaluate', 'evaluate')
+            ->join('s.evaluator', 'evaluator')
+            ->select('evaluate.id')
+            ->where('evaluator = :evaluatorID')
+            ->setParameter('evaluatorID', $evaluator->getId())
+            ->groupBy('evaluate.id')
+            ->getQuery()
+            ->getArrayResult();
+
+        return $results;
+    }
 }

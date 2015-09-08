@@ -8,6 +8,16 @@
                 <a class="btn btn-warning update-users" href="{{ path('user_update') }}">Mettre à jour tous les utilisateurs</a>
 
             </div>
+            {{ addDataTable(UpdateUserAdDataTable, {
+                'path':          path('datatables',{'tableName':'UpdateUserAdDataTable'}),
+                'id':            'UpdateUserAdDataTable',
+                'bLengthChange': 1,
+                'bInfo':         1,
+                'bFilter':       1,
+            }) }}
+            {#"bProcessing": true,#}
+            {#"bServerSide": true,#}
+            {#"sAjaxSource": path('_test')#}
             {#<!-- /.panel-body -->#}
         </div>
     </div>
@@ -29,8 +39,28 @@
                     });
                 }
             })
-        })
+        });
 
+        $('body').on("click", ".update-one-user", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('href'),
+                success: function (data) {
+                    $.gritter.add({
+                        title: 'Information',
+                        text: 'L\'utilisateurs a été vérifié.'
+                    });
+                },
+                error: function (data){
+                    $.gritter.add({
+                        title: 'Information',
+                        text: 'Erreur lors de la vérification de l\'utilisateur : <br>'+data
+                    });
+                }
+            })
+        });
 
     })
 </script>
