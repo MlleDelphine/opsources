@@ -26,6 +26,7 @@ fields:
                     attr:
                         data-tab: "tab_2"
                         readonly: true
+                        class: "textarea-resize no-horizontal"
               - id: "cond_workconditions_evaluation"
                 type: "choice"
                 conf:

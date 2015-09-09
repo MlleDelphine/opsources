@@ -2,7 +2,7 @@
 {% for u in users %}
     {% if is_granted('ROLE_ADMIN') %}
         <tr>
-            <td>{{ u.firstName }} {{ u.lastName }}</td>
+            <td>{{ u.lastName }} {{ u.firstName }} </td>
             {% for type in types %}
                 {% set canCreate = 1 %}
                 {% for e in u.opusSheetsEvaluate %}
@@ -25,7 +25,7 @@
 
         {% if u.manager.id is defined and u.manager.id == user.id %}
             <tr>
-                <td>{{ u.firstName }} {{ u.lastName }}</td>
+                <td>{{ u.lastName }} {{ u.firstName }}</td>
                 {% for type in types %}
                     {% set canCreate = 1 %}
                     {% for e in u.opusSheetsEvaluate %}
@@ -47,4 +47,3 @@
     {% endif %}
 {% endfor %}
 
-{# {% if is_granted('ROLE_ADMIN') == false %} #}

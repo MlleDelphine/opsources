@@ -64,6 +64,7 @@ class AccessControlSheet
     public function determineWriteRight(OpusSheet $opusSheet = null){
 
         if($opusSheet) {
+
             $userLogged = $this->securityTokenContext->getToken()->getUser();
             $userLogged = $this->em->getRepository('UserBundle:User')->find($userLogged->getId());
             $sheetStatus = $opusSheet->getStatus();
@@ -83,12 +84,12 @@ class AccessControlSheet
                 'valid_RH'
             );
 
-            //Si évaluateur connecté
+
             if( ( $opusSheet->getStatus() == $vRHStatus && $this->checkRole->isGranted('ROLE_RH', $userLogged)) || $this->checkRole->isGranted('ROLE_ADMIN', $userLogged)){
                 return "drh_decision";
             }
+            //Si évaluateur connecté
             if ($userLogged->getId() == $opusSheet->getEvaluator()->getId() ) {
-
                 if ($sheetStatus == $generatedStatus || $sheetStatus == $creationStatus || $sheetStatus == $vEvaluatorStatus ) {
                     //L'évaluateur peut modifier ses champs mais pas ceux du user
                     return 'evaluator_write';
@@ -109,7 +110,6 @@ class AccessControlSheet
             }
         }
         else{
-
             return 'none';
         }
 

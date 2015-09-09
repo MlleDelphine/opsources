@@ -139,7 +139,6 @@ class OpusSheetType extends AbstractType
                 }
                 //Donc évaluateur
                 else{
-
                     $form->add(
                         'job1',
                         'genemu_jqueryselect2_entity',

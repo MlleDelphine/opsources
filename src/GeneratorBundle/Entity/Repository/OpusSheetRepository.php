@@ -247,8 +247,8 @@ class OpusSheetRepository extends EntityRepository
             ->setParameters(array('userID' => $evaluate->getId(), 'typeID' => $type->getId()))
             ->orderBy('s.createdAt', 'DESC')
             ->getQuery()
-            ->setMaxResults(1)
-            ->getSingleResult();
+            //->setMaxResults(1)
+            ->getOneOrNullResult();
 
         return $results;
 

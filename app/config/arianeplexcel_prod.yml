@@ -1,6 +1,6 @@
 arianespace_plexcel:
     enable:               true
-    autologin:            false
+    autologin:            true
     local:                true
     create:               true
     application:

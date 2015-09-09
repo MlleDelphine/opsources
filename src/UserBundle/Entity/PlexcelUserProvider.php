@@ -34,7 +34,7 @@ class PlexcelUserProvider implements UserProviderInterface
         $account = $this->plexcel->getAccount($username);
         $exist = $this->entityManager->getRepository('UserBundle:User')->findOneBy(array('login' => $account['sAMAccountName']));
 
-//Au switch : certain user ont $account à false @todo : elle ne fonctionne pas :  AE27945
+//Au switch : certain user ont $account à false @todo : elle ne fonctionne pas :  AE27945 /  lui fonctionne :  ae40043
         if (!$account) {
             throw new UsernameNotFoundException();
         } elseif (!$exist) {

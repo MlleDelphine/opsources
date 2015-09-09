@@ -260,7 +260,7 @@ class DefaultController extends Controller
 
 
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('encoding' => 'utf-8', 'header-font-name' => 'Arial', 'orientation'=>'Landscape')),
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('encoding' => 'utf-8', 'orientation'=>'Landscape')),
             200,
             array(
                 'Content-Type' => 'application/pdf',

@@ -23,13 +23,17 @@ Sur le système doit être installé (à adapter selon la distribution):
 * Less
     * npm install -g less
 
-## 2. Déploiement
+## 2. Déploiement 
 
-Commande de déploiement en étant connecté sur la preprod :
+Commande de déploiement en étant connecté sur la preprod _(première installation)_ :
 
     git clone http://ae-e-scm01.ad.arianespace.fr/arianespace/opus2.git
+    
+Pour les mises à jour du code donc après la 1ère installation faire :
 
-## 3. Gestion des bibliothèques Javascript et CSS
+    git pull
+
+## 3. Gestion des bibliothèques Javascript et CSS _(première installation)_
 
 L'ensemble des bibliothèques externes (sauf exceptions futures) est géré à
 l'aide de bower.
@@ -61,13 +65,36 @@ puis refaire :
 composer install
 ```
 
-## 5. Gestion des droits pour rendre app.php accessible
+## 5. Gestion des droits pour rendre app.php accessible (prod)
+
+Définition des permissions par ACL
+
+```sh
+ rm -rf app/cache/*
+ rm -rf app/logs/*
+
+ HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
+ sudo chmod +a "$HTTPDUSER allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
+ sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
+```
+
+Pour plus d'informations ou en cas d'échec, consulter la rubrique "Définir les permissions" de la documentation officielle de Symfony :
 
 http://symfony.com/fr/doc/current/book/installation.html
 
-## 6. Génération des PDF et wkhtmltopdf
+## 6. Génération des PDF et wkhtmltopdf _(première installation)_
 
-https://jaimegris.wordpress.com/2015/03/04/how-to-install-wkhtmltopdf-in-centos-7-0/
+Installer wkhtmltopdf et des polices (en root) :
+
+```sh
+yum install -y xorg-x11-fonts-75dpi && yum install -y xorg-x11-fonts-Type1 && wget http://downloads.sourceforge.net/project/wkhtmltopdf/0.12.2.1/wkhtmltox-0.12.2.1_linux-centos7-amd64.rpm && rpm -Uvh wkhtmltox-0.12.2.1_linux-centos7-amd64.rpm
+```
+
+Installer xvbf :
+
+```sh
+yum install xorg-x11-server-Xvfb
+```
 
 ## 7. Installation des assets (ressources JS/CSS des bundles)
 
@@ -86,17 +113,17 @@ puis
 php app/console assets:install
 ```
 
-## 8. Doctrine Migration : modification du schéma de BdD
+## 8. Doctrine Migration : modification du schéma de BdD _(première installation)_
 
 ```sh
 php app/console doctrine:migrations:migrate
 ```
-## 9. Lancer les fixtures (création des types d'entretiens)
+## 9. Lancer les fixtures (création des types d'entretiens) _(première installation)_
 
 ```sh
 php app/console doctrine:fixtures:load --append
 ```
-## 10. Ajout de l'ancien template sur SonataAdmin et mapping aves les fiches existantes
+## 10. Ajout de l'ancien template sur SonataAdmin et mapping aves les fiches existantes  _(première installation)_
 
 ### 1. Se connecter sur SonataAdmin
 

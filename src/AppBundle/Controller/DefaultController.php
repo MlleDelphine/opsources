@@ -36,7 +36,7 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $user = $em->getRepository('UserBundle:User')->find($user->getId());
 
-        $users = $em->getRepository('UserBundle:User')->findAll();
+        $users = $em->getRepository('UserBundle:User')->findBy(array(), array('lastName' => 'ASC'));
         $types = $em->getRepository('GeneratorBundle:OpusSheetType')->findAll();
         $templates = $em->getRepository('GeneratorBundle:OpusSheetTemplate')->findAll();
         $fiches = $em->getRepository('GeneratorBundle:OpusSheet')->findAll();
@@ -61,7 +61,7 @@ class DefaultController extends Controller
             $flash = "Campagne créée avec succès";
 
             if($opusCampaign->getStatus() == 1){
-                $associateSheetToCampaign = $this->associateSheetToCampaign($opusCampaign, $user);
+                $associateSheetToCampaign = $this->associateSheetToCampaign($opusCampaign);
                 $associatedSheets = $associateSheetToCampaign[0];
                 $createdSheets = $associateSheetToCampaign[1];
                 $flash = "Campagne créée avec succès<br/> Fiches associées : ".$associatedSheets."<br/> Fiches créées et associées : ".$createdSheets;
@@ -373,7 +373,14 @@ class DefaultController extends Controller
 
     }
 
-
+    /**
+     * Lors de la création d'une camapgne :
+     * 1 - Attribue les fiches orphelines de même type
+     * 2 - Crée les fiches si aucune orpheline existante
+     *
+     * @param OpusCampaign $opusCampaign
+     * @return array
+     */
     protected function associateSheetToCampaign(OpusCampaign $opusCampaign){
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('UserBundle:User')->findUsersWithManager();
@@ -383,24 +390,18 @@ class DefaultController extends Controller
         $createdSheets = 0;
 
         foreach($users AS $user){
+            //Pour chaque utilisateur avec une manager on recherche avant tout les fiches orphelines du même type que la campagne
             $opusSheets = $em->getRepository('GeneratorBundle:OpusSheet')->findSheetsWithoutCampaign($user, $opusCampaign);
 
             if(!empty($opusSheets)){
+                //Si on a des fiches orphelines de même type on set la campagne
                 foreach($opusSheets AS $opusSheet){
                     $opusSheet->setCampaign($opusCampaign);
                     $em->persist($opusSheet);
                     $associatedSheets++;
                 }
             }else{
-                $newOpusSheet = new OpusSheet();
-                $opusSheetStatus = $em->getRepository('GeneratorBundle:OpusSheetStatus')->findOneByStrCode('generee');
-                $newOpusSheet
-                    ->setStatus($opusSheetStatus)
-                    ->setEvaluate($user)
-                    ->setEvaluator($user->getManager())
-                    ->setCampaign($opusCampaign)
-                    ->setOpusTemplate($opusCampaign->getOpusTemplate());
-                $em->persist($newOpusSheet);
+                $return = $this->createSheetForCampaign($opusCampaign, $user->getId());
                 $createdSheets++;
             }
         }
@@ -410,6 +411,39 @@ class DefaultController extends Controller
         array_push($return, $associatedSheets, $createdSheets);
 
         return $return;
+    }
+
+    /**
+     * Crée les fiches lors de la création de la campagne
+     *
+     * @param $idUser
+     * @param $strCodeType
+     */
+    protected function createSheetForCampaign($opusCampaign, $idUser){
+        $em = $this->getDoctrine()->getManager();
+
+        $opusSheet = new OpusSheet();
+
+        $userEvaluate = $em->getRepository('UserBundle:User')->findOneById($idUser);
+        $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+
+        $opusSheet->setEvaluate($userEvaluate);
+        $opusSheet->setEvaluator($userEvaluate->getManager());
+
+        $opusSheet->setStatus($generatedStatus);
+
+        $opusSheet->setCampaign($opusCampaign);
+        $opusSheet->setOpusTemplate($opusCampaign->getOpusTemplate());
+
+        $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
+
+        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+
+        //On persist dans populateOpusSheet
+        $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+
+        return true;
+
     }
 
     /**
