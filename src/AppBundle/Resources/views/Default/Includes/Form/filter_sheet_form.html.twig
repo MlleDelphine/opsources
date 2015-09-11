@@ -47,16 +47,38 @@
 
     jQuery(document).ready(function() {
 
+        //Quand une requête ajax est envoyée on affichage un loader : liste des campagne
         $(document).ajaxSend(function(){
             console.log('SEND');
-            $(".loader").show();
+            $(".campaign-listing").show();
+            $(".campaign-loading").show();
         });
 
         // when an ajax request complets, hide spinner
         $(document).ajaxStop(function(){
-            $(".loader").hide();
+            $(".campaign-listing").hide();
+            $(".campaign-loading").hide();
+        });
+//
+//        //Quand on submit pour la création de campagne on affiche le loader
+        $(document).on("submit", ".generate-campaign", function(ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            console.log('SEND FORM');
+            $(".campaign-loading").show();
+            console.log('Show');
+            var datas = $(this).serializeArray();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: datas,
+                success: function (data) {
+
+                }
+            })
         });
 
+        //Gestion filtres des fiches pour le datatable
         $("#all-sheets").on("submit", ".form-filter", function(ev) {
             ev.preventDefault();
             ev.stopPropagation();

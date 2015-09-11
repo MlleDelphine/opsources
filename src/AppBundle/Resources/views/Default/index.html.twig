@@ -57,9 +57,9 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="me">
-                                <div class="row col-lg-12">
+                                <div class="row">
                                     {% for type in types %}
-                                        <div class="col-lg-{{ 12/types|length }} col-md-{{ 12/types|length }} col-xs-12">
+                                        <div class="col-md-12 col-xs-12">
                                             <div class="panel panel-done">
                                                 <div class="panel-heading">
                                                     <div class="row">
@@ -118,7 +118,7 @@
                             <div class="tab-pane fade in " id="sheet-history">
                                 <div class="row col-lg-12">
                                     {% for type in types %}
-                                        <div class="col-lg-{{ 12/types|length }} col-md-{{ 12/types|length }} col-xs-12">
+                                        <div class="col-md-12 col-xs-12">
                                             <div class="panel panel-done">
                                                 <div class="panel-heading">
                                                     <div class="row">
@@ -385,7 +385,7 @@
                                     <div class="col-lg-12">
                                         <h2>Fiches</h2>
                                         <div class="panel panel-default">
-                                            <div class="loader">Loading...</div>
+                                            <div class="loader campaign-listing">Chargement...</div>
                                             <!-- /.panel-heading -->
                                             <div class="panel-body" id="all-sheets">
                                                 {% include 'AppBundle:Default/Includes/Form:filter_sheet_form.html.twig' with {'form': formSheet } %}

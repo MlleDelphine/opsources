@@ -114,7 +114,7 @@ class LdapService {
     }
 
     /**
-     * retourne un tableau indexé des membres
+     * Retourne un tableau indexé des membres
      *
      * @param unknown_type $dn
      */
@@ -172,7 +172,7 @@ class LdapService {
      */
 
     /**
-     * recupere les informations d un utilisateur en fonction de son DN et retourne un tableau associatif cle->valeur
+     * Recupere les informations d un utilisateur en fonction de son DN et retourne un tableau associatif cle->valeur
      *
      * @param unknown_type $dn
      * @param unknown_type $justthese

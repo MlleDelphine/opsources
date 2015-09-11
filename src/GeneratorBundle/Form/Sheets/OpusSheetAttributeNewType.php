@@ -36,9 +36,8 @@ class OpusSheetAttributeNewType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (\Symfony\Component\Form\FormEvent $event) use ($formFactory) {
+            function (\Symfony\Component\Form\FormEvent $event) use ($formFactory, $builder) {
                 if (null != $event->getData()) {
-                    $valAttributeEntity = $event->getData();
                     $form = $event->getForm();
                     $data = $event->getData();
                     $options = array();
@@ -88,6 +87,7 @@ class OpusSheetAttributeNewType extends AbstractType
                     }
                 }
             });
+
     }
 
     /**

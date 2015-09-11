@@ -45,6 +45,14 @@ class OpusSheetRepository extends EntityRepository
         return $result;
     }
 
+    /**
+     * Récupération de toutes les fiches n'ayant pas de campagne associée mais ayant été créées entre la date limite d'une campagne et la date de créationde la campagne
+     *
+     * @param $user
+     * @param $opusCampaign
+     * @return array
+     */
+
     public function findSheetsWithoutCampaign($user, $opusCampaign){
         $qb = $this->createQueryBuilder('opusSheet');
         $result = $qb

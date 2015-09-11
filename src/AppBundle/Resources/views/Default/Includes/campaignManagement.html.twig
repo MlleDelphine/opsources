@@ -1,5 +1,6 @@
 <div class="tab-pane fade" id="campagne">
     <div class="col-lg-12">
+        <div class="loader campaign-loading">Loading...</div>
         <h2>Création ou édition d'une campagne</h2>
         <div class="panel panel-default">
             <!-- /.panel-heading -->
@@ -15,7 +16,7 @@
                         </div>
                         <div id="collapseAddCampaign" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddCampaign">
                             <div class="panel-body">
-                                {{ form_start(formOpusCampaign) }}
+                                {{ form_start(formOpusCampaign, {'attr' : {'class': 'generate-campaign'}}) }}
                                 <div class="col-md-6">{{ form_row(formOpusCampaign.year) }}</div>
                                 <div class="col-md-6">{{ form_row(formOpusCampaign.mailDate) }}</div>
                                 <div class="col-md-6">{{ form_row(formOpusCampaign.untilSheetDate) }}</div>

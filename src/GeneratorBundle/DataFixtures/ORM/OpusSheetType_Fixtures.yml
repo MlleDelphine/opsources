@@ -1,7 +1,7 @@
 GeneratorBundle\Entity\OpusSheetType:
     type:
-        name: "Entretien d'évaluation"
-        strCode: "evaluation"
+        name: "Entretien d'appréciation"
+        strCode: "appreciation"
     type1:
         name: "Entretien professionnel"
         strCode: "professional"

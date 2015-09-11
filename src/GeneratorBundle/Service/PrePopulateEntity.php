@@ -52,10 +52,14 @@ class PrePopulateEntity
 
     public function populateOpusSheet(OpusSheet $sheet, $attributes, $update = false)
     {
+
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         //Pour objectifs
         $okey = 1;
+        $lastSheet = null;
+        $lastAttributes = null;
         if($update == false) {
-            foreach ($attributes['attr'] as $allConf) {
+            foreach (array_reverse($attributes['attr']) as $allConf) {
                 $attr = new OpusAttribute();
                 $attr->setLabel($allConf['id']);
                 $sheet->addAttribute($attr);
@@ -114,6 +118,16 @@ class PrePopulateEntity
 
             $this->em->persist($sheet);
             $this->em->flush();
+            $this->em->clear($sheet);
+            if($lastSheet){
+                $this->em->clear($lastSheet);
+            }
+            if($lastAttributes) {
+                $this->em->clear($lastAttributes);
+            }
+          //  gc_collect_cycles();
+
+            return true;
         }
 
 

@@ -19,35 +19,32 @@ class OpusCampaignType extends AbstractType
             ->add('mailDate', 'datetime', array('label' => 'Mail date *', 'required' => true,
                     'widget' => 'single_text',
                     'input' => 'datetime',
-                    'format' => 'MM/dd/yyyy',
+                    'format' => 'dd/MM/yyyy',
                     'attr'=>array(
                         'class' => 'datepicker'
                     )))
-            ->add('untilSheetDate', 'datetime',array('label' => 'Date fiche *', 'required' => true,
+            ->add('untilSheetDate', 'datetime',array('label' => 'Date de départ des fiches à rattacher *', 'required' => true,
                 'widget' => 'single_text',
                 'input' => 'datetime',
-                'format' => 'MM/dd/yyyy',
+                'format' => 'dd/MM/yyyy',
                 'attr'=>array(
                     'class' => 'datepicker'
                 )))
-            ->add('limitDate', 'datetime', array('label' => 'Date limite *', 'required' => true,
+            ->add('limitDate', 'datetime', array('label' => 'Date limite de validation', 'required' => true,
                 'widget' => 'single_text',
                 'input' => 'datetime',
-                'format' => 'MM/dd/yyyy',
+                'format' => 'dd/MM/yyyy',
                 'attr'=>array(
                     'class' => 'datepicker'
                 )))
             ->add('status', 'choice', array(
                 'label' => 'Statut *',
                 'choices' => array(
-                    0 => 'Désactivée',
-                    1 => 'Activée',
+                    0 => 'Désactivé',
+                    1 => 'Activé',
                 ),
                 'multiple' => false,
                 'required' => true ))
-//            ->add('type', 'entity', array('class' => 'GeneratorBundle:OpusSheetType',
-//                'label' => "Type d'entretien *",
-//                'property' => 'name', ))
             ->add('opusTemplate', 'entity', array(
                 'class' => 'GeneratorBundle:OpusSheetTemplate',
                 'property' => 'name',

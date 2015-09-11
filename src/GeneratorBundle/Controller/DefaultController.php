@@ -217,31 +217,35 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('homepage'));
     }
 
+    /**
+     * @param Request $request
+     * @param OpusSheet $opusSheet
+     * @param $tab
+     * @return Response
+     */
     public function updateTabAction(Request $request,OpusSheet $opusSheet, $tab){
         $em = $this->getDoctrine()->getManager();
         $response = new Response();
-        if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
-            $actualStatus = $opusSheet->getStatus();
+        $access = $this->get('app.accesscontrol_sheet')->canAccess($opusSheet);
 
+        if($access) {
             $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
-
-
             $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields', $tab);
-
             $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes, true);
 
             if ($request->isMethod('POST')) {
 
                 $form->handleRequest($request);
                 if ($form->isValid()) {
+
                     $em->persist($opusSheet);
                     $em->flush();
 
                     return $response->setStatusCode(200);
                 }
             }
-        }
 
+        }
         return $response->setStatusCode(500);
 
 

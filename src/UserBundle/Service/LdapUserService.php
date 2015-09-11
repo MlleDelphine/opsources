@@ -72,7 +72,7 @@ class LdapUserService
 
     }
 
-    private function getLdapByLogin($login)
+    public function getLdapByLogin($login)
     {
         $allUser = $this->allMembers;
         foreach($allUser as $singleUser)

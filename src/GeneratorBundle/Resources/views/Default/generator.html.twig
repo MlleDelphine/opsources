@@ -45,12 +45,21 @@
                                         {% endif %}
                                     {% endfor %}
 
-                                    {# Gestion champs dynamiques (attributes)#}
+                                    {# Gestion champs dynamiques (opusSheet.attributes)#}
                                     {% for child in form.children.attributes %}
                                         {% for c in child %} {# collectionAttributes, fieldType, name#}
                                             {% if attribute(c.vars.attr, 'data-tab') is defined and attribute(c.vars.attr, 'data-tab') == tab.id %}
+                                                {% if attribute(c.vars.attr, 'data-title-block') is defined %}
+                                                    <div class="col-md-12 block-title-form" ><strong>{{ attribute(c.vars.attr, 'data-title-block') }}</strong></div>
+                                                {% endif %}
+                                                {% if attribute(c.vars.attr, 'data-place') is defined %}
+                                                    <div class="{{ attribute(c.vars.attr, 'data-place') }}">
+                                                {% endif %}
                                                 {{ form_label(c) }}
                                                 {{ form_widget(c) }}
+                                                {% if attribute(c.vars.attr, 'data-place') is defined %}
+                                                    </div>
+                                                {% endif %}
                                             {% endif %}
 
                                             {# Si un attribute est un collectionAttribute #}

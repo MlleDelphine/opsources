@@ -52,27 +52,10 @@ class DefaultController extends Controller
 
         $opusCampaign = new OpusCampaign();
 
-        $form = $this->get('form.factory')->create(new OpusCampaignType(), $opusCampaign);
-
-        if($form->handleRequest($request)->isValid()){
-            $em->persist($opusCampaign);
-            $em->flush();
-
-            $flash = "Campagne créée avec succès";
-
-            if($opusCampaign->getStatus() == 1){
-                $associateSheetToCampaign = $this->associateSheetToCampaign($opusCampaign);
-                $associatedSheets = $associateSheetToCampaign[0];
-                $createdSheets = $associateSheetToCampaign[1];
-                $flash = "Campagne créée avec succès<br/> Fiches associées : ".$associatedSheets."<br/> Fiches créées et associées : ".$createdSheets;
-            }
-
-            $this->get('session')->getFlashBag()->add(
-                'info',
-                'INFO : '.$flash);
-
-            return $this->redirect($this->generateUrl('homepage'));
-        }
+        $form = $this->get('form.factory')->create(new OpusCampaignType(), $opusCampaign,   array(
+            'action' => $this->generateUrl('create_campaign'),
+            'method' => 'POST',
+        ));
 
         $dataTableManagementCampaign = $this->get('data_tables.manager')->getTable('OpusCampaignTable');
         if ($tableName == 'OpusCampaignTable' && $response = $dataTableManagementCampaign->ProcessRequest($request)) {
@@ -374,6 +357,44 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/create/campaign", name="create_campaign", options={"expose"=true}, condition="request.isXmlHttpRequest()")
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return array
+     */
+    public function createCampaignAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+
+        $opusCampaign = new OpusCampaign();
+
+        $form = $this->get('form.factory')->create(new OpusCampaignType(), $opusCampaign,   array(
+            'action' => $this->generateUrl('create_campaign'),
+            'method' => 'POST',
+        ));
+
+        if($form->handleRequest($request)->isValid()){
+            $em->persist($opusCampaign);
+            $em->flush();
+
+            $flash = "Campagne créée avec succès";
+
+            if($opusCampaign->getStatus() == 1){
+                $associateSheetToCampaign = $this->associateSheetToCampaign($opusCampaign);
+                $associatedSheets = $associateSheetToCampaign[0];
+                $createdSheets = $associateSheetToCampaign[1];
+                $flash = "Campagne créée avec succès<br/> Fiches associées : ".$associatedSheets."<br/> Fiches créées et associées : ".$createdSheets;
+            }
+
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                'INFO : '.$flash);
+
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+    }
+    /**
      * Lors de la création d'une camapgne :
      * 1 - Attribue les fiches orphelines de même type
      * 2 - Crée les fiches si aucune orpheline existante
@@ -383,30 +404,57 @@ class DefaultController extends Controller
      */
     protected function associateSheetToCampaign(OpusCampaign $opusCampaign){
         $em = $this->getDoctrine()->getManager();
+        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+
         $users = $em->getRepository('UserBundle:User')->findUsersWithManager();
 
         $return = array();
         $associatedSheets = 0;
         $createdSheets = 0;
 
-        foreach($users AS $user){
-            //Pour chaque utilisateur avec une manager on recherche avant tout les fiches orphelines du même type que la campagne
-            $opusSheets = $em->getRepository('GeneratorBundle:OpusSheet')->findSheetsWithoutCampaign($user, $opusCampaign);
+        /*
+         * Pour créer les fiche à la volée
+         *  - Statut générée pour toutes
+         *  - Même attributs pour le yml (template)
+         *
+         */
+        $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+        $templateFile = $opusCampaign->getOpusTemplate()->getConfFile();
+        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
 
-            if(!empty($opusSheets)){
-                //Si on a des fiches orphelines de même type on set la campagne
-                foreach($opusSheets AS $opusSheet){
-                    $opusSheet->setCampaign($opusCampaign);
-                    $em->persist($opusSheet);
-                    $associatedSheets++;
+
+        foreach($users AS $user){
+            //On teste si l'user est encore dans l'AD, si non on ne crée rien pour lui
+
+            $isInAd = $this->get('ldap_user_service')->getLdapByLogin($user->getUsername());
+            if($isInAd) {
+                //Pour chaque utilisateur avec une manager on recherche avant tout les fiches orphelines du même type que la campagne
+                $opusSheets = $em->getRepository('GeneratorBundle:OpusSheet')->findSheetsWithoutCampaign(
+                    $user,
+                    $opusCampaign
+                );
+
+                if (!empty($opusSheets)) {
+                    //Si on a des fiches orphelines de même type on set la campagne
+                    foreach ($opusSheets AS $opusSheet) {
+                        $opusSheet->setCampaign($opusCampaign);
+                        $em->persist($opusSheet);
+                        $associatedSheets++;
+                    }
+                } else {
+                    $return = $this->createSheetForCampaign($generatedStatus, $allAttributes, $opusCampaign, $user);
+                    $createdSheets++;
                 }
+
+                $em->clear($opusSheets);
+                $em->clear($user);
+                gc_collect_cycles();
             }else{
-                $return = $this->createSheetForCampaign($opusCampaign, $user->getId());
-                $createdSheets++;
+                unset($user);
             }
         }
 
-        $em->flush();
+        // Besoin ?  $em->flush();
 
         array_push($return, $associatedSheets, $createdSheets);
 
@@ -419,69 +467,24 @@ class DefaultController extends Controller
      * @param $idUser
      * @param $strCodeType
      */
-    protected function createSheetForCampaign($opusCampaign, $idUser){
-        $em = $this->getDoctrine()->getManager();
+    protected function createSheetForCampaign($generatedStatus, $allAttributes, $opusCampaign, $userEvaluate){
 
         $opusSheet = new OpusSheet();
 
-        $userEvaluate = $em->getRepository('UserBundle:User')->findOneById($idUser);
-        $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
-
         $opusSheet->setEvaluate($userEvaluate);
         $opusSheet->setEvaluator($userEvaluate->getManager());
-
         $opusSheet->setStatus($generatedStatus);
 
         $opusSheet->setCampaign($opusCampaign);
         $opusSheet->setOpusTemplate($opusCampaign->getOpusTemplate());
 
-        $templateFile = $opusSheet->getOpusTemplate()->getConfFile();
-
-        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
-
         //On persist dans populateOpusSheet
-        $form = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+        $actionCreate = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+
+        unset($opusSheet);
 
         return true;
 
-    }
-
-    /**
-     * @Route("/test_datatable", name="_test_datatable")
-     * @Template()
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     */
-    public function testAction(Request $request){
-        $table = 'opus_users';
-
-        $primaryKey = 'id';
-
-        $columns = array(
-            array( 'db' => 'first_name', 'dt' => 0 ),
-            array( 'db' => 'last_name',  'dt' => 1 ),
-        );
-
-        // SQL server connection information
-        $sql_details = array(
-            'user' => $this->container->getParameter('database_user'),
-            'pass' => $this->container->getParameter('database_password'),
-            'db'   => $this->container->getParameter('database_name'),
-            'host' => $this->container->getParameter('database_host')
-        );
-
-
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         * If you just want to use the basic configuration for DataTables with PHP
-         * server-side, there is no need to edit below this line.
-         */
-
-        require( 'ssp.class.php' );
-
-        return json_encode(
-            SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
-        );
     }
 
     /**
