@@ -519,14 +519,21 @@ class OpusSheet
         return $this->opusTemplate;
     }
 
+    /**
+     * Détermine la durée restante pour évaluer
+     *
+     * @return null
+     */
     public function getEcheance()
     {
-        if($this->getCampaign() === null)
+        if($this->getCampaign() === null || $this->getCampaign()->getLimitDate() === null ){
             return null;
-        $now = new \DateTime();
-        if($this->getCampaign()->getLimitDate() < $now)
-            return -$this->getCampaign()->getLimitDate()->diff($now)->days;
-        return $this->getCampaign()->getLimitDate()->diff($now)->days;
+        }else {
+            $now = new \DateTime();
+            return $this->getCampaign()->getLimitDate()->diff($now)->days;
+        }
+
+        return null;
 
     }
 }

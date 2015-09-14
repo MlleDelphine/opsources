@@ -269,7 +269,7 @@ fields:
                     type: "choice"
                     conf:
                         label: " "
-                        choices: { 0: "A améliorer", 1: "A maintenir" }
+                        choices: { "A ameliorer": "A améliorer", "A maintenir": "A maintenir" }
                         expanded: true
                         multiple: false
                         required: true

@@ -268,7 +268,7 @@ class DefaultController extends Controller
             200,
             array(
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
+                'Content-Disposition' => 'attachment; filename="'.$fileName.'.pdf"',
             )
         );
     }
