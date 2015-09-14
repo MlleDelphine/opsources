@@ -22,6 +22,11 @@ Sur le système doit être installé (à adapter selon la distribution):
 * PHP Ldap
 * Less
     * npm install -g less
+    
+    
+Ne pas oublier d'augmenter dans le php.ini :
+
+max_execution_time et set_time_limit
 
 ## 2. Déploiement 
 
