@@ -90,7 +90,7 @@ class PrePopulateEntity
                             //Pour les objectifs, s'il y a une ancienne fiche et l'attribut evaluation_achievement_objectives_rappel dans celle qu'on souhaite créer (rappel obj)
                             if($collection['id'] == 'evaluation_achievement_objectives'){
                                 $lastSheet = $this->em->getRepository("GeneratorBundle:OpusSheet")->getLastSheetForEvaluateForObjectives($sheet->getEvaluate(), $sheet->getOpusTemplate()->getType());
-                                if($lastSheet){
+                                if($lastSheet && $lastSheet->getId() != $sheet->getId()){
                                     $lastAttributes = $this->em->getRepository("GeneratorBundle:OpusAttribute")->getAttributesByCollectionType($lastSheet, 'new_objectif');
                                     if($child['id'] == 'evaluation_achievement_objectives_rappel'){
                                         $key = array_search('objectif', array_column($lastAttributes[$okey], 'label'));

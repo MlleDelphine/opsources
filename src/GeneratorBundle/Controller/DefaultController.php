@@ -83,6 +83,8 @@ class DefaultController extends Controller
 
         if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
 
+            $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
+
             $opusTemplate = $opusSheet->getOpusTemplate();
             $template = $opusTemplate->getConfFile();
 
@@ -90,8 +92,28 @@ class DefaultController extends Controller
 
             $uiTab = $this->get('app.customfields_parser')->parseYamlConf($template, 'tabs_ui');
             $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($template, 'fields');
+            $new = true;
 
-            $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm($opusSheet, $allAttributes, true);
+            foreach ($opusSheet->getAttributes() as $attr) {
+                $new = false;
+                break;
+            }
+
+            //Si la fiche a été créée et sans colle/attr donc 1ère ouverture on crée les colle et attr
+            if($opusSheet->getStatus() == $generatedStatus && $new ){
+
+                $templateFile = $opusSheet->getCampaign()->getOpusTemplate()->getConfFile();
+                $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+                $actionCreate = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+            }
+
+            //On renvoie le formulaire
+            $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm(
+                $opusSheet,
+                $allAttributes,
+                true
+            );
+
             return $this->render(
                 'GeneratorBundle:Default:generator.html.twig',
                 array(

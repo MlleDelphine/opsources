@@ -420,7 +420,7 @@ class DefaultController extends Controller
          */
         $generatedStatus = $em->getRepository("GeneratorBundle:OpusSheetStatus")->findOneByStrCode('generee');
         $templateFile = $opusCampaign->getOpusTemplate()->getConfFile();
-        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
+//        $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
 
 
         foreach($users AS $user){
@@ -442,7 +442,22 @@ class DefaultController extends Controller
                         $associatedSheets++;
                     }
                 } else {
-                    $return = $this->createSheetForCampaign($generatedStatus, $allAttributes, $opusCampaign, $user);
+                    //On crée une fiche qui n'associe que la campagne, évaluateur, évalué, et le template.
+                    //La création des col et attr se fera à la 1ère ouverture
+
+                    $opusSheet = new OpusSheet();
+
+                    $opusSheet->setEvaluate($user);
+                    $opusSheet->setEvaluator($user->getManager());
+                    $opusSheet->setStatus($generatedStatus);
+
+                    $opusSheet->setCampaign($opusCampaign);
+                    $opusSheet->setOpusTemplate($opusCampaign->getOpusTemplate());
+                    $em->persist($opusSheet);
+                    $em->flush();
+                    $em->clear($opusSheet);
+
+                  //Avant quand en une seule fois :  $return = $this->createSheetForCampaign($generatedStatus, $allAttributes, $opusCampaign, $user);
                     $createdSheets++;
                 }
 
@@ -462,7 +477,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Crée les fiches lors de la création de la campagne
+     * Crée les fiches lors de la création de la campagne @todo : standby
      *
      * @param $idUser
      * @param $strCodeType
