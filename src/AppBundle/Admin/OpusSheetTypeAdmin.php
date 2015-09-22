@@ -46,6 +46,12 @@ class OpusSheetTypeAdmin extends Admin
             ->add('id')
             ->addIdentifier('name', null, array('label' => 'Intitulé'))
             ->add('strCode', null, array('label' => 'Code texte'))
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                )
+            ));
 
         ;
     }

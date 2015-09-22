@@ -13,6 +13,12 @@ sonata_media:
     default_context: default
     db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr
     contexts:
+        opustemplate:  # the default context is mandatory
+            providers:
+                - sonata.media.provider.file
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
         default:  # the default context is mandatory
             providers:
                 - sonata.media.provider.dailymotion
@@ -23,6 +29,7 @@ sonata_media:
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
+
 
     cdn:
         server:

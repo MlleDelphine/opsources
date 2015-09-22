@@ -43,6 +43,7 @@ class AppKernel extends Kernel
             //Sonata Media
             new Sonata\MediaBundle\SonataMediaBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Sonata\IntlBundle\SonataIntlBundle(),
 
             //Excel
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),

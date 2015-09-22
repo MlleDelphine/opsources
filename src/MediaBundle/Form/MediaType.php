@@ -2,12 +2,13 @@
 
 namespace MediaBundle\Form;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Description of MediaType.
  */
-class MediaType extends \Sonata\MediaBundle\Form\Type\MediaType
+class MediaType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,6 +18,7 @@ class MediaType extends \Sonata\MediaBundle\Form\Type\MediaType
     {
         parent::buildForm($builder, $options);
     }
+
 
     public function getParent()
     {

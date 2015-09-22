@@ -46,6 +46,12 @@ class OpusSheetStatusAdmin extends Admin
             ->addIdentifier('label', null, array('label' => 'Intitulé'))
             ->add('intCode', null, array('label' => 'Code numéroté'))
             ->add('strCode', null, array('label' => 'Code texte'))
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                )
+            ));
 
         ;
     }

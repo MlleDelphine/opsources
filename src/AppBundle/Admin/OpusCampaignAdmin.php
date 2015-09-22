@@ -64,6 +64,12 @@ class OpusCampaignAdmin extends Admin
             ->add('type', null, array('label' => "Type d'entretien"))
             ->add('opusTemplate', null, array('label' => "Modèle de fiche"))
             ->add('opusTemplate.type', null, array('label' => "Type d'entretien"))
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                )
+            ));
 
         ;
     }

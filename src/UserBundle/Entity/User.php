@@ -235,6 +235,11 @@ class User implements UserInterface
      */
     private $opusSheetsResponsable;
 
+    /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheetValidationLog", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $userSheetLogs;
+
     public function __construct()
     {
         //   parent::__construct();
@@ -1052,5 +1057,61 @@ class User implements UserInterface
         $this->salt = $salt;
 
         return $this;
+    }
+
+    /**
+     * Set sids
+     *
+     * @param array $sids
+     * @return User
+     */
+    public function setSids($sids)
+    {
+        $this->sids = $sids;
+
+        return $this;
+    }
+
+    /**
+     * Get sids
+     *
+     * @return array 
+     */
+    public function getSids()
+    {
+        return $this->sids;
+    }
+
+    /**
+     * Add userSheetLogs
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetValidationLog $userSheetLogs
+     * @return User
+     */
+    public function addUserSheetLog(\GeneratorBundle\Entity\OpusSheetValidationLog $userSheetLogs)
+    {
+        $this->userSheetLogs[] = $userSheetLogs;
+
+        return $this;
+    }
+
+    /**
+     * Remove userSheetLogs
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetValidationLog $userSheetLogs
+     */
+    public function removeUserSheetLog(\GeneratorBundle\Entity\OpusSheetValidationLog $userSheetLogs)
+    {
+        $this->userSheetLogs->removeElement($userSheetLogs);
+    }
+
+    /**
+     * Get userSheetLogs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUserSheetLogs()
+    {
+        return $this->userSheetLogs;
     }
 }

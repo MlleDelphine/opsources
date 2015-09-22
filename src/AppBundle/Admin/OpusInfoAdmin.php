@@ -61,8 +61,12 @@ class OpusInfoAdmin extends Admin
             ->add('limitDate', null, array('label' => 'Date limite'))
             ->add('status', null, array('label' => 'Statut'))
             ->add('type', null, array('label' => "Type d'entretien"))
-//            ->add('confFile', null, array('label' => "Fichier de configuration"))
-//            ->add('confFileUi', null, array('label' => "Fichier de configuration UI"))
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                )
+            ));
         ;
     }
 }

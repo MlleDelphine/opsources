@@ -141,6 +141,11 @@ class OpusSheet
     private $opusTemplate;
 
     /**
+     * @ORM\OneToMany(targetEntity="GeneratorBundle\Entity\OpusSheetValidationLog", mappedBy="sheet", cascade={"persist", "remove"})
+     */
+    private $sheetLogs;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -535,5 +540,38 @@ class OpusSheet
 
         return null;
 
+    }
+
+    /**
+     * Add sheetLogs
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetValidationLog $sheetLogs
+     * @return OpusSheet
+     */
+    public function addSheetLog(\GeneratorBundle\Entity\OpusSheetValidationLog $sheetLogs)
+    {
+        $this->sheetLogs[] = $sheetLogs;
+
+        return $this;
+    }
+
+    /**
+     * Remove sheetLogs
+     *
+     * @param \GeneratorBundle\Entity\OpusSheetValidationLog $sheetLogs
+     */
+    public function removeSheetLog(\GeneratorBundle\Entity\OpusSheetValidationLog $sheetLogs)
+    {
+        $this->sheetLogs->removeElement($sheetLogs);
+    }
+
+    /**
+     * Get sheetLogs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSheetLogs()
+    {
+        return $this->sheetLogs;
     }
 }

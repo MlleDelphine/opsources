@@ -29,7 +29,7 @@ class Media extends BaseMedia
     private $identification_name;
 
     /**
-     * @ORM\OneToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", mappedBy="confFile", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="GeneratorBundle\Entity\OpusSheetTemplate", mappedBy="confFile")
      */
     private $template;
 
@@ -121,5 +121,24 @@ class Media extends BaseMedia
     public function getTemplate()
     {
         return $this->template;
+    }
+
+    /**
+     * Overriding method for orphanRemoval suppress media instead of whole directory
+     *
+     * @param $binaryContent
+     */
+    public function setBinaryContent($binaryContent)
+    {
+        if ($this->providerReference) {
+            $this->previousProviderReference = $this->providerReference;
+        }
+        $this->providerReference = null;
+        $this->binaryContent = $binaryContent;
+
+        if(!$this->providerReference && $this->previousProviderReference){
+            $this->providerReference = $this->previousProviderReference;
+        }
+
     }
 }

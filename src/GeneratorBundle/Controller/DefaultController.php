@@ -137,6 +137,11 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $opusSheet = $em->getRepository('GeneratorBundle:OpusSheet')->find($id);
+
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+        //on récup celui de la BD sinon ça crée des conflits d'ID
+        $userLogged = $em->getRepository('UserBundle:User')->find($userLogged->getId());
+
         if($this->get('app.accesscontrol_sheet')->canAccess($opusSheet)) {
             $actualStatus = $opusSheet->getStatus();
 

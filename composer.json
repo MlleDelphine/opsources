@@ -61,13 +61,18 @@
     "sonata-project/admin-bundle": "2.3.3",
     "brown298/data-tables-bundle": "dev-master",
     "sonata-project/media-bundle": "^2.3",
+    "sonata-project/intl-bundle": "~2.2",
     "jms/serializer-bundle": "~0.13",
     "sonata-project/easy-extends-bundle": "^2.1",
     "h4cc/wkhtmltopdf-amd64": "0.11.0-RC1",
     "doctrine/migrations": "^1.0",
     "doctrine/doctrine-migrations-bundle": "1.0.*",
     "liuggio/excelbundle": "^2.0",
-    "beberlei/DoctrineExtensions": "*"
+    "beberlei/DoctrineExtensions": "*",
+    "friendsofsymfony/jsrouting-bundle": "dev-master",
+    "guzzlehttp/ringphp": "1.1.*",
+    "guzzlehttp/streams" : "3.0.",
+    "react/promise" :  "2.2.*"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^2.2",      

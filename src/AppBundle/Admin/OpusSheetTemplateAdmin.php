@@ -27,7 +27,7 @@ class OpusSheetTemplateAdmin extends Admin
             ->add('status', 'choice', array('label' => 'Statut', 'choices' => array(0 => 'Désactivée', 1 => 'Activée')))
             ->add('confFile', 'sonata_media_type', array('required' => false,
                 'provider' => 'sonata.media.provider.file',
-                'context' => 'default' ));
+                'context' => 'opustemplate' ));
     }
 
     // Fields to be shown on filter forms
@@ -47,6 +47,17 @@ class OpusSheetTemplateAdmin extends Admin
             ->add('id')
             ->addIdentifier('name', null, array('label' => 'Intitulé'))
             ->add('type', null, array('Label' => 'Type'))
-            ->add('status', null, array('label' => 'Statut'));
+            ->add('status', null, array('label' => 'Statut'))
+            ->add('confFile', 'sonata_media_type', array('required' => false,
+                'provider' => 'sonata.media.provider.file',
+                'context' => 'opustemplate' ))
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                   // 'download' => array()
+                )
+            ));
     }
+
 }
