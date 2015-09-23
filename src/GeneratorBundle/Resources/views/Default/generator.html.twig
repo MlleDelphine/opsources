@@ -99,6 +99,31 @@
                                 </div>
                             {% endfor %}
                             <div id="validation" class="tab-pane">
+                                {# Affichage de l'historique de validation #}
+
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Auteur</th>
+                                        <th>Action</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for log in entity.sheetLogs %}
+                                        <tr class="active">
+                                            <td>{{ log.user.lastName|upper }} {{ log.user.firstName|capitalize }}</td>
+                                            <td>{{ constant(log.action, log)|capitalize }}</td>
+                                            <td>{{ log.createdAt|date('d-m-Y H:i:s') }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr class="info"><td></td><td></td><td></td></tr>
+                                    </tbody>
+
+                                </table>
+
+
                                 <div class="text-center" style="margin-top: 15px;">
                                     {% if(form.save is defined) %}
                                         {{ form_widget(form.save) }}
@@ -125,31 +150,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center" style="margin-top: 15px;">
-                            {% if(form.save is defined) %}
-                                {{ form_widget(form.save) }}
-                            {% endif %}
-
-                            {% if (form.invalidate is defined)  %}
-                                {{ form_widget(form.invalidate) }}
-                            {% endif %}
-
-                            {% if (form.validate is defined) %}
-                                {{ form_widget(form.validate) }}
-                            {% endif %}
-
-                            {% if(form.validate_rh is defined) %}
-                                {{ form_widget(form.invalidate_for_rh) }}
-                                {{ form_widget(form.validate_rh) }}
-                            {% endif %}
-
-                            {% if(form.validate_by_rh is defined) %}
-                                {{ form_widget(form.invalidate_by_rh) }}
-                                {{ form_widget(form.validate_by_rh) }}
-                            {% endif %}
-
-                        </div>
-                        {#{{ form_end(form) }}#}
                         </form>
 
                     </div>

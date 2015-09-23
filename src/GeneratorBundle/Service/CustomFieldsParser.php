@@ -40,13 +40,14 @@ class CustomFieldsParser
         $finder = new Finder();
         $template = null;
 
-        $iterator = $finder->files()->name($media->getProviderReference())->in($this->kernel->getRootDir().'/../web/uploads/media/default');
+        $iterator = $finder->files()->name($media->getProviderReference())->in($this->kernel->getRootDir().'/../web/uploads/media/opustemplate');
 
         foreach ($iterator as $file) {
             $template = $file->getRealpath();
         }
 
         try {
+
             if ($field && $field == 'fields') {
                 $attributesParsed = $yaml->parse(file_get_contents($template)); // $template
                 $attributes = $attributesParsed[$field]['attr'];

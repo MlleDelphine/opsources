@@ -8,11 +8,21 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * OpusSheetValidationLog
  *
- * @ORM\Table()
+@ORM\Table(name="opus_sheet_validation_log",
  * @ORM\Entity
  */
+
+
+
 class OpusSheetValidationLog
 {
+
+    const EDITION = "édition";
+    const VALIDATION = "validation";
+    const INVALIDATION = "invalidation";
+    const VALIDATION_RH = "validation par RH";
+    const INVALIDATION_RH = "invalidation par RH";
+
     /**
      * @var integer
      *
@@ -123,6 +133,7 @@ class OpusSheetValidationLog
     public function setUser(\UserBundle\Entity\User $user = null)
     {
         $this->user = $user;
+        $user->addUserSheetLog($this);
 
         return $this;
     }

@@ -125,11 +125,10 @@ class PrePopulateEntity
             if($lastAttributes) {
                 $this->em->clear($lastAttributes);
             }
-          //  gc_collect_cycles();
+
 
             return true;
         }
-
 
         return $this->createOpusSheetCreateForm($sheet, $attributes);
     }

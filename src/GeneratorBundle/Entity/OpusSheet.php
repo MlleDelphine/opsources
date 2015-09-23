@@ -551,6 +551,7 @@ class OpusSheet
     public function addSheetLog(\GeneratorBundle\Entity\OpusSheetValidationLog $sheetLogs)
     {
         $this->sheetLogs[] = $sheetLogs;
+        $sheetLogs->setSheet($this);
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace GeneratorBundle\Controller;
 use GeneratorBundle\Entity\OpusCampaign;
 use GeneratorBundle\Entity\OpusSheet;
 use GeneratorBundle\Entity\OpusSheetType;
+use GeneratorBundle\Entity\OpusSheetValidationLog;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -105,9 +106,13 @@ class DefaultController extends Controller
                 $templateFile = $opusSheet->getCampaign()->getOpusTemplate()->getConfFile();
                 $allAttributes = $this->get('app.customfields_parser')->parseYamlConf($templateFile, 'fields');
                 $actionCreate = $this->get('app.prepopulate_entity')->populateOpusSheet($opusSheet, $allAttributes);
+
+                //on redirige dès maintenant (on rappelle la même méthode sinon les champs sont à l'envers.. Why? Mystère.)
+                return $this->redirect($this->generateUrl('generator_editsheet',
+                    array('id' => $opusSheet->getID())));
             }
 
-            //On renvoie le formulaire
+            //On crée le formulaire
             $form = $this->get('app.prepopulate_entity')->createOpusSheetCreateForm(
                 $opusSheet,
                 $allAttributes,
@@ -186,15 +191,19 @@ class DefaultController extends Controller
                 if ($form->isValid()) {
                     $em = $this->getDoctrine()->getManager();
 
+                    $log = new OpusSheetValidationLog();
+                    $log->setUser($userLogged);
+
                     //Si c'était en génération ou en création
                     if ($actualStatus == $generatedStatus || $actualStatus == $creationStatus) {
                         //Si le manager enregistre --> creation
                         //Si le manager valide --> en attente de validation par l'évalué
-
                         if ($form->get('save')->isClicked()) {
                             $opusSheet->setStatus($creationStatus);
+                            $log->setAction("EDITION");
                         } elseif ($form->get('validate')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatedStatus);
+                            $log->setAction("VALIDATION");
                         }
                     } //Si c'était à l'évalué de choisir
                     elseif ($actualStatus == $vEvaluatedStatus) {
@@ -202,23 +211,29 @@ class DefaultController extends Controller
                         //Si l'évalué valide --> en attente de validation par l'évaluateur
                         if ($form->get('invalidate')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatorStatus);
+                            $log->setAction("INVALIDATION");
                         } elseif ($form->get('validate')->isClicked()) {
                             $opusSheet->setStatus($vFinalEvaluatorStatus);
+                            $log->setAction("VALIDATION");
                         }
                     } elseif ($actualStatus == $vEvaluatorStatus) {
                         //Si l'évaluateur invalide --> retour à l'évalué
                         //Si l'évaluateur valide --> Renvoie à l'évalué
                         if ($form->get('invalidate')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatedStatus);
+                            $log->setAction("INVALIDATION");
                         } elseif ($form->get('validate')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatedStatus);
+                            $log->setAction("VALIDATION");
                         }
                     } elseif ($actualStatus == $vFinalEvaluatorStatus) {
                         //Si l'utilisateur était OK - l'évaluateur peut refuser ou envoyer au DRH (s'il envoie au RH pas de modif possible)
                         if ($form->get('invalidate_for_rh')->isClicked()) {
                             $opusSheet->setStatus($vEvaluatorStatus);
+                            $log->setAction("INVALIDATION");
                         } elseif ($form->get('validate_rh')->isClicked()) {
                             $opusSheet->setStatus($vRHStatus);
+                            $log->setAction("VALIDATION");
                         }
 
                     }
@@ -226,12 +241,15 @@ class DefaultController extends Controller
                         //Si l'utilisateur était OK - l'évaluateur peut refuser ou envoyer au DRH (s'il envoie au RH pas de modif possible)
                         if ($form->get('invalidate_by_rh')->isClicked()) {
                             $opusSheet->setStatus($vCloseFStatus);
+                            $log->setAction("INVALIDATION_RH");
                         } elseif ($form->get('validate_by_rh')->isClicked()) {
                             $opusSheet->setStatus($vCloseStatus);
+                            $log->setAction("VALIDATION_RH");
                         }
 
                     }
 
+                    $opusSheet->addSheetLog($log);
                     $em->persist($opusSheet);
                     $em->flush();
 
