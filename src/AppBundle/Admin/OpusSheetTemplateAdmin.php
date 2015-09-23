@@ -54,10 +54,10 @@ class OpusSheetTemplateAdmin extends Admin
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
-                    'edit' => array(),
-                   // 'download' => array()
+                    'edit' => array()
                 )
-            ));
+            ))
+            ->add('Téléchargement', 'string', array('template' => 'AppBundle::download.html.twig'));
     }
 
 }
