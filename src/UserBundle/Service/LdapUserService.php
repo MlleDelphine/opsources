@@ -141,6 +141,7 @@ class LdapUserService
 
         return $user;
     }
+
     private function setValToUser($user,$attr,$val,$arr)
     {
         $set = "set". ucfirst($attr);
@@ -219,9 +220,10 @@ class LdapUserService
             }
         }
 
-//On détermine au minimum le role USER
-        if(is_int($user->getRoles()) || !$user->getRoles() || $user->getLastName() == "ALVES") {
+//On détermine au minimum le role USER et ROLE_ALLOWED_TO_SWITCH
+        if(is_int($user->getRoles()) || !$user->getRoles()) {
             $user->addRole(["ROLE_USER"]);
+            $user->addRole(["ROLE_ALLOWED_TO_SWITCH"]);
         }
         return $user;
     }

@@ -57,6 +57,10 @@ class UserManager implements UserManagerInterface
 
         $user = $this->fetchSids($user, $plexcel);
 
+        //On met à jour via l'AD pour les rôles notamment
+        $user->setRoles(array());
+        $user = $this->container->get("ldap_user_service")->updateByLogin($user->getUsername());
+
         $roles = $user->getRoles();
 
         if(!in_array('ROLE_ALLOWED_TO_SWITCH', $roles)) {
