@@ -44,6 +44,7 @@ class OpusSheetType extends AbstractType
         $user = $this->em->getRepository('UserBundle:User')->find($user->getId());
 
 
+
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (\Symfony\Component\Form\FormEvent $event) use ($user) {

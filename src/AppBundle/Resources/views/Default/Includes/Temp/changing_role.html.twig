@@ -1,7 +1,7 @@
-<div class ="col-md-offset-10 col-md-2">
+<div class ="col-md-offset-9 col-md-3">
     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
         <a href="{{ path('homepage', {'_switch_user': '_exit'}) }}">Exit impersonation</a>
-    {% else %}
+    {% elseif is_granted('ROLE_ADMIN') %}
         {{ form_start(formRole, {'attr' : {'class' : 'form-role'}}) }}
         {{ form_end(formRole) }}
     {% endif %}

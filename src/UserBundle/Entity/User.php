@@ -258,7 +258,7 @@ class User implements UserInterface
 
     public function getDisplayName()
     {
-        return $this->getUsername();
+        return (string) $this->getLastName().' '.$this->getFirstName();
     }
 
     /**

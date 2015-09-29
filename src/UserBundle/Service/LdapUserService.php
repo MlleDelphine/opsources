@@ -136,8 +136,9 @@ class LdapUserService
             $user = $this->setValToUser($user,$attr,$val,$membre);
 
         // Roles
-        foreach($roles as $role_name => $role)
-            $user = $this->setRoles($user,$membre,$role_name,$role);
+        foreach($roles as $role_name => $role) {
+            $user = $this->setRoles($user, $membre, $role_name, $role);
+        }
 
         return $user;
     }
@@ -189,41 +190,24 @@ class LdapUserService
 
     private function setRoles($user,$ldap,$role_name,$role)
     {
-        if(is_array($ldap["memberof"]))
-        {
-            if(in_array($this->container->getParameter('ldap')[$role_name],$ldap["memberof"]))
+        if(is_array($ldap["memberof"])) {
+            if(in_array($this->container->getParameter('ldap')[$role_name], $ldap["memberof"]))
             {
-                $roles = $user->getRoles();
-                if(is_array($roles))
-                {
-                    array_push($roles,$role);
-                    $user->setRoles($roles);
-                }
-                else
-                    $user->setRoles([$role]);
+                $user->addRole($role);
             }
         }else{
+
             if($this->container->getParameter('ldap')[$role_name] === $ldap["memberof"])
             {
-                $roles = $user->getRoles();
-                if(is_array($roles))
-                {
-                    array_push($roles,$role);
-                    $user->setRoles($role);
-                }
-                else
-                {
-                    array_push($roles,"ROLE_USER");
-                    $user->setRoles($roles);
-                }
-
+                $user->addRole($role);
             }
         }
 
+
 //On détermine au minimum le role USER et ROLE_ALLOWED_TO_SWITCH
         if(is_int($user->getRoles()) || !$user->getRoles()) {
-            $user->addRole(["ROLE_USER"]);
-            $user->addRole(["ROLE_ALLOWED_TO_SWITCH"]);
+            $user->addRole("ROLE_USER");
+            $user->addRole("ROLE_ALLOWED_TO_SWITCH");
         }
         return $user;
     }

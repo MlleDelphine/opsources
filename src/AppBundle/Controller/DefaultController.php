@@ -330,9 +330,8 @@ class DefaultController extends Controller
                 'expanded'=>false,
                 'multiple'=>false,
                 'label' => 'Utilisateurs',
-                'required' => true,
-                'attr' => array('class' => "col-md-4")))
-            ->add('submit','submit', array('label' => "Changer", 'attr' => array('class' => "pull-right")))
+                'required' => true))
+            ->add('submit','submit', array('label' => "Changer", 'attr' => array('class' => "pull-right", "style" => "margin-bottom: 10px")))
             ->getForm();
 
         if ($request->getMethod() == "POST") {
