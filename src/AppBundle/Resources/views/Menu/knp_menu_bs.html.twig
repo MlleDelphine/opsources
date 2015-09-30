@@ -1,31 +1,87 @@
-<div class="row">
-    <div class="container-fluid">
-        <div class="col-md-12 col-xs-12 ariane-background-color">
+{#<div class="row">#}
+    {#<div class="container-fluid">#}
+        {#<div class="col-md-12 col-xs-12 ariane-background-color">#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
+
+{#<div class="row">#}
+    {#<nav class="navbar navbar-default navbar-static-top" style="background-color:#D3DFE9" role="navigation">#}
+        {#<div class="navbar-header col-md-6">#}
+            {#<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">#}
+                {#<span class="sr-only">Toggle navigation</span>#}
+                {#<span class="icon-bar"></span>#}
+                {#<span class="icon-bar"></span>#}
+                {#<span class="icon-bar"></span>#}
+            {#</button>#}
+            {#<a class="navbar-brand" href="{{ path("homepage") }}">#}
+                {#<img src="{{ asset('bundles/arianespacetheme/images/header/logo.png') }}" alt="">#}
+            {#</a>#}
+        {#</div>#}
+        {#<!-- /.navbar-header -->#}
+        {#<div class="col-md-6">#}
+            {#<div class="col-md-12">#}
+                {#<ul class="nav navbar-top-links navbar-right"><!-- /.dropdown -->#}
+                    {#<li>Bienvenue, {{ app.security.getToken().getUser().getDisplayName() }}</li>#}
+                    {#<li class="dropdown">#}
+                        {#<a class="dropdown-toggle" data-toggle="dropdown" href="#">#}
+                            {#<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>#}
+                        {#</a>#}
+                        {#{{ knp_menu_render('user', {'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}#}
+                        {#<!-- /.dropdown-user -->#}
+                    {#</li>#}
+                    {#<!-- /.dropdown -->#}
+                {#</ul>#}
+            {#</div>#}
+            {#<div class="col-md-12 pull-right">#}
+                {#<i class="fa fa-chevron-down"  style="display: none; font-size: 22px; color:#00A7E3"></i>#}
+                {#<i class="fa fa-chevron-up" style="float:right; font-size: 22px; color:#00A7E3"></i>#}
+            {#</div>#}
+        {#</div>#}
+
+    {#</nav>#}
+{#</div>#}
+
+<nav class="navbar navbar-default header-ariane">
+    <div class="image-header">
+        <div class="container-fluid container-header">
+            <div class="collapse navbar-collapse header-80">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" src="{{ asset('bundles/arianespacetheme/images/header/logo.png') }}">
+                    </a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right"><!-- /.dropdown -->
+                    <li><div class="welcome-user">Bienvenue, </div></li>
+                    <li class="dropdown user-settings">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            {{ app.security.getToken().getUser().getDisplayName() }}
+                            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        {{ knp_menu_render('user', {'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
+                </ul>
+            </div>
+            {#<div class="col-md-12 pull-right">#}
+                {#<i class="fa fa-chevron-down"  style="display: none; font-size: 22px; color:#00A7E3"></i>#}
+                {#<i class="fa fa-chevron-up" style="float:right; font-size: 22px; color:#00A7E3"></i>#}
+            {#</div>#}
         </div>
     </div>
-</div>
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="{{ path("homepage") }}">
-            <img src="{{ asset('bundles/arianespacetheme/images/header/logo.png') }}" alt="">
-        </a>
-    </div>
-    <!-- /.navbar-header -->
-    <ul class="nav navbar-top-links navbar-right "><!-- /.dropdown -->
-        <li>Bienvenue, {{ app.security.getToken().getUser().getDisplayName() }}</li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-            </a>
-            {{ knp_menu_render('user', {'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}
-            <!-- /.dropdown-user -->
-        </li>
-        <!-- /.dropdown -->
-    </ul>
 </nav>
+
+
+<script>
+    $(document).ready(function(){
+
+    })
+</script>

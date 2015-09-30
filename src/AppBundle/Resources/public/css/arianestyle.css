@@ -321,28 +321,59 @@ h3.panel-title {
   background: transparent url("/bundles/arianespacetheme/images/header/container_background.png") no-repeat scroll center center;
   z-index: 700;
   position: absolute;
-  height: 180px;
-}
-
-/* line 200, ../scss/arianestyle.scss */
-.ariane-background-color {
-  background: #3981BB url("/bundles/arianespacetheme/images/header/fond.jpg") repeat-x scroll 0px 0px;
-  z-index: 500;
-  position: absolute;
-  height: 180px;
+  height: 120px;
 }
 
 /* line 207, ../scss/arianestyle.scss */
 .navbar {
-  height: 180px;
+  height: 120px;
   background-color: transparent !important;
 }
 
-/* line 212, ../scss/arianestyle.scss */
-.navbar-brand {
-  margin-top: 30px;
+
+/** center content in navbar **/
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
 }
 
+.navbar .navbar-collapse {
+    text-align: center;
+}
+
+.welcome-user{
+    padding-top:15px;
+    padding-bottom:15px
+}
+
+.user-settings > a{
+    color:white !important;
+}
+
+.user-settings > a{
+    color:white !important;
+}
+
+.image-header{
+    height: 100%;
+    width: 100%;
+    background-image: url("/bundles/app/img/image_fond_header.png");
+    background-position:50% 50%;
+    background-repeat: no-repeat;
+}
+
+.header-80{
+    height: 80%;
+}
+
+.container-header {
+    height: 100%;
+    width: 60%;
+}
+
+.header-ariane{
+    background-color: #2465A9 !important;
+}
 .loader,
 .loader:before,
 .loader:after {
