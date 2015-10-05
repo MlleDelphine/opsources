@@ -70,7 +70,7 @@ security:
         ROLE_RH:                [ROLE_USER]
         ROLE_DIVISION_MANAGER:  [ROLE_USER]
         ROLE_MANAGER:           [ROLE_USER]
-        ROLE_USER: [ROLE_ALLOWED_TO_SWITCH]
+       # ROLE_USER: [ROLE_ALLOWED_TO_SWITCH]
 
 
 #        secured_area:

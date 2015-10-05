@@ -303,13 +303,21 @@ class DefaultController extends Controller
         $text = $this->get('app.pdfparser')->getSheetToHtml($id);
 
         $fileName = $sheet->getEvaluate()->getLastName().' '.$sheet->getEvaluate()->getFirstName().' - '.$sheet->getOpusTemplate()->getType()->getName().' - '.$sheet->getCreatedAt()->format('d-m-Y'). ' -- '.date('d-m-Y H:i:s');
+
+//        $html = $this->render('GeneratorBundle:PDF:view.html.twig', array(
+//            'html' => $text,
+//        ));
+//
+//        return $html;
+
+
         $html = $this->renderView('GeneratorBundle:PDF:view.html.twig', array(
             'html' => $text,
         ));
 
 
         return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('encoding' => 'utf-8', 'orientation'=>'Landscape')),
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html, array('encoding' => 'utf-8')),
             200,
             array(
                 'Content-Type' => 'application/pdf',

@@ -114,8 +114,11 @@ class PdfParser
                         break;
                     }
                 }
+
+                //Déterminer les id des collections (chaque child) ???
                 foreach ($field['child'] as $f) {
                     if (!isset($data[0])) {
+                        dump('zero');
                         $data[0] = [];
                     }
                     array_push($data[0], $f['id']);
@@ -132,10 +135,17 @@ class PdfParser
                         }
                     }
                 }
+               $data[0] = array();
+               // dump($data);
+                //Déterminer les th des collections (chaque child) ???
+                foreach ($field['child'] as $f) {
+                    array_push($data[0], $f['conf']['label']);
+                }
+
                 $str = $this->arrayToTable($data, $field['conf']['label']);
             }
         } else {
-            $recursive = ['table', 'tr', 'td','thead','tbody'];
+            $recursive = ['table', 'tr', 'th', 'td','thead','tbody'];
             $arg['balise'] = $balise;
             if (in_array($balise, $recursive)) {
                 if ($content === null) {
@@ -196,14 +206,21 @@ class PdfParser
     {
         if (isset($this->attributes[$id])) {
             if (strtolower($field['type']) === 'genemu_jquerydate' || strtolower($field['type']) === 'date' || strtolower($field['type']) === 'datetime') {
-                return $this->attributes[$id]->getValueDate()->format('d-m-Y H:i');
-            } else {
+                return "<strong>".$this->attributes[$id]->getValueDate()->format('d-m-Y H:i')."</strong>";
+            }
+            else
+             {
                 $str = '&nbsp;';
                 if (isset($field['conf']) && isset($field['conf']['label'])) {
                     $str = $field['conf']['label'].' ';
                 }
 
-                return $str.$this->getRealValAttr($this->attributes[$id]);
+                 //Si type choice on affiche la valeur correspondante du yml pour label(et non l'index du choix)
+                if($field['type'] == "choice") {
+                    return $str.'<br><strong>'.$field['conf']['choices'][$this->attributes[$id]->getValue()].'</strong>';
+                }
+
+                 return $str.'<br><strong>'.$this->getRealValAttr($this->attributes[$id]).'</strong>';
             }
         } else {
             $ex = ['evaluator', 'evaluate'];
@@ -216,7 +233,7 @@ class PdfParser
                 }
                 $get = 'get'.ucfirst($id);
 
-                return $str.$this->$balise->$get();
+                return $str."<strong>".$this->$balise->$get()."</strong>";
             } elseif (in_array($balise, $ex)) {
                 foreach ($this->fields as $field) {
                     if (isset($field['ref']) && $field['ref'] != null && $field['ref'] === $balise.'.'.$id) {
@@ -240,7 +257,12 @@ class PdfParser
         $str = '';
         if ($balise === '' || $balise === null) {
             return '';
-        } else {
+        }
+        elseif($balise == 'table') {
+            $str .= "<$balise class=\"table table-striped\"";
+        }
+        else
+        {
             $str .= "<$balise";
         }
         if ($args === '' || $args === null) {
@@ -248,18 +270,24 @@ class PdfParser
         } else {
             $str .= " $args>";
         }
+
         $str .= $content;
         $str .= "</$balise>";
 
         return $str;
     }
 
+    /**
+     * On passe $data et $label de la collection
+     * @param $arr
+     * @param $label
+     * @return string
+     */
     private function arrayToTable($arr, $label)
     {
-        $str = "<p>$label</p><table><thead><tr style=\"".(sizeof($arr[0]) >= 5 ? 'font-size:13px;' : '').'">';
-        $perc = (100 / sizeof($arr[0]) - 2).'%';
+        $str = "<p>$label</p><table class=\"table table-striped\"><thead><tr style=\"font-size:15px;\">";
         foreach ($arr[0] as $init) {   // ligne arguments
-            $str .= "<td style=\"width:$perc;\">".ucfirst(str_replace('_', ' ', $init)).'</td>';
+            $str .= "<th>".ucfirst(str_replace('_', ' ', $init)).'</th>';
         }
 
         $str .= '</tr></thead>';
@@ -268,9 +296,9 @@ class PdfParser
                 $str .= '<tr>';
                 for ($j = 0;$j < sizeof($arr[0]);++$j) {
                     if (isset($v[$j])) {
-                        $str .= "<td style=\"width:$perc;\">".$v[$j].'</td>';
+                        $str .= "<td>".$v[$j].'</td>';
                     } else {
-                        $str .= "<td style=\"width:$perc;\">&nbsp;</td>";
+                        $str .= "<td>-</td>";
                     }
                 }
                 $str .= '</tr>';

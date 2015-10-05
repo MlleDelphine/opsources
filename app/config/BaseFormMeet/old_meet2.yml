@@ -17,7 +17,7 @@ fields:
           type: "text"
           ref: "evaluate.firstname"
           conf:
-              label: "Nom du salarié :"
+              label: "Prénom du salarié :"
               required: true
               attr:
                   data-tab: "tab_1"
@@ -25,7 +25,7 @@ fields:
           type: "text"
           ref: "evaluate.lastname"
           conf:
-              label: "Prénom du salarié :"
+              label: "Nom du salarié :"
               required: true
               attr:
                   data-tab: "tab_1"
@@ -76,7 +76,7 @@ fields:
           type: "text"
           ref: "evaluator.firstname"
           conf:
-              label: "Nom de l'évaluateur :"
+              label: "Prénom de l'évaluateur :"
               required: true
               attr:
                   data-tab: "tab_1"
@@ -84,7 +84,7 @@ fields:
           type: "text"
           ref: "evaluator.lastname"
           conf:
-              label: "Prénom de l'évaluateur :"
+              label: "Nom de l'évaluateur :"
               required: true
               attr:
                   data-tab: "tab_1"
@@ -268,7 +268,7 @@ fields:
                   - id: "eval"
                     type: "choice"
                     conf:
-                        label: " "
+                        label: "Etat"
                         choices: { "A ameliorer": "A améliorer", "A maintenir": "A maintenir" }
                         expanded: true
                         multiple: false
@@ -901,34 +901,35 @@ tabs_ui:
     - id: 'tab_1'
       name: "Général"
       content:
+              - text: "<u>Date de l'entretien : </u>"
               - attribute: "date_entretien"
               - table:
                       - thead:
                             - tr:
-                                  - td:
+                                  - th:
                                         - h3:
-                                                text: "Salarié evalué"
+                                                text: "Salarié évalué"
                                                 class: ""
                                                 style:
                                                       text-transform: "uppercase"
 
-                                  - td:
+                                  - th:
                                         - h3:
-                                                text: "Evaluateur"
+                                                text: "évaluateur"
                                                 class: ""
                                                 style:
                                                       text-transform: "uppercase"
                       - tbody:
                             - tr:
                                 - td:
-                                    - evaluate: "firstname"
-                                - td:
-                                    - evaluator: "firstname"
-                            - tr:
-                                - td:
                                     - evaluate: "lastname"
                                 - td:
                                     - evaluator: "lastname"
+                            - tr:
+                                - td:
+                                    - evaluate: "firstname"
+                                - td:
+                                    - evaluator: "firstname"
                             - tr:
                                 - td:
                                     - evaluate: "login"
@@ -956,6 +957,7 @@ tabs_ui:
               - attribute: "campaign_function"
               - attribute: "prise_poste"
               - attribute: "poste_precedent"
+              - text: "<h2>I- Bilan de l'année écoulée</h2>"
               - attribute: "evolution_poste"
     - id: 'tab_2'
       name: "Mission"
