@@ -123,9 +123,13 @@ class LdapUserService
 
 
         $login = $membre["samaccountname"];
-        $user = $this->em->getRepository("UserBundle:User")->findOneByLogin($login);
-        if($user === null)
-            $user = new User();
+        $user = $this->em->getRepository("UserBundle:User")->findOneByLogin(strtolower($login));
+        if($user === null) {
+            $user = $this->em->getRepository("UserBundle:User")->findOneByLogin(strtoupper($login));
+            if($user === null){
+                $user = new User();
+            }
+        }
 
 
         $user->setLogin($login);
