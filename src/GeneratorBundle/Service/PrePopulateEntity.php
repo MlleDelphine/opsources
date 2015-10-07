@@ -9,20 +9,6 @@
 
 namespace GeneratorBundle\Service;
 
-use FormGeneratorBundle\Entity\ProfessionalMeet;
-use FormGeneratorBundle\Entity\ProfessionalAttribute;
-use FormGeneratorBundle\Entity\ProfessionalCollectionAttribute;
-use FormGeneratorBundle\Entity\WorkCondition;
-use FormGeneratorBundle\Form\Professional\ProfessionalMeetType;
-use FormGeneratorBundle\Entity\ValuationMeet;
-use FormGeneratorBundle\Entity\Skill;
-use FormGeneratorBundle\Entity\ValuationAttribute;
-use FormGeneratorBundle\Entity\ValuationCollectionAttribute;
-use FormGeneratorBundle\Form\Valuation\ValuationMeetType;
-use FormGeneratorBundle\Entity\ConditionsMeet;
-use FormGeneratorBundle\Entity\ConditionsAttribute;
-use FormGeneratorBundle\Entity\ConditionsCollectionAttribute;
-use FormGeneratorBundle\Form\Conditions\ConditionsMeetType;
 use GeneratorBundle\Entity\OpusAttribute;
 use GeneratorBundle\Entity\OpusCollection;
 use GeneratorBundle\Entity\OpusSheet;

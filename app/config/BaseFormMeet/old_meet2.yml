@@ -118,7 +118,7 @@ fields:
               required: false
               attr:
                   data-tab: "tab_1"
-        - id: "campagn_function"
+        - id: "campaign_function"
           type: "text"
           conf:
               label: "Fonction campagne :"
@@ -187,7 +187,7 @@ fields:
               - id: "NPRD"
                 type: "choice"
                 conf:
-                    label: "Réalisé"
+                    label: "Etat"
                     choices: { N: "N", P: "P", R: "R", D: "D" }
                     required: true
                     expanded: true
@@ -227,7 +227,7 @@ fields:
               - id: "NPRD"
                 type: "choice"
                 conf:
-                    label: "Réalisé"
+                    label: "Etat"
                     choices: { N: "N", P: "P", R: "R", D: "D" }
                     required: true
                     expanded: true
@@ -252,7 +252,7 @@ fields:
               allow_delete: false
               by_reference: false
               required: false
-              label: "Label inconnu sur l'évaluation"
+              label: "Déterminer l'évaluation des qualités personnelles"
               attr:
                   data-tab: 'tab_4'
           child:
@@ -290,7 +290,7 @@ fields:
         - id: "observation_evaluation"
           type: "textarea"
           conf:
-              label: "(Tenue du poste, évolution dans le poste, appréciation générale ...) "
+              label: "Observations<br>(Tenue du poste, évolution dans le poste, appréciation générale ...) "
               required: false
               attr:
                   data-tab: "tab_9"
@@ -650,7 +650,7 @@ fields:
         - id: "observation"
           type: "textarea"
           conf:
-              label: "Label inconnu sur les observations"
+              label: "Observations :"
               required: false
               attr:
                   data-tab: "tab_9"
@@ -664,7 +664,7 @@ fields:
         - id: "evaluator_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de validation évaluateur"
+              label: "Date de validation évaluateur :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -675,7 +675,7 @@ fields:
         - id: "director_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de validation directeur"
+              label: "Date de validation directeur :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -687,7 +687,7 @@ fields:
         - id: "second_evaluator_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de validation second évaluateur"
+              label: "Date de validation second évaluateur :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -699,7 +699,7 @@ fields:
         - id: "evaluate_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de validation évalué"
+              label: "Date de validation évalué :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -711,7 +711,7 @@ fields:
         - id: "save_evaluate_function"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de validation évalué"
+              label: "Date de validation évalué :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -723,7 +723,7 @@ fields:
         - id: "superior_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de validation supérieur"
+              label: "Date de validation supérieur :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -735,7 +735,7 @@ fields:
         - id: "responsable_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de validation responsable"
+              label: "Date de validation responsable :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -747,7 +747,7 @@ fields:
         - id: "evaluator_pre_validation_date"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de prevalidation évalauteur"
+              label: "Date de prevalidation évalauteur :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -760,7 +760,7 @@ fields:
         - id: "close_date"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de clôture"
+              label: "Date de clôture :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -773,7 +773,7 @@ fields:
         - id: "save_evaluate_entrydate"
           type: "genemu_jquerydate"
           conf:
-              label: "Date de validation ???"
+              label: "Date de validation ??? :"
               required: false
               attr:
                   data-tab: 'tab_1'
@@ -789,7 +789,7 @@ fields:
         - id: "line_management"
           type: "textarea"
           conf:
-              label: "Label inconnu"
+              label: "Rappel de la ligne hiérarchique :"
               required: false
               attr:
                   data-tab: "tab_2"
@@ -807,7 +807,7 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: "Label inconnu sur les compétences"
+              label: "Déterminer les compétences :"
               attr:
                   data-tab: 'tab_6'
           child:
@@ -845,14 +845,14 @@ fields:
               allow_delete: true
               by_reference: false
               required: false
-              label: "label inconnu sur les formation"
+              label: "Déterminer les formation :"
               attr:
                   data-tab: 'tab_6'
           child:
                   - id: "besoin"
                     type: "textarea"
                     conf:
-                        label: "besoin"
+                        label: "Besoin"
                         required: true
                         attr:
                             data-tab: "tab_6"
@@ -954,9 +954,29 @@ tabs_ui:
                                     - attribute: "seniority"
                                 - td:
                                     - attribute: "comment_secondary_evaluator"
-              - attribute: "campaign_function"
-              - attribute: "prise_poste"
-              - attribute: "poste_precedent"
+                            - tr:
+                                - td:
+                                    - entity_attribute:
+                                         value: "job1"
+                                         label: "Métier 1 :"
+                                - td:
+                                    - entity_attribute:
+                                         value: "job2"
+                                         label: "Métier 2 (éventuel) :"
+                            - tr:
+                                - td:
+                                    - attribute: "campaign_function"
+                                - td:
+                                    - text: "-"
+                            - tr:
+                                - td:
+                                    - attribute: "prise_poste"
+                                - td:
+                                    - attribute: "poste_precedent"
+                            - tr:
+                                - td:
+                                    - attribute: "line_management"
+
               - text: "<h2>I- Bilan de l'année écoulée</h2>"
               - attribute: "evolution_poste"
     - id: 'tab_2'

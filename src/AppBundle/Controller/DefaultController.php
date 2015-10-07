@@ -81,7 +81,7 @@ class DefaultController extends Controller
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.lastName', 'ASC');
                 },
-                'property' => 'lastName',
+                'choice_label' => 'lastName',
                 'expanded'=>false,
                 'multiple'=>false,
                 'label' => 'Nom',
@@ -92,7 +92,7 @@ class DefaultController extends Controller
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.firstName', 'ASC');
                 },
-                'property' => 'firstName',
+                'choice_label' => 'firstName',
                 'expanded'=>false,
                 'multiple'=>false,
                 'label' => 'Prénom',
@@ -109,14 +109,14 @@ class DefaultController extends Controller
                     return $er->createQueryBuilder('s')
                         ->orderBy('s.label', 'ASC');
                 },
-                'property' => 'label',
+                'choice_label' => 'label',
                 'expanded'=>false,
                 'multiple'=>false,
                 'label' => 'Statut',
                 'required' => false))
             ->add('search_type', 'genemu_jqueryselect2_entity', array(
                 'class' => 'GeneratorBundle:OpusSheetType',
-                'property' => 'name',
+                'choice_label' => 'name',
                 'expanded'=>false,
                 'multiple'=>false,
                 'label' => 'Type d\'entretien',

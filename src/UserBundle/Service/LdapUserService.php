@@ -29,12 +29,12 @@ class LdapUserService
 
         foreach($this->dns as $dn)
         {
-            $membres = $this->container->get('ldap_service')->getMembers($this->container->getParameter('ldap')[$dn]);
-            foreach($membres as $membreDn)
+            $members = $this->container->get('ldap_service')->getMembers($this->container->getParameter('ldap')[$dn]);
+            foreach($members as $memberDn)
             {
-                $membre = $this->container->get("ldap_service")->getAccountInformation($membreDn);
-                if(!in_array($membre,$this->allMembers))
-                    array_push($this->allMembers, $membre);
+                $member = $this->container->get("ldap_service")->getAccountInformation($memberDn);
+                if(!in_array($member,$this->allMembers))
+                    array_push($this->allMembers, $member);
             }
         }
     }
@@ -95,13 +95,13 @@ class LdapUserService
     public function getAllUsersInfos()
     {
         $return  = $this->allMembers;
-        foreach($return as $id => $membre) {
-            $return[$id] = $this->formatLdapToUser($membre);
+        foreach($return as $id => $member) {
+            $return[$id] = $this->formatLdapToUser($member);
         }
         return $return;
     }
 
-    private function formatLdapToUser($membre)
+    private function formatLdapToUser($member)
     {
         $arr = [
             "firstName" =>  "givenname",
@@ -122,7 +122,9 @@ class LdapUserService
         ];
 
 
-        $login = $membre["samaccountname"];
+        //Recherche insensible à la casse
+        $login = $member["samaccountname"];
+
         $user = $this->em->getRepository("UserBundle:User")->findOneByLogin(strtolower($login));
         if($user === null) {
             $user = $this->em->getRepository("UserBundle:User")->findOneByLogin(strtoupper($login));
@@ -130,18 +132,17 @@ class LdapUserService
                 $user = new User();
             }
         }
-
-
         $user->setLogin($login);
         $user->setUsername($login);
 
         // Valeurs
         foreach($arr as $attr => $val)
-            $user = $this->setValToUser($user,$attr,$val,$membre);
+            $user = $this->setValToUser($user,$attr,$val,$member);
 
-        // Roles
+        // Roles : on les redétermine entièrement pouré viter les duplications
+        $user->setRoles(array());
         foreach($roles as $role_name => $role) {
-            $user = $this->setRoles($user, $membre, $role_name, $role);
+            $user = $this->setRoles($user, $member, $role_name, $role);
         }
 
         return $user;
@@ -194,6 +195,7 @@ class LdapUserService
 
     private function setRoles($user,$ldap,$role_name,$role)
     {
+
         if(is_array($ldap["memberof"])) {
             if(in_array($this->container->getParameter('ldap')[$role_name], $ldap["memberof"]))
             {
@@ -208,11 +210,18 @@ class LdapUserService
         }
 
 
-//On détermine au minimum le role USER et ROLE_ALLOWED_TO_SWITCH
+
+        //On détermine au minimum le role USER
         if(is_int($user->getRoles()) || !$user->getRoles()) {
             $user->addRole("ROLE_USER");
-            $user->addRole("ROLE_ALLOWED_TO_SWITCH");
         }
+
+        $roles = $user->getRoles();
+
+        if(!in_array('ROLE_ALLOWED_TO_SWITCH', $roles) && in_array('ROLE_ADMIN', $roles)) {
+            $user->addRole('ROLE_ALLOWED_TO_SWITCH');
+        }
+
         return $user;
     }
 

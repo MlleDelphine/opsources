@@ -61,15 +61,6 @@ class UserManager implements UserManagerInterface
         $user->setRoles(array());
         $user = $this->container->get("ldap_user_service")->updateByLogin($user->getUsername());
 
-        $roles = $user->getRoles();
-
-        if(!in_array('ROLE_ALLOWED_TO_SWITCH', $roles)) {
-            $user->addRole('ROLE_ALLOWED_TO_SWITCH');
-        }
-        if(!in_array('ROLE_USER', $roles)) {
-            $user->addRole('ROLE_USER');
-        }
-
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

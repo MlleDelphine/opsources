@@ -62,7 +62,7 @@
                     <li><div class="welcome-user">Bienvenue, </div></li>
                     <li class="dropdown user-settings">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            {{ app.security.getToken().getUser().getDisplayName() }}
+                            {{ app.user.getDisplayName() }}
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         {{ knp_menu_render('user', {'template': 'AppBundle:Menu:knp_menu.html.twig'}) }}

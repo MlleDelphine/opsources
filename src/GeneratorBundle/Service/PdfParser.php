@@ -22,6 +22,7 @@ class PdfParser
     private $collection;
     private $evaluator;
     private $evaluate;
+    private $opusSheet;
 
     private $container;
 
@@ -38,12 +39,14 @@ class PdfParser
     {
         $this->getData($id);
 
+
         return $this->setString();
     }
 
     private function getData($id)
     {
         $data = $this->em->getRepository('GeneratorBundle:OpusSheet')->find($id);
+        $this->opusSheet = $data;
         $this->evaluate = $data->getEvaluate();
         $this->evaluator = $data->getEvaluator();
         foreach ($data->getAttributes() as $attr) {
@@ -70,8 +73,9 @@ class PdfParser
         $str .= $this->getHeader();
         foreach ($this->ui as $tab) {
             foreach ($tab['content'] as $contentItem) {
-                foreach ($contentItem as $balise => $content) {
-                    $str .= $this->parseToHtml($balise, $content);
+                //Ex : tag = table et content = thead, tr, th, h3..
+                foreach ($contentItem as $tag => $content) {
+                    $str .= $this->parseToHtml($tag, $content);
                 }
             }
         }
@@ -79,7 +83,7 @@ class PdfParser
         return $str;
     }
 
-    private function parseToHtml($balise, $content)
+    private function parseToHtml($tag, $content)
     {
         $str = '';
         $arg = [
@@ -88,8 +92,8 @@ class PdfParser
             'content' => '',
         ];
 
-        $balise = strtolower($balise);
-        if ($balise === 'attribute' || $balise === 'evaluator' || $balise == 'evaluate') {
+        $tag = strtolower($tag);
+        if ($tag === 'attribute' || $tag === 'evaluator' || $tag == 'evaluate') {
             $arg['balise'] = 'p';
             $field = null;
             foreach ($this->fields as $f) {
@@ -99,12 +103,26 @@ class PdfParser
                 }
             }
 
-            if ($field === null && $balise === 'attribute') {
+            if ($field === null && $tag === 'attribute') {
                 return '';
             }
-            $arg['content'] = $this->getVal($content, $field, $balise);
+            $arg['content'] = $this->getVal($content, $field, $tag);
+
             $str = $this->baliseToHtml($arg);
-        } elseif ($balise === 'collection') {
+        }
+
+        elseif ($tag === 'entity_attribute') {
+            $arg['balise'] = 'p';
+            $arg['args'] = "class=\"line-color\"";
+
+            $label = $content['label'];
+            $getValue = 'get'.ucfirst($content['value']);
+            $arg['content'] = $label.'<strong>'.$this->opusSheet->$getValue().'</strong>';
+
+            $str = $this->baliseToHtml($arg);
+        }
+
+        elseif ($tag === 'collection') {
             if ($this->collection !== null && isset($this->collection[$content])) {
                 $data = [];
                 $coll = $this->collection[$content];
@@ -135,8 +153,8 @@ class PdfParser
                         }
                     }
                 }
-               $data[0] = array();
-               // dump($data);
+                $data[0] = array();
+                // dump($data);
                 //Déterminer les th des collections (chaque child) ???
                 foreach ($field['child'] as $f) {
                     array_push($data[0], $f['conf']['label']);
@@ -146,8 +164,8 @@ class PdfParser
             }
         } else {
             $recursive = ['table', 'tr', 'th', 'td','thead','tbody'];
-            $arg['balise'] = $balise;
-            if (in_array($balise, $recursive)) {
+            $arg['balise'] = $tag;
+            if (in_array($tag, $recursive)) {
                 if ($content === null) {
                     $arg['content'] = '';
                 } else {
@@ -209,18 +227,18 @@ class PdfParser
                 return "<strong>".$this->attributes[$id]->getValueDate()->format('d-m-Y H:i')."</strong>";
             }
             else
-             {
+            {
                 $str = '&nbsp;';
                 if (isset($field['conf']) && isset($field['conf']['label'])) {
                     $str = $field['conf']['label'].' ';
                 }
 
-                 //Si type choice on affiche la valeur correspondante du yml pour label(et non l'index du choix)
+                //Si type choice on affiche la valeur correspondante du yml pour label(et non l'index du choix)
                 if($field['type'] == "choice") {
                     return $str.'<br><strong>'.$field['conf']['choices'][$this->attributes[$id]->getValue()].'</strong>';
                 }
 
-                 return $str.'<br><strong>'.$this->getRealValAttr($this->attributes[$id]).'</strong>';
+                return $str.'<br><strong>'.$this->getRealValAttr($this->attributes[$id]).'</strong>';
             }
         } else {
             $ex = ['evaluator', 'evaluate'];
@@ -251,19 +269,20 @@ class PdfParser
 
     private function baliseToHtml($arg)
     {
-        foreach ($arg as $k => $v) {
-            $$k = $v;
-        }
+        $tag = $arg['balise'];
+        $args = $arg['args'];
+        $content = $arg['content'];
+
         $str = '';
-        if ($balise === '' || $balise === null) {
+        if ($tag === '' || $tag === null) {
             return '';
         }
-        elseif($balise == 'table') {
-            $str .= "<$balise class=\"table table-striped\"";
+        elseif($tag == 'table') {
+            $str .= "<$tag class=\"table table-striped\"";
         }
         else
         {
-            $str .= "<$balise";
+            $str .= "<$tag";
         }
         if ($args === '' || $args === null) {
             $str .= '>';
@@ -272,7 +291,7 @@ class PdfParser
         }
 
         $str .= $content;
-        $str .= "</$balise>";
+        $str .= "</$tag>";
 
         return $str;
     }
@@ -311,7 +330,7 @@ class PdfParser
     private function getHeader()
     {
         $str = '';
-        $str .= '<h1 class="title" style="font-size:4em;">'.$this->yml['name'].'</h1>';
+        $str .= '<h1 class="title" style="font-size:4em; text-align: center">'.$this->yml['name'].'</h1>';
         $str .= '<img src="'.$this->container->get('request')->getScheme().'://'.$this->container->get('request')->getHttpHost().$this->container->get('request')->getBasePath().'/bundles/arianespacetheme/images/logo.png">';
 
         return $str;

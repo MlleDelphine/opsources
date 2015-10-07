@@ -4,7 +4,7 @@ namespace GeneratorBundle\Form\Campaign;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OpusCampaignType extends AbstractType
 {
@@ -47,7 +47,7 @@ class OpusCampaignType extends AbstractType
                 'required' => true ))
             ->add('opusTemplate', 'entity', array(
                 'class' => 'GeneratorBundle:OpusSheetTemplate',
-                'property' => 'name',
+                'choice_label' => 'name',
                 'label' => 'Template *',
                 'multiple' => false,
                 'placeholder' => 'Sélectionner le template associé à cette campagne',
@@ -56,9 +56,9 @@ class OpusCampaignType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'GeneratorBundle\Entity\OpusCampaign'
