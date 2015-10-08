@@ -304,11 +304,11 @@ class DefaultController extends Controller
 
         $fileName = $sheet->getEvaluate()->getLastName().' '.$sheet->getEvaluate()->getFirstName().' - '.$sheet->getOpusTemplate()->getType()->getName().' - '.$sheet->getCreatedAt()->format('d-m-Y'). ' -- '.date('d-m-Y H:i:s');
 
-//        $html = $this->render('GeneratorBundle:PDF:view.html.twig', array(
-//            'html' => $text,
-//        ));
-//
-//        return $html;
+        $html = $this->render('GeneratorBundle:PDF:view.html.twig', array(
+            'html' => $text,
+        ));
+
+        return $html;
 
 
         $html = $this->renderView('GeneratorBundle:PDF:view.html.twig', array(

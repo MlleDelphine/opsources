@@ -94,7 +94,8 @@ class PdfParser
 
         $tag = strtolower($tag);
         if ($tag === 'attribute' || $tag === 'evaluator' || $tag == 'evaluate') {
-            $arg['balise'] = 'p';
+            $arg['balise'] = 'div';
+            $arg['args'] = "class=\"avoid-break\"";
             $field = null;
             foreach ($this->fields as $f) {
                 if ($f['id'] == $content) {
@@ -112,7 +113,7 @@ class PdfParser
         }
 
         elseif ($tag === 'entity_attribute') {
-            $arg['balise'] = 'p';
+            $arg['balise'] = 'div';
             $arg['args'] = "class=\"line-color\"";
 
             $label = $content['label'];

@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>PDF</title>
-    {#<link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">#}
-    <style>
+    <style type="text/css" >
         body{
             margin-bottom: 150px;
         }
@@ -34,9 +33,25 @@
             word-wrap: break-word;
             text-align: center;
         }
+
         td:last-child{
             border-right:1px solid #ddd;
         }
+
+        /* Disable breaking in line */
+        tr, .avoid-break {
+            page-break-inside: avoid !important;
+        }
+
+        h1, h2 {
+            page-break-before: always !important;
+        }
+
+        /* Dactivate header table repeat */
+        thead, tfoot {
+            display: table-row-group;
+        }
+
 
         /******************** BOOTSTRAP REPRISE ********************/
 
