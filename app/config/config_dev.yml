@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
+    - { resource: arianeplexcel_dev.yml }
 
 framework:
     router:
@@ -41,9 +42,17 @@ monolog:
         #    type:   chromephp
         #    level:  info
 
-assetic:
-    use_controller: true
 
 hautelook_alice:
     locale: fr_FR   # default
     seed: 1         # default
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: UserBundle\Entity\User
+
+hautelook_alice:
+    locale: fr_FR
+    seed: 1         # default
+

@@ -1,0 +1,56 @@
+<div class="tab-pane fade" id="campagne">
+    <div class="col-lg-12">
+        <div class="loader campaign-loading">Loading...</div>
+        <h2>Création ou édition d'une campagne</h2>
+        <div class="panel panel-default">
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingAddCampaign">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAddCampaign" aria-expanded="true" aria-controls="collapseOne">
+                                    Ajouter une campagne
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseAddCampaign" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAddCampaign">
+                            <div class="panel-body">
+                                {{ form_start(formOpusCampaign, {'attr' : {'class': 'generate-campaign'}}) }}
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.year) }}</div>
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.mailDate) }}</div>
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.untilSheetDate) }}</div>
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.limitDate) }}</div>
+                                <div class="col-md-6">{{ form_row(formOpusCampaign.status) }}</div>
+                                {#{{ form_row(formOpusCampaign.type) }}#}
+                                <div class="col-md-6">{{  form_row(formOpusCampaign.opusTemplate) }}</div>
+                                <input type="submit" value="Créer" class="btn success pull-right btn-lg">
+                                {{ form_end(formOpusCampaign) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingListCampaign">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseListCampaign" aria-expanded="true" aria-controls="collapseOne">
+                                    Liste des campagnes
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseListCampaign" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingListCampaign">
+                            <div class="panel-body">
+                                {{ addDataTable(dataTableManagementCampaign, {
+                                    'path':          path('datatables',{'tableName':'OpusCampaignTable'}),
+                                    'id':            'OpusCampaignTable',
+                                    'bLengthChange': 1,
+                                    'bInfo':         1,
+                                    'bFilter':       1
+                                }) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

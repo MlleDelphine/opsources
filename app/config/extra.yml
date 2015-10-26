@@ -1,0 +1,22 @@
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+    
+braincrafted_bootstrap:
+    less_filter: less
+
+genemu_form:
+    tinymce:
+        enabled: true
+        theme: modern
+        configs:
+            entity_encoding: raw
+            plugins : 'advlist autolink link image lists charmap print preview'
+
+    date: ~
+    image: ~
+    select2: ~
+    autocomplete: ~
+    date: ~

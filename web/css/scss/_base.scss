@@ -1,0 +1,100 @@
+//$legacy-support-for-ie6: false;
+//$legacy-support-for-ie7: true;
+//$legacy-support-for-ie8: true;
+
+@import "normalize";
+//@import "compass/utilities/general/float";
+//@import "compass/utilities/links/link-colors";
+//@import "compass/utilities/links/hover-link";
+//@import "compass/utilities/general/clearfix";
+//@import "compass/css3/opacity";
+//@import "compass/css3/box-shadow";
+//@import "compass/css3/transition";
+//@import "compass/css3/border-radius";
+@import "select2";
+
+$container_width: 996px !default;
+$aside_width:     192px !default;
+
+// Colors
+// Grays
+// -------------------------
+$black:                 #000 !default;
+$grayDarker:            #222 !default;
+$grayDark:              #333 !default;
+$gray:                  #555 !default;
+$grayLight:             #999 !default;
+$grayLighter:           #eee !default;
+$white:                 #fff !default;
+
+
+// Accent colors
+// -------------------------
+$blue:                  #049cdb !default;
+$blueDark:              #0064cd !default;
+$green:                 #46a546 !default;
+$red:                   #9d261d !default;
+$yellow:                #ffc40d !default;
+$orange:                #f89406 !default;
+$pink:                  #c3325f !default;
+$purple:                #7a43b6 !default;
+
+// Scaffolding
+// -------------------------
+$bodyBackground:        $white !default;
+$textColor:             $grayDark !default;
+
+$baseFontSize:          13px !default;
+$baseFontFamily:        Arial, Helvetica, sans-serif;
+$baseLineHeight:        18px !default;
+
+@mixin container {
+    width: $container_width;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+@mixin tab-focus() {
+    outline: thin dotted #333;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+@mixin reset-filter() {
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+@mixin gradient-vertical($startColor: #555, $endColor: #333) {
+    background-color: mix($startColor, $endColor, 60%);
+    background-image: -moz-linear-gradient(top, $startColor, $endColor); // FF 3.6+
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from($startColor), to($endColor)); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient(top, $startColor, $endColor); // Safari 5.1+, Chrome 10+
+    background-image: -o-linear-gradient(top, $startColor, $endColor); // Opera 11.10
+    background-image: linear-gradient(to bottom, $startColor, $endColor); // Standard, IE10
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=0); // IE9 and down
+}
+
+@mixin gradientBar($primaryColor, $secondaryColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+    color: $textColor;
+    text-shadow: $textShadow;
+    @include gradient-vertical($primaryColor, $secondaryColor);
+    border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
+    border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fade-in(rgba(0,0,0,.1), 0.15);
+}
+
+@mixin buttonBackground($startColor, $endColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+    @include gradientBar($startColor, $endColor, $textColor, $textShadow);
+    *background-color: $endColor;
+    @include reset-filter();
+    
+    &:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
+        color: $textColor;
+        background-color: $endColor;
+        *background-color: darken($endColor, 5%);
+    }
+    
+    &:active, &.active {
+        background-color: darken($endColor, 10%) \9;
+    }
+}

@@ -1,0 +1,29 @@
+generator_homepage:
+    path:     /test
+    defaults: { _controller: GeneratorBundle:Default:index }
+
+generator_newsheet:
+    path:     /new/sheet/{idUser}/{strCodeType}
+    defaults: { _controller: GeneratorBundle:Default:new }
+
+generator_createsheet:
+    path:     /create/sheet
+    defaults: { _controller: GeneratorBundle:Default:add }
+
+generator_editsheet:
+    path:     /edit/sheet/{id}
+    defaults: { _controller: GeneratorBundle:Default:edit }
+
+generator_updatesheet:
+    path:     /update/sheet/{id}
+    defaults: { _controller: GeneratorBundle:Default:update }
+
+generator_updatetab:
+    path:     /update/tab/{id}/{tab}
+    defaults: { _controller: GeneratorBundle:Default:updateTab }
+
+generator_pdf:
+    path: /pdf/{id}
+    defaults: { _controller: GeneratorBundle:Default:pdf }
+
+

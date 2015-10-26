@@ -1,0 +1,33 @@
+<div class ="col-md-offset-9 col-md-3">
+    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+        <a href="{{ path('homepage', {'_switch_user': '_exit'}) }}">Exit impersonation</a>
+    {% elseif is_granted('ROLE_ADMIN') %}
+        {{ form_start(formRole, {'attr' : {'class' : 'form-role'}}) }}
+        {{ form_end(formRole) }}
+    {% endif %}
+
+
+    </form>
+</div>
+<div class="row"></div>
+<script>
+
+    jQuery(document).ready(function() {
+
+        $("#all-sheets").on("submit", ".form-role", function(ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            var datas = $(this).serializeArray();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: datas,
+                success: function (data) {
+                    console.log('Yes');
+                }
+            })
+        })
+
+
+    })
+</script>

@@ -1,0 +1,100 @@
+<div class="panel panel-yellow">
+    <div class="panel-heading">
+        Retrouver des fiches par critères
+    </div>
+    <form class="form-horizontal form-bordered form-filter" action="{{ path('datatables',{'tableName':'OpusSheetTable'}) }}" method="POST" {{ form_enctype(form) }}>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-6">
+                    {{ form_label(form.search_lastname ) }}
+                    {{ form_widget(form.search_lastname, {'attr': {'class' : 'col-md-9'}} ) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.search_firstname ) }}
+                    {{ form_widget(form.search_firstname, {'attr': {'class' : 'col-md-9'}} ) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    {{ form_label(form.search_date ) }}
+                    {{ form_widget(form.search_date, {'attr': {'class' : 'col-md-9'}} ) }}
+                </div>
+
+                <div class="col-md-6">
+                    {{ form_label(form.search_status ) }}
+                    {{ form_widget(form.search_status, {'attr': {'class' : 'col-md-9'}} ) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    {{ form_label(form.search_type ) }}
+                    {{ form_widget(form.search_type, {'attr': {'class' : 'col-md-9'}} ) }}
+                </div>
+            </div>
+            {{ form_widget(form._token) }}
+        </div>
+        <div class="panel-footer">
+            <div class="form-group">
+                <div style="text-align: center">
+                    {{ form_widget(form.submit, { 'attr': { 'class' : "btn btn-warning submit-filter"}}) }}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    jQuery(document).ready(function() {
+
+        //Quand une requête ajax est envoyée on affichage un loader : liste des campagne
+        $(document).ajaxSend(function(){
+            console.log('SEND');
+            $(".campaign-listing").show();
+            $(".campaign-loading").show();
+        });
+
+        // when an ajax request complets, hide spinner
+        $(document).ajaxStop(function(){
+            $(".campaign-listing").hide();
+            $(".campaign-loading").hide();
+        });
+//
+//        //Quand on submit pour la création de campagne on affiche le loader
+        $(document).on("submit", ".generate-campaign", function(ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            console.log('SEND FORM');
+            $(".campaign-loading").show();
+            console.log('Show');
+            var datas = $(this).serializeArray();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: datas,
+                success: function (data) {
+
+                }
+            })
+        });
+
+        //Gestion filtres des fiches pour le datatable
+        $("#all-sheets").on("submit", ".form-filter", function(ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            var datas = $(this).serializeArray();
+            $.ajax({
+                type: "POST",
+                url: "{{ path('datatablereload', {'tableName':'OpusSheetTable'}) }}",
+                data: datas,
+                dataType: "JSON",
+                success: function (data) {
+                    jQuery('#OpusSheetTable').dataTable().fnClearTable();
+                    jQuery('#OpusSheetTable').dataTable().fnAddData(data.aaData);
+                }
+            })
+        })
+
+
+    })
+</script>

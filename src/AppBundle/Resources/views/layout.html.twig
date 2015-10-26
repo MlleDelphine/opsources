@@ -5,47 +5,98 @@
         <link rel="stylesheet" href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/icheck/skins/all.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/datetimepicker/jquery.datetimepicker.css') }}">
-        {% stylesheets output='bundles/formgenerator/compiled/form-opus.css' filter='less'
-        'bundles/formgenerator/css/custom-form.less' %}
+        <link rel="stylesheet" href="{{ asset('bundles/app/css/arianestyle.css') }}" type="text/css">
+        {% stylesheets output='bundles/generator/compiled/form-opus.css' filter='less'
+        'bundles/generator/css/custom-form.less' %}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
         <link rel="stylesheet" href="{{ asset('vendor/jqueryui/themes/overcast/jquery-ui.min.css')}}">
         {{ form_stylesheet(form) }}
     {% endif %}
+    {% stylesheets
+        '@AppBundle/Resources/public/css/style.css'
+        '@AppBundle/Resources/public/css/arianestyle.css'
+        'css/bootstrap-datepicker.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
 {% endblock %}
 {% block mainmenu %}
-    {{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}
+    {#{{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}#}
 {% endblock %}
-
     {% block body %}
+        {{ include('AppBundle:Menu:knp_menu_bs.html.twig') }}
     {% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
+
     {% if form is defined %}
         <script src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
         <script src="{{ asset('vendor/jqueryui/jquery-ui.min.js') }}"></script>
         <script src="{{ asset('vendor/jqueryui/ui/i18n/datepicker-fr.js') }}"></script>
         <script src="{{ asset('vendor/datetimepicker/jquery.datetimepicker.js') }}"></script>
         <script src="{{ asset('vendor/bower-tinymce-amd/tinymce/tinymce.js') }}"></script>
-        <script src="{{ asset('vendor/icheck/icheck.min.js') }}"></script>
+        <script src="{{ asset('vendor/icheck/icheck.js') }}"></script>
         <script>
             $( document ).ready(function() {
+
+
+                function propStopped( event ) {
+                    if ( event.isPropagationStopped() ) {
+                        console.log('Called');
+
+                    } else {
+                        console.log("not called");
+                    }
+                }
+
+
                 //iCheck pour boutons radio
                 $(document).find('input.icheck-radio').each(function(i, obj) {
                     $(this).iCheck({
                         radioClass: $(this).data('radio')
-                    })
+                    });
+                    if($(this).hasClass('disabled')){
+                        console.log('disabled');
+                        $(this).closest('div.iradio_square-blue').addClass('disabled');
+
+                        $(this).next('ins').on('click mousedown mouseup mouseover mouseout touchbegin.i touchend.i', function(event) {
+                            event.stopPropagation();
+                            propStopped( event );
+                        });
+
+
+                    }
                 });
                 //icheck pour champ entity en checkbox : override BS (class .radio et surtout la div qui prend les attr définis du input)
                 $(document).find('div.icheck-radio').find('input').each(function(i, obj) {
                     $(this).closest('label').unwrap();
                     $(this).iCheck({
                         radioClass: $(this).closest('div.icheck-radio').data('radio')
-                    })
+                    });
+                    if($(this).hasClass('disabled')){
+                        $(this).closest('div.iradio_square-blue').addClass('disabled');
+
+                        $(this).next('ins').bind('click', function(e){
+                            console.log('click2');
+                            $(this).unbind('click');
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                        });
+                    }
                 });
+                //On désactive les select2 s'ils ont readonly = 1
+
+
+
+
             });
         </script>
         {{ form_javascript(form) }}
     {% endif %}
+    {% javascripts '@data_tables' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

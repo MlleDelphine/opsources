@@ -2,33 +2,80 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}ArianEspace  - Opus{% endblock %}</title>
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+    <title>{% block title %}Arianespace  - Opus{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" sizes="16x16" href="data:image/png;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAzGYAAMzMmQDMzGYA7u7uAP/MzAD/zJkAzJlmAMyZMwDMmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIIAgAAAAAAAAAAAAAAAAcBAQEEAAAAAAAAAAMGBAAIAQEBBQAAAAAAAAEBAQgACAEBAQUABwAAAAUBAQEBAQQDAQEACAEBAwAAAwEBAQEIAgEDBAEBAQgAAAUDAwYHAQcBAAkBAQEDAAAAAAMHAwIFCAEBAQECAAAAAAEBAQEIAAIDBwIGAAAABgEBAQEFAQcBBwYDAwUAAAgBAQEEAwECCAEBAQEHAAADAQEHAAEBCAACAQEBAQUAAAYDBAUBAQEGAAgBAQEAAAAAAAAFAQEBCAAEBgMAAAAAAAAAAAgBAQgAAAAAAAAAAAAAAAAACAMAAAAAAAAAAP4/AAD8HwAAxB8AAIQXAAAAIQAAgAEAAIBBAADgAwAAwQcAAAADAAAAAwAACIEAAIBDAADwRwAA+H8AAPz/AAA="/>
 
-        {% stylesheets filter='less'
-        'bundles/formgenerator/css/footer.less' %}
+
+    {% block stylesheets %}
+        {# CSS template BS Admin #}
+        <!-- Bootstrap Core CSS Déjà importé -->
+        <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+
+        <!-- MetisMenu CSS -->
+        <link href="{{ asset('vendor/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
+
+        <!-- Timeline CSS -->
+        <link href="{{ asset('vendor/startbootstrap-sb-admin-2/dist/css/timeline.css') }}" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="{{ asset('vendor/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
+        <!-- Morris Charts CSS -->
+        <link href="{{ asset('vendor/morrisjs/morris.css')}}" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+        {# FIN CSS template BS Admin#}
+
+
+        <link rel="stylesheet" href="{{ asset('vendor/jquery.gritter/css/jquery.gritter.css') }}">
+
+
+        {% stylesheets output='bundles/app/compiled/frontend-layout.css'  filter='less'
+        'bundles/app/css/footer.less'
+        'bundles/app/css/left-menu.less'%}
         <link rel="stylesheet" href="{{ asset_url }}" type="text/css"/>
         {% endstylesheets %}
     {% endblock %}
+
     {% block javascripts %}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ asset('js/bootstrap.js') }}"></script>
-        <script src="{{ asset('js/jquery.js') }}"></script>
+        {#<script src="{{ asset('js/bootstrap.js') }}"></script>#}
+        <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+
+        {# SCRIPTS du template BS Admin #}
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="{{ asset('vendor/metisMenu/dist/metisMenu.min.js') }}"></script>
+
+        <!-- Morris Charts JavaScript -->
+        <script src="{{ asset('vendor/raphael/raphael-min.js') }}"></script>
+        <script src="{{ asset('vendor/morrisjs/morris.min.js') }}"></script>
+        {#<script src="{{ asset('vendor/startbootstrap-sb-admin-2/dist/js/morris-data.js') }}"></script>#}
+
+        <!-- Custom Theme JavaScript -->
+        <script src="{{  asset('vendor/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js') }}"></script>
+        {# FIN Scripts#}
+
+
+        <script src="{{ asset('vendor/jquery.gritter/js/jquery.gritter.js') }}"></script>
+
         {% javascripts '@data_tables' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
     {% endblock %}
+
 </head>
 <body>
+<div id="wrapper">
 
-{% block mainmenu %} {{ knp_menu_render('FormGeneratorBundle:Builder:mainMenu') }} {% endblock %}
-<div class="container theme-showcase content" style="margin-top:60px" role="main">
     {% block body %}
     {% endblock %}
+
+
 </div>
-
-
 {% block footer %}
     <footer class="footer">
         <div class="container">

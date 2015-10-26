@@ -1,0 +1,18 @@
+arianespace_plexcel:
+    enable:               true
+    autologin:            false
+    local:                true
+    create:               true
+    application:
+#        name:                 "%application.name%"
+#        version:              "%application.version%"
+#        description:          "%application.description%"
+    auto_add_domain:     ad.arianespace.fr
+    autologin_redirect_route:  homepage
+    check_plexcel_login:  true
+    check_plexcel_redirect_route:  homepage
+    authorized_cn:
+        'CN=opus_appraisees_pilot,OU=Opus,OU=SI,DC=ad,DC=arianespace,DC=fr': 'ROLE_USER'
+    user_manager:         user_manager
+    file:                 "%kernel.root_dir%/../plexcel/plexcel.php"
+

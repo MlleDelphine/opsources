@@ -1,0 +1,46 @@
+{% extends 'AppBundle::layout.html.twig' %}
+{% block body %}
+    {{ parent() }}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Éditer une fiche</h1>
+            {% for flash in app.session.flashbag.get('info') %}
+                <div class="alert alert-success col-md-12">
+                    {{ flash | raw }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ form_start(formOpusCampaign) }}
+                        {{ form_row(formOpusCampaign.year) }}
+                        {{ form_row(formOpusCampaign.mailDate) }}
+                        {{ form_row(formOpusCampaign.untilSheetDate) }}
+                        {{ form_row(formOpusCampaign.limitDate) }}
+                        {{ form_row(formOpusCampaign.status) }}
+                        {#{{ form_row(formOpusCampaign.type) }}#}
+                        {{ form_row(formOpusCampaign.opusTemplate) }}
+                        <input type="submit" value="Éditer" class="btn btn-primary pull-right btn-lg">
+                    {{ form_end(formOpusCampaign) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.fr.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $( ".datepicker" ).datepicker({
+                language: "fr"
+            });
+        });
+    </script>
+{% endblock %}

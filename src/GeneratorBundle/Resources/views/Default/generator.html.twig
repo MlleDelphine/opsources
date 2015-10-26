@@ -1,0 +1,225 @@
+{% extends 'AppBundle::layout.html.twig' %}
+    {% block body %}
+        {{ parent() }}
+        {% set actualLabel = 'no label' %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="page-header">Création / Edition</h1>
+                </div>
+                <div class="col-md-6" style="margin: 40px 0 20px; padding-bottom: 9px;">
+                    <a href="{{ path('homepage') }}" class="pull-right">
+                        <button class="btn btn-light-info btn-lg">
+                            <i class="ace-icon fa fa-long-arrow-left  bigger-110 icon-only"></i> Retour au tableau de bord
+                        </button>
+                    </a>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            {% set fields = null %}
+            <div class="row">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ name }}</h3>
+                    </div>
+                    <div class="panel-body tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            {% for tab in uiTab %}
+                                <li class="{% if loop.first %}active{% endif %}">
+                                    <a href="#{{ tab.id }}" data-toggle="tab" aria-expanded="true" onclick="changeTab(this)">
+                                        {{ tab.name}} </a>
+                                </li>
+                            {% endfor %}
+                            <li class=""><a href="#validation"  data-toggle="tab" aria-expanded="true">Validation</a></li>
+                        </ul>
+                        {{  form_start(form, { 'attr': {'class': 'form-horizontal form-bordered'}}) }}
+                        <div class="tab-content">
+                            {{ form_errors(form) }}
+                            {% for tab in uiTab %}
+                                <div id="{{ tab.id }}" class="tab-pane{% if loop.first %} active{% endif %}">
+                                    {# Gestion champs directement liés à l'entité #}
+                                    {% for child in form.children %}{# name, skills, attributes, submit#}
+                                        {% if attribute(child.vars.attr, 'data-tab') is defined and attribute(child.vars.attr, 'data-tab') == tab.id %}
+                                            {{ form_label(child) }}
+                                            {{ form_widget(child) }}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {# Gestion champs dynamiques (opusSheet.attributes)#}
+                                    {% for child in form.children.attributes %}
+                                        {% for c in child %} {# collectionAttributes, fieldType, name#}
+                                            {% if attribute(c.vars.attr, 'data-tab') is defined and attribute(c.vars.attr, 'data-tab') == tab.id %}
+                                                {% if attribute(c.vars.attr, 'data-title-block') is defined %}
+                                                    <div class="col-md-12 block-title-form" ><strong>{{ attribute(c.vars.attr, 'data-title-block') }}</strong></div>
+                                                {% endif %}
+                                                {% if attribute(c.vars.attr, 'data-place') is defined %}
+                                                    <div class="{{ attribute(c.vars.attr, 'data-place') }}">
+                                                {% endif %}
+                                                {{ form_label(c) }}
+                                                {{ form_widget(c) }}
+                                                {% if attribute(c.vars.attr, 'data-place') is defined %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+
+                                            {# Si un attribute est un collectionAttribute #}
+                                            {% if c.children is not empty %}
+                                                {% for cA in c.children %} {# cA : chaque ligne de collection #}
+                                                    {% for cc in cA.children %}
+                                                        {% if attribute(cc.vars.attr, 'data-tab') is defined and attribute(cc.vars.attr, 'data-tab') == tab.id %}
+                                                            {{ form_widget(c) }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            {% endif %}
+                                            {# end collectionAttribute #}
+                                        {% endfor %}
+                                    {% endfor %}
+
+                                    {# Gestion champs dynamiques (collections)#}
+                                    {% for child in form.children.collections %}
+                                        {% for c in child %} {# collectionAttributes, fieldType, name#}
+                                            {% if actualLabel is not same as(c.vars.label) and attribute(c.vars.attr, 'data-tab') is defined and attribute(c.vars.attr, 'data-tab') == tab.id %}
+                                                <div class="row"><h2 class="page-header" style="font-size: 20px">{{ c.vars.label }} </h2></div>
+                                                {% set actualLabel = c.vars.label %}
+                                            {% endif %}
+                                            {# Si un attribute est un collectionAttribute #}
+                                            {% if c.children is not empty %}
+                                                {% for cA in c.children %} {# cA : chaque ligne de collection #}
+                                                    {% for cc in cA.children %}
+                                                        {% if attribute(cc.vars.attr, 'data-tab') is defined and attribute(cc.vars.attr, 'data-tab') == tab.id %}
+                                                            {{ form_widget(c) }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            {% endif %}
+                                            {# end collectionAttribute #}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                            <div id="validation" class="tab-pane">
+                                {# Affichage de l'historique de validation #}
+
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Auteur</th>
+                                        <th>Action</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for log in entity.sheetLogs %}
+                                        <tr class="active">
+                                            <td>{{ log.user.lastName|upper }} {{ log.user.firstName|capitalize }}</td>
+                                            <td>{{ constant(log.action, log)|capitalize }}</td>
+                                            <td>{{ log.createdAt|date('d-m-Y H:i:s') }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr class="info"><td></td><td></td><td></td></tr>
+                                    </tbody>
+
+                                </table>
+
+
+                                <div class="text-center" style="margin-top: 15px;">
+                                    {% if(form.save is defined) %}
+                                        {{ form_widget(form.save) }}
+                                    {% endif %}
+
+                                    {% if (form.invalidate is defined)  %}
+                                        {{ form_widget(form.invalidate) }}
+                                    {% endif %}
+
+                                    {% if (form.validate is defined) %}
+                                        {{ form_widget(form.validate) }}
+                                    {% endif %}
+
+                                    {% if(form.validate_rh is defined) %}
+                                        {{ form_widget(form.invalidate_for_rh) }}
+                                        {{ form_widget(form.validate_rh) }}
+                                    {% endif %}
+
+                                    {% if(form.validate_by_rh is defined) %}
+                                        {{ form_widget(form.invalidate_by_rh) }}
+                                        {{ form_widget(form.validate_by_rh) }}
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            function changeTab(url){
+                var currentHref = url.getAttribute("href");
+                var currentTab = $('ul.nav-tabs li a[href='+currentHref+']');
+
+                $('.nav-tabs li').each(function(){
+                    $(this).removeClass('last');
+                    if($(this).hasClass('active')) {
+                        $(this).removeClass('active');
+                        $(this).addClass('last');
+                    }
+                });
+
+                currentTab.parent('li').addClass('active');
+
+                var lastTab = $('ul.nav-tabs li.last a');
+                var lastHref = lastTab.attr('href');
+                var lastDiv = $('div.tab-content div'+lastHref);
+                lastDiv.removeClass('active');
+                var currentDiv = $('div.tab-content div'+currentHref);
+                currentDiv.addClass('active');
+
+                var div = 'div.tab-content div'+lastHref;
+                var div1 ='div.tab-content div#tab_1';
+
+                var divDatas = $( div+' input, '+div+' textarea, '+div+' select,'+div1+' input, '+div1+' textarea, '+div1+' select' ).serializeArray();
+
+                lastHref = lastHref.replace('#','');
+
+                updateTab(divDatas, lastHref);
+
+            }
+
+            function updateTab(datas,tab){
+
+                var idSheet = window.location.href;
+                var split = idSheet.split('/edit/sheet/');
+                idSheet = split[1];
+
+                var url = "{{ path('generator_updatetab', { 'id':'__IDSHEET__','tab':'__TAB__' }) }}";
+                url = url.replace('__IDSHEET__', idSheet);
+                url = url.replace('__TAB__', tab);
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: datas,
+                    success: function (data) {
+                        console.log(data);
+                        $.gritter.add({
+                            title: 'Information',
+                            text: 'Enregistrement effectué avec succès',
+                        });
+                    },
+                    error: function (data) {
+                        $.gritter.add({
+                            title: 'Information',
+                            text: 'Une erreur est survenue lors de l\'enregistrement',
+                        });
+                    }
+                })
+            };
+        </script>
+    {% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    <div  style="text-align: center">
+        {#{{ dump(object.confFile) }}#}
+        {% if object.confFile is not null %}
+            <button class="btn btn-default download-template"><a href="{{ path('sonata_media_download', {'id': object.confFile|sonata_urlsafeid }) }}" target="_blank"><i class="fa fa-download"></i>
+                    Télécharger</a></button>
+        {% else %}
+            Aucun fichier lié.
+        {% endif %}
+
+    </div>
+    <script>
+        $(document).on('click', '.download-template', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var urlDownload = $(this).find('a').attr('href');
+            window.location = urlDownload;
+        });
+    </script>
+{% endblock %}
+
