@@ -1,4 +1,4 @@
-# Arianespace
+# OPSources
 
 
 
@@ -32,7 +32,7 @@ max_execution_time et set_time_limit
 
 Commande de déploiement en étant connecté sur la preprod _(première installation)_ :
 
-    git clone http://ae-e-scm01.ad.arianespace.fr/arianespace/opus2.git
+    git clone ...
     
 Pour les mises à jour du code donc après la 1ère installation faire :
 
@@ -132,10 +132,10 @@ php app/console doctrine:fixtures:load --append
 
 ### 1. Se connecter sur SonataAdmin
 
- >http://opus33.ad.arianespace.fr/admin/dashboard
+ >http://OPSources.fr/admin/dashboard
 
 ### 2. Aller à l'adresse suivante : 
-   > http://opus33.ad.arianespace.fr/app_dev.php/admin/generator/opussheettemplate/create
+   > http://OPSources.fr/app_dev.php/admin/generator/opussheettemplate/create
    
 ### 3. Créer l'ancien "Modèle de fiche" 
 
@@ -144,13 +144,13 @@ Déterminer le type à “Entretien annuel” et lier le fichier "app/config/Bas
 
 ### 4.  Se connecter à la base de données :
 ```sh
-psql -h pg21 -U opus32
+psql -h bddop -U opuser
 ```
 ### 5. Exécuter les commandes suivantes :
 La valeur déterminée est bien sûr l'id du modèle de fiche que vous venez de créer.
 ```sh
-UPDATE opus_sheet SET template_id = 1;
+UPDATE op_sheet SET template_id = 1;
 ```
 ```sh
-UPDATE opus_campaign SET template_id = 1;
+UPDATE op_campaign SET template_id = 1;
 ```
